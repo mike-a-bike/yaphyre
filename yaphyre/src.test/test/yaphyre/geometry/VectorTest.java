@@ -1,4 +1,4 @@
-package test.vsr.geometry;
+package test.yaphyre.geometry;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
