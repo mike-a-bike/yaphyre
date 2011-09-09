@@ -1,0 +1,48 @@
+<scene>
+
+  <camera id="camera1">
+    <geometry>
+      <origin x="0" y="25" z="-100" />
+      <lookingat x="0" y="1" z="0" />
+      <focallength value="80" />
+    </geometry>
+    <ambient-light value="0.25" />
+    <resolution width="800" height="600" />
+  </camera>
+
+  <sphere id="sphere1">
+    <geometry>
+      <origin x="0" y="1" z="0" />
+      <radius value="1" />
+    </geometry>
+    <shader ref="shader-red" />
+  </sphere>
+
+  <plane id="plane1">
+    <geometry>
+      <origin x="0" y="0" z="0" />
+      <normal x="0" y="1" z="0" />
+    </geometry>
+    <shader ref="shader-blue" />
+  </plane>
+
+  <pointlight id="light1">
+    <geometry>
+      <position x="0" y="0" z="1" />
+    </geometry>
+    <light>
+      <color r="1" g="1" b="1" />
+      <intensity value="1" />
+      <falloff value="quadric" />
+    </light>
+  </pointlight>
+
+  <shader id="shader-red">
+    <color r="1" g="0" b="0" />
+  </shader>
+
+  <shader id="shader-blue">
+    <color r="0" g="0" b="1" />
+  </shader>
+
+</scene>
