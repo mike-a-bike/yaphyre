@@ -90,7 +90,8 @@ public class SceneReader {
     Shaders whiteMirror = new SimpleShader("white-mirror", mirrorMaterial, 1d, 1d, 1d);
 
     Lightsources pointLight = new Pointlight("light", new Vector(-2, 5, -2), new Color(1, 1, 1), 15, Falloff.Quadric);
-    Shapes lightSphere = new Sphere("light-sphere", pointLight.getPosition(), 0.05, whiteDiffuse, false);
+    // Shapes lightSphere = new Sphere("light-sphere", pointLight.getPosition(),
+    // 0.05, whiteDiffuse, false);
 
     Shapes plane = new Plane("plane", Vector.ORIGIN, Vector.NORMAL_Y, whiteDiffuse, true);
     Shapes sphere = new Sphere("sphere", new Vector(0, 1.5, 0), 1, whiteMirror, true);
@@ -99,7 +100,7 @@ public class SceneReader {
     Scene scene = new Scene();
 
     scene.addLightsource(pointLight);
-    scene.addShape(lightSphere);
+    // scene.addShape(lightSphere);
 
     scene.addShape(plane);
     scene.addShape(sphere);
