@@ -1,4 +1,4 @@
-package test.vsr.math;
+package test.yaphyre.math;
 
 import static org.junit.Assert.assertEquals;
 

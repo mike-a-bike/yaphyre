@@ -1,4 +1,4 @@
-package test.vsr.geometry;
+package test.yaphyre.geometry;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
