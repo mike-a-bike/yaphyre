@@ -16,10 +16,13 @@ public abstract class AbstractLightsource extends IdentifiableObject implements 
 
   private final Color color;
 
-  protected AbstractLightsource(String id, Vector position, Color color) {
+  private final Falloff falloff;
+
+  protected AbstractLightsource(String id, Vector position, Color color, Falloff falloff) {
     super(id);
     this.position = position;
     this.color = color;
+    this.falloff = falloff;
   }
 
   @Override
@@ -30,6 +33,10 @@ public abstract class AbstractLightsource extends IdentifiableObject implements 
   @Override
   public Color getColor() {
     return this.color;
+  }
+  
+  protected Falloff getFalloff() {
+    return this.falloff;
   }
 
   protected CollisionInformations calculateVisibility(Vector lightPoint, Vector surfacePoint, Scene scene) {
