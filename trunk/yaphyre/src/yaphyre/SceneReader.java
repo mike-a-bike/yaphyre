@@ -53,7 +53,8 @@ public class SceneReader {
     Falloff pointlight3falloff = Falloff.Quadric;
 
     Material diffuseMaterial = MaterialBuilder.init().ambient(ambientLight).diffuse(0.8).build();
-    Material phongMaterial = MaterialBuilder.init().ambient(ambientLight).diffuse(0.5).specular(0.2).build();
+    // Material phongMaterial =
+    // MaterialBuilder.init().ambient(ambientLight).diffuse(0.5).specular(0.2).build();
     Material mirrorMaterial = MaterialBuilder.init().ambient(ambientLight).diffuse(0.2).specular(0.2).reflection(0.6).build();
 
     SimpleShader redShader = new SimpleShader("shader-red", diffuseMaterial, new Color(1d, 0d, 0d));
