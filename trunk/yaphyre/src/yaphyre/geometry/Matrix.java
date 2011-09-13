@@ -16,9 +16,11 @@ public class Matrix {
 
   private static final String TO_STRING_ROW = "[{0,number,0.###}, {1,number,0.###}, {2,number,0.###}, {3,number,0.###}]";
 
-  private static final String TO_STRING = "[{0}, {1}, {2}, {3}]";
+  private static final String TO_STRING = "Matrix(4x4)[{0}, {1}, {2}, {3}]";
 
   private final double[][] matrixValues;
+
+  public static final Matrix IDENTITY = new Matrix(new double[][] { {1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}});
 
   public Matrix(double[][] values) {
     this.matrixValues = initMatrix(DIMENSION, DIMENSION);
@@ -78,25 +80,13 @@ public class Matrix {
   public Vector mul(Vector vector) {
     double[][] vectorMatrix = matrixFromVector(vector);
     double[][] multipliedVector = this.mul(this.matrixValues, vectorMatrix);
-    return vectorFromMatrix(multipliedVector);
+    return Matrix.getColumnVector(0, multipliedVector).asVector();
   }
 
   private double[][] matrixFromVector(Vector vector) {
     double[][] result = initMatrix(4, 1);
-    result[0][0] = vector.getX();
-    result[1][0] = vector.getY();
-    result[2][0] = vector.getZ();
-    result[3][0] = 1d;
-    return result;
-  }
-
-  private Vector vectorFromMatrix(double[][] multipliedVector) {
-    Vector result;
-    if (multipliedVector[0].length < multipliedVector.length) {
-      result = new Vector(multipliedVector[0][0], multipliedVector[1][0], multipliedVector[2][0]).scale(multipliedVector[3][0]);
-    } else {
-      result = new Vector(multipliedVector[0][0], multipliedVector[0][1], multipliedVector[0][2]).scale(multipliedVector[0][3]);
-    }
+    Vector4 columnVector = new Vector4(vector);
+    Matrix.setColumnVector(0, result, columnVector);
     return result;
   }
 
@@ -111,10 +101,8 @@ public class Matrix {
     for (int m1Row = 0; m1Row < resultRows; m1Row++) {
       for (int m2Column = 0; m2Column < resultColumns; m2Column++) {
         double product = 0d;
-        for (int m1Column = 0; m1Column < m1[0].length; m1Column++) {
-          for (int m2Row = 0; m2Row < m2.length; m2Row++) {
-            product += m1[m1Row][m1Column] * m2[m2Row][m2Column];
-          }
+        for (int index = 0; index < m2.length; index++) {
+          product += m1[m1Row][index] * m2[index][m2Column];
         }
         result[m1Row][m2Column] = product;
       }
@@ -147,18 +135,40 @@ public class Matrix {
     return new Matrix(values);
   }
 
-  private static class Vector4D {
+  private static Vector4 getRowVector(int row, double[][] matrixValues) {
+    return new Vector4(matrixValues[row][0], matrixValues[row][1], matrixValues[row][2], matrixValues[row][3]);
+  }
+
+  private static Vector4 getColumnVector(int column, double[][] matrixValues) {
+    return new Vector4(matrixValues[0][column], matrixValues[1][column], matrixValues[2][column], matrixValues[3][column]);
+  }
+
+  private static void setRowVector(int row, double[][] matrixValues, Vector4 rowVector) {
+    matrixValues[row][0] = rowVector.getX();
+    matrixValues[row][1] = rowVector.getY();
+    matrixValues[row][2] = rowVector.getZ();
+    matrixValues[row][3] = rowVector.getW();
+  }
+
+  private static void setColumnVector(int column, double[][] matrixValues, Vector4 columnVector) {
+    matrixValues[0][column] = columnVector.getX();
+    matrixValues[1][column] = columnVector.getY();
+    matrixValues[2][column] = columnVector.getZ();
+    matrixValues[3][column] = columnVector.getW();
+  }
+
+  private static class Vector4 {
 
     private final double x, y, z, w;
 
-    public Vector4D(double x, double y, double z, double w) {
+    public Vector4(double x, double y, double z, double w) {
       this.x = x;
       this.y = y;
       this.z = z;
       this.w = w;
     }
 
-    public Vector4D(Vector v) {
+    public Vector4(Vector v) {
       this(v.getX(), v.getY(), v.getZ(), 1);
     }
 
