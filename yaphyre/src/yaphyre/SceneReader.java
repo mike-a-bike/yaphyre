@@ -94,13 +94,14 @@ public class SceneReader {
     Lightsources pointLight = new Pointlight("light", new Vector(-2, 5, -2), new Color(1, 1, 1), 15, Falloff.Quadric);
     Lightsources areaLight = new AreaLight("area-light", new Vector(-2, 5, -2), Vector.NORMAL_Y.scale(-1), 2, 4, 5, new Color(1, 1, 1), Falloff.Quadric);
 
-    Shapes plane = new Plane("plane", Vector.ORIGIN, Vector.NORMAL_Y, whiteDiffuse, true);
+    Shapes plane = new Plane("plane", Vector.ORIGIN, Vector.NORMAL_Y, whiteMirror, true);
     Shapes sphere = new Sphere("sphere", new Vector(0, 1.5, 0), 1, whiteMirror, true);
     Shapes distantSphere = new Sphere("distant-sphere", new Vector(-2, 10, -5), 2, redDiffuse, true);
 
     Scene scene = new Scene();
 
-    scene.addLightsource(areaLight);
+    scene.addLightsource(pointLight);
+    // scene.addLightsource(areaLight);
 
     scene.addShape(plane);
     scene.addShape(sphere);

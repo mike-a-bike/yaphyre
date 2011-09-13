@@ -4,11 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
 import yaphyre.geometry.Matrix;
+import yaphyre.geometry.Vector;
 
 public class MatrixTest {
 
@@ -82,19 +82,46 @@ public class MatrixTest {
   @Test
   public void testMulMatrix() {
     Matrix M = new Matrix(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
-    Matrix N = new Matrix(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
-    Matrix E = new Matrix(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+    Matrix I = new Matrix(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    Matrix N = M;
+    Matrix E;
+    Matrix R;
 
-    Matrix R = M.mul(N);
+    R = M.mul(I);
+    E = M;
+    System.out.println("M * I = " + R);
+    assertEquals(E, R);
 
+    R = M.mul(N);
+    E = new Matrix(90, 100, 110, 120, 202, 228, 254, 280, 314, 356, 398, 440, 426, 484, 542, 600);
     System.out.println("M * N = " + R);
-
     assertEquals(E, R);
   }
 
   @Test
   public void testMulVector() {
-    fail("Not yet implemented");
+
+    Vector v = new Vector(10, 20, 30);
+    Matrix I = new Matrix(new double[][] { {1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}});
+    Matrix S = new Matrix(new double[][] { {1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 10}});
+    Matrix T = new Matrix(new double[][] { {1, 0, 0, 10}, {0, 1, 0, 10}, {0, 0, 1, 10}, {0, 0, 0, 1}});
+    Vector r;
+    Vector e;
+
+    r = I.mul(v);
+    e = v;
+    System.out.println("I * v = " + r);
+    assertEquals(e, r);
+
+    r = S.mul(v);
+    e = new Vector(1, 2, 3);
+    System.out.println("S * v = " + r);
+    assertEquals(e, r);
+
+    r = T.mul(v);
+    e = new Vector(20, 30, 40);
+    System.out.println("T * v = " + r);
+    assertEquals(e, r);
   }
 
 }

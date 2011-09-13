@@ -36,12 +36,12 @@ public class RayTracer {
   }
 
   public Scene getScene() {
-    return scene;
+    return this.scene;
   }
 
   public BufferedImage render(int imageWidth, int imageHeight, double frameWidth, double frameHeight, Vector cameraPosition, Vector cameraDirection) {
 
-    this.camera = this.setupCamera(imageWidth, imageHeight, frameWidth, frameHeight, cameraPosition, cameraDirection);
+    this.camera = setupCamera(imageWidth, imageHeight, frameWidth, frameHeight, cameraPosition, cameraDirection);
 
     long renderStart = System.nanoTime();
     System.out.println("Start rendering");
@@ -53,7 +53,7 @@ public class RayTracer {
         Ray eyeRay = this.camera.createEyeRay(x, y);
         RenderStatistics.incEyeRays();
 
-        Color color = this.traceRay(eyeRay, 1);
+        Color color = traceRay(eyeRay, 1);
 
         this.camera.setColor(x, y, color.clip());
       }
