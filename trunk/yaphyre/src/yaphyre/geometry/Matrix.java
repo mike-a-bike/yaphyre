@@ -16,7 +16,7 @@ public class Matrix {
 
   private static final String TO_STRING_ROW = "[{0,number,0.###}, {1,number,0.###}, {2,number,0.###}, {3,number,0.###}]";
 
-  private static final String TO_STRING = "Matrix(4x4)[{0}, {1}, {2}, {3}]";
+  private static final String TO_STRING = "[{0}, {1}, {2}, {3}]";
 
   private final double[][] matrixValues;
 
@@ -155,42 +155,6 @@ public class Matrix {
     matrixValues[1][column] = columnVector.getY();
     matrixValues[2][column] = columnVector.getZ();
     matrixValues[3][column] = columnVector.getW();
-  }
-
-  private static class Vector4 {
-
-    private final double x, y, z, w;
-
-    public Vector4(double x, double y, double z, double w) {
-      this.x = x;
-      this.y = y;
-      this.z = z;
-      this.w = w;
-    }
-
-    public Vector4(Vector v) {
-      this(v.getX(), v.getY(), v.getZ(), 1);
-    }
-
-    public Vector asVector() {
-      return new Vector(this.x, this.y, this.z).scale(1 / this.w);
-    }
-
-    public double getX() {
-      return this.x;
-    }
-
-    public double getY() {
-      return this.y;
-    }
-
-    public double getZ() {
-      return this.z;
-    }
-
-    public double getW() {
-      return this.w;
-    }
   }
 
   private enum Operations {

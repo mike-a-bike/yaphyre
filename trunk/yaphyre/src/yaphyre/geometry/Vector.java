@@ -59,13 +59,13 @@ public class Vector {
     if (this == NORMAL_X || this == NORMAL_Y || this == NORMAL_Z) {
       return this;
     }
-    double length = this.length();
+    double length = length();
     if (length == 0d) {
       throw new ArithmeticException("Cannot create unit vector from zero length vector");
     } else if (length == 1d) {
       return this;
     }
-    return this.scale(1 / length);
+    return scale(1 / length);
   }
 
   public Vector scale(double scalar) {
@@ -83,12 +83,18 @@ public class Vector {
     return new Vector(cx, cy, cz);
   }
 
+  public Vector transform(Matrix transformation) {
+    return transformation.mul(this);
+  }
+
   @Override
   public boolean equals(Object o) {
-    if (o == this)
+    if (o == this) {
       return true;
-    if (!(o instanceof Vector))
+    }
+    if (!(o instanceof Vector)) {
       return false;
+    }
     Vector other = (Vector)o;
     return (other.getX() == this.x) && (other.getY() == this.y) && (other.getZ() == this.z);
   }
