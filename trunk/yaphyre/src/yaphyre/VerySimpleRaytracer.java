@@ -35,7 +35,6 @@ public class VerySimpleRaytracer {
     // int imageHeight = 1440;
 
     Scene scene = SceneReader.createSimpleScene();
-    // Scene scene = SceneReader.createSceneWithSpheres();
 
     RayTracer rayTracer = new RayTracer();
     rayTracer.setScene(scene);
