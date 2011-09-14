@@ -7,6 +7,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import yaphyre.geometry.Matrix;
+import yaphyre.geometry.TransformationMatrixBuilder;
 import yaphyre.geometry.Vector;
 
 public class VectorTest {
@@ -258,6 +260,39 @@ public class VectorTest {
     // and a direction along the z-axis
     assertEquals(20d, result.length(), 0);
     assertEquals(Vector.NORMAL_Z, result.unitVector());
+
+  }
+
+  @Test
+  public void testTransform() {
+    Vector vector = new Vector(10, 10, 10);
+    Matrix transform;
+    Vector result;
+    Vector expected;
+
+    transform = TransformationMatrixBuilder.matrix().forTranslation(10, 0, 0).build();
+    expected = new Vector(20, 10, 10);
+    result = vector.transform(transform);
+    System.out.println(vector + " * " + transform + " = " + result);
+    assertEquals(expected, result);
+
+    transform = TransformationMatrixBuilder.matrix().forTranslation(0, 10, 0).build();
+    expected = new Vector(10, 20, 10);
+    result = vector.transform(transform);
+    System.out.println(vector + " * " + transform + " = " + result);
+    assertEquals(expected, result);
+
+    transform = TransformationMatrixBuilder.matrix().forTranslation(0, 0, 10).build();
+    expected = new Vector(10, 10, 20);
+    result = vector.transform(transform);
+    System.out.println(vector + " * " + transform + " = " + result);
+    assertEquals(expected, result);
+
+    transform = TransformationMatrixBuilder.matrix().forTranslation(new Vector(10, 20, 30)).build();
+    expected = new Vector(20, 30, 40);
+    result = vector.transform(transform);
+    System.out.println(vector + " * " + transform + " = " + result);
+    assertEquals(expected, result);
 
   }
 
