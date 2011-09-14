@@ -12,7 +12,7 @@ package yaphyre.lights;
  * <li>Cubic: The value decreases with a cubic function: v = i / d<sup>3</sup></li>
  * </ul>
  * 
- * @author A727595
+ * @author Michael Bieri
  * 
  */
 public enum Falloff {

@@ -3,7 +3,7 @@ package yaphyre.raytracer;
 /**
  * Used for photon gathering algorithm. Not used right now.
  * 
- * @author A727595
+ * @author Michael Bieri
  */
 public class Photon {
 
