@@ -16,7 +16,7 @@ import yaphyre.shaders.Shaders;
  * <li>r: radius</li>
  * </ul>
  * 
- * @author A727595
+ * @author Michael Bieri
  */
 public class Sphere extends AbstractShape {
 
@@ -32,7 +32,7 @@ public class Sphere extends AbstractShape {
 
   @Override
   public String toString() {
-    return MessageFormat.format("Sphere[{0}, {1}, {2}]", this.getId(), this.center, this.radius);
+    return MessageFormat.format("Sphere[{0}, {1}, {2}]", getId(), this.center, this.radius);
   }
 
   /**
