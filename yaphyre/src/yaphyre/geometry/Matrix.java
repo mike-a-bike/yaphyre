@@ -12,6 +12,8 @@ import java.text.MessageFormat;
  */
 public class Matrix {
 
+  public static final Matrix IDENTITY = new Matrix(new double[][] { {1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}});
+
   private static final int DIMENSION = 4;
 
   private static final String TO_STRING_ROW = "[{0,number,0.###}, {1,number,0.###}, {2,number,0.###}, {3,number,0.###}]";
@@ -20,7 +22,9 @@ public class Matrix {
 
   private final double[][] matrixValues;
 
-  public static final Matrix IDENTITY = new Matrix(new double[][] { {1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}});
+  private final double determinant = Double.NaN;
+
+  private final Matrix inverse = null;
 
   public Matrix(double[][] values) {
     this.matrixValues = initMatrix(DIMENSION, DIMENSION);
@@ -113,6 +117,20 @@ public class Matrix {
 
   public Matrix div(double scalar) {
     return performScalarOperation(scalar, Operations.Div);
+  }
+
+  public Matrix inverse() {
+    if (this.inverse == null) {
+      throw new RuntimeException("Not implemented yet");
+    }
+    return this.inverse;
+  }
+
+  public double det() {
+    if (this.determinant == Double.NaN) {
+      throw new RuntimeException("Not implemented yet");
+    }
+    return this.determinant;
   }
 
   private Matrix performScalarOperation(double scalar, Operations operation) {
