@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
@@ -122,6 +123,30 @@ public class MatrixTest {
     e = new Vector(20, 30, 40);
     System.out.println("T * v = " + r);
     assertEquals(e, r);
+  }
+
+  @Test
+  public void testInverse() {
+    Matrix M;
+    Matrix I;
+    Matrix E;
+
+    M = Matrix.IDENTITY;
+    I = M.inverse();
+    E = Matrix.IDENTITY;
+    System.out.println("Inverse of M = " + I);
+    assertEquals(E, I);
+
+    M = new Matrix(new double[][] { {1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}, {13, 14, 15, 16}});
+    I = M.inverse();
+    System.out.println("Inverse of " + M + " = " + I);
+    assertEquals(Matrix.IDENTITY, M.mul(I));
+
+  }
+
+  @Test
+  public void testDeterminant() {
+    fail("Not implemented yet");
   }
 
 }
