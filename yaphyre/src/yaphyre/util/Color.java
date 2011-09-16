@@ -1,10 +1,24 @@
+/*
+ * Copyright 2011 Michael Bieri
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
 package yaphyre.util;
 
-import static java.lang.Math.max;
-import static java.lang.Math.min;
-import static yaphyre.math.MathUtils.max;
+import static com.google.common.primitives.Doubles.max;
+import static com.google.common.primitives.Doubles.min;
 
-import java.text.MessageFormat;
+import com.google.common.base.Objects;
 
 /**
  * Represents a color by its three components of red, green and blue with a
@@ -50,7 +64,7 @@ public class Color {
 
   @Override
   public String toString() {
-    return MessageFormat.format("Color[r={0,number,0.###},g={1,number,0.###},b={2,number,0.###}]", this.red, this.green, this.blue);
+    return Objects.toStringHelper(this).add("r", this.red).add("g", this.green).add("b", this.blue).toString();
   }
 
   /**
@@ -75,12 +89,7 @@ public class Color {
 
   @Override
   public int hashCode() {
-    int prime = 31;
-    int result = 0;
-    result += prime * this.red;
-    result += prime * this.green;
-    result += prime * this.blue;
-    return result;
+    return Objects.hashCode(this.red, this.green, this.blue);
   }
 
   public double getRed() {
