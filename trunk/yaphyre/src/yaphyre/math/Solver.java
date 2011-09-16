@@ -1,5 +1,21 @@
+/*
+ * Copyright 2011 Michael Bieri
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
 package yaphyre.math;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static java.lang.Math.PI;
 import static java.lang.Math.acos;
 import static java.lang.Math.cbrt;
@@ -10,6 +26,8 @@ import static yaphyre.math.MathUtils.div;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.google.common.primitives.Doubles;
+
 public enum Solver {
 
   Linear {
@@ -19,11 +37,11 @@ public enum Solver {
      */
     @Override
     public double[] solve(double... c) throws IllegalArgumentException {
-      assertOrder(1, c);
+      checkArgument(c.length == 2, ORDER_ERROR_MESSAGE);
       if (c[1] == 0) {
         return EMPTY_RESULT;
       }
-      return new double[] { div(-c[0], c[1]) };
+      return new double[] {div(-c[0], c[1])};
     }
   },
   Quadratic {
@@ -33,7 +51,7 @@ public enum Solver {
      */
     @Override
     public double[] solve(double... c) throws IllegalArgumentException {
-      assertOrder(2, c);
+      checkArgument(c.length == 3, ORDER_ERROR_MESSAGE);
 
       if (c[2] == 0) {
         return Solver.Linear.solve(c[0], c[1]);
@@ -41,7 +59,7 @@ public enum Solver {
 
       double det = c[1] * c[1] - 4 * c[2] * c[0];
       if (det == 0) {
-        return new double[] { div(-c[1], 2 * c[2]) };
+        return new double[] {div(-c[1], 2 * c[2])};
       }
 
       if (det > 0) {
@@ -65,13 +83,13 @@ public enum Solver {
      */
     @Override
     public double[] solve(double... c) throws IllegalArgumentException {
-      assertOrder(3, c);
+      checkArgument(c.length == 4, ORDER_ERROR_MESSAGE);
       if (c[3] == 0) {
         return Solver.Quadratic.solve(c[0], c[1], c[2]);
       }
 
       if (c[2] == 0 && c[1] == 0) {
-        return new double[] { cbrt(div(-c[0], c[3])) };
+        return new double[] {cbrt(div(-c[0], c[3]))};
       }
 
       if (c[0] == 0) {
@@ -81,12 +99,8 @@ public enum Solver {
         for (double value : quadResults) {
           results.add(value);
         }
-        double[] result = new double[results.size()];
-        int i = 0;
-        for (Double value : results) {
-          result[i++] = value;
-        }
-        return result;
+
+        return Doubles.toArray(results);
       }
 
       double k, p, q;
@@ -116,10 +130,10 @@ public enum Solver {
       }
 
       if (w == 0) {
-        return new double[] { 2 * cbrt(q / 2) + k };
+        return new double[] {2 * cbrt(q / 2) + k};
       }
 
-      return new double[] { cbrt(q / 2 + sqrt(w)) + cbrt(q / 2 - sqrt(w)) + k };
+      return new double[] {cbrt(q / 2 + sqrt(w)) + cbrt(q / 2 - sqrt(w)) + k};
 
     }
   },
@@ -131,6 +145,8 @@ public enum Solver {
   };
 
   protected static final double[] EMPTY_RESULT = new double[0];
+
+  private static final String ORDER_ERROR_MESSAGE = "Number of coefficients do not match the order of the equation to solve";
 
   /**
    * Solve an equation for the given equation type.
@@ -144,14 +160,9 @@ public enum Solver {
    * @throws IllegalArgumentException
    *           If the number of the coefficients in <code>c</code> does not
    *           match the necessary number of values, an
-   *           {@link IllegalArgumentException} is thrown.
+   *           {@link IllegalArgumentException} is thrown. Please notice, even
+   *           if coefficients may be zero, they must be provided.
    */
   public abstract double[] solve(double... c) throws IllegalArgumentException;
-
-  protected void assertOrder(int order, double... c) throws IllegalArgumentException {
-    if (c.length != order + 1) {
-      throw new IllegalArgumentException("Number of coefficients do not match the order of the equation to solve");
-    }
-  }
 
 }
