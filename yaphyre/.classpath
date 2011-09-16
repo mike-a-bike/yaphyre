@@ -9,5 +9,10 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/yaphyre/lib.src/guava-javadoc-r09.zip!/javadoc"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/commons-math-2.2.jar" sourcepath="lib.src/commons-math-2.2-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/yaphyre/lib.src/commons-math-2.2-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
