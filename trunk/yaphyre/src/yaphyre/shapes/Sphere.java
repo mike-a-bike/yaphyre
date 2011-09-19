@@ -78,15 +78,11 @@ public class Sphere extends AbstractShape {
     // Transform the origin of the ray into the object space of the sphere.
     Vector oc = ray.getOrigin().sub(this.center);
 
-    double a = ray.getDirection().dot(ray.getDirection());
-    double b = 2 * oc.dot(ray.getDirection());
-    double c = oc.dot(oc) - this.radius * this.radius;
+    final double a = ray.getDirection().dot(ray.getDirection());
+    final double b = 2 * oc.dot(ray.getDirection());
+    final double c = oc.dot(oc) - this.radius * this.radius;
 
-    double[] solutions = Solver.Quadratic.solve(c, b, a);
-
-    if (solutions.length == 0) {
-      return Shapes.NO_INTERSECTION;
-    }
+    final double[] solutions = Solver.Quadratic.solve(c, b, a);
 
     double result = Shapes.NO_INTERSECTION;
 
