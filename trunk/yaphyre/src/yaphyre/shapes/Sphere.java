@@ -1,9 +1,25 @@
+/*
+ * Copyright 2011 Michael Bieri
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
 package yaphyre.shapes;
 
 import java.text.MessageFormat;
 
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Vector;
+import yaphyre.math.Solver;
 import yaphyre.shaders.Shaders;
 
 /**
@@ -66,19 +82,21 @@ public class Sphere extends AbstractShape {
     double b = 2 * oc.dot(ray.getDirection());
     double c = oc.dot(oc) - this.radius * this.radius;
 
-    double det = b * b - 4 * a * c;
+    double[] solutions = Solver.Quadratic.solve(c, b, a);
 
-    if (det >= 0) {
-      double dist = ((-1) * b - Math.sqrt(det)) / (2 * a);
-      if (dist < 0) {
-        dist = ((-1) * b + Math.sqrt(det)) / (2 * a);
-      }
-      // Second check: if the distance is still less than zero, both
-      // intersection points lie behind the origin point.
-      return (dist > 0) ? dist : Shapes.NO_INTERSECTION;
+    if (solutions.length == 0) {
+      return Shapes.NO_INTERSECTION;
     }
 
-    return Shapes.NO_INTERSECTION;
+    double result = Shapes.NO_INTERSECTION;
+
+    for (double solution : solutions) {
+      if (solution < result && solution >= 0d) {
+        result = solution;
+      }
+    }
+
+    return result;
   }
 
   @Override
