@@ -16,7 +16,6 @@
 package yaphyre.raytracer;
 
 import java.awt.image.BufferedImage;
-import java.text.MessageFormat;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,7 +64,7 @@ public class RayTracer {
 
     long renderStart = System.nanoTime();
     LOGGER.info("Start rendering");
-    LOGGER.info(this.scene.toString());
+    LOGGER.info("{}", this.scene);
 
     for (int y = 0; y < imageHeight; y++) {
       for (int x = 0; x < imageWidth; x++) {
@@ -86,11 +85,11 @@ public class RayTracer {
   }
 
   private void printRenderStatistics(long renderStart) {
-    LOGGER.info(MessageFormat.format("Rendering finished in {0,number}ms", (System.nanoTime() - renderStart) / 1000 / 1000));
-    LOGGER.info(MessageFormat.format("{0} eye rays calculated", RenderStatistics.getEyeRays()));
-    LOGGER.info(MessageFormat.format("{0} secondary rays calculated", RenderStatistics.getSecondaryRays()));
-    LOGGER.info(MessageFormat.format("{0} shadow rays calculated", RenderStatistics.getShadowRays()));
-    LOGGER.info(MessageFormat.format("{0} rays where cancelled", RenderStatistics.getCancelledRays()));
+    LOGGER.info("Rendering finished in {}ms", (System.nanoTime() - renderStart) / 1000 / 1000);
+    LOGGER.info("{} eye rays calculated", RenderStatistics.getEyeRays());
+    LOGGER.info("{} secondary rays calculated", RenderStatistics.getSecondaryRays());
+    LOGGER.info("{} shadow rays calculated", RenderStatistics.getShadowRays());
+    LOGGER.info("{} rays where cancelled", RenderStatistics.getCancelledRays());
   }
 
   protected Color traceRay(Ray ray, int iteration) {

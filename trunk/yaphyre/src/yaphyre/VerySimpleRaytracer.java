@@ -57,7 +57,7 @@ public class VerySimpleRaytracer {
     ImageIO.write(renderedImage, "PNG", imageFileStream);
     imageFileStream.close();
 
-    LOGGER.info("Image written to: " + imageFile.getAbsolutePath());
+    LOGGER.info("Image written to: {}", imageFile.getAbsolutePath());
 
     LOGGER.info("Renderer finished");
 
