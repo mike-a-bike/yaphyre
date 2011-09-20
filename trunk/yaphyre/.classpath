@@ -14,5 +14,8 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/yaphyre/lib.src/commons-math-2.2-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.6.2.jar"/>
+	<classpathentry kind="lib" path="lib/logback-core-0.9.29.jar"/>
+	<classpathentry kind="lib" path="lib/logback-classic-0.9.29.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
