@@ -18,6 +18,9 @@ package yaphyre.raytracer;
 import java.awt.image.BufferedImage;
 import java.text.MessageFormat;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Vector;
 import yaphyre.lights.Lightsources;
@@ -37,6 +40,8 @@ import yaphyre.util.RenderStatistics;
  * @author Michael Bieri
  */
 public class RayTracer {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(RayTracer.class);
 
   private static final int MAX_ITERATIONS = 10;
 
@@ -59,8 +64,8 @@ public class RayTracer {
     this.camera = setupCamera(imageWidth, imageHeight, frameWidth, frameHeight, cameraPosition, cameraDirection);
 
     long renderStart = System.nanoTime();
-    System.out.println("Start rendering");
-    System.out.println(this.scene);
+    LOGGER.info("Start rendering");
+    LOGGER.info(this.scene.toString());
 
     for (int y = 0; y < imageHeight; y++) {
       for (int x = 0; x < imageWidth; x++) {
@@ -81,11 +86,11 @@ public class RayTracer {
   }
 
   private void printRenderStatistics(long renderStart) {
-    System.out.println(MessageFormat.format("Rendering finished in {0,number}ms", (System.nanoTime() - renderStart) / 1000 / 1000));
-    System.out.println(MessageFormat.format("{0} eye rays calculated", RenderStatistics.getEyeRays()));
-    System.out.println(MessageFormat.format("{0} secondary rays calculated", RenderStatistics.getSecondaryRays()));
-    System.out.println(MessageFormat.format("{0} shadow rays calculated", RenderStatistics.getShadowRays()));
-    System.out.println(MessageFormat.format("{0} rays where cancelled", RenderStatistics.getCancelledRays()));
+    LOGGER.info(MessageFormat.format("Rendering finished in {0,number}ms", (System.nanoTime() - renderStart) / 1000 / 1000));
+    LOGGER.info(MessageFormat.format("{0} eye rays calculated", RenderStatistics.getEyeRays()));
+    LOGGER.info(MessageFormat.format("{0} secondary rays calculated", RenderStatistics.getSecondaryRays()));
+    LOGGER.info(MessageFormat.format("{0} shadow rays calculated", RenderStatistics.getShadowRays()));
+    LOGGER.info(MessageFormat.format("{0} rays where cancelled", RenderStatistics.getCancelledRays()));
   }
 
   protected Color traceRay(Ray ray, int iteration) {
