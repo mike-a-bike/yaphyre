@@ -2,6 +2,8 @@ package yaphyre.math;
 
 public class MathUtils {
 
+  public static final double EPSILON = 1e-10;
+
   private static final double LARGE_VAL = 1e100;
 
   public static double div(double a, double b) {

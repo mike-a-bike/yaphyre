@@ -15,6 +15,8 @@
  */
 package yaphyre.raytracer;
 
+import static yaphyre.math.MathUtils.EPSILON;
+
 import java.awt.image.BufferedImage;
 
 import org.slf4j.Logger;
@@ -47,8 +49,6 @@ public class RayTracer {
   private Scene scene;
 
   private Camera camera;
-
-  private static final double EPSILON = 1e-5;
 
   public void setScene(Scene scene) {
     this.scene = scene;
