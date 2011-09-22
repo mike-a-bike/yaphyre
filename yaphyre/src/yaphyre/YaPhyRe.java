@@ -59,7 +59,7 @@ public class YaPhyRe {
     try {
       commandLine = YaPhyRe.parseCommandLine(args);
     } catch (ParseException e) {
-      LOGGER.error("Could not parse command line: {}", e.getMessage());
+      LOGGER.error(e.getMessage());
       printHelp();
       return;
     }
@@ -111,7 +111,7 @@ public class YaPhyRe {
   private static void printHelp() {
     HelpFormatter formatter = new HelpFormatter();
     formatter.setWidth(999);
-    formatter.printHelp("java YaPhyRe", commandLineOptions);
+    formatter.printHelp("java YaPhyRe", commandLineOptions, true);
   }
 
   @SuppressWarnings("static-access")
