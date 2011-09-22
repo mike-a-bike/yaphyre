@@ -16,6 +16,9 @@
 package yaphyre.util;
 
 import java.io.File;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -58,8 +61,9 @@ public class XMLFileSceneReader implements SceneReaders<File> {
 
   private Scene readSceneImpl(File source) throws Exception {
     SAXParser parser = createParser();
-    parser.parse(source, new SaxSceneHandler());
-    return null;
+    SaxSceneHandler handler = new SaxSceneHandler();
+    parser.parse(source, handler);
+    return handler.getScene();
   }
 
   private SAXParser createParser() throws ParserConfigurationException, SAXException {
@@ -71,14 +75,6 @@ public class XMLFileSceneReader implements SceneReaders<File> {
 
     private final Logger logger = LoggerFactory.getLogger(SaxSceneHandler.class);
 
-    private Map<String, Shapes> shapes;
-
-    private Map<String, Lightsources> lights;
-
-    private Map<String, Material> materials;
-
-    private Map<String, Shaders> shaders;
-
     private static final int X_INDEX = 0, Y_INDEX = 1, Z_INDEX = 2;
 
     private static final int R_INDEX = 0, G_INDEX = 1, B_INDEX = 2, A_INDEX = 3;
@@ -88,48 +84,50 @@ public class XMLFileSceneReader implements SceneReaders<File> {
     private static final String ID_ATTR = "id";
 
     private static final String REF_ATTR = "ref";
+    
+    private static final String OBJECT_TYPE = "objectType";
 
-    private final String currentId = null;
+    private final Map<String, Shapes> shapes = new HashMap<String, Shapes>();
+
+    private final Map<String, Lightsources> lights = new HashMap<String, Lightsources>();
+
+    private final Map<String, Material> materials = new HashMap<String, Material>();
+
+    private final Map<String, Shaders> shaders = new HashMap<String, Shaders>();
+
+    private final Deque<Map<String, String>> objectStack = new LinkedList<Map<String, String>>();
 
     private Scene scene;
+
+    public Scene getScene() {
+      return this.scene;
+    }
 
     @Override
     public void startDocument() throws SAXException {
       this.logger.debug("startDocument");
-      // TODO Auto-generated method stub
-      super.startDocument();
+      this.scene = new Scene();
     }
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
       this.logger.debug("startElement: {} [{}]", qName, attributeList(attributes));
-
-      // TODO Auto-generated method stub
-      super.startElement(uri, localName, qName, attributes);
     }
 
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
       String tmp = new String(ch, start, length).replace("\n\r\t", " ").trim();
       this.logger.debug("characters: '{}'", tmp);
-
-      // TODO Auto-generated method stub
-      super.characters(ch, start, length);
     }
 
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
       this.logger.debug("endElement: {}", qName);
-
-      // TODO Auto-generated method stub
-      super.endElement(uri, localName, qName);
     }
 
     @Override
     public void endDocument() throws SAXException {
       this.logger.debug("endDocument");
-      // TODO Auto-generated method stub
-      super.endDocument();
     }
 
     private double[] readXYZ(Attributes attributes) {
