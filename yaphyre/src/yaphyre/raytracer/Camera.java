@@ -1,5 +1,17 @@
-/**
- *
+/*
+ * Copyright 2011 Michael Bieri
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package yaphyre.raytracer;
 
@@ -44,16 +56,16 @@ public class Camera {
   public double[][] colorChannel;
 
   public void setColor(int x, int y, Color color) {
-    int pixelIndex = y * width + x;
-    colorChannel[pixelIndex][RED] = color.getRed();
-    colorChannel[pixelIndex][GREEN] = color.getGreen();
-    colorChannel[pixelIndex][BLUE] = color.getBlue();
-    colorChannel[pixelIndex][ALPHA] = 1d;
+    int pixelIndex = y * this.width + x;
+    this.colorChannel[pixelIndex][RED] = color.getRed();
+    this.colorChannel[pixelIndex][GREEN] = color.getGreen();
+    this.colorChannel[pixelIndex][BLUE] = color.getBlue();
+    this.colorChannel[pixelIndex][ALPHA] = 1d;
   }
 
   public void setDepth(int x, int y, double depth) {
-    int pixelIndex = y * width + x;
-    depthChannel[pixelIndex] = (short)depth;
+    int pixelIndex = y * this.width + x;
+    this.depthChannel[pixelIndex] = (short)depth;
   }
 
   public Ray createEyeRay(int x, int y) {
@@ -68,7 +80,7 @@ public class Camera {
     int pixelIndex = 0;
     for (int y = this.height - 1; y >= 0; y--) {
       for (int x = 0; x < this.width; x++) {
-        int depth = depthChannel[pixelIndex];
+        int depth = this.depthChannel[pixelIndex];
         int opaque = (depth < 255) ? 255 : 0;
         int argb = ((opaque << 24) | (depth << 16) | (depth << 8) | depth);
         result.setRGB(x, y, argb);
@@ -85,10 +97,10 @@ public class Camera {
     int pixelIndex = 0;
     for (int y = this.height - 1; y >= 0; y--) {
       for (int x = 0; x < this.width; x++) {
-        int red = Color.toByteValue(colorChannel[pixelIndex][RED]) & 0xff;
-        int green = Color.toByteValue(colorChannel[pixelIndex][GREEN]) & 0xff;
-        int blue = Color.toByteValue(colorChannel[pixelIndex][BLUE]) & 0xff;
-        int alpha = Color.toByteValue(colorChannel[pixelIndex][ALPHA]) & 0xff;
+        int red = Color.toByteValue(this.colorChannel[pixelIndex][RED]) & 0xff;
+        int green = Color.toByteValue(this.colorChannel[pixelIndex][GREEN]) & 0xff;
+        int blue = Color.toByteValue(this.colorChannel[pixelIndex][BLUE]) & 0xff;
+        int alpha = Color.toByteValue(this.colorChannel[pixelIndex][ALPHA]) & 0xff;
         int argb = ((alpha << 24) | (red << 16) | (green << 8) | blue);
         result.setRGB(x, y, argb);
         pixelIndex++;
