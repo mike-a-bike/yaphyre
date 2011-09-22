@@ -1,48 +1,68 @@
 <scene>
 
-  <camera id="camera1">
-    <geometry>
-      <origin x="0" y="25" z="-100" />
-      <lookingat x="0" y="1" z="0" />
-      <focallength value="80" />
-    </geometry>
-    <ambient-light value="0.25" />
-    <resolution width="800" height="600" />
+  <camera id="camera">
+    <position x="0" y="25" z="-100" />
+    <lookat x="0" y="1" z="0" />
   </camera>
 
-  <sphere id="sphere1">
-    <geometry>
-      <origin x="0" y="1" z="0" />
-      <radius value="1" />
-    </geometry>
-    <shader ref="shader-red" />
-  </sphere>
-
-  <plane id="plane1">
-    <geometry>
-      <origin x="0" y="0" z="0" />
-      <normal x="0" y="1" z="0" />
-    </geometry>
-    <shader ref="shader-blue" />
-  </plane>
-
-  <pointlight id="light1">
-    <geometry>
-      <position x="0" y="0" z="1" />
-    </geometry>
-    <light>
-      <color r="1" g="1" b="1" />
-      <intensity value="1" />
-      <falloff value="quadric" />
-    </light>
+  <pointlight id="light">
+    <transform>
+      <translate x="-2" y="5" z="-2" />
+    </transform>
+    <color r="1" g="1" b="1" a="1" />
+    <intensity value="15" />
+    <falloff value="quadric" />
   </pointlight>
 
-  <shader id="shader-red">
-    <color r="1" g="0" b="0" />
+  <sphere id="big-sphere">
+    <transform>
+      <!-- Change the radius by scaling it -->
+      <scale x="1.5" y="1.5" z="1.5" />
+      <!-- Change its center by translating it -->
+      <translate x="0" y="2" z="0" />
+    </transform>
+    <material ref="white-mirror" />
+  </sphere>
+
+  <sphere id="distant-sphere">
+    <transform>
+      <!-- Change its center by translating it -->
+      <translate x="0" y="1.5" z="0" />
+    </transform>
+    <material ref="white-mirror" />
+  </sphere>
+
+  <sphere id="distant-sphere">
+    <transform>
+      <!-- Change the radius by scaling it -->
+      <scale x="2" y="2" z="2" />
+      <!-- Change its center by translating it -->
+      <translate x="-2" y="10" z="-5" />
+    </transform>
+    <material ref="red-diffuse" />
+  </sphere>
+
+  <plane id="plane">
+    <shader ref="white-diffuse" />
+  </plane>
+
+  <material id="diffuse" ambient="0.075" diffuse="0.8" />
+
+  <material id="mirror" ambient="0.075" diffuse="0.1" reflection="0.9" />
+
+  <shader id="white-diffuse">
+    <color r="1" g="1" b="1" a="1" />
+    <material ref="diffuse" />
   </shader>
 
-  <shader id="shader-blue">
-    <color r="0" g="0" b="1" />
+  <shader id="white-mirror">
+    <color r="1" g="1" b="1" a="1" />
+    <material ref="mirror" />
+  </shader>
+
+  <shader id="red-diffuse">
+    <color r="1" g="0" b="0" />
+    <material ref="diffuse" />
   </shader>
 
 </scene>

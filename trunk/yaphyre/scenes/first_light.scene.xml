@@ -1,0 +1,64 @@
+<scene>
+  <!--
+    Camera
+    up: 0, 1, 0
+    location: 0, 25, -100
+    look at: 0, 1, 0
+   -->
+  <camera id="camera">
+    <location x="0" y="25" z="-100" />
+    <look-at x="0" y="1" z="0" />
+  </camera>
+
+  <!--
+    Diffuse Material
+    ambient light: 0.075
+    diffuse: 0.8
+   -->
+  <material id="diffuse" ambient="0.075" diffuse="0.8" />
+
+  <!--
+    Shader
+    material: diffuse
+    color: white
+   -->
+  <shader id="white">
+    <material ref="diffuse" />
+    <color r="1" g="1" b="1" a="1"/>
+  </shader>
+
+  <!--
+    Point light
+    position: 0, 0, 0
+    translate to: -2, 5, -2
+   -->
+  <pointlight id="light">
+    <transform>
+      <translate x="-2" y="5" z="-2" />
+    </transform>
+    <color r="1" g="1" b="1" a="1"/>
+    <intensity value="10" />
+    <falloff value="quadric" />
+  </pointlight>
+
+  <!--
+    Sphere
+    center: 0, 0, 0 radius: 1
+    translate to: 0, 1, 0
+   -->
+  <sphere>
+    <transform>
+      <translate x="0" y="1" z="0" />
+    </transform>
+    <shader ref="white" />
+  </sphere>
+
+  <!--
+    Plane
+    normal: 0, 1, 0 offset: 0
+   -->
+  <plane>
+    <shader ref="white" />
+  </plane>
+
+</scene>
