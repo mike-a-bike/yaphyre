@@ -21,6 +21,15 @@ import yaphyre.geometry.Ray;
 import yaphyre.geometry.Vector;
 import yaphyre.util.Color;
 
+/**
+ * see {@link http://www.cubic.org/docs/camera.htm} for some pretty cool
+ * documentation about cameras
+ * 
+ * @version $Revision$
+ * 
+ * @author Michael Bieri
+ * @author $LastChangedBy$
+ */
 public class Camera {
 
   public static final int RED = 0;
