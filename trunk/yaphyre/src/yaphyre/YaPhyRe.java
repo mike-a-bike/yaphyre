@@ -35,8 +35,8 @@ import org.slf4j.LoggerFactory;
 import yaphyre.geometry.Vector;
 import yaphyre.raytracer.RayTracer;
 import yaphyre.raytracer.Scene;
-import yaphyre.util.SceneReaders;
-import yaphyre.util.XMLFileSceneReader;
+import yaphyre.util.scenereaders.SceneReaders;
+import yaphyre.util.scenereaders.XMLFileSceneReader;
 
 public class YaPhyRe {
 
@@ -102,7 +102,7 @@ public class YaPhyRe {
     ImageIO.write(renderedImage, "PNG", imageFileStream);
     imageFileStream.close();
 
-    LOGGER.info("Image written to: {}", imageFile.getAbsolutePath());
+    LOGGER.info("Output written to: {}", imageFile.getAbsolutePath());
 
     LOGGER.info("Renderer finished");
 

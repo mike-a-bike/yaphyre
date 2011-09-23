@@ -16,6 +16,11 @@ public class Transformation {
     this.transformationMatrixInverse = Matrix.IDENTITY;
   }
 
+  public Transformation(Matrix matrix) {
+    this.transformationMatrix = matrix;
+    this.transformationMatrixInverse = matrix.inverse();
+  }
+
   public void append(Matrix transformationMatrix) {
     this.transformationMatrix = this.transformationMatrix.mul(transformationMatrix);
     this.transformationMatrixInverse = this.transformationMatrix.inverse();
