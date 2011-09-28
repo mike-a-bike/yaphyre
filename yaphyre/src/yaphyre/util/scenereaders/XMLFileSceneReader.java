@@ -27,6 +27,16 @@ import org.xml.sax.SAXException;
 
 import yaphyre.raytracer.Scene;
 
+/**
+ * This is the implementation which read an xml file and creates the scene
+ * definition from it. The actual parsing of the xml is done by a SAX parser
+ * using a custom handler. The {@link SaxSceneHandler} creates the actual scene.
+ * 
+ * @version $Revision: 37 $
+ * 
+ * @author Michael Bieri
+ * @author $LastChangedBy: mike0041@gmail.com $
+ */
 public class XMLFileSceneReader implements SceneReaders<File> {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(XMLFileSceneReader.class);

@@ -7,6 +7,8 @@ package yaphyre.geometry;
  */
 public class Transformation {
 
+  public static final Transformation IDENTITY = new Transformation(Matrix.IDENTITY);
+
   private Matrix transformationMatrix;
 
   private Matrix transformationMatrixInverse;

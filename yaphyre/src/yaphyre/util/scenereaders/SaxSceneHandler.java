@@ -215,7 +215,9 @@ class SaxSceneHandler extends DefaultHandler {
     }
 
     else if (elementType.equals("pointlight")) {
-      ;
+      Transformation transformation = Transformation.IDENTITY;
+      Color color = null;
+      
     }
 
     else if (elementType.equals("sphere")) {
