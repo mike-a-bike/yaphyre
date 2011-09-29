@@ -105,7 +105,7 @@ public class Vector3D {
   }
 
   public double dot(Normal3D n) {
-    return this.x + n.x + this.y * n.y + this.z * n.z;
+    return this.x * n.x + this.y * n.y + this.z * n.z;
   }
 
   public Vector3D cross(Vector3D v) {
