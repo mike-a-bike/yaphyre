@@ -27,6 +27,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Transformation;
 import yaphyre.geometry.TransformationMatrixBuilder;
 import yaphyre.lights.Lightsources;
@@ -92,8 +93,13 @@ class SaxSceneHandler extends DefaultHandler {
 
     // TODO: replace with string-switch in Java 7
     // transformations
-    if (elementType.equals("translate") || elementType.equals("scale") || elementType.equals("rotate") || elementType.equals("location") || elementType.equals("look-at")) {
+    if (elementType.equals("translate") || elementType.equals("scale") || elementType.equals("rotate")) {
       element.addAttribute(GENERIC_VALUES_NAME, readXYZ(attributes));
+    }
+    // camera data
+    else if (elementType.equals("location") || elementType.equals("look-at")) {
+      double[] pointValues = readXYZ(attributes);
+      element.addAttribute(GENERIC_VALUES_NAME, new Point3D(pointValues[X_INDEX], pointValues[Y_INDEX], pointValues[Z_INDEX]));
     }
     // color
     else if (elementType.equals("color")) {
@@ -134,6 +140,14 @@ class SaxSceneHandler extends DefaultHandler {
         pushPlaceholderToStack = false;
         this.elementStack.push(shader);
       }
+    }
+    // handle spheres
+    else if (elementType.equals("sphere")) {
+      double[] centerCoordinates = readXYZ(attributes);
+      Point3D center = new Point3D(centerCoordinates[X_INDEX], centerCoordinates[Y_INDEX], centerCoordinates[Z_INDEX]);
+      double radius = Double.valueOf(attributes.getValue("r"));
+      element.addAttribute("CENTER", center);
+      element.addAttribute("RADIUS", radius);
     }
     // everything else
     else {
@@ -217,7 +231,7 @@ class SaxSceneHandler extends DefaultHandler {
     else if (elementType.equals("pointlight")) {
       Transformation transformation = Transformation.IDENTITY;
       Color color = null;
-      
+
     }
 
     else if (elementType.equals("sphere")) {
@@ -225,6 +239,14 @@ class SaxSceneHandler extends DefaultHandler {
     }
 
     else if (elementType.equals("plane")) {
+      ;
+    }
+
+    else if (elementType.equals("location")) {
+      ;
+    }
+
+    else if (elementType.equals("look-at")) {
       ;
     }
 
