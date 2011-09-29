@@ -65,8 +65,8 @@ public enum Solver {
       if (det > 0) {
         double sqrtDet = sqrt(det);
         double[] result = new double[2];
-        result[0] = div(-c[1] + sqrtDet, 2 * c[2]);
-        result[1] = div(-c[1] - sqrtDet, 2 * c[2]);
+        result[0] = div(-c[1] - sqrtDet, 2 * c[2]);
+        result[1] = div(-c[1] + sqrtDet, 2 * c[2]);
         return result;
       } else {
         return EMPTY_RESULT;

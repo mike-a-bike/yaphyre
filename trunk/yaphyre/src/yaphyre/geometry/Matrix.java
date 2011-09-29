@@ -1,3 +1,18 @@
+/*
+ * Copyright 2011 Michael Bieri
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
 package yaphyre.geometry;
 
 import java.text.MessageFormat;
@@ -5,10 +20,13 @@ import java.text.MessageFormat;
 /**
  * In the future to come this will be a simple implementation of an algebraic
  * matrix. Used to transform vectors in the 3d space. In order to do this, it
- * adds another dimension (4x4 matrices) and converts the used {@link Vector}s
+ * adds another dimension (4x4 matrices) and converts the used {@link Vector3D}s
  * where used into suitable representations with four elements.
  * 
+ * @version $Revision$
+ * 
  * @author Michael Bieri
+ * @author $LastChangedBy$
  */
 public class Matrix {
 
@@ -81,13 +99,13 @@ public class Matrix {
     return new Matrix(result);
   }
 
-  public Vector mul(Vector vector) {
+  public Vector3D mul(Vector3D vector) {
     double[][] vectorMatrix = matrixFromVector(vector);
     double[][] multipliedVector = this.mul(this.matrixValues, vectorMatrix);
     return Matrix.getColumnVector(0, multipliedVector).asVector();
   }
 
-  private double[][] matrixFromVector(Vector vector) {
+  private double[][] matrixFromVector(Vector3D vector) {
     double[][] result = initMatrix(4, 1);
     Vector4 columnVector = new Vector4(vector);
     Matrix.setColumnVector(0, result, columnVector);

@@ -1,0 +1,131 @@
+/*
+ * Copyright 2011 Michael Bieri
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+package yaphyre.geometry;
+
+import java.text.MessageFormat;
+
+/**
+ * Represents a normal in the 3d Cartesian coordinate system.
+ * 
+ * @version $Revision: 37 $
+ * 
+ * @author Michael Bieri
+ * @author $LastChangedBy: mike0041@gmail.com $
+ */
+public class Normal3D {
+
+  public static final Normal3D NORMAL_X = new Normal3D(1d, 0d, 0d);
+
+  public static final Normal3D NORMAL_Y = new Normal3D(0d, 1d, 0d);
+
+  public static final Normal3D NORMAL_Z = new Normal3D(0d, 0d, 1d);
+
+  final double x, y, z;
+
+  public Normal3D(double x, double y, double z) {
+    this.x = x;
+    this.y = y;
+    this.z = z;
+  }
+
+  @Override
+  public String toString() {
+    return MessageFormat.format("|{0,number,0.000}, {1,number,0.000}, {2,number,0.000}|", this.x, this.y, this.z);
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    long temp;
+    temp = Double.doubleToLongBits(this.x);
+    result = prime * result + (int)(temp ^ (temp >>> 32));
+    temp = Double.doubleToLongBits(this.y);
+    result = prime * result + (int)(temp ^ (temp >>> 32));
+    temp = Double.doubleToLongBits(this.z);
+    result = prime * result + (int)(temp ^ (temp >>> 32));
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    Normal3D other = (Normal3D)obj;
+    if (Double.doubleToLongBits(this.x) != Double.doubleToLongBits(other.x)) {
+      return false;
+    }
+    if (Double.doubleToLongBits(this.y) != Double.doubleToLongBits(other.y)) {
+      return false;
+    }
+    if (Double.doubleToLongBits(this.z) != Double.doubleToLongBits(other.z)) {
+      return false;
+    }
+    return true;
+  }
+
+  public Vector3D asVector() {
+    return new Vector3D(this.x, this.y, this.z);
+  }
+
+  public Point3D asPoint() {
+    return new Point3D(this.x, this.y, this.z);
+  }
+
+  public Normal3D neg() {
+    return new Normal3D(-this.x, -this.y, -this.z);
+  }
+
+  public Normal3D add(Normal3D n) {
+    return new Normal3D(this.x + n.x, this.y + n.y, this.z + n.z);
+  }
+
+  public double dot(Vector3D v) {
+    return this.x * v.x + this.y * v.y + this.z * v.z;
+  }
+
+  public Normal3D scale(double s) {
+    return new Normal3D(this.x * s, this.y * s, this.z * s);
+  }
+
+  public Vector3D add(Vector3D v) {
+    return new Vector3D(this.x + v.x, this.y + v.y, this.z + v.z);
+  }
+
+  public Normal3D mul(Matrix mat) {
+    throw new RuntimeException("Not implemented yet");
+  }
+
+  public double getX() {
+    return this.x;
+  }
+
+  public double getY() {
+    return this.y;
+  }
+
+  public double getZ() {
+    return this.z;
+  }
+
+}

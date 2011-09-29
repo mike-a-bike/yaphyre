@@ -22,8 +22,10 @@ import java.awt.image.BufferedImage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import yaphyre.geometry.Normal3D;
+import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
-import yaphyre.geometry.Vector;
+import yaphyre.geometry.Vector3D;
 import yaphyre.lights.Lightsources;
 import yaphyre.shapes.Shapes;
 import yaphyre.util.Color;
@@ -58,7 +60,7 @@ public class RayTracer {
     return this.scene;
   }
 
-  public BufferedImage render(int imageWidth, int imageHeight, double frameWidth, double frameHeight, Vector cameraPosition, Vector cameraDirection) {
+  public BufferedImage render(int imageWidth, int imageHeight, double frameWidth, double frameHeight, Point3D cameraPosition, Vector3D cameraDirection) {
 
     this.camera = setupCamera(imageWidth, imageHeight, frameWidth, frameHeight, cameraPosition, cameraDirection);
 
@@ -123,12 +125,12 @@ public class RayTracer {
     Color lightColor = Color.BLACK;
     for (Lightsources lightsource : this.scene.getLightsources()) {
 
-      Vector lightVectorDirection = new Vector(shapeCollisionInfo.getCollisionPoint(), lightsource.getPosition()).unitVector();
+      Vector3D lightVectorDirection = new Vector3D(shapeCollisionInfo.getCollisionPoint(), lightsource.getPosition()).unitVector();
 
       double lightIntensity = lightsource.getIntensity(shapeCollisionInfo.getCollisionPoint(), this.scene);
 
       if (lightIntensity > 0d) {
-        Vector shapeNormal = shapeCollisionInfo.getCollisionShape().getNormal(shapeCollisionInfo.getCollisionPoint());
+        Normal3D shapeNormal = shapeCollisionInfo.getCollisionShape().getNormal(shapeCollisionInfo.getCollisionPoint());
         double diffuse = shapeCollisionInfo.getCollisionShape().getShader().getMaterial().getDiffuse();
         diffuse *= Math.abs(lightVectorDirection.dot(shapeNormal));
         diffuse *= lightIntensity;
@@ -144,9 +146,9 @@ public class RayTracer {
     double reflectionValue = shapeCollisionInfo.getCollisionShape().getShader().getMaterial().getReflection();
     if (reflectionValue > 0d) {
       // reflected = eye - 2 * (eye . normal) * normal
-      Vector normal = shapeCollisionInfo.getCollisionShape().getNormal(shapeCollisionInfo.getCollisionPoint());
-      Vector reflectedRayDirection = ray.getDirection().sub(normal.scale(2d * ray.getDirection().dot(normal))).unitVector();
-      Vector reflectedRayStartPoint = shapeCollisionInfo.getCollisionPoint().add(reflectedRayDirection.scale(EPSILON));
+      Normal3D normal = shapeCollisionInfo.getCollisionShape().getNormal(shapeCollisionInfo.getCollisionPoint());
+      Vector3D reflectedRayDirection = ray.getDirection().sub(normal.scale(2d * ray.getDirection().dot(normal))).unitVector();
+      Point3D reflectedRayStartPoint = shapeCollisionInfo.getCollisionPoint().add(reflectedRayDirection.scale(EPSILON));
       Ray reflectedRay = new Ray(reflectedRayStartPoint, reflectedRayDirection);
       RenderStatistics.incSecondaryRays();
       reflectedColor = traceRay(reflectedRay, iteration).multiply(reflectionValue);
@@ -154,7 +156,7 @@ public class RayTracer {
     return reflectedColor;
   }
 
-  private Camera setupCamera(int width, int height, double frameWidth, double frameHeight, Vector cameraPosition, Vector cameraDirection) {
+  private Camera setupCamera(int width, int height, double frameWidth, double frameHeight, Point3D cameraPosition, Vector3D cameraDirection) {
 
     int imageArraySize = width * height;
     Camera camera = new Camera();

@@ -6,8 +6,10 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
+import yaphyre.geometry.Normal3D;
+import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
-import yaphyre.geometry.Vector;
+import yaphyre.geometry.Vector3D;
 import yaphyre.shaders.Material;
 import yaphyre.shaders.MaterialBuilder;
 import yaphyre.shaders.Shaders;
@@ -27,7 +29,7 @@ public class SphereTest {
 
   private AbstractShape createTestSphere() {
     Shaders testShader = new TestShader(SHADER_ID);
-    return new Sphere(SHPERE_ID, new Vector(2d, 0d, 0d), 1d, testShader, true);
+    return new Sphere(SHPERE_ID, new Point3D(2d, 0d, 0d), 1d, testShader, true);
   }
 
   /**
@@ -37,21 +39,21 @@ public class SphereTest {
    */
   private AbstractShape createUnitSphere() {
     Shaders testShader = new TestShader(SHADER_ID);
-    return new Sphere(UNIT_SPHERE_ID, Vector.ORIGIN, 1d, testShader, true);
+    return new Sphere(UNIT_SPHERE_ID, Point3D.ORIGIN, 1d, testShader, true);
   }
 
   @Test
   public void testSphere() {
-    AbstractShape s = new Sphere(SHPERE_ID, new Vector(1d, 1d, 1d), 1d, null, true);
+    AbstractShape s = new Sphere(SHPERE_ID, new Point3D(1d, 1d, 1d), 1d, null, true);
     System.out.println("New sphere created: " + s);
     assertNotNull(s);
   }
 
   @Test
   public void testGetIntersectDistance() {
-    Ray intersectingRay = new Ray(Vector.ORIGIN, Vector.NORMAL_X);
-    Ray nonIntersectingRay = new Ray(Vector.ORIGIN, Vector.NORMAL_Y);
-    Ray crookedRay = new Ray(Vector.ORIGIN, new Vector(1, 0.25, 0.25).unitVector());
+    Ray intersectingRay = new Ray(Point3D.ORIGIN, Normal3D.NORMAL_X.asVector());
+    Ray nonIntersectingRay = new Ray(Point3D.ORIGIN, Normal3D.NORMAL_Y.asVector());
+    Ray crookedRay = new Ray(Point3D.ORIGIN, new Vector3D(1, 0.25, 0.25).unitVector());
     AbstractShape testSphere = createTestSphere();
 
     double distance;
@@ -71,14 +73,14 @@ public class SphereTest {
 
   @Test
   public void testGetIntersectionPoint() {
-    Ray intersectingRay = new Ray(Vector.ORIGIN, Vector.NORMAL_X);
-    Ray nonIntersectingRay = new Ray(Vector.ORIGIN, Vector.NORMAL_Y);
-    Ray crookedRay = new Ray(Vector.ORIGIN, new Vector(1, 0.25, 0.25).unitVector());
+    Ray intersectingRay = new Ray(Point3D.ORIGIN, Normal3D.NORMAL_X.asVector());
+    Ray nonIntersectingRay = new Ray(Point3D.ORIGIN, Normal3D.NORMAL_Y.asVector());
+    Ray crookedRay = new Ray(Point3D.ORIGIN, new Vector3D(1, 0.25, 0.25).unitVector());
 
     AbstractShape testSphere = createTestSphere();
     AbstractShape unitSphere = createUnitSphere();
 
-    Vector intersectionPoint;
+    Point3D intersectionPoint;
 
     intersectionPoint = testSphere.getIntersectionPoint(nonIntersectingRay);
     System.out.println(testSphere + " intersects with " + nonIntersectingRay + " at " + intersectionPoint);
@@ -87,7 +89,7 @@ public class SphereTest {
     intersectionPoint = testSphere.getIntersectionPoint(intersectingRay);
     System.out.println(testSphere + " intersects with " + intersectingRay + " at " + intersectionPoint);
     assertNotNull(intersectionPoint);
-    assertEquals(new Vector(1d, 0d, 0d), intersectionPoint);
+    assertEquals(new Point3D(1d, 0d, 0d), intersectionPoint);
 
     intersectionPoint = testSphere.getIntersectionPoint(crookedRay);
     System.out.println(testSphere + " intersects with " + crookedRay + " at " + intersectionPoint);
@@ -100,63 +102,63 @@ public class SphereTest {
     AbstractShape testSphere = createTestSphere();
     AbstractShape unitSphere = createUnitSphere();
 
-    Vector p1 = new Vector(1, 0, 0);
-    Vector p2 = new Vector(3, 0, 0);
-    Vector p3 = new Vector(1, 2, 3);
-    Vector p;
-    Vector n;
+    Point3D p1 = new Point3D(1, 0, 0);
+    Point3D p2 = new Point3D(3, 0, 0);
+    Point3D p3 = new Point3D(1, 2, 3);
+    Point3D p;
+    Normal3D n;
 
     n = testSphere.getNormal(p1);
     System.out.println("Normal of " + testSphere + " at " + p1 + " = " + n);
     assertNotNull(n);
-    assertEquals(new Vector(-1, 0, 0), n);
+    assertEquals(new Normal3D(-1, 0, 0), n);
 
     n = testSphere.getNormal(p2);
     System.out.println("Normal of " + testSphere + " at " + p2 + " = " + n);
     assertNotNull(n);
-    assertEquals(new Vector(1, 0, 0), n);
+    assertEquals(new Normal3D(1, 0, 0), n);
 
     n = testSphere.getNormal(p3);
     System.out.println("Normal of " + testSphere + " at " + p3 + " = " + n);
     assertNotNull(n);
 
-    p = new Vector(0, 0, -1);
+    p = new Point3D(0, 0, -1);
     n = unitSphere.getNormal(p);
     System.out.println("Normal of " + unitSphere + " at " + p + " = " + n);
     assertNotNull(n);
-    assertEquals(new Vector(0, 0, -1), n);
+    assertEquals(new Normal3D(0, 0, -1), n);
 
-    p = new Vector(0, 0, 1);
+    p = new Point3D(0, 0, 1);
     n = unitSphere.getNormal(p);
     System.out.println("Normal of " + unitSphere + " at " + p + " = " + n);
     assertNotNull(n);
-    assertEquals(new Vector(0, 0, 1), n);
+    assertEquals(new Normal3D(0, 0, 1), n);
 
-    p = new Vector(1, 0, 0);
+    p = new Point3D(1, 0, 0);
     n = unitSphere.getNormal(p);
     System.out.println("Normal of " + unitSphere + " at " + p + " = " + n);
     assertNotNull(n);
-    assertEquals(new Vector(1, 0, 0), n);
+    assertEquals(new Normal3D(1, 0, 0), n);
 
-    p = new Vector(-1, 0, 0);
+    p = new Point3D(-1, 0, 0);
     n = unitSphere.getNormal(p);
     System.out.println("Normal of " + unitSphere + " at " + p + " = " + n);
     assertNotNull(n);
-    assertEquals(new Vector(-1, 0, 0), n);
+    assertEquals(new Normal3D(-1, 0, 0), n);
 
-    p = new Vector(0, 1, 0);
+    p = new Point3D(0, 1, 0);
     n = unitSphere.getNormal(p);
     System.out.println("Normal of " + unitSphere + " at " + p + " = " + n);
     assertNotNull(n);
-    assertEquals(new Vector(0, 1, 0), n);
+    assertEquals(new Normal3D(0, 1, 0), n);
 
-    p = new Vector(0, -1, 0);
+    p = new Point3D(0, -1, 0);
     n = unitSphere.getNormal(p);
     System.out.println("Normal of " + unitSphere + " at " + p + " = " + n);
     assertNotNull(n);
-    assertEquals(new Vector(0, -1, 0), n);
+    assertEquals(new Normal3D(0, -1, 0), n);
 
-    p = new Vector(0, 1, 1);
+    p = new Point3D(0, 1, 1);
     n = unitSphere.getNormal(p);
     System.out.println("Normal of " + unitSphere + " at " + p + " = " + n);
     assertNotNull(n);

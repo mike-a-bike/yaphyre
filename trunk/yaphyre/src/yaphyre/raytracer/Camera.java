@@ -17,8 +17,9 @@ package yaphyre.raytracer;
 
 import java.awt.image.BufferedImage;
 
+import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
-import yaphyre.geometry.Vector;
+import yaphyre.geometry.Vector3D;
 import yaphyre.util.Color;
 
 /**
@@ -40,9 +41,9 @@ public class Camera {
 
   public static final int ALPHA = 3;
 
-  public Vector position;
+  public Point3D position;
 
-  public Vector direction;
+  public Vector3D direction;
 
   public int width;
 
@@ -80,7 +81,7 @@ public class Camera {
   public Ray createEyeRay(int x, int y) {
     double yCoordinate = this.minY + y * this.stepY;
     double xCoordinate = this.minX + x * this.stepX;
-    return new Ray(new Vector(xCoordinate, yCoordinate, this.position.getZ()), this.direction);
+    return new Ray(new Point3D(xCoordinate, yCoordinate, this.position.getZ()), this.direction);
   }
 
   public BufferedImage createDepthImage() {

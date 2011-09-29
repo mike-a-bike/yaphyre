@@ -8,45 +8,47 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import yaphyre.geometry.Matrix;
+import yaphyre.geometry.Normal3D;
+import yaphyre.geometry.Point3D;
 import yaphyre.geometry.TransformationMatrixBuilder;
-import yaphyre.geometry.Vector;
+import yaphyre.geometry.Vector3D;
 
 public class VectorTest {
 
   @Test
   public void testNewVector() {
-    Vector v = new Vector(0d, 1d, 2d);
+    Vector3D v = new Vector3D(0d, 1d, 2d);
     assertNotNull(v);
     assertEquals(0d, v.getX(), 0);
     assertEquals(1d, v.getY(), 0);
     assertEquals(2d, v.getZ(), 0);
   }
 
-  public void testVectorWithVectors() {
-    Vector startPoint = new Vector(1d, 1d, 1d);
-    Vector endPoint = new Vector(2d, 2d, 2d);
-    Vector v = new Vector(startPoint, endPoint);
+  public void testVectorWithPoints() {
+    Point3D startPoint = new Point3D(1d, 1d, 1d);
+    Point3D endPoint = new Point3D(2d, 2d, 2d);
+    Vector3D v = new Vector3D(startPoint, endPoint);
     assertNotNull(v);
-    assertEquals(new Vector(1, 1, 1), v);
+    assertEquals(new Vector3D(1, 1, 1), v);
   }
 
   @Test
   public void testEqualsObject() {
-    Vector v1 = new Vector(0d, 0d, 0d);
-    Vector v2 = new Vector(1d, 2d, 3d);
+    Vector3D v1 = new Vector3D(0d, 0d, 0d);
+    Vector3D v2 = new Vector3D(1d, 2d, 3d);
     assertTrue(v1.equals(v1));
     assertFalse(v1.equals(null));
     assertFalse(v1.equals("Hello, World"));
-    assertTrue(v1.equals(Vector.NULL));
+    assertTrue(v1.equals(Vector3D.NULL));
     assertFalse(v1.equals(v2));
-    assertFalse(v2.equals(Vector.NORMAL_X));
+    assertFalse(v2.equals(Normal3D.NORMAL_X.asVector()));
   }
 
   @Test
   public void testEqualsWithTolerance() {
-    Vector v1 = new Vector(0, 0, 0);
-    Vector v2 = new Vector(1, 1, 1);
-    Vector v3 = new Vector(0, 0, 0.00001d);
+    Vector3D v1 = new Vector3D(0, 0, 0);
+    Vector3D v2 = new Vector3D(1, 1, 1);
+    Vector3D v3 = new Vector3D(0, 0, 0.00001d);
 
     assertTrue(v1.equals(v1, 0d));
     assertFalse(v1.equals(null, 0d));
@@ -57,16 +59,16 @@ public class VectorTest {
 
   @Test
   public void testAdd() {
-    Vector result;
-    Vector v1 = new Vector(1d, 1d, 1d);
-    Vector v2 = new Vector(2d, 2d, 2d);
+    Vector3D result;
+    Vector3D v1 = new Vector3D(1d, 1d, 1d);
+    Vector3D v2 = new Vector3D(2d, 2d, 2d);
 
     result = v1.add(v2);
     assertEquals(3d, result.getX(), 0);
     assertEquals(3d, result.getY(), 0);
     assertEquals(3d, result.getZ(), 0);
 
-    result = Vector.NORMAL_X.add(Vector.NORMAL_Y).add(Vector.NORMAL_Z);
+    result = Normal3D.NORMAL_X.asVector().add(Normal3D.NORMAL_Y.asVector()).add(Normal3D.NORMAL_Z.asVector());
     assertEquals(1d, result.getX(), 0);
     assertEquals(1d, result.getY(), 0);
     assertEquals(1d, result.getZ(), 0);
@@ -74,9 +76,9 @@ public class VectorTest {
 
   @Test
   public void testSub() {
-    Vector result;
-    Vector v1 = new Vector(1d, 1d, 1d);
-    Vector v2 = new Vector(2d, 2d, 2d);
+    Vector3D result;
+    Vector3D v1 = new Vector3D(1d, 1d, 1d);
+    Vector3D v2 = new Vector3D(2d, 2d, 2d);
 
     result = v1.sub(v2);
     assertEquals(-1, result.getX(), 0);
@@ -89,36 +91,36 @@ public class VectorTest {
     assertEquals(1, result.getZ(), 0);
 
     result = v2.sub(v2);
-    assertTrue(Vector.NULL.equals(result));
+    assertTrue(Vector3D.NULL.equals(result));
   }
 
   @Test
   public void testLength() {
-    Vector v;
+    Vector3D v;
     double length;
 
-    length = Vector.NULL.length();
-    System.out.println("Length of " + Vector.NULL + " is: " + length);
+    length = Vector3D.NULL.length();
+    System.out.println("Length of " + Vector3D.NULL + " is: " + length);
     assertEquals(0d, length, 0);
 
-    length = Vector.NORMAL_X.length();
-    System.out.println("Length of " + Vector.NORMAL_X + " is: " + length);
+    length = Normal3D.NORMAL_X.asVector().length();
+    System.out.println("Length of " + Normal3D.NORMAL_X.asVector() + " is: " + length);
     assertEquals(1d, length, 0);
 
-    length = Vector.NORMAL_Y.length();
-    System.out.println("Length of " + Vector.NORMAL_Y + " is: " + length);
+    length = Normal3D.NORMAL_Y.asVector().length();
+    System.out.println("Length of " + Normal3D.NORMAL_Y.asVector() + " is: " + length);
     assertEquals(1d, length, 0);
 
-    length = Vector.NORMAL_Z.length();
-    System.out.println("Length of " + Vector.NORMAL_Z + " is: " + length);
+    length = Normal3D.NORMAL_Z.asVector().length();
+    System.out.println("Length of " + Normal3D.NORMAL_Z.asVector() + " is: " + length);
     assertEquals(1d, length, 0);
 
-    v = new Vector(1d, 1d, 1d);
+    v = new Vector3D(1d, 1d, 1d);
     length = v.length();
     System.out.println("Length of " + v + " is: " + length);
     assertEquals(Math.sqrt(3), length, 0);
 
-    v = new Vector(1d, 2d, 3d);
+    v = new Vector3D(1d, 2d, 3d);
     length = v.length();
     System.out.println("Length of " + v + " is: " + length);
     assertEquals(Math.sqrt(1 + 4 + 9), length, 0);
@@ -127,30 +129,30 @@ public class VectorTest {
 
   @Test
   public void testUnitVector() {
-    Vector v;
-    Vector result;
+    Vector3D v;
+    Vector3D result;
 
-    v = Vector.NORMAL_X;
+    v = Normal3D.NORMAL_X.asVector();
     result = v.unitVector();
     System.out.println("Unit vector of " + v + " is: " + result);
-    assertEquals(Vector.NORMAL_X, result);
+    assertEquals(Normal3D.NORMAL_X.asVector(), result);
 
-    v = new Vector(1d, 1d, 1d);
-    result = v.unitVector();
-    System.out.println("Unit vector of " + v + " is: " + result);
-    assertEquals(1d, result.length(), 0);
-
-    v = new Vector(100d, 100d, 100d);
+    v = new Vector3D(1d, 1d, 1d);
     result = v.unitVector();
     System.out.println("Unit vector of " + v + " is: " + result);
     assertEquals(1d, result.length(), 0);
 
-    v = new Vector(1d, 2d, 3d);
+    v = new Vector3D(100d, 100d, 100d);
     result = v.unitVector();
     System.out.println("Unit vector of " + v + " is: " + result);
     assertEquals(1d, result.length(), 0);
 
-    v = new Vector(12.323d, 88.831d, -45.1235d);
+    v = new Vector3D(1d, 2d, 3d);
+    result = v.unitVector();
+    System.out.println("Unit vector of " + v + " is: " + result);
+    assertEquals(1d, result.length(), 0);
+
+    v = new Vector3D(12.323d, 88.831d, -45.1235d);
     result = v.unitVector();
     System.out.println("Unit vector of " + v + " is: " + result);
     assertEquals(1d, result.length(), 0);
@@ -158,62 +160,62 @@ public class VectorTest {
 
   @Test(expected = ArithmeticException.class)
   public void testUnitVectorZeroLength() {
-    Vector.NULL.unitVector();
+    Vector3D.NULL.unitVector();
   }
 
   @Test
   public void testScale() {
-    Vector v;
+    Vector3D v;
     double scalar;
-    Vector result;
+    Vector3D result;
 
-    v = Vector.NULL;
+    v = Vector3D.NULL;
     scalar = 100d;
     result = v.scale(scalar);
     System.out.println("Scale " + v + " by " + scalar + ": " + result);
-    assertEquals(result, Vector.NULL);
+    assertEquals(result, Vector3D.NULL);
 
-    v = Vector.NORMAL_X;
+    v = Normal3D.NORMAL_X.asVector();
     scalar = 100d;
     result = v.scale(scalar);
     System.out.println("Scale " + v + " by " + scalar + ": " + result);
-    assertEquals(new Vector(100d, 0d, 0d), result);
+    assertEquals(new Vector3D(100d, 0d, 0d), result);
 
-    v = new Vector(1, 2, 3);
+    v = new Vector3D(1, 2, 3);
     scalar = 10d;
     result = v.scale(scalar);
     System.out.println("Scale " + v + " by " + scalar + ": " + result);
-    assertEquals(new Vector(10d, 20d, 30d), result);
+    assertEquals(new Vector3D(10d, 20d, 30d), result);
   }
 
   @Test
   public void testDotProduct() {
-    Vector v1;
-    Vector v2;
+    Vector3D v1;
+    Vector3D v2;
     double result;
 
-    v1 = Vector.NORMAL_X;
-    v2 = Vector.NORMAL_Y;
+    v1 = Normal3D.NORMAL_X.asVector();
+    v2 = Normal3D.NORMAL_Y.asVector();
     result = v1.dot(v2);
     System.out.println(v1 + " dot " + v2 + " = " + result);
     assertEquals(0d, result, 0);
 
-    v1 = new Vector(1, 1, 1);
-    v2 = new Vector(1, 1, 1);
+    v1 = new Vector3D(1, 1, 1);
+    v2 = new Vector3D(1, 1, 1);
     // 1*1 + 1*1 + 1*1 = 3
     result = v1.dot(v2);
     System.out.println(v1 + " dot " + v2 + " = " + result);
     assertEquals(3d, result, 0);
 
-    v1 = new Vector(1, 1, 1);
-    v2 = new Vector(2, 2, 2);
+    v1 = new Vector3D(1, 1, 1);
+    v2 = new Vector3D(2, 2, 2);
     // 1*2 + 1*2 + 1*2 = 6
     result = v1.dot(v2);
     System.out.println(v1 + " dot " + v2 + " = " + result);
     assertEquals(6d, result, 0);
 
-    v1 = new Vector(1, 2, 3);
-    v2 = new Vector(2, 3, 4);
+    v1 = new Vector3D(1, 2, 3);
+    v2 = new Vector3D(2, 3, 4);
     // 1*2 + 2*3 + 3*4 = 20
     result = v1.dot(v2);
     System.out.println(v1 + " dot " + v2 + " = " + result);
@@ -222,74 +224,74 @@ public class VectorTest {
 
   @Test
   public void testCrossProduct() {
-    Vector v1;
-    Vector v2;
-    Vector result;
+    Vector3D v1;
+    Vector3D v2;
+    Vector3D result;
 
     // result is the z axis normal since the cross product of the x-y plane lies
     // on the z-axis.
-    v1 = Vector.NORMAL_X;
-    v2 = Vector.NORMAL_Y;
+    v1 = Normal3D.NORMAL_X.asVector();
+    v2 = Normal3D.NORMAL_Y.asVector();
     result = v1.cross(v2);
     System.out.println(v1 + " x " + v2 + " = " + result);
-    assertEquals(Vector.NORMAL_Z, result);
+    assertEquals(Normal3D.NORMAL_Z.asVector(), result);
 
-    v1 = Vector.NORMAL_Y;
-    v2 = Vector.NORMAL_X;
+    v1 = Normal3D.NORMAL_Y.asVector();
+    v2 = Normal3D.NORMAL_X.asVector();
     result = v1.cross(v2);
     System.out.println(v1 + " x " + v2 + " = " + result);
-    assertEquals(Vector.NORMAL_Z.scale(-1), result);
+    assertEquals(Normal3D.NORMAL_Z.asVector().neg(), result);
 
-    v1 = Vector.NORMAL_Y;
-    v2 = Vector.NORMAL_Z;
+    v1 = Normal3D.NORMAL_Y.asVector();
+    v2 = Normal3D.NORMAL_Z.asVector();
     result = v1.cross(v2);
     System.out.println(v1 + " x " + v2 + " = " + result);
-    assertEquals(Vector.NORMAL_X, result);
+    assertEquals(Normal3D.NORMAL_X.asVector(), result);
 
-    v1 = Vector.NORMAL_X;
-    v2 = Vector.NORMAL_Z;
+    v1 = Normal3D.NORMAL_X.asVector();
+    v2 = Normal3D.NORMAL_Z.asVector();
     result = v1.cross(v2);
     System.out.println(v1 + " x " + v2 + " = " + result);
-    assertEquals(Vector.NORMAL_Y.scale(-1), result);
+    assertEquals(Normal3D.NORMAL_Y.asVector().neg(), result);
 
-    v1 = new Vector(2, 0, 0);
-    v2 = new Vector(0, 10, 0);
+    v1 = new Vector3D(2, 0, 0);
+    v2 = new Vector3D(0, 10, 0);
     result = v1.cross(v2);
     System.out.println(v1 + " x " + v2 + " = " + result);
     // The new vector should have a length of 2 * 10
     // and a direction along the z-axis
     assertEquals(20d, result.length(), 0);
-    assertEquals(Vector.NORMAL_Z, result.unitVector());
+    assertEquals(Normal3D.NORMAL_Z.asVector(), result.unitVector());
 
   }
 
   @Test
   public void testTransform() {
-    Vector vector = new Vector(10, 10, 10);
+    Vector3D vector = new Vector3D(10, 10, 10);
     Matrix transform;
-    Vector result;
-    Vector expected;
+    Vector3D result;
+    Vector3D expected;
 
     transform = TransformationMatrixBuilder.matrix().forTranslation(10, 0, 0).build();
-    expected = new Vector(20, 10, 10);
+    expected = new Vector3D(20, 10, 10);
     result = vector.transform(transform);
     System.out.println(vector + " * " + transform + " = " + result);
     assertEquals(expected, result);
 
     transform = TransformationMatrixBuilder.matrix().forTranslation(0, 10, 0).build();
-    expected = new Vector(10, 20, 10);
+    expected = new Vector3D(10, 20, 10);
     result = vector.transform(transform);
     System.out.println(vector + " * " + transform + " = " + result);
     assertEquals(expected, result);
 
     transform = TransformationMatrixBuilder.matrix().forTranslation(0, 0, 10).build();
-    expected = new Vector(10, 10, 20);
+    expected = new Vector3D(10, 10, 20);
     result = vector.transform(transform);
     System.out.println(vector + " * " + transform + " = " + result);
     assertEquals(expected, result);
 
-    transform = TransformationMatrixBuilder.matrix().forTranslation(new Vector(10, 20, 30)).build();
-    expected = new Vector(20, 30, 40);
+    transform = TransformationMatrixBuilder.matrix().forTranslation(new Vector3D(10, 20, 30)).build();
+    expected = new Vector3D(20, 30, 40);
     result = vector.transform(transform);
     System.out.println(vector + " * " + transform + " = " + result);
     assertEquals(expected, result);
@@ -300,9 +302,9 @@ public class VectorTest {
   public void testToString() {
     String stringRep;
 
-    stringRep = Vector.NULL.toString();
+    stringRep = Vector3D.NULL.toString();
 
-    assertEquals("<0, 0, 0>", stringRep);
+    assertEquals("<0.000, 0.000, 0.000>", stringRep);
   }
 
 }

@@ -47,7 +47,7 @@ public class TransformationMatrixBuilder {
     return this;
   }
 
-  public TransformationMatrixBuilder forTranslation(Vector translationVector) {
+  public TransformationMatrixBuilder forTranslation(Vector3D translationVector) {
     return this.forTranslation(translationVector.getX(), translationVector.getY(), translationVector.getZ());
   }
 
