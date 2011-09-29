@@ -1,6 +1,6 @@
 package yaphyre.raytracer;
 
-import yaphyre.geometry.Vector;
+import yaphyre.geometry.Point3D;
 import yaphyre.shapes.Shapes;
 
 public class CollisionInformations {
@@ -9,24 +9,24 @@ public class CollisionInformations {
 
   private final double collisionDistance;
 
-  private final Vector collisionPoint;
+  private final Point3D collisionPoint;
 
-  public CollisionInformations(Shapes collisionShape, double collisionDistance, Vector collisionPoint) {
+  public CollisionInformations(Shapes collisionShape, double collisionDistance, Point3D collisionPoint) {
     this.collisionShape = collisionShape;
     this.collisionDistance = collisionDistance;
     this.collisionPoint = collisionPoint;
   }
 
   public Shapes getCollisionShape() {
-    return collisionShape;
+    return this.collisionShape;
   }
 
   public double getCollisionDistance() {
-    return collisionDistance;
+    return this.collisionDistance;
   }
 
-  public Vector getCollisionPoint() {
-    return collisionPoint;
+  public Point3D getCollisionPoint() {
+    return this.collisionPoint;
   }
 
 }

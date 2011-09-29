@@ -32,11 +32,10 @@ import org.apache.commons.cli.PosixParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import yaphyre.geometry.Vector;
+import yaphyre.geometry.Point3D;
+import yaphyre.geometry.Vector3D;
 import yaphyre.raytracer.RayTracer;
 import yaphyre.raytracer.Scene;
-import yaphyre.util.scenereaders.SceneReaders;
-import yaphyre.util.scenereaders.XMLFileSceneReader;
 
 public class YaPhyRe {
 
@@ -70,9 +69,9 @@ public class YaPhyRe {
     }
 
     LOGGER.debug("Setup camera");
-    Vector cameraPosition = new Vector(0, 25, -100);
-    Vector lookAt = new Vector(0, 1, 0);
-    Vector cameraDirection = new Vector(cameraPosition, lookAt);
+    Point3D cameraPosition = new Point3D(0, 25, -100);
+    Point3D lookAt = new Point3D(0, 1, 0);
+    Vector3D cameraDirection = new Vector3D(cameraPosition, lookAt);
 
     double frameWidth = 12d;
     double frameHeight = 9d;
@@ -81,14 +80,14 @@ public class YaPhyRe {
     int imageHeight = Integer.parseInt(commandLine.getOptionValue('h', DEFAULT_HEIGHT));
 
     LOGGER.debug("Read scene");
-    // Scene scene = SceneReader.createSimpleScene();
-    SceneReaders<File> xmlFileReader = new XMLFileSceneReader();
-    File sceneFile = new File(commandLine.getOptionValue('s'));
-    Scene scene = xmlFileReader.readScene(sceneFile);
-    if (scene == null) {
-      LOGGER.error("Could not read scene from: {}", sceneFile.getPath());
-      return;
-    }
+    Scene scene = SceneReader.createSimpleScene();
+    // SceneReaders<File> xmlFileReader = new XMLFileSceneReader();
+    // File sceneFile = new File(commandLine.getOptionValue('s'));
+    // Scene scene = xmlFileReader.readScene(sceneFile);
+    // if (scene == null) {
+    // LOGGER.error("Could not read scene from: {}", sceneFile.getPath());
+    // return;
+    // }
 
     RayTracer rayTracer = new RayTracer();
     rayTracer.setScene(scene);

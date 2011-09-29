@@ -9,7 +9,7 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 import yaphyre.geometry.Matrix;
-import yaphyre.geometry.Vector;
+import yaphyre.geometry.Vector3D;
 
 public class MatrixTest {
 
@@ -102,12 +102,12 @@ public class MatrixTest {
   @Test
   public void testMulVector() {
 
-    Vector v = new Vector(10, 20, 30);
+    Vector3D v = new Vector3D(10, 20, 30);
     Matrix I = new Matrix(new double[][] { {1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}});
     Matrix S = new Matrix(new double[][] { {1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 10}});
     Matrix T = new Matrix(new double[][] { {1, 0, 0, 10}, {0, 1, 0, 10}, {0, 0, 1, 10}, {0, 0, 0, 1}});
-    Vector r;
-    Vector e;
+    Vector3D r;
+    Vector3D e;
 
     r = I.mul(v);
     e = v;
@@ -115,12 +115,12 @@ public class MatrixTest {
     assertEquals(e, r);
 
     r = S.mul(v);
-    e = new Vector(1, 2, 3);
+    e = new Vector3D(1, 2, 3);
     System.out.println("S * v = " + r);
     assertEquals(e, r);
 
     r = T.mul(v);
-    e = new Vector(20, 30, 40);
+    e = new Vector3D(20, 30, 40);
     System.out.println("T * v = " + r);
     assertEquals(e, r);
   }

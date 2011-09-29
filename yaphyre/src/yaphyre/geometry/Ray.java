@@ -1,3 +1,18 @@
+/*
+ * Copyright 2011 Michael Bieri
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
 package yaphyre.geometry;
 
 import java.text.MessageFormat;
@@ -6,25 +21,28 @@ import java.text.MessageFormat;
  * Simple implementation of a ray. These are used as seeing rays and shadow
  * rays.<br/>
  * 
- * It is defined by an origin ({@link Vector} interpreted as the sum of the
- * Cartesian origin plus the origin vector) and a direction ( {@link Vector}). A
- * point on the ray are represented in a parametric way so that:
+ * It is defined by an origin ({@link Point3D}) and a direction (
+ * {@link Vector3D}). A point on the ray are represented in a parametric way so
+ * that:
  * 
  * <pre>
  * p(distance) = origin + distance * direction
  * </pre>
  * 
+ * @version $Revision$
+ * 
  * @author Michael Bieri
+ * @author $LastChangedBy$
  */
 public class Ray {
 
   private static final String TO_STRING_FORMAT = "Ray[{0}, {1}]";
 
-  private final Vector origin;
+  private final Point3D origin;
 
-  private final Vector direction;
+  private final Vector3D direction;
 
-  public Ray(Vector origin, Vector direction) throws ArithmeticException {
+  public Ray(Point3D origin, Vector3D direction) throws ArithmeticException {
     this.origin = origin;
     this.direction = direction;
   }
@@ -34,15 +52,15 @@ public class Ray {
     return MessageFormat.format(TO_STRING_FORMAT, this.origin, this.direction);
   }
 
-  public Vector getPoint(double distance) {
+  public Point3D getPoint(double distance) {
     return this.origin.add(this.direction.scale(distance));
   }
 
-  public Vector getOrigin() {
+  public Point3D getOrigin() {
     return this.origin;
   }
 
-  public Vector getDirection() {
+  public Vector3D getDirection() {
     return this.direction;
   }
 

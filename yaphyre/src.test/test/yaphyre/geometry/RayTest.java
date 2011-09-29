@@ -5,15 +5,17 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
+import yaphyre.geometry.Normal3D;
+import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
-import yaphyre.geometry.Vector;
+import yaphyre.geometry.Vector3D;
 
 public class RayTest {
 
   @Test
   public void testRay() {
-    Vector origin = new Vector(1, 1, 1);
-    Vector direction = Vector.NORMAL_X;
+    Point3D origin = new Point3D(1, 1, 1);
+    Vector3D direction = Normal3D.NORMAL_X.asVector();
 
     Ray r;
 
@@ -22,14 +24,14 @@ public class RayTest {
     assertNotNull(r.getOrigin());
     assertNotNull(r.getDirection());
     assertEquals(origin, r.getOrigin());
-    assertEquals(Vector.NORMAL_X, r.getDirection());
+    assertEquals(Normal3D.NORMAL_X.asVector(), r.getDirection());
 
   }
 
   @Test
   public void testGetOrigin() {
-    Vector origin = new Vector(1, 1, 1);
-    Vector direction = Vector.NORMAL_X;
+    Point3D origin = new Point3D(1, 1, 1);
+    Vector3D direction = Normal3D.NORMAL_X.asVector();
 
     Ray r = new Ray(origin, direction);
 
@@ -39,14 +41,14 @@ public class RayTest {
 
   @Test
   public void testGetDirection() {
-    Vector origin = new Vector(1, 1, 1);
-    Vector direction = Vector.NORMAL_X;
+    Point3D origin = new Point3D(1, 1, 1);
+    Vector3D direction = Normal3D.NORMAL_X.asVector();
     Ray r;
 
     r = new Ray(origin, direction);
     assertNotNull(r);
     assertNotNull(r.getDirection());
-    assertEquals(Vector.NORMAL_X, r.getDirection());
+    assertEquals(Normal3D.NORMAL_X.asVector(), r.getDirection());
 
   }
 

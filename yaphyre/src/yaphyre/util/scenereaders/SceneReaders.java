@@ -18,7 +18,6 @@ package yaphyre.util.scenereaders;
 import yaphyre.raytracer.Scene;
 
 /**
- * 
  * Common interface for all scene readers. It does not matter where the
  * implementing reader gets its data from. The type of the datasource is defined
  * by a generic.

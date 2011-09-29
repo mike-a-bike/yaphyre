@@ -1,9 +1,26 @@
+/*
+ * Copyright 2011 Michael Bieri
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
 package yaphyre.shapes;
 
 import java.text.MessageFormat;
 
+import yaphyre.geometry.Normal3D;
+import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
-import yaphyre.geometry.Vector;
+import yaphyre.geometry.Vector3D;
 import yaphyre.shaders.Shaders;
 
 /**
@@ -19,23 +36,26 @@ import yaphyre.shaders.Shaders;
  * <li>n: the normal of the plane</li>
  * </ul>
  * 
+ * @version $Revision$
+ * 
  * @author Michael Bieri
+ * @author $LastChangedBy$
  */
 public class Plane extends AbstractShape {
 
-  private final Vector origin;
+  private final Point3D origin;
 
-  private final Vector normal;
+  private final Normal3D normal;
 
-  public Plane(String id, Vector origin, Vector normal, Shaders shader, boolean throwsShadow) {
+  public Plane(String id, Point3D origin, Normal3D normal, Shaders shader, boolean throwsShadow) {
     super(id, shader, throwsShadow);
     this.origin = origin;
-    this.normal = normal.unitVector();
+    this.normal = normal;
   }
 
   @Override
   public String toString() {
-    return MessageFormat.format("Plane[{0}, {1}, {2}]", this.getId(), this.origin, this.normal);
+    return MessageFormat.format("Plane[{0}, {1}, {2}]", getId(), this.origin, this.normal);
   }
 
   /**
@@ -91,14 +111,14 @@ public class Plane extends AbstractShape {
    * always the defining normal is returned.
    * 
    * @param surfacePoint
-   *          The surface point (as {@link Vector}) for which the normal is
+   *          The surface point (as {@link Vector3D}) for which the normal is
    *          asked.
    * 
    * @return The normal of the plane (position independent)
    */
   @Override
-  public Vector getNormal(Vector surfacePoint) {
-    return normal;
+  public Normal3D getNormal(Point3D surfacePoint) {
+    return this.normal;
   }
 
 }

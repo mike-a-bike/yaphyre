@@ -17,8 +17,10 @@ package yaphyre.shapes;
 
 import java.text.MessageFormat;
 
+import yaphyre.geometry.Normal3D;
+import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
-import yaphyre.geometry.Vector;
+import yaphyre.geometry.Vector3D;
 import yaphyre.math.Solver;
 import yaphyre.shaders.Shaders;
 
@@ -36,13 +38,13 @@ import yaphyre.shaders.Shaders;
  */
 public class Sphere extends AbstractShape {
 
-  private final Vector center;
+  private final Point3D center;
 
   private final double radius;
 
-  public Sphere(String id, Vector origin, double radius, Shaders shader, boolean throwsShadow) {
+  public Sphere(String id, Point3D center, double radius, Shaders shader, boolean throwsShadow) {
     super(id, shader, throwsShadow);
-    this.center = origin;
+    this.center = center;
     this.radius = radius;
   }
 
@@ -76,7 +78,7 @@ public class Sphere extends AbstractShape {
   @Override
   public double getIntersectDistance(Ray ray) {
     // Transform the origin of the ray into the object space of the sphere.
-    Vector oc = ray.getOrigin().sub(this.center);
+    Vector3D oc = ray.getOrigin().sub(this.center);
 
     final double a = ray.getDirection().dot(ray.getDirection());
     final double b = 2 * oc.dot(ray.getDirection());
@@ -96,11 +98,11 @@ public class Sphere extends AbstractShape {
   }
 
   @Override
-  public Vector getNormal(Vector surfacePoint) {
-    return new Vector(this.center, surfacePoint).unitVector();
+  public Normal3D getNormal(Point3D surfacePoint) {
+    return surfacePoint.sub(this.center).asNormal();
   }
 
-  public Vector getCenter() {
+  public Point3D getCenter() {
     return this.center;
   }
 
