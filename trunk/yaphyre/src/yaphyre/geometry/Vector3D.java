@@ -116,7 +116,7 @@ public class Vector3D {
   }
 
   public Vector3D transform(Matrix transformation) {
-    return transformation.mul(this);
+    throw new RuntimeException("Not implemented yet");
   }
 
   @Override
