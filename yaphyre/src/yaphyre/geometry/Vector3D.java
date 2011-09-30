@@ -115,8 +115,10 @@ public class Vector3D {
     return new Vector3D(cx, cy, cz);
   }
 
-  public Vector3D transform(Matrix transformation) {
-    throw new RuntimeException("Not implemented yet");
+  public Vector3D transform(Matrix mat) {
+    double[] homogenousVector = new double[] {this.x, this.y, this.z, 0};
+    double[] result = mat.mul(homogenousVector);
+    return new Vector3D(result[0], result[1], result[2]);
   }
 
   @Override
