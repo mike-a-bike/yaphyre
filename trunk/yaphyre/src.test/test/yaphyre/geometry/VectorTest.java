@@ -273,25 +273,25 @@ public class VectorTest {
     Vector3D expected;
 
     transform = TransformationMatrixBuilder.matrix().forTranslation(10, 0, 0).build();
-    expected = new Vector3D(20, 10, 10);
+    expected = new Vector3D(10, 10, 10);
     result = vector.transform(transform);
     System.out.println(vector + " * " + transform + " = " + result);
     assertEquals(expected, result);
 
     transform = TransformationMatrixBuilder.matrix().forTranslation(0, 10, 0).build();
-    expected = new Vector3D(10, 20, 10);
+    expected = new Vector3D(10, 10, 10);
     result = vector.transform(transform);
     System.out.println(vector + " * " + transform + " = " + result);
     assertEquals(expected, result);
 
     transform = TransformationMatrixBuilder.matrix().forTranslation(0, 0, 10).build();
-    expected = new Vector3D(10, 10, 20);
+    expected = new Vector3D(10, 10, 10);
     result = vector.transform(transform);
     System.out.println(vector + " * " + transform + " = " + result);
     assertEquals(expected, result);
 
     transform = TransformationMatrixBuilder.matrix().forTranslation(new Vector3D(10, 20, 30)).build();
-    expected = new Vector3D(20, 30, 40);
+    expected = new Vector3D(10, 10, 10);
     result = vector.transform(transform);
     System.out.println(vector + " * " + transform + " = " + result);
     assertEquals(expected, result);

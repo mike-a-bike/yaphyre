@@ -1,6 +1,7 @@
 package yaphyre.math;
 
 import static java.lang.Math.PI;
+import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
 
 public class MathUtils {
@@ -41,6 +42,15 @@ public class MathUtils {
 
   public static double toDeg(double rad) {
     return rad * RAD_TO_DEG;
+  }
+
+  public static boolean equalsWithTolerance(double v1, double v2, double tolerance) {
+    double diff = abs(v1 - v2);
+    return diff <= tolerance;
+  }
+
+  public static boolean equalsWithTolerance(double v1, double v2) {
+    return equalsWithTolerance(v1, v2, EPSILON);
   }
 
   public static double calcLength(double... values) {

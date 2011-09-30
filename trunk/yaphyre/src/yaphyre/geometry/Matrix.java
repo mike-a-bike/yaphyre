@@ -15,6 +15,8 @@
  */
 package yaphyre.geometry;
 
+import static yaphyre.math.MathUtils.equalsWithTolerance;
+
 import java.text.MessageFormat;
 import java.util.Arrays;
 
@@ -23,8 +25,6 @@ import org.apache.commons.math.linear.LUDecomposition;
 import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.MatrixUtils;
 import org.apache.commons.math.linear.RealMatrix;
-
-import yaphyre.math.MathUtils;
 
 /**
  * Rudimentary implementation of some essential matrix operations.
@@ -103,7 +103,7 @@ public class Matrix {
       }
       for (int col = 0; col < DIMENSION; col++) {
         // compare with tolerance of 1e-10...
-        if (Math.abs(this.m[row][col] - other.m[row][col]) >= MathUtils.EPSILON) {
+        if (!equalsWithTolerance(this.m[row][col], other.m[row][col])) {
           return false;
         }
       }
@@ -137,6 +137,12 @@ public class Matrix {
     RealMatrix rmOther = MatrixUtils.createRealMatrix(M.m);
     RealMatrix rmResult = rmThis.multiply(rmOther);
     return new Matrix(rmResult.getData());
+  }
+
+  double[] mul(double[] vect) {
+    RealMatrix columnMatrix = MatrixUtils.createColumnRealMatrix(vect);
+    RealMatrix rm = MatrixUtils.createRealMatrix(this.m);
+    return rm.multiply(columnMatrix).getColumn(0);
   }
 
   public Matrix transpose() {
