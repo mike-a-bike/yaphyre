@@ -54,12 +54,18 @@ public class Camera {
   public double maxX;
 
   public double stepX;
+  
+  private double stepX_half;
 
   public double minY;
 
   public double maxY;
 
   public double stepY;
+  
+  private double stepY_half;
+  
+  public int oversampling;
 
   public short[] depthChannel;
 
@@ -79,8 +85,8 @@ public class Camera {
   }
 
   public Ray createEyeRay(int x, int y) {
-    double yCoordinate = this.minY + y * this.stepY;
-    double xCoordinate = this.minX + x * this.stepX;
+    double yCoordinate = this.minY + y * this.stepY + this.stepX_half;
+    double xCoordinate = this.minX + x * this.stepX + this.stepY_half;
     return new Ray(new Point3D(xCoordinate, yCoordinate, this.position.getZ()), this.direction);
   }
 

@@ -62,7 +62,7 @@ public class RayTracer {
 
   public BufferedImage render(int imageWidth, int imageHeight, double frameWidth, double frameHeight, Point3D cameraPosition, Vector3D cameraDirection) {
 
-    this.camera = setupCamera(imageWidth, imageHeight, frameWidth, frameHeight, cameraPosition, cameraDirection);
+    this.camera = setupCamera(imageWidth, imageHeight, frameWidth, frameHeight, cameraPosition, cameraDirection, 4);
 
     long renderStart = System.nanoTime();
     LOGGER.info("Start rendering");
@@ -156,7 +156,7 @@ public class RayTracer {
     return reflectedColor;
   }
 
-  private Camera setupCamera(int width, int height, double frameWidth, double frameHeight, Point3D cameraPosition, Vector3D cameraDirection) {
+  private Camera setupCamera(int width, int height, double frameWidth, double frameHeight, Point3D cameraPosition, Vector3D cameraDirection, int oversampling) {
 
     int imageArraySize = width * height;
     Camera camera = new Camera();
@@ -170,6 +170,7 @@ public class RayTracer {
     camera.maxY = camera.minY + frameHeight;
     camera.stepX = frameWidth / (width);
     camera.stepY = frameHeight / (height);
+    camera.oversampling = oversampling;
     camera.depthChannel = new short[imageArraySize];
     camera.colorChannel = new double[imageArraySize][4];
 
