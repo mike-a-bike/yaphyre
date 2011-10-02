@@ -43,7 +43,7 @@ public class TransformationMatrixBuilder {
   }
 
   public TransformationMatrixBuilder forTranslation(double dx, double dy, double dz) {
-    this.transformationQueue.offer(new Matrix(new double[][] { {1, 0, 0, dx}, {0, 1, 0, dy}, {0, 0, 1, dz}, {0, 0, 0, 1}}));
+    this.transformationQueue.offer(new Matrix(new double[][] { { 1, 0, 0, dx }, { 0, 1, 0, dy }, { 0, 0, 1, dz }, { 0, 0, 0, 1 } }));
     return this;
   }
 
@@ -54,22 +54,22 @@ public class TransformationMatrixBuilder {
   public TransformationMatrixBuilder forRotation(double ax, double ay, double az) {
     if (ax != 0) {
       double axRad = toRad(ax);
-      this.transformationQueue.offer(new Matrix(new double[][] { {1, 0, 0, 0}, {0, cos(axRad), -sin(axRad), 0}, {0, sin(axRad), cos(axRad), 0}, {0, 0, 0, 1}}));
+      this.transformationQueue.offer(new Matrix(new double[][] { { 1, 0, 0, 0 }, { 0, cos(axRad), -sin(axRad), 0 }, { 0, sin(axRad), cos(axRad), 0 }, { 0, 0, 0, 1 } }));
     }
     if (ay != 0) {
       double ayRad = toRad(ay);
-      this.transformationQueue.offer(new Matrix(new double[][] { {cos(ayRad), 0, sin(ayRad), 0}, {0, 1, 0, 0}, {-sin(ayRad), 0, cos(ayRad), 0}, {0, 0, 0, 1}}));
+      this.transformationQueue.offer(new Matrix(new double[][] { { cos(ayRad), 0, sin(ayRad), 0 }, { 0, 1, 0, 0 }, { -sin(ayRad), 0, cos(ayRad), 0 }, { 0, 0, 0, 1 } }));
     }
     if (az != 0) {
       double azRad = toRad(az);
-      this.transformationQueue.offer(new Matrix(new double[][] { {cos(azRad), -sin(azRad), 0, 0}, {sin(azRad), cos(azRad), 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}}));
+      this.transformationQueue.offer(new Matrix(new double[][] { { cos(azRad), -sin(azRad), 0, 0 }, { sin(azRad), cos(azRad), 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } }));
     }
     // Interpret each as rotation angle in degree
     return this;
   }
 
   public TransformationMatrixBuilder forScale(double sx, double sy, double sz) {
-    this.transformationQueue.offer(new Matrix(new double[][] { {sx, 0, 0, 0}, {0, sy, 0, 0}, {0, 0, sz, 0}, {0, 0, 0, 1}}));
+    this.transformationQueue.offer(new Matrix(new double[][] { { sx, 0, 0, 0 }, { 0, sy, 0, 0 }, { 0, 0, sz, 0 }, { 0, 0, 0, 1 } }));
     return this;
   }
 

@@ -27,9 +27,9 @@ public class Transformation {
 
   public static final Transformation IDENTITY = new Transformation(Matrix.IDENTITY);
 
-  private Matrix transformationMatrix;
+  private final Matrix transformationMatrix;
 
-  private Matrix transformationMatrixInverse;
+  private final Matrix transformationMatrixInverse;
 
   public Transformation() {
     this.transformationMatrix = Matrix.IDENTITY;
@@ -40,26 +40,18 @@ public class Transformation {
     this.transformationMatrix = matrix;
     this.transformationMatrixInverse = matrix.inverse();
   }
-
-  public void append(Matrix transformationMatrix) {
-    this.transformationMatrix = this.transformationMatrix.mul(transformationMatrix);
-    this.transformationMatrixInverse = this.transformationMatrix.inverse();
+  
+  public Transformation(Matrix matrix, Matrix inverse) {
+    this.transformationMatrix = matrix;
+    this.transformationMatrixInverse = inverse;
   }
-
-  public Vector3D transformPoint(Vector3D pointVector) {
-    throw new RuntimeException("Not implemented yet");
+  
+  public Matrix getTransformation() {
+    return this.transformationMatrix;
   }
-
-  public Vector3D transformDirection(Vector3D direction) {
-    throw new RuntimeException("Not implemented yet");
-  }
-
-  public Vector3D transformNormal(Vector3D normal) {
-    throw new RuntimeException("Not implemented yet");
-  }
-
-  public Ray transform(Ray ray) {
-    throw new RuntimeException("Not implemented yet");
+  
+  public Matrix getInverseTransformation() {
+    return this.transformationMatrixInverse;
   }
 
 }
