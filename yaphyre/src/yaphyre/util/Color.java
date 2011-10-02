@@ -38,6 +38,9 @@ public class Color {
   /** Represent the value of black. */
   public static final Color BLACK = new Color(0d, 0d, 0d);
 
+  /** White */
+  public static final Color WHITE = new Color(1d, 1d, 1d);
+
   private final double red;
 
   private final double green;
@@ -49,7 +52,7 @@ public class Color {
   }
 
   public static int toByteValue(double doubleValue) {
-    return (int)(doubleValue * 255d);
+    return (int) (doubleValue * 255d);
   }
 
   public Color(java.awt.Color awtColor) throws NullPointerException {
@@ -81,7 +84,7 @@ public class Color {
       return true;
     }
     if (obj instanceof Color) {
-      Color color = (Color)obj;
+      Color color = (Color) obj;
       return color.red == this.red && color.green == this.green && color.blue == this.blue;
     }
     return false;
@@ -179,6 +182,18 @@ public class Color {
 
   private static double clipValue(double value) {
     return max(0d, min(1d, value));
+  }
+
+  /**
+   * Creates a new color instance with each component raised to the power of
+   * <code>pow</code>. This can be used for gamma correction.
+   * 
+   * @param pow
+   *          The power to which each component is raised.
+   * @return A new {@link Color} with the scaled values.
+   */
+  public Color powc(double pow) {
+    return new Color(Math.pow(this.red, pow), Math.pow(this.green, pow), Math.pow(this.blue, pow));
   }
 
 }
