@@ -65,7 +65,7 @@ public abstract class AbstractLightsource extends IdentifiableObject implements 
   protected CollisionInformations calculateVisibility(Point3D lightPoint, Point3D surfacePoint, Scene scene) {
     RenderStatistics.incShadowRays();
     Vector3D lightVector = new Vector3D(lightPoint, surfacePoint);
-    Vector3D lightDirection = lightVector.unitVector();
+    Vector3D lightDirection = lightVector.normalize();
     Ray lightRay = new Ray(lightPoint, lightDirection);
     double maxCollisionDistance = lightVector.length();
     return scene.getCollidingShape(lightRay, maxCollisionDistance - MathUtils.EPSILON, true);

@@ -23,10 +23,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import yaphyre.geometry.Normal3D;
+import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Vector3D;
 import yaphyre.lights.Lightsources;
+import yaphyre.samplers.RegularSampler;
+import yaphyre.samplers.Samplers;
 import yaphyre.shapes.Shapes;
 import yaphyre.util.Color;
 import yaphyre.util.RenderStatistics;
@@ -62,7 +65,9 @@ public class RayTracer {
 
   public BufferedImage render(int imageWidth, int imageHeight, double frameWidth, double frameHeight, Point3D cameraPosition, Vector3D cameraDirection) {
 
-    this.camera = setupCamera(imageWidth, imageHeight, frameWidth, frameHeight, cameraPosition, cameraDirection, 4);
+    this.camera = setupCamera(imageWidth, imageHeight, frameWidth, frameHeight, cameraPosition, cameraDirection);
+
+    Samplers sampler = new RegularSampler(16);
 
     long renderStart = System.nanoTime();
     LOGGER.info("Start rendering");
@@ -70,11 +75,16 @@ public class RayTracer {
 
     for (int y = 0; y < imageHeight; y++) {
       for (int x = 0; x < imageWidth; x++) {
+        Point2D basePoint = new Point2D(x, y);
 
-        Ray eyeRay = this.camera.createEyeRay(x, y);
-        RenderStatistics.incEyeRays();
+        Color color = Color.BLACK;
 
-        Color color = traceRay(eyeRay, 1);
+        for (Point2D samplePoint : sampler) {
+          Ray eyeRay = this.camera.createEyeRay(basePoint.add(samplePoint));
+          RenderStatistics.incEyeRays();
+          color = color.add(traceRay(eyeRay, 1));
+        }
+        color = color.multiply(1d / sampler.getSampleCount());
 
         this.camera.setColor(x, y, color.clip());
       }
@@ -125,7 +135,7 @@ public class RayTracer {
     Color lightColor = Color.BLACK;
     for (Lightsources lightsource : this.scene.getLightsources()) {
 
-      Vector3D lightVectorDirection = new Vector3D(shapeCollisionInfo.getCollisionPoint(), lightsource.getPosition()).unitVector();
+      Vector3D lightVectorDirection = new Vector3D(shapeCollisionInfo.getCollisionPoint(), lightsource.getPosition()).normalize();
 
       double lightIntensity = lightsource.getIntensity(shapeCollisionInfo.getCollisionPoint(), this.scene);
 
@@ -147,7 +157,7 @@ public class RayTracer {
     if (reflectionValue > 0d) {
       // reflected = eye - 2 * (eye . normal) * normal
       Normal3D normal = shapeCollisionInfo.getCollisionShape().getNormal(shapeCollisionInfo.getCollisionPoint());
-      Vector3D reflectedRayDirection = ray.getDirection().sub(normal.scale(2d * ray.getDirection().dot(normal))).unitVector();
+      Vector3D reflectedRayDirection = ray.getDirection().sub(normal.scale(2d * ray.getDirection().dot(normal))).normalize();
       Point3D reflectedRayStartPoint = shapeCollisionInfo.getCollisionPoint().add(reflectedRayDirection.scale(EPSILON));
       Ray reflectedRay = new Ray(reflectedRayStartPoint, reflectedRayDirection);
       RenderStatistics.incSecondaryRays();
@@ -156,12 +166,12 @@ public class RayTracer {
     return reflectedColor;
   }
 
-  private Camera setupCamera(int width, int height, double frameWidth, double frameHeight, Point3D cameraPosition, Vector3D cameraDirection, int oversampling) {
+  private Camera setupCamera(int width, int height, double frameWidth, double frameHeight, Point3D cameraPosition, Vector3D cameraDirection) {
 
     int imageArraySize = width * height;
     Camera camera = new Camera();
     camera.position = cameraPosition;
-    camera.direction = cameraDirection.unitVector();
+    camera.direction = cameraDirection.normalize();
     camera.width = width;
     camera.height = height;
     camera.minX = cameraPosition.getX() - frameWidth / 2;
@@ -170,7 +180,6 @@ public class RayTracer {
     camera.maxY = camera.minY + frameHeight;
     camera.stepX = frameWidth / (width);
     camera.stepY = frameHeight / (height);
-    camera.oversampling = oversampling;
     camera.depthChannel = new short[imageArraySize];
     camera.colorChannel = new double[imageArraySize][4];
 

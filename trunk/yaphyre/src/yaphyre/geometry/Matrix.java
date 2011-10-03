@@ -15,6 +15,7 @@
  */
 package yaphyre.geometry;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static yaphyre.math.MathUtils.equalsWithTolerance;
 
 import java.text.MessageFormat;
@@ -52,13 +53,18 @@ public class Matrix {
 
   private Matrix transposed = null;
 
-  final double[][] m;
+  protected final double[][] m;
 
   public Matrix(double[][] values) {
+    checkArgument(DIMENSION == values.length);
+    for (double[] row : values) {
+      checkArgument(DIMENSION == row.length);
+    }
     this.m = values;
   }
 
   public Matrix(double... values) {
+    checkArgument(DIMENSION * DIMENSION == values.length);
     this.m = new double[DIMENSION][DIMENSION];
     for (int row = 0; row < DIMENSION; row++) {
       System.arraycopy(values, row * DIMENSION, this.m[row], 0, DIMENSION);
