@@ -12,7 +12,7 @@ import org.junit.Test;
 import yaphyre.geometry.Matrix;
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point3D;
-import yaphyre.geometry.TransformationMatrixBuilder;
+import yaphyre.geometry.TransformationBuilder;
 import yaphyre.geometry.Vector3D;
 
 public class VectorTest {
@@ -274,25 +274,19 @@ public class VectorTest {
     Vector3D result;
     Vector3D expected;
 
-    transform = TransformationMatrixBuilder.matrix().forTranslation(10, 0, 0).build();
+    transform = TransformationBuilder.translate(10, 0, 0).getTransformation();
     expected = new Vector3D(10, 10, 10);
     result = vector.transform(transform);
     System.out.println(vector + " * " + transform + " = " + result);
     assertEquals(expected, result);
 
-    transform = TransformationMatrixBuilder.matrix().forTranslation(0, 10, 0).build();
+    transform = TransformationBuilder.translate(0, 10, 0).getTransformation();
     expected = new Vector3D(10, 10, 10);
     result = vector.transform(transform);
     System.out.println(vector + " * " + transform + " = " + result);
     assertEquals(expected, result);
 
-    transform = TransformationMatrixBuilder.matrix().forTranslation(0, 0, 10).build();
-    expected = new Vector3D(10, 10, 10);
-    result = vector.transform(transform);
-    System.out.println(vector + " * " + transform + " = " + result);
-    assertEquals(expected, result);
-
-    transform = TransformationMatrixBuilder.matrix().forTranslation(new Vector3D(10, 20, 30)).build();
+    transform = TransformationBuilder.translate(0, 0, 10).getTransformation();
     expected = new Vector3D(10, 10, 10);
     result = vector.transform(transform);
     System.out.println(vector + " * " + transform + " = " + result);
