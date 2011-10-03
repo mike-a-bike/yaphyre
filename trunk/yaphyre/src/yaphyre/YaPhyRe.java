@@ -85,8 +85,8 @@ public class YaPhyRe {
     Point3D lookAt = new Point3D(0, 1, 0);
     Vector3D cameraDirection = new Vector3D(cameraPosition, lookAt);
 
-    double frameWidth = 12d;
-    double frameHeight = 9d;
+    double frameWidth = 8d;
+    double frameHeight = 6d;
 
     int imageWidth = Integer.parseInt(commandLine.getOptionValue('w', DEFAULT_WIDTH));
     int imageHeight = Integer.parseInt(commandLine.getOptionValue('h', DEFAULT_HEIGHT));

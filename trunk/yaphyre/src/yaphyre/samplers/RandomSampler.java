@@ -1,3 +1,18 @@
+/*
+ * Copyright 2011 Michael Bieri
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
 package yaphyre.samplers;
 
 import java.util.ArrayList;
@@ -7,6 +22,15 @@ import java.util.Random;
 
 import yaphyre.geometry.Point2D;
 
+/**
+ * A pure random sampler. Each time the sampler is called, some new samples are
+ * created. This prevents the re-use of the same samplers over and over again.
+ * 
+ * @version $Revision: 46 $
+ * 
+ * @author Michael Bieri
+ * @author $LastChangedBy: mike0041@gmail.com $
+ */
 public class RandomSampler extends AbstractSampler {
 
   private static final Random random = new Random(new Date().getTime());

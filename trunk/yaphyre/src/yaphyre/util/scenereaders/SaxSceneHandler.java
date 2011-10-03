@@ -29,7 +29,6 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Transformation;
-import yaphyre.geometry.TransformationMatrixBuilder;
 import yaphyre.lights.Lightsources;
 import yaphyre.raytracer.Scene;
 import yaphyre.shaders.Material;
@@ -179,30 +178,35 @@ class SaxSceneHandler extends DefaultHandler {
     String elementType = qName.toLowerCase();
 
     if (elementType.equals("transform")) {
-      Deque<SceneElement> transformationStack = new LinkedList<SceneElement>();
+      // rethink this section...
 
-      while (true) {
-        SceneElement element = (SceneElement)this.elementStack.pop();
-        if (element.getType().equals("transform")) {
-          break;
-        }
-        transformationStack.push(element);
-      }
-
-      TransformationMatrixBuilder builder = TransformationMatrixBuilder.matrix();
-      while (!transformationStack.isEmpty()) {
-        SceneElement element = transformationStack.pop();
-        double[] values = (double[])element.getAttribute(GENERIC_VALUES_NAME);
-        if (element.getType().equals("translate")) {
-          builder.forTranslation(values[X_INDEX], values[Y_INDEX], values[Z_INDEX]);
-        } else if (element.getType().equals("scale")) {
-          builder.forScale(values[X_INDEX], values[Y_INDEX], values[Z_INDEX]);
-        } else if (element.getType().equals("rotate")) {
-          builder.forRotation(values[X_INDEX], values[Y_INDEX], values[Z_INDEX]);
-        }
-      }
-
-      this.elementStack.push(new Transformation(builder.build()));
+      // Deque<SceneElement> transformationStack = new
+      // LinkedList<SceneElement>();
+      //
+      // while (true) {
+      // SceneElement element = (SceneElement)this.elementStack.pop();
+      // if (element.getType().equals("transform")) {
+      // break;
+      // }
+      // transformationStack.push(element);
+      // }
+      //
+      // TransformationMatrixBuilder builder =
+      // TransformationMatrixBuilder.matrix();
+      // while (!transformationStack.isEmpty()) {
+      // SceneElement element = transformationStack.pop();
+      // double[] values = (double[])element.getAttribute(GENERIC_VALUES_NAME);
+      // if (element.getType().equals("translate")) {
+      // builder.forTranslation(values[X_INDEX], values[Y_INDEX],
+      // values[Z_INDEX]);
+      // } else if (element.getType().equals("scale")) {
+      // builder.forScale(values[X_INDEX], values[Y_INDEX], values[Z_INDEX]);
+      // } else if (element.getType().equals("rotate")) {
+      // builder.forRotation(values[X_INDEX], values[Y_INDEX], values[Z_INDEX]);
+      // }
+      // }
+      //
+      // this.elementStack.push(new Transformation(builder.build()));
     }
 
     else if (elementType.equals("shader")) {
