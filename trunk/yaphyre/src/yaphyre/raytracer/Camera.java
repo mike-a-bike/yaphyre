@@ -66,11 +66,16 @@ public class Camera {
 
   private double stepY_half;
 
+  public double gamma = 1;
+
   public short[] depthChannel;
 
   public double[][] colorChannel;
 
   public void setColor(int x, int y, Color color) {
+    if (this.gamma != 1d) {
+      color = color.powc(1 / this.gamma);
+    }
     int pixelIndex = y * this.width + x;
     this.colorChannel[pixelIndex][RED] = color.getRed();
     this.colorChannel[pixelIndex][GREEN] = color.getGreen();
@@ -84,13 +89,13 @@ public class Camera {
   }
 
   /**
-   * Create an 'eye' ray starting at the given coordinate. This coordinate lies
-   * on a unit square which is mapped then to the effective camera coordinates.
-   * The allowed coordinates lie within {x <sub>in</sub> R | x: [0, 1]}.
+   * Create an 'eye' ray starting at the given coordinate.
+   * 
+   * TODO transform the ray from the camera space into the world space.
    * 
    * @param point
-   *          A {@link Point2D} which lies in an unit square and denotes the
-   *          starting point of the ray.
+   *          A {@link Point2D} which defines a set of coordinates which define
+   *          a point within the view plane.
    * 
    * @return A new {@link Ray} instance with the transformed starting
    *         coordinates and the direction according to the cameras direction.

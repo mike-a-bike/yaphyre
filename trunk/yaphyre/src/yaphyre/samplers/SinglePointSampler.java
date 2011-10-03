@@ -16,6 +16,7 @@
 package yaphyre.samplers;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import yaphyre.geometry.Point2D;
@@ -31,6 +32,8 @@ import yaphyre.geometry.Point2D;
  */
 public class SinglePointSampler extends AbstractSampler {
 
+  private static final List<Point2D> sampleList = Collections.unmodifiableList(Arrays.asList(new Point2D(0.5, 0.5)));
+
   public SinglePointSampler() {
     super(1);
   }
@@ -41,7 +44,7 @@ public class SinglePointSampler extends AbstractSampler {
    */
   @Override
   protected List<Point2D> createSamples(int numberOfSamples) {
-    return Arrays.asList(new Point2D(0.5d, 0.5d));
+    return sampleList;
   }
 
 }
