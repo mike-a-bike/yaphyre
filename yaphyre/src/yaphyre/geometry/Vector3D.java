@@ -50,7 +50,7 @@ public class Vector3D {
   }
 
   public Normal3D asNormal() {
-    Vector3D unitVector = unitVector();
+    Vector3D unitVector = normalize();
     return new Normal3D(unitVector.x, unitVector.y, unitVector.z);
   }
 
@@ -86,7 +86,7 @@ public class Vector3D {
     return MathUtils.calculateLengthSquared(this.x, this.y, this.z);
   }
 
-  public Vector3D unitVector() throws ArithmeticException {
+  public Vector3D normalize() throws ArithmeticException {
     double length = length();
     if (length == 0d) {
       throw new ArithmeticException("Cannot create unit vector from zero length vector");

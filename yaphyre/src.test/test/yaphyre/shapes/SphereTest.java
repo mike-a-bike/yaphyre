@@ -53,7 +53,7 @@ public class SphereTest {
   public void testGetIntersectDistance() {
     Ray intersectingRay = new Ray(Point3D.ORIGIN, Normal3D.NORMAL_X.asVector());
     Ray nonIntersectingRay = new Ray(Point3D.ORIGIN, Normal3D.NORMAL_Y.asVector());
-    Ray crookedRay = new Ray(Point3D.ORIGIN, new Vector3D(1, 0.25, 0.25).unitVector());
+    Ray crookedRay = new Ray(Point3D.ORIGIN, new Vector3D(1, 0.25, 0.25).normalize());
     AbstractShape testSphere = createTestSphere();
 
     double distance;
@@ -75,7 +75,7 @@ public class SphereTest {
   public void testGetIntersectionPoint() {
     Ray intersectingRay = new Ray(Point3D.ORIGIN, Normal3D.NORMAL_X.asVector());
     Ray nonIntersectingRay = new Ray(Point3D.ORIGIN, Normal3D.NORMAL_Y.asVector());
-    Ray crookedRay = new Ray(Point3D.ORIGIN, new Vector3D(1, 0.25, 0.25).unitVector());
+    Ray crookedRay = new Ray(Point3D.ORIGIN, new Vector3D(1, 0.25, 0.25).normalize());
 
     AbstractShape testSphere = createTestSphere();
     AbstractShape unitSphere = createUnitSphere();

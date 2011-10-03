@@ -17,6 +17,8 @@ package yaphyre.geometry;
 
 import java.text.MessageFormat;
 
+import yaphyre.math.MathUtils;
+
 /**
  * Abstraction of a point in a 2 dimensional space. This uses u and v as
  * coordinates since its major usage will be the mapping of shader and texture
@@ -40,8 +42,60 @@ public class Point2D {
   }
 
   @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    long temp;
+    temp = Double.doubleToLongBits(this.u);
+    result = prime * result + (int)(temp ^ (temp >>> 32));
+    temp = Double.doubleToLongBits(this.v);
+    result = prime * result + (int)(temp ^ (temp >>> 32));
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (!(obj instanceof Point2D)) {
+      return false;
+    }
+    Point2D other = (Point2D)obj;
+    if (!MathUtils.equalsWithTolerance(this.u, other.u)) {
+      return false;
+    }
+    if (!MathUtils.equalsWithTolerance(this.v, other.v)) {
+      return false;
+    }
+    return true;
+  }
+
+  @Override
   public String toString() {
     return MessageFormat.format("<{0,number,0.000}, {1,number,0.000}>", this.u, this.v);
   }
 
+  public Point2D add(Point2D p) {
+    return new Point2D(this.u + p.u, this.v + p.v);
+  }
+
+  public Point2D mul(double s) {
+    return new Point2D(this.u * s, this.v * s);
+  }
+
+  public double dist(Point2D p) {
+    return MathUtils.calcLength(p.u - this.u, p.v - this.v);
+  }
+
+  public double getU() {
+    return this.u;
+  }
+
+  public double getV() {
+    return this.v;
+  }
 }

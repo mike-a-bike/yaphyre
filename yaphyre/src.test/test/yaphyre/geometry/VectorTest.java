@@ -5,6 +5,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.text.MessageFormat;
+
 import org.junit.Test;
 
 import yaphyre.geometry.Matrix;
@@ -133,34 +135,34 @@ public class VectorTest {
     Vector3D result;
 
     v = Normal3D.NORMAL_X.asVector();
-    result = v.unitVector();
+    result = v.normalize();
     System.out.println("Unit vector of " + v + " is: " + result);
     assertEquals(Normal3D.NORMAL_X.asVector(), result);
 
     v = new Vector3D(1d, 1d, 1d);
-    result = v.unitVector();
+    result = v.normalize();
     System.out.println("Unit vector of " + v + " is: " + result);
     assertEquals(1d, result.length(), 0);
 
     v = new Vector3D(100d, 100d, 100d);
-    result = v.unitVector();
+    result = v.normalize();
     System.out.println("Unit vector of " + v + " is: " + result);
     assertEquals(1d, result.length(), 0);
 
     v = new Vector3D(1d, 2d, 3d);
-    result = v.unitVector();
+    result = v.normalize();
     System.out.println("Unit vector of " + v + " is: " + result);
     assertEquals(1d, result.length(), 0);
 
     v = new Vector3D(12.323d, 88.831d, -45.1235d);
-    result = v.unitVector();
+    result = v.normalize();
     System.out.println("Unit vector of " + v + " is: " + result);
     assertEquals(1d, result.length(), 0);
   }
 
   @Test(expected = ArithmeticException.class)
   public void testUnitVectorZeroLength() {
-    Vector3D.NULL.unitVector();
+    Vector3D.NULL.normalize();
   }
 
   @Test
@@ -261,7 +263,7 @@ public class VectorTest {
     // The new vector should have a length of 2 * 10
     // and a direction along the z-axis
     assertEquals(20d, result.length(), 0);
-    assertEquals(Normal3D.NORMAL_Z.asVector(), result.unitVector());
+    assertEquals(Normal3D.NORMAL_Z.asVector(), result.normalize());
 
   }
 
@@ -305,6 +307,28 @@ public class VectorTest {
     stringRep = Vector3D.NULL.toString();
 
     assertEquals("<0.000, 0.000, 0.000>", stringRep);
+  }
+
+  @Test
+  public void testCreateCoordinateSystem() {
+    // the base vectors to start from (they do not have to be perpendicular to
+    // each other)
+    Vector3D up = new Vector3D(0, 1, 1);
+    Vector3D right = new Vector3D(1, 0, 1);
+
+    // up vector is preserved in the new coordinate system as y vector, the
+    // other axes are re-calculated.
+
+    // normalize up: y = |up|
+    Vector3D y = up.normalize();
+    // calculate the z direction: z = |right x y|
+    Vector3D z = right.cross(y).normalize();
+    // recalculate the x direction: x = |y x z|
+    Vector3D x = y.cross(z).normalize();
+
+    System.out.println(MessageFormat.format("New coordinate system from up={0} and right={1}", up, right));
+    System.out.println(MessageFormat.format("x={0}, y={1}, z={2}", x, y, z));
+
   }
 
 }

@@ -17,6 +17,7 @@ package yaphyre.raytracer;
 
 import java.awt.image.BufferedImage;
 
+import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Vector3D;
@@ -54,7 +55,7 @@ public class Camera {
   public double maxX;
 
   public double stepX;
-  
+
   private double stepX_half;
 
   public double minY;
@@ -62,10 +63,8 @@ public class Camera {
   public double maxY;
 
   public double stepY;
-  
+
   private double stepY_half;
-  
-  public int oversampling;
 
   public short[] depthChannel;
 
@@ -84,9 +83,21 @@ public class Camera {
     this.depthChannel[pixelIndex] = (short)depth;
   }
 
-  public Ray createEyeRay(int x, int y) {
-    double yCoordinate = this.minY + y * this.stepY + this.stepX_half;
-    double xCoordinate = this.minX + x * this.stepX + this.stepY_half;
+  /**
+   * Create an 'eye' ray starting at the given coordinate. This coordinate lies
+   * on a unit square which is mapped then to the effective camera coordinates.
+   * The allowed coordinates lie within {x <sub>in</sub> R | x: [0, 1]}.
+   * 
+   * @param point
+   *          A {@link Point2D} which lies in an unit square and denotes the
+   *          starting point of the ray.
+   * 
+   * @return A new {@link Ray} instance with the transformed starting
+   *         coordinates and the direction according to the cameras direction.
+   */
+  public Ray createEyeRay(Point2D point) {
+    double xCoordinate = this.minX + point.getU() * this.stepX;
+    double yCoordinate = this.minY + point.getV() * this.stepY;
     return new Ray(new Point3D(xCoordinate, yCoordinate, this.position.getZ()), this.direction);
   }
 
