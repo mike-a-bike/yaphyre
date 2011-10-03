@@ -68,6 +68,7 @@ public class RayTracer {
     this.camera = setupCamera(imageWidth, imageHeight, frameWidth, frameHeight, cameraPosition, cameraDirection);
 
     Samplers sampler = new RegularSampler(16);
+    // Samplers sampler = new SinglePointSampler();
 
     long renderStart = System.nanoTime();
     LOGGER.info("Start rendering");
@@ -78,7 +79,6 @@ public class RayTracer {
         Point2D basePoint = new Point2D(x, y);
 
         Color color = Color.BLACK;
-
         for (Point2D samplePoint : sampler) {
           Ray eyeRay = this.camera.createEyeRay(basePoint.add(samplePoint));
           RenderStatistics.incEyeRays();
