@@ -28,7 +28,7 @@ import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Vector3D;
 import yaphyre.lights.Lightsources;
-import yaphyre.samplers.RegularSampler;
+import yaphyre.samplers.JitteredSampler;
 import yaphyre.samplers.Samplers;
 import yaphyre.shapes.Shapes;
 import yaphyre.util.Color;
@@ -65,10 +65,12 @@ public class RayTracer {
 
   public BufferedImage render(int imageWidth, int imageHeight, double frameWidth, double frameHeight, Point3D cameraPosition, Vector3D cameraDirection) {
 
-    this.camera = setupCamera(imageWidth, imageHeight, frameWidth, frameHeight, cameraPosition, cameraDirection);
+    this.camera = this.setupCamera(imageWidth, imageHeight, frameWidth, frameHeight, cameraPosition, cameraDirection);
 
-    Samplers sampler = new RegularSampler(16);
+    // Samplers sampler = new RegularSampler(4);
+    // Samplers sampler = new RandomSampler(16);
     // Samplers sampler = new SinglePointSampler();
+    Samplers sampler = new JitteredSampler(16);
 
     long renderStart = System.nanoTime();
     LOGGER.info("Start rendering");
@@ -84,7 +86,7 @@ public class RayTracer {
           sampleCount++;
           Ray eyeRay = this.camera.createEyeRay(basePoint.add(samplePoint));
           RenderStatistics.incEyeRays();
-          color = color.add(traceRay(eyeRay, 1));
+          color = color.add(this.traceRay(eyeRay, 1));
         }
         color = color.multiply(1d / sampleCount);
 
@@ -92,7 +94,7 @@ public class RayTracer {
       }
     }
 
-    printRenderStatistics(renderStart);
+    this.printRenderStatistics(renderStart);
 
     return this.camera.createColorImage();
 
@@ -124,9 +126,9 @@ public class RayTracer {
 
       Color ambientColor = objectColor.multiply(shapeCollisionInfo.getCollisionShape().getShader().getMaterial(uvCoordinates).getAmbient());
 
-      Color lightColor = calculateLightColor(shapeCollisionInfo, uvCoordinates, objectColor);
+      Color lightColor = this.calculateLightColor(shapeCollisionInfo, uvCoordinates, objectColor);
 
-      Color reflectedColor = calculateReflectedColor(ray, iteration, shapeCollisionInfo, uvCoordinates);
+      Color reflectedColor = this.calculateReflectedColor(ray, iteration, shapeCollisionInfo, uvCoordinates);
 
       Color refractedColor = Color.BLACK;
 
@@ -166,7 +168,7 @@ public class RayTracer {
       Point3D reflectedRayStartPoint = shapeCollisionInfo.getCollisionPoint().add(reflectedRayDirection.scale(EPSILON));
       Ray reflectedRay = new Ray(reflectedRayStartPoint, reflectedRayDirection);
       RenderStatistics.incSecondaryRays();
-      reflectedColor = traceRay(reflectedRay, iteration).multiply(reflectionValue);
+      reflectedColor = this.traceRay(reflectedRay, iteration).multiply(reflectionValue);
     }
     return reflectedColor;
   }

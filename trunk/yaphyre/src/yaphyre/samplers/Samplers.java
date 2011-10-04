@@ -16,6 +16,7 @@
 package yaphyre.samplers;
 
 import yaphyre.geometry.Point2D;
+import yaphyre.geometry.Point3D;
 
 /**
  * This is the common interface for different sampling methods.
@@ -30,5 +31,11 @@ public interface Samplers {
   public void shuffle();
 
   public Iterable<Point2D> getUnitSquareSamples();
+
+  public Iterable<Point2D> getUnitCircleSamples();
+
+  public Iterable<Point3D> getHemisphereSamples();
+
+  public Iterable<Point3D> getSphereSamples();
 
 }

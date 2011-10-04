@@ -29,31 +29,37 @@ import yaphyre.util.IdentifiableObject;
  */
 public class CheckerShader extends IdentifiableObject implements Shaders {
 
-  private static final double U_REPETITION_INV = 1d / 1d;
-
-  private static final double V_REPETITION_INV = 1d / 1d;
-
   private final Shaders shader1, shader2;
 
-  public CheckerShader(String id, Shaders shader1, Shaders shader2) {
+  private final double uSize, vSize, uSizeInv, vSizeInv;
+
+  public CheckerShader(String id, Shaders shader1, Shaders shader2, double uSize, double vSize) {
     super(id);
     this.shader1 = shader1;
     this.shader2 = shader2;
+    this.uSize = uSize;
+    this.uSizeInv = 1d / this.uSize;
+    this.vSize = vSize;
+    this.vSizeInv = 1d / this.vSize;
   }
 
   @Override
   public Color getColor(Point2D uvCoordinate) {
-    return getShaderAtCoordinate(uvCoordinate).getColor(uvCoordinate);
+    return this.getShaderAtCoordinate(uvCoordinate).getColor(uvCoordinate);
   }
 
   @Override
   public Material getMaterial(Point2D uvCoordinate) {
-    return getShaderAtCoordinate(uvCoordinate).getMaterial(uvCoordinate);
+    return this.getShaderAtCoordinate(uvCoordinate).getMaterial(uvCoordinate);
   }
 
   private Shaders getShaderAtCoordinate(Point2D uvCoordinate) {
-    boolean xEven = ((int)uvCoordinate.getU() * U_REPETITION_INV) % 2 == 0;
-    boolean yEven = ((int)uvCoordinate.getV() * V_REPETITION_INV) % 2 == 0;
+    double u = uvCoordinate.getU();
+    double v = uvCoordinate.getV();
+    u = (u >= 0) ? u : u - this.uSize;
+    v = (v > +0) ? v : v - this.vSize;
+    boolean xEven = ((int) (u * this.uSizeInv)) % 2 == 0;
+    boolean yEven = ((int) (v * this.vSizeInv)) % 2 == 0;
 
     if (xEven == yEven) {
       return this.shader1;

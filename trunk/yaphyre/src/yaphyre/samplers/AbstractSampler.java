@@ -20,7 +20,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import yaphyre.geometry.Point2D;
+import yaphyre.geometry.Point3D;
 
 /**
  * An abstract implementation of the interface {@link Samplers}. This is used to
@@ -33,6 +37,8 @@ import yaphyre.geometry.Point2D;
  */
 public abstract class AbstractSampler implements Samplers {
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSampler.class);
+
   // random generator for choosing a set of samples.
   private static final Random random = new Random(System.nanoTime());
 
@@ -41,13 +47,13 @@ public abstract class AbstractSampler implements Samplers {
 
   private final List<List<Point2D>> sampleSets;
 
-  private int sampleCount;
-
   public AbstractSampler(int numberOfSamples) {
+    LOGGER.debug("Start creation of samples for {}", this.getClass().getSimpleName());
     this.sampleSets = new ArrayList<List<Point2D>>(NUMBER_OF_SAMPLE_SETS);
     for (int set = 0; set < NUMBER_OF_SAMPLE_SETS; set++) {
-      this.sampleSets.add(createSamples(numberOfSamples));
+      this.sampleSets.add(this.createSamples(numberOfSamples));
     }
+    LOGGER.debug("Sample creation finished");
   }
 
   @Override
@@ -57,8 +63,23 @@ public abstract class AbstractSampler implements Samplers {
 
   @Override
   public Iterable<Point2D> getUnitSquareSamples() {
-    int setIndex = (int)random.nextFloat() * NUMBER_OF_SAMPLE_SETS;
+    int setIndex = (int) random.nextFloat() * NUMBER_OF_SAMPLE_SETS;
     return this.sampleSets.get(setIndex);
+  }
+
+  @Override
+  public Iterable<Point2D> getUnitCircleSamples() {
+    throw new RuntimeException("Not implemented yet");
+  }
+
+  @Override
+  public Iterable<Point3D> getHemisphereSamples() {
+    throw new RuntimeException("Not implemented yet");
+  }
+
+  @Override
+  public Iterable<Point3D> getSphereSamples() {
+    throw new RuntimeException("Not implemented yet");
   }
 
   /**
