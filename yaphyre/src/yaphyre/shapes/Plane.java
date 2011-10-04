@@ -18,6 +18,7 @@ package yaphyre.shapes;
 import java.text.MessageFormat;
 
 import yaphyre.geometry.Normal3D;
+import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Vector3D;
@@ -119,6 +120,15 @@ public class Plane extends AbstractShape {
   @Override
   public Normal3D getNormal(Point3D surfacePoint) {
     return this.normal;
+  }
+
+  /**
+   * Maps the given point to the planes u/v coordinates
+   */
+  @Override
+  public Point2D getMappedSurfacePoint(Point3D surfacePoint) {
+    // TODO implement real mapping to the surface
+    return new Point2D(surfacePoint.getX(), surfacePoint.getZ());
   }
 
 }

@@ -18,6 +18,7 @@ package yaphyre.shapes;
 import java.text.MessageFormat;
 
 import yaphyre.geometry.Normal3D;
+import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Vector3D;
@@ -108,6 +109,15 @@ public class Sphere extends AbstractShape {
 
   public double getRadius() {
     return this.radius;
+  }
+
+  /**
+   * Map the given point onto the u/v coordinates of the sphere.
+   */
+  @Override
+  public Point2D getMappedSurfacePoint(Point3D surfacePoint) {
+    // TODO implement the real u/v mapping
+    return new Point2D(surfacePoint.getX(), surfacePoint.getY());
   }
 
 }

@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 import yaphyre.geometry.Normal3D;
+import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Vector3D;
@@ -188,14 +189,14 @@ public class SphereTest {
     private static final Color TEST_COLOR = new Color(java.awt.Color.BLACK);
 
     @Override
-    public Color getColor(double u, double v) {
+    public Color getColor(Point2D uvPoint) {
       return TEST_COLOR;
     }
 
     private static final Material TEST_MATERIAL = MaterialBuilder.init().ambient(0.1).diffuse(0.8).build();
 
     @Override
-    public Material getMaterial() {
+    public Material getMaterial(Point2D uvCoordinate) {
       return TEST_MATERIAL;
     }
   }

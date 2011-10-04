@@ -6,6 +6,7 @@ import yaphyre.lights.Falloff;
 import yaphyre.lights.Lightsources;
 import yaphyre.lights.Pointlight;
 import yaphyre.raytracer.Scene;
+import yaphyre.shaders.CheckerShader;
 import yaphyre.shaders.Material;
 import yaphyre.shaders.MaterialBuilder;
 import yaphyre.shaders.Shaders;
@@ -135,21 +136,23 @@ public class SceneReader {
     Material diffuseMaterial = MaterialBuilder.init().ambient(ambientLight).diffuse(0.8).build();
     Material mirrorMaterial = MaterialBuilder.init().ambient(ambientLight).diffuse(0.1).reflection(0.9).build();
 
+    Shaders blackDiffuse = new SimpleShader("black-diffuse", diffuseMaterial, Color.BLACK);
     Shaders whiteDiffuse = new SimpleShader("white-diffuse", diffuseMaterial, 1d, 1d, 1d);
     Shaders redDiffuse = new SimpleShader("red-diffuse", diffuseMaterial, 1d, 0d, 0d);
     Shaders whiteMirror = new SimpleShader("white-mirror", mirrorMaterial, 1d, 1d, 1d);
     Shaders redMirror = new SimpleShader("red-diffuse", mirrorMaterial, 1d, 0d, 0d);
 
+    Shaders checkBoardShader = new CheckerShader("checker", blackDiffuse, whiteMirror);
+
     Lightsources pointLight = new Pointlight("light", new Point3D(-2, 5, -2), new Color(1, 1, 1), 15, Falloff.Quadric);
 
-    Shapes plane = new Plane("plane", Point3D.ORIGIN, Normal3D.NORMAL_Y, whiteDiffuse, true);
+    Shapes plane = new Plane("plane", Point3D.ORIGIN, Normal3D.NORMAL_Y, checkBoardShader, true);
     Shapes sphere = new Sphere("sphere", new Point3D(0, 1.5, 0), 1, whiteMirror, true);
     Shapes distantSphere = new Sphere("distant-sphere", new Point3D(-2, 10, -5), 2, redDiffuse, true);
 
     Scene scene = new Scene();
 
     scene.addLightsource(pointLight);
-    // scene.addLightsource(areaLight);
 
     scene.addShape(plane);
     scene.addShape(sphere);

@@ -25,10 +25,10 @@ import yaphyre.geometry.Point2D;
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
-public interface Samplers extends Iterable<Point2D> {
+public interface Samplers {
 
-  public Point2D getSample(int sampleIndex);
+  public void shuffle();
 
-  public int getSampleCount();
+  public Iterable<Point2D> getUnitSquareSamples();
 
 }
