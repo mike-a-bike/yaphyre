@@ -1,5 +1,6 @@
 package yaphyre.shaders;
 
+import yaphyre.geometry.Point2D;
 import yaphyre.util.Color;
 import yaphyre.util.IdentifiableObject;
 
@@ -24,12 +25,12 @@ public class SimpleShader extends IdentifiableObject implements Shaders {
   }
 
   @Override
-  public Color getColor(double u, double v) {
+  public Color getColor(Point2D uvCoordinate) {
     return this.color;
   }
 
   @Override
-  public Material getMaterial() {
+  public Material getMaterial(Point2D uvCoordinate) {
     return this.material;
   }
 

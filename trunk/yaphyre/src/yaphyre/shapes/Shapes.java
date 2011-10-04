@@ -16,10 +16,10 @@
 package yaphyre.shapes;
 
 import yaphyre.geometry.Normal3D;
+import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.shaders.Shaders;
-import yaphyre.util.Color;
 import yaphyre.util.IdentifiableObjects;
 
 /**
@@ -42,7 +42,7 @@ public interface Shapes extends IdentifiableObjects {
 
   public Normal3D getNormal(Point3D surfacePoint);
 
-  public Color getColor(Point3D surfacePoint);
+  public Point2D getMappedSurfacePoint(Point3D surfacePoint);
 
   public boolean throwsShadow();
 

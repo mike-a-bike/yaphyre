@@ -18,7 +18,6 @@ package yaphyre.shapes;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.shaders.Shaders;
-import yaphyre.util.Color;
 import yaphyre.util.IdentifiableObject;
 
 /**
@@ -59,12 +58,6 @@ public abstract class AbstractShape extends IdentifiableObject implements Shapes
     }
 
     return ray.getPoint(intersectionDistance);
-  }
-
-  // TODO implement by subclasses
-  @Override
-  public Color getColor(Point3D surfacePoint) {
-    return this.shader.getColor(0, 0);
   }
 
 }

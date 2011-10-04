@@ -15,12 +15,12 @@
  */
 package yaphyre.samplers;
 
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import yaphyre.geometry.Point2D;
-
-import com.google.common.base.Preconditions;
 
 /**
  * An abstract implementation of the interface {@link Samplers}. This is used to
@@ -33,26 +33,32 @@ import com.google.common.base.Preconditions;
  */
 public abstract class AbstractSampler implements Samplers {
 
-  private final List<Point2D> samplePoints;
+  // random generator for choosing a set of samples.
+  private static final Random random = new Random(System.nanoTime());
+
+  // nice prime number...
+  private static final int NUMBER_OF_SAMPLE_SETS = 83;
+
+  private final List<List<Point2D>> sampleSets;
+
+  private int sampleCount;
 
   public AbstractSampler(int numberOfSamples) {
-    this.samplePoints = createSamples(numberOfSamples);
+    this.sampleSets = new ArrayList<List<Point2D>>(NUMBER_OF_SAMPLE_SETS);
+    for (int set = 0; set < NUMBER_OF_SAMPLE_SETS; set++) {
+      this.sampleSets.add(createSamples(numberOfSamples));
+    }
   }
 
   @Override
-  public int getSampleCount() {
-    return this.samplePoints.size();
+  public void shuffle() {
+    Collections.shuffle(this.sampleSets, random);
   }
 
   @Override
-  public Point2D getSample(int sampleIndex) {
-    Preconditions.checkElementIndex(sampleIndex, this.samplePoints.size());
-    return this.samplePoints.get(sampleIndex);
-  }
-
-  @Override
-  public Iterator<Point2D> iterator() {
-    return this.samplePoints.iterator();
+  public Iterable<Point2D> getUnitSquareSamples() {
+    int setIndex = (int)random.nextFloat() * NUMBER_OF_SAMPLE_SETS;
+    return this.sampleSets.get(setIndex);
   }
 
   /**
