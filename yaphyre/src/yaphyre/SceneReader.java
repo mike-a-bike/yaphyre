@@ -136,13 +136,13 @@ public class SceneReader {
     Material diffuseMaterial = MaterialBuilder.init().ambient(ambientLight).diffuse(0.8).build();
     Material mirrorMaterial = MaterialBuilder.init().ambient(ambientLight).diffuse(0.1).reflection(0.9).build();
 
-    Shaders blackDiffuse = new SimpleShader("black-diffuse", diffuseMaterial, Color.BLACK);
+    Shaders blackDiffuse = new SimpleShader("black-diffuse", diffuseMaterial, Color.WHITE);
     Shaders whiteDiffuse = new SimpleShader("white-diffuse", diffuseMaterial, 1d, 1d, 1d);
     Shaders redDiffuse = new SimpleShader("red-diffuse", diffuseMaterial, 1d, 0d, 0d);
     Shaders whiteMirror = new SimpleShader("white-mirror", mirrorMaterial, 1d, 1d, 1d);
     Shaders redMirror = new SimpleShader("red-diffuse", mirrorMaterial, 1d, 0d, 0d);
 
-    Shaders checkBoardShader = new CheckerShader("checker", blackDiffuse, whiteMirror);
+    Shaders checkBoardShader = new CheckerShader("checker", blackDiffuse, whiteMirror, 1d, 1d);
 
     Lightsources pointLight = new Pointlight("light", new Point3D(-2, 5, -2), new Color(1, 1, 1), 15, Falloff.Quadric);
 
