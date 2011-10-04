@@ -39,11 +39,11 @@ public abstract class AbstractSampler implements Samplers {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSampler.class);
 
-  // random generator for choosing a set of samples.
+  /** random generator for choosing a set of samples. */
   private static final Random random = new Random(System.nanoTime());
 
-  // nice prime number...
-  private static final int NUMBER_OF_SAMPLE_SETS = 83;
+  /** nice prime number... a very arbitrary chosen number */
+  private static final int NUMBER_OF_SAMPLE_SETS = 97;
 
   private final List<List<Point2D>> sampleSets;
 
