@@ -26,7 +26,7 @@ public class MaterialBuilder {
    * 
    * @return A new instance of {@link MaterialBuilder} ready to use.
    */
-  public static MaterialBuilder init() {
+  public static MaterialBuilder start() {
     return new MaterialBuilder();
   }
 

@@ -28,8 +28,8 @@ import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Vector3D;
 import yaphyre.lights.Lightsources;
-import yaphyre.samplers.JitteredSampler;
 import yaphyre.samplers.Samplers;
+import yaphyre.samplers.SinglePointSampler;
 import yaphyre.shapes.Shapes;
 import yaphyre.util.Color;
 import yaphyre.util.RenderStatistics;
@@ -55,6 +55,8 @@ public class RayTracer {
 
   private Camera camera;
 
+  private Samplers sampler;
+
   public void setScene(Scene scene) {
     this.scene = scene;
   }
@@ -63,18 +65,22 @@ public class RayTracer {
     return this.scene;
   }
 
+  public void setSampler(Samplers sampler) {
+    this.sampler = sampler;
+  }
+
   public BufferedImage render(int imageWidth, int imageHeight, double frameWidth, double frameHeight, Point3D cameraPosition, Vector3D cameraDirection) {
 
-    this.camera = this.setupCamera(imageWidth, imageHeight, frameWidth, frameHeight, cameraPosition, cameraDirection);
-
-    // Samplers sampler = new RegularSampler(4);
-    // Samplers sampler = new RandomSampler(16);
-    // Samplers sampler = new SinglePointSampler();
-    Samplers sampler = new JitteredSampler(16);
+    this.camera = setupCamera(imageWidth, imageHeight, frameWidth, frameHeight, cameraPosition, cameraDirection);
 
     long renderStart = System.nanoTime();
     LOGGER.info("Start rendering");
     LOGGER.info("{}", this.scene);
+
+    if (this.sampler == null) {
+      LOGGER.warn("No sampler set -> initializing default sampler: {}", SinglePointSampler.class.getSimpleName());
+      this.sampler = new SinglePointSampler();
+    }
 
     for (int y = 0; y < imageHeight; y++) {
       for (int x = 0; x < imageWidth; x++) {
@@ -82,11 +88,11 @@ public class RayTracer {
 
         Color color = Color.BLACK;
         int sampleCount = 0;
-        for (Point2D samplePoint : sampler.getUnitSquareSamples()) {
+        for (Point2D samplePoint : this.sampler.getUnitSquareSamples()) {
           sampleCount++;
           Ray eyeRay = this.camera.createEyeRay(basePoint.add(samplePoint));
           RenderStatistics.incEyeRays();
-          color = color.add(this.traceRay(eyeRay, 1));
+          color = color.add(traceRay(eyeRay, 1));
         }
         color = color.multiply(1d / sampleCount);
 
@@ -94,7 +100,7 @@ public class RayTracer {
       }
     }
 
-    this.printRenderStatistics(renderStart);
+    printRenderStatistics(renderStart);
 
     return this.camera.createColorImage();
 
@@ -126,9 +132,9 @@ public class RayTracer {
 
       Color ambientColor = objectColor.multiply(shapeCollisionInfo.getCollisionShape().getShader().getMaterial(uvCoordinates).getAmbient());
 
-      Color lightColor = this.calculateLightColor(shapeCollisionInfo, uvCoordinates, objectColor);
+      Color lightColor = calculateLightColor(shapeCollisionInfo, uvCoordinates, objectColor);
 
-      Color reflectedColor = this.calculateReflectedColor(ray, iteration, shapeCollisionInfo, uvCoordinates);
+      Color reflectedColor = calculateReflectedColor(ray, iteration, shapeCollisionInfo, uvCoordinates);
 
       Color refractedColor = Color.BLACK;
 
@@ -168,7 +174,7 @@ public class RayTracer {
       Point3D reflectedRayStartPoint = shapeCollisionInfo.getCollisionPoint().add(reflectedRayDirection.scale(EPSILON));
       Ray reflectedRay = new Ray(reflectedRayStartPoint, reflectedRayDirection);
       RenderStatistics.incSecondaryRays();
-      reflectedColor = this.traceRay(reflectedRay, iteration).multiply(reflectionValue);
+      reflectedColor = traceRay(reflectedRay, iteration).multiply(reflectionValue);
     }
     return reflectedColor;
   }

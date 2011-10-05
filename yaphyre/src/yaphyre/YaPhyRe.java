@@ -37,6 +37,11 @@ import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Vector3D;
 import yaphyre.raytracer.RayTracer;
 import yaphyre.raytracer.Scene;
+import yaphyre.samplers.JitteredSampler;
+import yaphyre.samplers.RandomSampler;
+import yaphyre.samplers.RegularSampler;
+import yaphyre.samplers.Samplers;
+import yaphyre.samplers.SinglePointSampler;
 
 /**
  * The main class starting the application. This class parses the command line,
@@ -58,6 +63,8 @@ public class YaPhyRe {
   private static final String DEFAULT_OUTPUT_FILE = "color.png";
 
   private static final String DEFAULT_FILE_FORMAT = "PNG";
+
+  private static final int DEFAULT_SAMPLE_NUMBER = 4;
 
   private static Options commandLineOptions = null;
 
@@ -85,26 +92,24 @@ public class YaPhyRe {
     Point3D lookAt = new Point3D(0, 1, 0);
     Vector3D cameraDirection = new Vector3D(cameraPosition, lookAt);
 
-    double frameWidth = 8d;
-    double frameHeight = 6d;
+    double frameWidth = 6d;
+    double frameHeight = 4.5d;
 
     int imageWidth = Integer.parseInt(commandLine.getOptionValue('w', DEFAULT_WIDTH));
     int imageHeight = Integer.parseInt(commandLine.getOptionValue('h', DEFAULT_HEIGHT));
 
     LOGGER.debug("Read scene");
-    Scene scene = SceneReader.createSimpleScene();
-    // SceneReaders<File> xmlFileReader = new XMLFileSceneReader();
-    // File sceneFile = new File(commandLine.getOptionValue('s'));
-    // Scene scene = xmlFileReader.readScene(sceneFile);
-    // if (scene == null) {
-    // LOGGER.error("Could not read scene from: {}", sceneFile.getPath());
-    // return;
-    // }
+    Scene scene = readScene(commandLine);
 
+    LOGGER.debug("Initialize sampler");
+    Samplers sampler = parseSampler(commandLine);
+
+    LOGGER.debug("Initializing RayTracer");
     RayTracer rayTracer = new RayTracer();
     rayTracer.setScene(scene);
+    rayTracer.setSampler(sampler);
 
-    LOGGER.debug("Render image");
+    LOGGER.info("Render image");
     BufferedImage renderedImage = rayTracer.render(imageWidth, imageHeight, frameWidth, frameHeight, cameraPosition, cameraDirection);
 
     LOGGER.debug("Write image file");
@@ -129,6 +134,39 @@ public class YaPhyRe {
 
   }
 
+  private static Scene readScene(CommandLine commandLine) {
+    Scene scene = SceneReader.createSimpleScene();
+    // Scene scene = SceneReader.createSceneWithSpheres();
+    // SceneReaders<File> xmlFileReader = new XMLFileSceneReader();
+    // File sceneFile = new File(commandLine.getOptionValue('s'));
+    // Scene scene = xmlFileReader.readScene(sceneFile);
+    // if (scene == null) {
+    // LOGGER.error("Could not read scene from: {}", sceneFile.getPath());
+    // return;
+    // }
+    return scene;
+  }
+
+  private static Samplers parseSampler(CommandLine commandLine) {
+    String[] samplerSettings = commandLine.getOptionValues('a');
+    Samplers sampler = null;
+    int sampleCount = DEFAULT_SAMPLE_NUMBER;
+    if (samplerSettings.length == 2) {
+      sampleCount = Integer.parseInt(samplerSettings[1]);
+    }
+    LOGGER.debug("Sampler settings: {} {}", samplerSettings[0], sampleCount);
+    if (samplerSettings[0].equalsIgnoreCase("single")) {
+      sampler = new SinglePointSampler();
+    } else if (samplerSettings[0].equalsIgnoreCase("regular")) {
+      sampler = new RegularSampler(sampleCount);
+    } else if (samplerSettings[0].equalsIgnoreCase("random")) {
+      sampler = new RandomSampler(sampleCount);
+    } else if (samplerSettings[0].equalsIgnoreCase("jittered")) {
+      sampler = new JitteredSampler(sampleCount);
+    }
+    return sampler;
+  }
+
   private static void printHelp() {
     HelpFormatter formatter = new HelpFormatter();
     formatter.setWidth(999);
@@ -144,6 +182,7 @@ public class YaPhyRe {
     commandLineOptions.addOption(OptionBuilder.withArgName("format").hasArg().withLongOpt("format").withDescription("Format of the output image file").create('f'));
     commandLineOptions.addOption(OptionBuilder.withArgName("pixel").hasArg().withLongOpt("width").withDescription("Width of the rendered image").create('w'));
     commandLineOptions.addOption(OptionBuilder.withArgName("pixel").hasArg().withLongOpt("height").withDescription("Height of the rendered image").create('h'));
+    commandLineOptions.addOption(OptionBuilder.withArgName("strategy [samples]").hasArgs(2).withLongOpt("sampling").isRequired().withDescription("Type and number of samples for anti aliasing").create('a'));
     commandLineOptions.addOption(OptionBuilder.withLongOpt("show").withDescription("Shows the created image when finished").create());
     commandLineOptions.addOption(OptionBuilder.withLongOpt("help").withDescription("Shows this help").create());
     return parser.parse(commandLineOptions, args);
