@@ -34,8 +34,8 @@ public class SceneReader {
     Color blue = new Color(0, 0, 1);
 
     // materials
-    Material diffuseMaterial = MaterialBuilder.init().ambient(1).diffuse(0.8d).build();
-    Material mirrorMaterial = MaterialBuilder.init().ambient(1).diffuse(0.1d).reflection(0.9d).build();
+    Material diffuseMaterial = MaterialBuilder.start().ambient(1).diffuse(0.8d).build();
+    Material mirrorMaterial = MaterialBuilder.start().ambient(1).diffuse(0.1d).reflection(0.9d).build();
 
     // shaders
     Shaders whiteDiffuse = new SimpleShader("white-diff", diffuseMaterial, white);
@@ -101,8 +101,8 @@ public class SceneReader {
     Color pointlight3Color = new Color(java.awt.Color.BLUE);
     Falloff pointlight3falloff = Falloff.Quadric;
 
-    Material diffuseMaterial = MaterialBuilder.init().ambient(ambientLight).diffuse(0.8).build();
-    Material mirrorMaterial = MaterialBuilder.init().ambient(ambientLight).diffuse(0.2).specular(0.2).reflection(0.6).build();
+    Material diffuseMaterial = MaterialBuilder.start().ambient(ambientLight).diffuse(0.8).build();
+    Material mirrorMaterial = MaterialBuilder.start().ambient(ambientLight / 2d).diffuse(0.1d).reflection(0.9).build();
 
     SimpleShader redShader = new SimpleShader("shader-red", diffuseMaterial, new Color(1d, 0d, 0d));
     SimpleShader greenShader = new SimpleShader("shader-green", diffuseMaterial, new Color(0d, 1d, 0d));
@@ -133,16 +133,18 @@ public class SceneReader {
 
     double ambientLight = 0.075d;
 
-    Material diffuseMaterial = MaterialBuilder.init().ambient(ambientLight).diffuse(0.8).build();
-    Material mirrorMaterial = MaterialBuilder.init().ambient(ambientLight).diffuse(0.1).reflection(0.9).build();
+    Material diffuseMaterial = MaterialBuilder.start().ambient(ambientLight).diffuse(0.8).build();
+    Material mirrorMaterial = MaterialBuilder.start().ambient(ambientLight / 2d).diffuse(0.1d).reflection(0.9).build();
 
-    Shaders blackDiffuse = new SimpleShader("black-diffuse", diffuseMaterial, Color.WHITE);
     Shaders whiteDiffuse = new SimpleShader("white-diffuse", diffuseMaterial, 1d, 1d, 1d);
     Shaders redDiffuse = new SimpleShader("red-diffuse", diffuseMaterial, 1d, 0d, 0d);
+    Shaders greenDiffuse = new SimpleShader("green-diffuse", diffuseMaterial, 0d, 1d, 0d);
+    Shaders blueDiffuse = new SimpleShader("blue-diffuse", diffuseMaterial, 0d, 0d, 1d);
     Shaders whiteMirror = new SimpleShader("white-mirror", mirrorMaterial, 1d, 1d, 1d);
     Shaders redMirror = new SimpleShader("red-diffuse", mirrorMaterial, 1d, 0d, 0d);
 
-    Shaders checkBoardShader = new CheckerShader("checker", blackDiffuse, whiteMirror, 1d, 1d);
+    Shaders smallCheckerShader = new CheckerShader("small-checker", greenDiffuse, blueDiffuse, 0.25d, 0.25d);
+    Shaders checkBoardShader = new CheckerShader("checker", smallCheckerShader, whiteMirror, 1d, 1d);
 
     Lightsources pointLight = new Pointlight("light", new Point3D(-2, 5, -2), new Color(1, 1, 1), 15, Falloff.Quadric);
 
@@ -170,7 +172,7 @@ public class SceneReader {
   public static final Scene createFirstLight() {
     double ambientLight = 0.075d;
 
-    Material diffuseMaterial = MaterialBuilder.init().ambient(ambientLight).diffuse(0.8d).build();
+    Material diffuseMaterial = MaterialBuilder.start().ambient(ambientLight).diffuse(0.8d).build();
 
     Shaders diffuseWhite = new SimpleShader("shader", diffuseMaterial, 1, 1, 1);
 
