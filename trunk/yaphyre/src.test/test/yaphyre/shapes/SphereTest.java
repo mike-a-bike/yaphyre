@@ -193,7 +193,7 @@ public class SphereTest {
       return TEST_COLOR;
     }
 
-    private static final Material TEST_MATERIAL = MaterialBuilder.init().ambient(0.1).diffuse(0.8).build();
+    private static final Material TEST_MATERIAL = MaterialBuilder.start().ambient(0.1).diffuse(0.8).build();
 
     @Override
     public Material getMaterial(Point2D uvCoordinate) {
