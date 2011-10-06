@@ -39,6 +39,20 @@ public class Transformation {
 
   private final Matrix matrixInv;
 
+  /**
+   * Factory method for creating a {@link Transformation} for the given
+   * translation.
+   * 
+   * @param x
+   *          The x component of the translation
+   * @param y
+   *          The y component of the translation
+   * @param z
+   *          The z component of the translation
+   * 
+   * @return A {@link Transformation} with the translation matrix and its
+   *         inverse.
+   */
   public static Transformation translate(double x, double y, double z) {
     Matrix trans = new Matrix(new double[][] { {1, 0, 0, x},
                                                {0, 1, 0, y},
@@ -51,6 +65,19 @@ public class Transformation {
     return new Transformation(trans, transInv);
   }
 
+  /**
+   * Factory method for creating a scaling {@link Transformation}. The scaling
+   * factors for each direction can be different.
+   * 
+   * @param sx
+   *          The amount of scaling along the x axis.
+   * @param sy
+   *          The amount of scaling along the y axis.
+   * @param sz
+   *          The amount of scaling along the z axis.
+   * 
+   * @return A {@link Transformation} with the scaling matrix and its inverse.
+   */
   public static Transformation scale(double sx, double sy, double sz) {
     Matrix matrix = new Matrix(new double[][] { {sx, 0, 0, 0},
                                                {0, sy, 0, 0},
@@ -63,6 +90,14 @@ public class Transformation {
     return new Transformation(matrix, inv);
   }
 
+  /**
+   * Factory for the rotation around the x axis.
+   * 
+   * @param angle
+   *          The angle (in degree) to rotate around the x axis.
+   * 
+   * @return A {@link Transformation} with the rotation matrix.
+   */
   public static Transformation rotateX(double angle) {
     double radAngle = MathUtils.toRad(angle);
     Matrix matrix = new Matrix(new double[][] { {1, 0, 0, 0},
@@ -72,6 +107,14 @@ public class Transformation {
     return new Transformation(matrix, matrix.transpose());
   }
 
+  /**
+   * Factory for the rotation around the y axis.
+   * 
+   * @param angle
+   *          The angle (in degree) to rotate around the y axis.
+   * 
+   * @return A {@link Transformation} with the rotation matrix.
+   */
   public static Transformation rotateY(double angle) {
     double radAngle = MathUtils.toRad(angle);
     Matrix matrix = new Matrix(new double[][] { {cos(radAngle), 0, sin(radAngle), 0},
@@ -81,6 +124,14 @@ public class Transformation {
     return new Transformation(matrix, matrix.transpose());
   }
 
+  /**
+   * Factory for the rotation around the z axis.
+   * 
+   * @param angle
+   *          The angle (in degree) to rotate around the z axis.
+   * 
+   * @return A {@link Transformation} with the rotation matrix.
+   */
   public static Transformation rotateZ(double angle) {
     double radAngle = MathUtils.toRad(angle);
     Matrix matrix = new Matrix(new double[][] { {cos(radAngle), -sin(radAngle), 0, 0},
@@ -90,6 +141,17 @@ public class Transformation {
     return new Transformation(matrix, matrix.transpose());
   }
 
+  /**
+   * {@link Transformation} which rotates a certain angle around an arbitrary
+   * axis defined by the given {@link Vector3D}.
+   * 
+   * @param angle
+   *          The angle (in degrees) to rotate.
+   * @param axis
+   *          The axis to rotate around.
+   * 
+   * @return A {@link Transformation} with the rotation matrix.
+   */
   public static Transformation rotate(double angle, Vector3D axis) {
     Vector3D a = axis.normalize();
     double s = sin(toRadians(angle));
@@ -120,6 +182,26 @@ public class Transformation {
     return new Transformation(matrix, matrix.transpose());
   }
 
+  /**
+   * 'Look at' {@link Transformation}. This describes the {@link Transformation}
+   * necessary to map coordinates when a location is given and a point to 'look
+   * at'. In order to define the correct {@link Transformation}, an 'up'
+   * {@link Vector3D} is needed based on which the new coordinate system is
+   * built.
+   * 
+   * @param eye
+   *          The location of the eye ({@link Point3D})
+   * @param lookAt
+   *          The point to look at ({@link Point3D})
+   * @param up
+   *          An imaginary up vector to make rotations of the coordinate system
+   *          possible ({@link Vector3D})
+   * 
+   * @return A {@link Transformation} which aligns the given coordinates with
+   *         the aligned coordinate system.
+   * 
+   * @see http://cs.fit.edu/~wds/classes/cse5255/thesis/viewTrans/viewTrans.html
+   */
   public static Transformation lookAt(Point3D eye, Point3D lookAt, Vector3D up) {
     Vector3D dir = lookAt.sub(eye).normalize();
     Vector3D right = up.cross(dir).normalize();
@@ -133,12 +215,36 @@ public class Transformation {
     return new Transformation(camToWorld.inverse(), camToWorld);
   }
 
+  /**
+   * An orthographic projection matrix.
+   * 
+   * @param znear
+   *          The near clipping distance.
+   * @param zfar
+   *          The far clipping distance.
+   * 
+   * @return A {@link Transformation} containing the view transformation.
+   */
   public static Transformation orthographic(double znear, double zfar) {
     Transformation scale = scale(1d, 1d, 1d / (zfar - znear));
     Transformation translation = translate(0d, 0d, -znear);
     return scale.mul(translation);
   }
 
+  /**
+   * The transformation matrix for perspective projection onto the view plane.
+   * 
+   * @param fov
+   *          The field of view. The angle between the to and bottom plane of
+   *          the view frustum.
+   * @param near
+   *          The new clipping distance.
+   * @param far
+   *          The far clipping distance.
+   * 
+   * @return A transformation matrix to transform between camera and world
+   *         coordinates.
+   */
   public static Transformation perspective(double fov, double near, double far) {
     Matrix persp = new Matrix(new double[][] { {1, 0, 0, 0},
                                               {0, 1, 0, 0},
@@ -164,11 +270,11 @@ public class Transformation {
     this.matrixInv = inverse;
   }
 
-  public Matrix getTransformation() {
+  public Matrix getMatrix() {
     return this.matrix;
   }
 
-  public Matrix getInverseTransformation() {
+  public Matrix getInverseMatrix() {
     return this.matrixInv;
   }
 
@@ -178,4 +284,11 @@ public class Transformation {
     return new Transformation(matrix, matrixInv);
   }
 
+  public Transformation inverse() {
+    return new Transformation(this.matrixInv, this.matrix);
+  }
+
+  public Transformation transpose() {
+    return new Transformation(this.matrix.transpose(), this.matrixInv.transpose());
+  }
 }

@@ -274,19 +274,19 @@ public class VectorTest {
     Vector3D result;
     Vector3D expected;
 
-    transform = Transformation.translate(10, 0, 0).getTransformation();
+    transform = Transformation.translate(10, 0, 0).getMatrix();
     expected = new Vector3D(10, 10, 10);
     result = vector.transform(transform);
     System.out.println(vector + " * " + transform + " = " + result);
     assertEquals(expected, result);
 
-    transform = Transformation.translate(0, 10, 0).getTransformation();
+    transform = Transformation.translate(0, 10, 0).getMatrix();
     expected = new Vector3D(10, 10, 10);
     result = vector.transform(transform);
     System.out.println(vector + " * " + transform + " = " + result);
     assertEquals(expected, result);
 
-    transform = Transformation.translate(0, 0, 10).getTransformation();
+    transform = Transformation.translate(0, 0, 10).getMatrix();
     expected = new Vector3D(10, 10, 10);
     result = vector.transform(transform);
     System.out.println(vector + " * " + transform + " = " + result);
