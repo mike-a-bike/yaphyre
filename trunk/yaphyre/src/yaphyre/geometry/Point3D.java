@@ -17,7 +17,6 @@ package yaphyre.geometry;
 
 import static yaphyre.math.MathUtils.calcLength;
 import static yaphyre.math.MathUtils.calculateLengthSquared;
-import static yaphyre.math.MathUtils.div;
 
 import java.text.MessageFormat;
 
@@ -122,12 +121,6 @@ public class Point3D {
 
   public double getZ() {
     return this.z;
-  }
-
-  public Point3D transform(Matrix mat) {
-    double[] homogenousPoint = new double[] {this.x, this.y, this.z, 1};
-    double[] result = mat.mul(homogenousPoint);
-    return new Point3D(div(result[0], result[3]), div(result[1], result[3]), div(result[2], result[3]));
   }
 
 }

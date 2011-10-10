@@ -37,6 +37,12 @@ public class Vector3D {
 
   public static final Vector3D NULL = new Vector3D(0d, 0d, 0d);
 
+  public static final Vector3D X = new Vector3D(1d, 0d, 0d);
+
+  public static final Vector3D Y = new Vector3D(0d, 1d, 0d);
+
+  public static final Vector3D Z = new Vector3D(0d, 0d, 1d);
+
   final double x, y, z;
 
   public Vector3D(Point3D start, Point3D end) {
@@ -115,12 +121,6 @@ public class Vector3D {
     return new Vector3D(cx, cy, cz);
   }
 
-  public Vector3D transform(Matrix mat) {
-    double[] homogenousVector = new double[] {this.x, this.y, this.z, 0};
-    double[] result = mat.mul(homogenousVector);
-    return new Vector3D(result[0], result[1], result[2]);
-  }
-
   @Override
   public boolean equals(Object o) {
     if (o == this) {
@@ -130,7 +130,7 @@ public class Vector3D {
       return false;
     }
     Vector3D other = (Vector3D)o;
-    return (other.getX() == this.x) && (other.getY() == this.y) && (other.getZ() == this.z);
+    return this.equals(other, MathUtils.EPSILON);
   }
 
   public boolean equals(Vector3D vector, double tolerance) {

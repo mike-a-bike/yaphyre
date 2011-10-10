@@ -112,13 +112,6 @@ public class Normal3D {
     return new Vector3D(this.x + v.x, this.y + v.y, this.z + v.z);
   }
 
-  public Normal3D transform(Matrix mat) {
-    Matrix normalTransformationMatrix = mat.inverse().transpose();
-    double[] homogenousNormal = new double[] {this.x, this.y, this.z, 0};
-    double[] result = normalTransformationMatrix.mul(homogenousNormal);
-    return new Normal3D(result[0], result[1], result[2]);
-  }
-
   public double getX() {
     return this.x;
   }

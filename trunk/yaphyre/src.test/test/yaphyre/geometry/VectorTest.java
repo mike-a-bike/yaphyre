@@ -9,10 +9,8 @@ import java.text.MessageFormat;
 
 import org.junit.Test;
 
-import yaphyre.geometry.Matrix;
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point3D;
-import yaphyre.geometry.Transformation;
 import yaphyre.geometry.Vector3D;
 
 public class VectorTest {
@@ -264,33 +262,6 @@ public class VectorTest {
     // and a direction along the z-axis
     assertEquals(20d, result.length(), 0);
     assertEquals(Normal3D.NORMAL_Z.asVector(), result.normalize());
-
-  }
-
-  @Test
-  public void testTransform() {
-    Vector3D vector = new Vector3D(10, 10, 10);
-    Matrix transform;
-    Vector3D result;
-    Vector3D expected;
-
-    transform = Transformation.translate(10, 0, 0).getMatrix();
-    expected = new Vector3D(10, 10, 10);
-    result = vector.transform(transform);
-    System.out.println(vector + " * " + transform + " = " + result);
-    assertEquals(expected, result);
-
-    transform = Transformation.translate(0, 10, 0).getMatrix();
-    expected = new Vector3D(10, 10, 10);
-    result = vector.transform(transform);
-    System.out.println(vector + " * " + transform + " = " + result);
-    assertEquals(expected, result);
-
-    transform = Transformation.translate(0, 0, 10).getMatrix();
-    expected = new Vector3D(10, 10, 10);
-    result = vector.transform(transform);
-    System.out.println(vector + " * " + transform + " = " + result);
-    assertEquals(expected, result);
 
   }
 
