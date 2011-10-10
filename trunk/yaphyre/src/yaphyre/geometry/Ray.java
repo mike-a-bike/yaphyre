@@ -15,6 +15,8 @@
  */
 package yaphyre.geometry;
 
+import static yaphyre.math.MathUtils.EPSILON;
+
 import java.text.MessageFormat;
 
 /**
@@ -36,20 +38,30 @@ import java.text.MessageFormat;
  */
 public class Ray {
 
-  private static final String TO_STRING_FORMAT = "Ray[{0}, {1}]";
+  private static final String TO_STRING_FORMAT = "Ray[o={0}, d={1}, t=[{2}, {3}]]";
 
   private final Point3D origin;
 
   private final Vector3D direction;
 
-  public Ray(Point3D origin, Vector3D direction) throws ArithmeticException {
+  private final double mint;
+
+  private final double maxt;
+
+  public Ray(Point3D origin, Vector3D direction) {
+    this(origin, direction, EPSILON, Double.MAX_VALUE);
+  }
+
+  public Ray(Point3D origin, Vector3D direction, double mint, double maxt) {
     this.origin = origin;
     this.direction = direction;
+    this.mint = mint;
+    this.maxt = maxt;
   }
 
   @Override
   public String toString() {
-    return MessageFormat.format(TO_STRING_FORMAT, this.origin, this.direction);
+    return MessageFormat.format(TO_STRING_FORMAT, this.origin, this.direction, this.mint, this.maxt);
   }
 
   public Point3D getPoint(double distance) {
@@ -62,6 +74,14 @@ public class Ray {
 
   public Vector3D getDirection() {
     return this.direction;
+  }
+
+  public double getMint() {
+    return this.mint;
+  }
+
+  public double getMaxt() {
+    return this.maxt;
   }
 
 }
