@@ -18,7 +18,6 @@ package yaphyre.geometry;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.toRadians;
-import yaphyre.math.MathUtils;
 
 /**
  * This class encapsulates a series of transformations. This class also provides
@@ -99,7 +98,7 @@ public class Transformation {
    * @return A {@link Transformation} with the rotation matrix.
    */
   public static Transformation rotateX(double angle) {
-    double radAngle = MathUtils.toRad(angle);
+    double radAngle = toRadians(angle);
     Matrix matrix = new Matrix(new double[][] { {1, 0, 0, 0},
                                                 {0, cos(radAngle), -sin(radAngle), 0},
                                                 {0, sin(radAngle), cos(radAngle), 0},
@@ -116,7 +115,7 @@ public class Transformation {
    * @return A {@link Transformation} with the rotation matrix.
    */
   public static Transformation rotateY(double angle) {
-    double radAngle = MathUtils.toRad(angle);
+    double radAngle = toRadians(angle);
     Matrix matrix = new Matrix(new double[][] { {cos(radAngle), 0, sin(radAngle), 0},
                                                 {0, 1, 0, 0},
                                                 {-sin(radAngle), 0, cos(radAngle), 0},
@@ -133,7 +132,7 @@ public class Transformation {
    * @return A {@link Transformation} with the rotation matrix.
    */
   public static Transformation rotateZ(double angle) {
-    double radAngle = MathUtils.toRad(angle);
+    double radAngle = toRadians(angle);
     Matrix matrix = new Matrix(new double[][] { {cos(radAngle), -sin(radAngle), 0, 0},
                                                 {sin(radAngle), cos(radAngle), 0, 0},
                                                 {0, 0, 1, 0},

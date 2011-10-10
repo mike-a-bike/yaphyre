@@ -1,16 +1,35 @@
+/*
+ * Copyright 2011 Michael Bieri
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
 package yaphyre.math;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
 
+/**
+ * Some useful mathematical helper functions.
+ * 
+ * @version $Revision$
+ * 
+ * @author Michael Bieri
+ * @author $LastChangedBy$
+ */
 public class MathUtils {
 
   public static final double EPSILON = 1e-10;
-
-  public static final double DEG_TO_RAD = 1d / 180d * PI;
-
-  public static final double RAD_TO_DEG = 1d / PI * 180d;
 
   public static final double INV_PI = 1d / PI;
 
@@ -34,14 +53,6 @@ public class MathUtils {
 
   public static double sign(double x) {
     return (x == 0) ? 0 : (x > 0) ? 1 : -1;
-  }
-
-  public static double toRad(double deg) {
-    return deg * DEG_TO_RAD;
-  }
-
-  public static double toDeg(double rad) {
-    return rad * RAD_TO_DEG;
   }
 
   public static boolean equalsWithTolerance(double v1, double v2, double tolerance) {
