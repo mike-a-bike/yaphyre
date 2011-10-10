@@ -18,6 +18,7 @@ package yaphyre.geometry;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.toRadians;
+import static yaphyre.math.MathUtils.div;
 
 /**
  * This class encapsulates a series of transformations. This class also provides
@@ -289,5 +290,59 @@ public class Transformation {
 
   public Transformation transpose() {
     return new Transformation(this.matrix.transpose(), this.matrixInv.transpose());
+  }
+
+  public Point3D transform(Point3D p) {
+    return this.transform(p, this.matrix);
+  }
+
+  public Point3D transformInverse(Point3D p) {
+    return this.transform(p, this.matrixInv);
+  }
+
+  private Point3D transform(Point3D p, Matrix m) {
+    double[] homogenousPoint = new double[] {p.x, p.y, p.z, 1};
+    double[] result = m.mul(homogenousPoint);
+    return new Point3D(div(result[0], result[3]), div(result[1], result[3]), div(result[2], result[3]));
+  }
+
+  public Vector3D transform(Vector3D v) {
+    return this.transform(v, this.matrix);
+  }
+
+  public Vector3D transformInverse(Vector3D v) {
+    return this.transform(v, this.matrixInv);
+  }
+
+  private Vector3D transform(Vector3D v, Matrix m) {
+    double[] homogenousVector = new double[] {v.x, v.y, v.z, 0};
+    double[] result = m.mul(homogenousVector);
+    return new Vector3D(result[0], result[1], result[2]);
+  }
+
+  public Normal3D transform(Normal3D n) {
+    return this.transform(n, this.matrixInv);
+  }
+
+  public Normal3D transformInverse(Normal3D n) {
+    return this.transform(n, this.matrix);
+  }
+
+  private Normal3D transform(Normal3D n, Matrix m) {
+    double[] homogenousNormal = new double[] {n.x, n.y, n.z, 0};
+    double[] result = m.transpose().mul(homogenousNormal);
+    return new Normal3D(result[0], result[1], result[2]);
+  }
+
+  public Ray transform(Ray r) {
+    Point3D newOrigin = this.transform(r.getOrigin());
+    Vector3D newDirection = this.transform(r.getDirection());
+    return new Ray(newOrigin, newDirection, r.getMint(), r.getMaxt());
+  }
+
+  public Ray transformInverse(Ray r) {
+    Point3D newOrigin = this.transformInverse(r.getOrigin());
+    Vector3D newDirection = this.transformInverse(r.getDirection());
+    return new Ray(newOrigin, newDirection);
   }
 }
