@@ -19,6 +19,7 @@ import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
+import yaphyre.raytracer.CollisionInformations;
 import yaphyre.shaders.Shaders;
 import yaphyre.util.IdentifiableObjects;
 
@@ -35,6 +36,10 @@ public interface Shapes extends IdentifiableObjects {
   public static final double NO_INTERSECTION = Double.POSITIVE_INFINITY;
 
   public Shaders getShader();
+
+  public boolean isHitBy(Ray ray);
+
+  public CollisionInformations intersect(Ray ray);
 
   public double getIntersectDistance(Ray ray);
 
