@@ -17,6 +17,7 @@ package yaphyre.math;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.abs;
+import static java.lang.Math.signum;
 import static java.lang.Math.sqrt;
 
 /**
@@ -42,17 +43,13 @@ public class MathUtils {
       return 0;
     }
     if (b == 0) {
-      return LARGE_VAL * sign(a);
+      return LARGE_VAL * signum(a);
     } else {
       if ((a + b) == a) {
-        return LARGE_VAL * sign(a) * sign(b);
+        return LARGE_VAL * signum(a) * signum(b);
       }
       return a / b;
     }
-  }
-
-  public static double sign(double x) {
-    return (x == 0) ? 0 : (x > 0) ? 1 : -1;
   }
 
   public static boolean equalsWithTolerance(double v1, double v2, double tolerance) {

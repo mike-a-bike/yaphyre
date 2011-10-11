@@ -17,6 +17,7 @@ package yaphyre.shapes;
 
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
+import yaphyre.raytracer.CollisionInformations;
 import yaphyre.shaders.Shaders;
 import yaphyre.util.IdentifiableObject;
 
@@ -48,6 +49,16 @@ public abstract class AbstractShape extends IdentifiableObject implements Shapes
   @Override
   public boolean throwsShadow() {
     return this.throwsShadow;
+  }
+
+  @Override
+  public boolean isHitBy(Ray ray) {
+    return (getIntersectDistance(ray) > 0d);
+  }
+
+  @Override
+  public CollisionInformations intersect(Ray ray) {
+    throw new RuntimeException("Not implemented yet");
   }
 
   @Override

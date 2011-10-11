@@ -15,6 +15,8 @@
  */
 package yaphyre.shapes;
 
+import static java.lang.Math.signum;
+
 import java.text.MessageFormat;
 
 import yaphyre.geometry.Normal3D;
@@ -88,7 +90,7 @@ public class Plane extends AbstractShape {
     if (numerator == 0 && denominator == 0) {
       // The ray starts on the plane and is parallel to the plane, so it
       // intersects everywhere.
-      return 0;
+      return ray.getMint();
     } else if (numerator != 0 && denominator == 0) {
       // The ray starts outside the plane and is parallel to the plane, so no
       // intersection, ever...
@@ -97,14 +99,22 @@ public class Plane extends AbstractShape {
 
     double distance = numerator / denominator;
 
-    if (distance < 0) {
-      // The ray intersects with the plane, but behind the origin, so no visible
-      // intersection.
-      return Shapes.NO_INTERSECTION;
+    return (distance >= ray.getMint() && distance <= ray.getMaxt()) ? distance : Shapes.NO_INTERSECTION;
+
+  }
+
+  @Override
+  public boolean isHitBy(Ray ray) {
+    double numerator = this.origin.sub(ray.getOrigin()).dot(this.normal);
+    double denominator = ray.getDirection().dot(this.normal);
+
+    if (numerator == 0 && denominator == 0) {
+      return true;
+    } else if (numerator != 0 && denominator == 0) {
+      return false;
     }
 
-    return distance;
-
+    return signum(numerator) == signum(denominator);
   }
 
   /**
