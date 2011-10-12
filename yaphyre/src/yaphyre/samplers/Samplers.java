@@ -34,7 +34,7 @@ public interface Samplers {
 
   public Iterable<Point2D> getUnitCircleSamples();
 
-  public Iterable<Point3D> getHemisphereSamples();
+  public Iterable<Point3D> getHemisphereSamples(double exp);
 
   public Iterable<Point3D> getSphereSamples();
 

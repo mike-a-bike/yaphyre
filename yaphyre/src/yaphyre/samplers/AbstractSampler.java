@@ -15,6 +15,13 @@
  */
 package yaphyre.samplers;
 
+import static java.lang.Math.PI;
+import static java.lang.Math.cos;
+import static java.lang.Math.pow;
+import static java.lang.Math.sin;
+import static java.lang.Math.sqrt;
+import static yaphyre.math.MathUtils.TWO_PI;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -51,7 +58,7 @@ public abstract class AbstractSampler implements Samplers {
     LOGGER.debug("Start creation of samples for {}", this.getClass().getSimpleName());
     this.sampleSets = new ArrayList<List<Point2D>>(NUMBER_OF_SAMPLE_SETS);
     for (int set = 0; set < NUMBER_OF_SAMPLE_SETS; set++) {
-      this.sampleSets.add(this.createSamples(numberOfSamples));
+      this.sampleSets.add(createSamples(numberOfSamples));
     }
     LOGGER.debug("Sample creation finished");
   }
@@ -63,23 +70,84 @@ public abstract class AbstractSampler implements Samplers {
 
   @Override
   public Iterable<Point2D> getUnitSquareSamples() {
-    int setIndex = (int) random.nextFloat() * NUMBER_OF_SAMPLE_SETS;
+    int setIndex = (int)random.nextFloat() * NUMBER_OF_SAMPLE_SETS;
     return this.sampleSets.get(setIndex);
   }
 
   @Override
   public Iterable<Point2D> getUnitCircleSamples() {
-    throw new RuntimeException("Not implemented yet");
+
+    double r, phi;
+    Point2D sp;
+
+    List<Point2D> result = new ArrayList<Point2D>();
+
+    for (Point2D p : getUnitSquareSamples()) {
+      sp = new Point2D(p.getU() * 2d - 1d, p.getV() * 2d - 2d);
+
+      if (sp.getU() > -sp.getV()) {
+        if (sp.getU() > sp.getV()) {
+          r = sp.getU();
+          phi = sp.getV() / sp.getU();
+        } else {
+          r = sp.getV();
+          phi = 2d - sp.getU() / sp.getV();
+        }
+      } else {
+        if (sp.getU() < sp.getV()) {
+          r = -sp.getU();
+          phi = 4 + sp.getV() / sp.getU();
+        } else {
+          r = -sp.getV();
+          phi = (sp.getV() != 0d) ? 6d - sp.getU() / sp.getV() : 0d;
+        }
+      }
+
+      phi *= PI / 4d;
+
+      result.add(new Point2D(r * cos(phi), r * sin(phi)));
+
+    }
+
+    return result;
   }
 
   @Override
-  public Iterable<Point3D> getHemisphereSamples() {
-    throw new RuntimeException("Not implemented yet");
+  public Iterable<Point3D> getHemisphereSamples(double exp) {
+    List<Point3D> result = new ArrayList<Point3D>();
+    for (Point2D p : getUnitSquareSamples()) {
+      double cos_phi = cos(2d * PI * p.getU());
+      double sin_phi = sin(2d * PI * p.getU());
+      double cos_theta = pow((1d - p.getV()), 1d / (exp + 1d));
+      double sin_theta = sqrt(1d - cos_theta * cos_theta);
+      double pu = sin_theta * cos_phi;
+      double pv = sin_theta * sin_phi;
+      double pw = cos_theta;
+      result.add(new Point3D(pu, pv, pw));
+    }
+    return result;
   }
 
   @Override
   public Iterable<Point3D> getSphereSamples() {
-    throw new RuntimeException("Not implemented yet");
+    double r1, r2;
+    double x, y, z;
+    double r, phi;
+
+    List<Point3D> result = new ArrayList<Point3D>();
+
+    for (Point2D p : getUnitSquareSamples()) {
+      r1 = p.getU();
+      r2 = p.getV();
+      z = 1d - 2d - r1;
+      r = sqrt(1d - z * z);
+      phi = TWO_PI * r2;
+      x = r * cos(phi);
+      y = r * sin(phi);
+      result.add(new Point3D(x, y, z));
+    }
+
+    return result;
   }
 
   /**
