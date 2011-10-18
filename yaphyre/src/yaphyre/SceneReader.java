@@ -144,7 +144,7 @@ public class SceneReader {
     Shaders redMirror = new SimpleShader("red-diffuse", mirrorMaterial, 1d, 0d, 0d);
 
     Shaders smallCheckerShader = new CheckerShader("small-checker", greenDiffuse, blueDiffuse, 0.25d, 0.25d);
-    Shaders checkBoardShader = new CheckerShader("checker", smallCheckerShader, whiteMirror, 1d, 1d);
+    Shaders checkBoardShader = new CheckerShader("checker", greenDiffuse, whiteMirror, 1d, 1d);
 
     Lightsources pointLight = new Pointlight("light", new Point3D(-2, 5, -2), new Color(1, 1, 1), 15, Falloff.Quadric);
 
