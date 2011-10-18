@@ -52,9 +52,38 @@ public abstract class AbstractSampler implements Samplers {
   /** nice prime number... a very arbitrary chosen number */
   private static final int NUMBER_OF_SAMPLE_SETS = 97;
 
-  private final List<List<Point2D>> sampleSets;
+  private List<List<Point2D>> sampleSets;
 
+  /**
+   * Protected empty constructor. This can only be called from subclasses, since
+   * there is no initialization whatsoever. Derived classes calling this
+   * constructor must override the {@link #getUnitSquareSamples()} method or
+   * call the {@link #createSamples(int)} method.
+   */
+  protected AbstractSampler() {
+
+  }
+
+  /**
+   * Default constructor used by most of the derived classes. It takes a number
+   * of samples to create. The derived {@link #createSamples(int)} method
+   * handles the actual creation of the samples.
+   * 
+   * @param numberOfSamples
+   *          The number of samples requested. Please notice, the number of
+   *          effective samples may vary according to the implemented algorithm.
+   */
   public AbstractSampler(int numberOfSamples) {
+    createSampleSets(numberOfSamples);
+  }
+
+  /**
+   * Initializes the internal list of different sample sets.
+   * 
+   * @param numberOfSamples
+   *          The number of sets to create.
+   */
+  protected void createSampleSets(int numberOfSamples) {
     LOGGER.debug("Start creation of samples for {}", this.getClass().getSimpleName());
     this.sampleSets = new ArrayList<List<Point2D>>(NUMBER_OF_SAMPLE_SETS);
     for (int set = 0; set < NUMBER_OF_SAMPLE_SETS; set++) {
@@ -63,17 +92,28 @@ public abstract class AbstractSampler implements Samplers {
     LOGGER.debug("Sample creation finished");
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void shuffle() {
     Collections.shuffle(this.sampleSets, random);
   }
 
+  /**
+   * Gets a set of samples within a unit square. This implementation chooses a
+   * random set from the available sets in order to avoid aliasing artifacts
+   * created by returning the same set over and over again.<br/> {@inheritDoc}
+   */
   @Override
   public Iterable<Point2D> getUnitSquareSamples() {
     int setIndex = (int)random.nextFloat() * NUMBER_OF_SAMPLE_SETS;
     return this.sampleSets.get(setIndex);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Iterable<Point2D> getUnitCircleSamples() {
 
@@ -112,6 +152,9 @@ public abstract class AbstractSampler implements Samplers {
     return result;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Iterable<Point3D> getHemisphereSamples(double exp) {
     List<Point3D> result = new ArrayList<Point3D>();
@@ -128,6 +171,9 @@ public abstract class AbstractSampler implements Samplers {
     return result;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Iterable<Point3D> getSphereSamples() {
     double r1, r2;

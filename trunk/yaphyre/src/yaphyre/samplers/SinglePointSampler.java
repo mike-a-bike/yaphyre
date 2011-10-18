@@ -35,7 +35,16 @@ public class SinglePointSampler extends AbstractSampler {
   private static final List<Point2D> sampleList = Collections.unmodifiableList(Arrays.asList(new Point2D(0.5, 0.5)));
 
   public SinglePointSampler() {
-    super(1);
+    super();
+  }
+
+  /**
+   * Since there is only one set, there is no need to shuffle the sets prior to
+   * returning one.
+   */
+  @Override
+  public Iterable<Point2D> getUnitSquareSamples() {
+    return createSamples(1);
   }
 
   /**
