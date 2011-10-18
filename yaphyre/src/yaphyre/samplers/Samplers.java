@@ -28,14 +28,46 @@ import yaphyre.geometry.Point3D;
  */
 public interface Samplers {
 
+  /**
+   * Shuffle the sets. Call this to avoid aliasing.
+   */
   public void shuffle();
 
+  /**
+   * Gets a list of {@link Point2D} within a unit square. u = (0, 1) and v = (0,
+   * 1).
+   * 
+   * @return An {@link Iterable} usable in loop to access all the samples.
+   */
   public Iterable<Point2D> getUnitSquareSamples();
 
+  /**
+   * Gets a list of samples which all lie within a unit circle. A circle with
+   * radius 1 and origin at [0, 0].
+   * 
+   * @return An {@link Iterable} usable in loop to access all the samples.
+   */
   public Iterable<Point2D> getUnitCircleSamples();
 
+  /**
+   * Creates a collection of samples which lie on a hemisphere. These samples
+   * are distributed according to a cosine function with the given exponent.
+   * <code>exp</code> = 1 means that the samples lie on the hemisphere.
+   * 
+   * @param exp
+   *          The exponent used for the cosine function.
+   * 
+   * @return An {@link Iterable} usable in loop to access all the samples.
+   */
   public Iterable<Point3D> getHemisphereSamples(double exp);
 
+  /**
+   * Create a list of samples each lies on a unit sphere, which is a sphere with
+   * the radius 1 and the origin = [0, 0]. This method is used mostly for the
+   * creation of samples used to render spherical light sources.
+   * 
+   * @return An {@link Iterable} usable in loop to access all the samples.
+   */
   public Iterable<Point3D> getSphereSamples();
 
 }
