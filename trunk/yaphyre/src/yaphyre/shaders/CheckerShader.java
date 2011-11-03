@@ -20,7 +20,10 @@ import yaphyre.util.Color;
 import yaphyre.util.IdentifiableObject;
 
 /**
- * A simple checker pattern. No ray tracer is complete without one ;-)
+ * A simple checker pattern. No ray tracer is complete without one ;-) This
+ * implementation uses two shader to create the color of the pixel to show. So
+ * it is for example possible to create a checked pattern within the checker
+ * pattern itself.
  * 
  * @version $Revision: 40 $
  * 
@@ -33,24 +36,71 @@ public class CheckerShader extends IdentifiableObject implements Shaders {
 
   private final double uSize, vSize, uSizeInv, vSizeInv;
 
-  public CheckerShader(String id, Shaders shader1, Shaders shader2, double uSize, double vSize) {
+  /**
+   * Creates a simple checker with the given two shader. The frequency of the
+   * change is 1.
+   * 
+   * @param id
+   *          The id of the shader
+   * @param shader1
+   *          The first shader
+   * @param shader2
+   *          The second shader
+   */
+  public CheckerShader(String id, Shaders shader1, Shaders shader2) {
+    this(id, shader1, shader2, 1d, 1d);
+  }
+
+  /**
+   * Create a new checker shader defined by its id, the two shader used for its
+   * tiles and the frequency with which the pattern changes.
+   * 
+   * @param id
+   *          The id of the shader
+   * @param shader1
+   *          The first shader
+   * @param shader2
+   *          The second shader
+   * @param frequency
+   *          The frequency with which the pattern changes.
+   */
+  public CheckerShader(String id, Shaders shader1, Shaders shader2, double frequency) {
+    this(id, shader1, shader2, frequency, frequency);
+  }
+
+  /**
+   * Create a new checker shader defined by its id, the two shader used for its
+   * tiles and the frequency with which the pattern changes.
+   * 
+   * @param id
+   *          The id of the shader
+   * @param shader1
+   *          The first shader
+   * @param shader2
+   *          The second shader
+   * @param uFrequency
+   *          The frequency with which the pattern changes in the u direction.
+   * @param vFrequency
+   *          The frequency with which the pattern changes in the v direction.
+   */
+  public CheckerShader(String id, Shaders shader1, Shaders shader2, double uFrequency, double vFrequency) {
     super(id);
     this.shader1 = shader1;
     this.shader2 = shader2;
-    this.uSize = uSize;
-    this.uSizeInv = 1d / this.uSize;
-    this.vSize = vSize;
-    this.vSizeInv = 1d / this.vSize;
+    this.uSizeInv = uFrequency;
+    this.uSize = 1d / uFrequency;
+    this.vSizeInv = vFrequency;
+    this.vSize = 1d / vFrequency;
   }
 
   @Override
   public Color getColor(Point2D uvCoordinate) {
-    return this.getShaderAtCoordinate(uvCoordinate).getColor(uvCoordinate);
+    return getShaderAtCoordinate(uvCoordinate).getColor(uvCoordinate);
   }
 
   @Override
   public Material getMaterial(Point2D uvCoordinate) {
-    return this.getShaderAtCoordinate(uvCoordinate).getMaterial(uvCoordinate);
+    return getShaderAtCoordinate(uvCoordinate).getMaterial(uvCoordinate);
   }
 
   private Shaders getShaderAtCoordinate(Point2D uvCoordinate) {
@@ -58,8 +108,8 @@ public class CheckerShader extends IdentifiableObject implements Shaders {
     double v = uvCoordinate.getV();
     u = (u >= 0) ? u : u - this.uSize;
     v = (v > +0) ? v : v - this.vSize;
-    boolean xEven = ((int) (u * this.uSizeInv)) % 2 == 0;
-    boolean yEven = ((int) (v * this.vSizeInv)) % 2 == 0;
+    boolean xEven = ((int)(u * this.uSizeInv)) % 2 == 0;
+    boolean yEven = ((int)(v * this.vSizeInv)) % 2 == 0;
 
     if (xEven == yEven) {
       return this.shader1;

@@ -36,6 +36,8 @@ public class MathUtils {
 
   public static final double TWO_PI = 2d * PI;
 
+  public static final double INV_TWO_PI = 1d / TWO_PI;
+
   private static final double LARGE_VAL = Double.MAX_VALUE;
 
   public static double div(double a, double b) {
@@ -44,12 +46,11 @@ public class MathUtils {
     }
     if (b == 0) {
       return LARGE_VAL * signum(a);
-    } else {
-      if ((a + b) == a) {
-        return LARGE_VAL * signum(a) * signum(b);
-      }
-      return a / b;
     }
+    if ((a + b) == a) {
+      return LARGE_VAL * signum(a) * signum(b);
+    }
+    return a / b;
   }
 
   public static boolean equalsWithTolerance(double v1, double v2, double tolerance) {
