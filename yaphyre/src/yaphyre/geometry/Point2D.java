@@ -24,8 +24,8 @@ import yaphyre.math.MathUtils;
  * coordinates since its major usage will be the mapping of shader and texture
  * informations.
  * 
- * @TODO implement the camera, so that it uses the 2d coordinates in order to
- *       create the seeing rays.
+ * TODO implement the camera, so that it uses the 2d coordinates in order to
+ * create the seeing rays.
  * 
  * @version $Revision: 47 $
  * 
@@ -33,6 +33,8 @@ import yaphyre.math.MathUtils;
  * @author $LastChangedBy: mike0041@gmail.com $
  */
 public class Point2D {
+
+  private static final int INT_SIZE = 32;
 
   protected final double u, v;
 
@@ -47,9 +49,9 @@ public class Point2D {
     int result = 1;
     long temp;
     temp = Double.doubleToLongBits(this.u);
-    result = prime * result + (int)(temp ^ (temp >>> 32));
+    result = prime * result + (int)(temp ^ (temp >>> INT_SIZE));
     temp = Double.doubleToLongBits(this.v);
-    result = prime * result + (int)(temp ^ (temp >>> 32));
+    result = prime * result + (int)(temp ^ (temp >>> INT_SIZE));
     return result;
   }
 
