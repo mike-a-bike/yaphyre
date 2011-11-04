@@ -143,14 +143,14 @@ public class SceneReader {
     Shaders whiteMirror = new SimpleShader("white-mirror", mirrorMaterial, 1d, 1d, 1d);
     Shaders redMirror = new SimpleShader("red-diffuse", mirrorMaterial, 1d, 0d, 0d);
 
-    Shaders smallCheckerShader = new CheckerShader("small-checker", whiteMirror, blueDiffuse, 1d, 16d);
-    Shaders checkBoardShader = new CheckerShader("checker", greenDiffuse, whiteMirror);
+    Shaders sphereCheckerShader = new CheckerShader("sphere-stripes", whiteMirror, blueDiffuse, 1d, 16d);
+    Shaders checkBoardShader = new CheckerShader("checker", redDiffuse, whiteDiffuse, 16, 16);
 
     Lightsources pointLight = new Pointlight("light", new Point3D(-2, 5, -2), new Color(1, 1, 1), 15, Falloff.Quadric);
 
-    Shapes plane = new Plane("plane", Point3D.ORIGIN, Normal3D.NORMAL_Y, checkBoardShader, true);
-    Shapes sphere = new Sphere("sphere", new Point3D(0, 1.5, 0), 1, smallCheckerShader, true);
-    Shapes distantSphere = new Sphere("distant-sphere", new Point3D(-2, 10, -5), 2, redDiffuse, true);
+    Shapes plane = new Plane("plane", Point3D.ORIGIN, Normal3D.NORMAL_Y, whiteDiffuse, true);
+    Shapes sphere = new Sphere("sphere", new Point3D(0, 1.5, 0), 1, sphereCheckerShader, true);
+    Shapes distantSphere = new Sphere("distant-sphere", new Point3D(-2, 10, -5), 2, checkBoardShader, true);
 
     Scene scene = new Scene();
 
