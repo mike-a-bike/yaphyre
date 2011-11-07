@@ -15,6 +15,8 @@
  */
 package yaphyre.cameras;
 
+import yaphyre.core.Cameras;
+import yaphyre.core.Films;
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
@@ -45,6 +47,11 @@ public class OrthographicCamera implements Cameras {
 
   @Override
   public Ray getCameraRay(Point2D viewPlanePoint) {
+    throw new RuntimeException("Not implemented yet");
+  }
+
+  @Override
+  public Films getFilm() {
     throw new RuntimeException("Not implemented yet");
   }
 
