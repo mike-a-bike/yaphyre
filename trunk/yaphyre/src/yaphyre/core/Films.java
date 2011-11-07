@@ -13,33 +13,27 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package yaphyre.cameras;
+package yaphyre.core;
 
-import yaphyre.core.Cameras;
-import yaphyre.core.Films;
-import yaphyre.geometry.Point2D;
-import yaphyre.geometry.Ray;
+import yaphyre.util.Color;
 
 /**
- * Emulate an optimal pin hole camera. This means, that the hole is
- * infinitesimal small and has no physical size whatsoever. So no effect like
- * depth of field and/or aperture size, and forms are modeled here.
+ * Interface for all film instances. This is for recording rendered samples and
+ * process them in an appropriate way. The most common form is an image file.
  * 
  * @version $Revision: 42 $
  * 
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
-public class PerspectiveCamera implements Cameras {
+public interface Films {
 
-  @Override
-  public Ray getCameraRay(Point2D viewPlanePoint) {
-    throw new RuntimeException("Not implemented yet");
-  }
+  public int getXResolution();
 
-  @Override
-  public Films getFilm() {
-    throw new RuntimeException("Not implemented yet");
-  }
+  public int getYResolution();
+
+  public void addCameraSample(CameraSample sample, Color color);
+
+  public void writeImageFile(int xSize, int ySize, String fileName);
 
 }

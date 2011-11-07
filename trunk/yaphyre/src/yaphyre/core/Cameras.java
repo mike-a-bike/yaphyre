@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package yaphyre.cameras;
+package yaphyre.core;
 
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Ray;
@@ -29,5 +29,7 @@ import yaphyre.geometry.Ray;
 public interface Cameras {
 
   public Ray getCameraRay(Point2D viewPlanePoint);
+
+  public Films getFilm();
 
 }
