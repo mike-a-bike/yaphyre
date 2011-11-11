@@ -28,8 +28,26 @@ import yaphyre.geometry.Ray;
  */
 public interface Cameras {
 
+  /**
+   * Create a ray for the given u/v coordinates. Where <em>u</em> &isin; [0, 1]
+   * and <em>v</em> &isin; [0, 1].
+   * 
+   * @param viewPlanePoint
+   *          The {@link Point2D} to create the camera ray for.
+   * 
+   * @return An instance of {@link Ray} which corresponds with the given u/v
+   *         position in the world space.
+   */
   public Ray getCameraRay(Point2D viewPlanePoint);
 
+  /**
+   * Get the {@link Films} instance that is associated with the camera. This is
+   * usually an image file, but can be something else as well.
+   * 
+   * @return The {@link Films} instance for the camera.
+   * 
+   * @see yaphyre.films.ImageFile
+   */
   public Films getFilm();
 
 }
