@@ -207,9 +207,37 @@ public class Transformation {
     Vector3D right = up.cross(dir).normalize();
     Vector3D newUp = dir.cross(right);
 
-    Matrix camToWorld = new Matrix(new double[][] { {right.x, newUp.x, dir.x, eye.x},
-                                                    {right.y, newUp.y, dir.y, eye.y},
-                                                    {right.z, newUp.z, dir.z, eye.z},
+    return lookAt(eye, dir, newUp, right);
+  }
+
+  /**
+   * 'Look at' {@link Transformation}. This describes the {@link Transformation}
+   * necessary to map coordinates when a location is given and a point to 'look
+   * at'. In order to define the correct {@link Transformation}, an 'up'
+   * {@link Vector3D} is needed based on which the new coordinate system is
+   * built.
+   * 
+   * @param eye
+   *          The location of the eye ({@link Point3D})
+   * @param dir
+   *          The direction in which the camera looks
+   * @param up
+   *          An imaginary up vector to make rotations of the coordinate system
+   *          possible ({@link Vector3D})
+   * 
+   * @param right
+   *          The right vector of the coordinate system.
+   * 
+   * @return A {@link Transformation} which aligns the given coordinates with
+   *         the aligned coordinate system.
+   * 
+   * @see http://cs.fit.edu/~wds/classes/cse5255/thesis/viewTrans/viewTrans.html
+   */
+  public static Transformation lookAt(Point3D eye, Vector3D dir, Vector3D up, Vector3D right) {
+
+    Matrix camToWorld = new Matrix(new double[][] { {right.x, up.x, dir.x, eye.x},
+                                                    {right.y, up.y, dir.y, eye.y},
+                                                    {right.z, up.z, dir.z, eye.z},
                                                     {0, 0, 0, 1}});
 
     return new Transformation(camToWorld.inverse(), camToWorld);

@@ -16,7 +16,6 @@
 package yaphyre.cameras;
 
 import yaphyre.core.Cameras;
-import yaphyre.core.Films;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Ray;
 
@@ -30,16 +29,19 @@ import yaphyre.geometry.Ray;
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
-public class PerspectiveCamera implements Cameras {
+public class PerspectiveCamera extends AbstractCamera implements Cameras {
 
-  @Override
-  public Ray getCameraRay(Point2D viewPlanePoint) {
-    throw new RuntimeException("Not implemented yet");
+  public PerspectiveCamera(BaseCameraSettings baseSettings, PerspectiveCameraSettings perspectiveSettings) {
+    super(baseSettings);
   }
 
   @Override
-  public Films getFilm() {
-    throw new RuntimeException("Not implemented yet");
+  public Ray getCameraRay(Point2D viewPlanePoint) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  public static class PerspectiveCameraSettings {
   }
 
 }
