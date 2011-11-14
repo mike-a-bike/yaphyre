@@ -15,6 +15,8 @@
  */
 package yaphyre.films;
 
+import java.text.MessageFormat;
+
 import yaphyre.core.CameraSample;
 import yaphyre.core.Films;
 import yaphyre.util.Color;
@@ -73,8 +75,27 @@ public class ImageFile implements Films {
     }
   }
 
+  @Override
+  public String toString() {
+    return MessageFormat.format("{0} [xRes:{1}, yRes:{2}, type:{3}]",
+                                this.getClass().getSimpleName(),
+                                String.valueOf(this.xResolution),
+                                String.valueOf(this.yResolution),
+                                this.fileType.toString());
+  }
+
   public static enum FileType {
-    GIF, JPEG, PNG, OpenEXR
+    GIF("gif"),
+    JPEG("jpg"),
+    PNG("png"),
+    OpenEXR("exr");
+
+    private final String defaultFileExtention;
+
+    private FileType(String defaultFileExtention) {
+      this.defaultFileExtention = defaultFileExtention;
+    }
+
   }
 
 }
