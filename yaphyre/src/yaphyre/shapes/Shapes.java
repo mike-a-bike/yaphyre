@@ -21,7 +21,6 @@ import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.raytracer.CollisionInformations;
 import yaphyre.shaders.Shaders;
-import yaphyre.util.IdentifiableObjects;
 
 /**
  * Interface implemented by all {@link Shapes} of the rendering system.
@@ -31,7 +30,7 @@ import yaphyre.util.IdentifiableObjects;
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
-public interface Shapes extends IdentifiableObjects {
+public interface Shapes {
 
   /** Constant for signaling that there is no intersection. */
   public static final double NO_INTERSECTION = Double.POSITIVE_INFINITY;

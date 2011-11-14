@@ -33,7 +33,7 @@ import yaphyre.util.Color;
  */
 public class AreaLight extends AbstractLightsource {
 
-  private static final String TO_STRING_FORMAT = "AreaLight[{0}, {1}, {2}, {3}x{3}, {5}x{5}, {6}, {4}]";
+  private static final String TO_STRING_FORMAT = "AreaLight[{0}, {1}, {2}x{2}, {4}x{4}, {5}, {3}]";
 
   private final Normal3D normal;
 
@@ -47,8 +47,8 @@ public class AreaLight extends AbstractLightsource {
 
   private final double intensity;
 
-  public AreaLight(String id, Point3D position, Normal3D normal, double size, int samplesPerSide, double intensity, Color color, Falloff falloff) {
-    super(id, position, color, falloff);
+  public AreaLight(Point3D position, Normal3D normal, double size, int samplesPerSide, double intensity, Color color, Falloff falloff) {
+    super(position, color, falloff);
     this.normal = normal;
     this.size = size;
     this.samplesPerSide = samplesPerSide;
@@ -59,7 +59,7 @@ public class AreaLight extends AbstractLightsource {
 
   @Override
   public String toString() {
-    return MessageFormat.format(TO_STRING_FORMAT, getId(), getPosition(), this.normal, this.size, getColor(), this.samplesPerSide, this.intensity);
+    return MessageFormat.format(TO_STRING_FORMAT, getPosition(), this.normal, this.size, getColor(), this.samplesPerSide, this.intensity);
   }
 
   @Override

@@ -38,24 +38,24 @@ public class SceneReader {
     Material mirrorMaterial = MaterialBuilder.start().ambient(1).diffuse(0.1d).reflection(0.9d).build();
 
     // shaders
-    Shaders whiteDiffuse = new SimpleShader("white-diff", diffuseMaterial, white);
-    Shaders whiteMirror = new SimpleShader("white-mirr", mirrorMaterial, white);
-    Shaders redDiffuse = new SimpleShader("red-diff", diffuseMaterial, red);
-    Shaders blueDiffuse = new SimpleShader("blue-diff", diffuseMaterial, blue);
+    Shaders whiteDiffuse = new SimpleShader(diffuseMaterial, white);
+    Shaders whiteMirror = new SimpleShader(mirrorMaterial, white);
+    Shaders redDiffuse = new SimpleShader(diffuseMaterial, red);
+    Shaders blueDiffuse = new SimpleShader(diffuseMaterial, blue);
 
     // walls
-    Plane back = new Plane("back", new Point3D(0, 0, 6), Normal3D.NORMAL_Z.neg(), whiteDiffuse, true);
-    Plane top = new Plane("top", new Point3D(0, 3, 0), Normal3D.NORMAL_Y.neg(), whiteDiffuse, true);
-    Plane bottom = new Plane("bottom", new Point3D(0, -3, 0), Normal3D.NORMAL_Y, whiteDiffuse, true);
-    Plane left = new Plane("left", new Point3D(-3, 0, 0), Normal3D.NORMAL_X, redDiffuse, true);
-    Plane right = new Plane("right", new Point3D(3, 0, 0), Normal3D.NORMAL_X.neg(), blueDiffuse, true);
+    Plane back = new Plane(new Point3D(0, 0, 6), Normal3D.NORMAL_Z.neg(), whiteDiffuse, true);
+    Plane top = new Plane(new Point3D(0, 3, 0), Normal3D.NORMAL_Y.neg(), whiteDiffuse, true);
+    Plane bottom = new Plane(new Point3D(0, -3, 0), Normal3D.NORMAL_Y, whiteDiffuse, true);
+    Plane left = new Plane(new Point3D(-3, 0, 0), Normal3D.NORMAL_X, redDiffuse, true);
+    Plane right = new Plane(new Point3D(3, 0, 0), Normal3D.NORMAL_X.neg(), blueDiffuse, true);
 
     // spheres
-    Sphere sphereLeft = new Sphere("sp-left", new Point3D(-2, -2, 3), 1, whiteMirror, true);
-    Sphere sphereRight = new Sphere("sph-right", new Point3D(1, 0, 2), 1.5, whiteDiffuse, true);
+    Sphere sphereLeft = new Sphere(new Point3D(-2, -2, 3), 1, whiteMirror, true);
+    Sphere sphereRight = new Sphere(new Point3D(1, 0, 2), 1.5, whiteDiffuse, true);
 
     // light
-    Pointlight light = new Pointlight("light", new Point3D(0, 3 - 1e-5, 3), white, 5, Falloff.Quadric);
+    Pointlight light = new Pointlight(new Point3D(0, 3 - 1e-5, 3), white, 5, Falloff.Quadric);
 
     // put it all together
     Scene conellBox = new Scene();
@@ -104,27 +104,21 @@ public class SceneReader {
     Material diffuseMaterial = MaterialBuilder.start().ambient(ambientLight).diffuse(0.8).build();
     Material mirrorMaterial = MaterialBuilder.start().ambient(ambientLight / 2d).diffuse(0.1d).reflection(0.9).build();
 
-    SimpleShader redShader = new SimpleShader("shader-red", diffuseMaterial, new Color(1d, 0d, 0d));
-    SimpleShader greenShader = new SimpleShader("shader-green", diffuseMaterial, new Color(0d, 1d, 0d));
-    SimpleShader blueShader = new SimpleShader("shader-blue", diffuseMaterial, new Color(0d, 0d, 1d));
-    SimpleShader whiteShader = new SimpleShader("shader-white", diffuseMaterial, new Color(1d, 1d, 1d));
-    SimpleShader whiteMirror = new SimpleShader("shader-white-mirror", mirrorMaterial, new Color(1d, 1d, 1d));
+    SimpleShader redShader = new SimpleShader(diffuseMaterial, new Color(1d, 0d, 0d));
+    SimpleShader greenShader = new SimpleShader(diffuseMaterial, new Color(0d, 1d, 0d));
+    SimpleShader blueShader = new SimpleShader(diffuseMaterial, new Color(0d, 0d, 1d));
+    SimpleShader whiteShader = new SimpleShader(diffuseMaterial, new Color(1d, 1d, 1d));
+    SimpleShader whiteMirror = new SimpleShader(mirrorMaterial, new Color(1d, 1d, 1d));
 
     Scene simpleScene = new Scene();
 
-    simpleScene.addShape(new Sphere("sphere1", sphere1Center, sphere1Radius, whiteShader, true));
-    simpleScene.addShape(new Sphere("shpere2", sphere2Center, sphere2Radius, whiteMirror, true));
-    simpleScene.addShape(new Plane("plane1", planeOrigin, planeNormal, whiteMirror, true));
+    simpleScene.addShape(new Sphere(sphere1Center, sphere1Radius, whiteShader, true));
+    simpleScene.addShape(new Sphere(sphere2Center, sphere2Radius, whiteMirror, true));
+    simpleScene.addShape(new Plane(planeOrigin, planeNormal, whiteMirror, true));
 
-    simpleScene.addLightsource(new Pointlight("pointlight1", pointlight1Position, pointlight1Color, pointlight1Intensity, pointlight1falloff));
-    // simpleScene.addShape(new Sphere("light1-sphere", pointlight1Position,
-    // 0.05, redShader, false));
-    simpleScene.addLightsource(new Pointlight("pointlight2", pointlight2Position, pointlight2Color, pointlight2Intensity, pointlight2falloff));
-    // simpleScene.addShape(new Sphere("light2-sphere", pointlight2Position,
-    // 0.05, greenShader, false));
-    simpleScene.addLightsource(new Pointlight("pointlight3", pointlight3Position, pointlight3Color, pointlight3Intensity, pointlight3falloff));
-    // simpleScene.addShape(new Sphere("light3-sphere", pointlight3Position,
-    // 0.05, blueShader, false));
+    simpleScene.addLightsource(new Pointlight(pointlight1Position, pointlight1Color, pointlight1Intensity, pointlight1falloff));
+    simpleScene.addLightsource(new Pointlight(pointlight2Position, pointlight2Color, pointlight2Intensity, pointlight2falloff));
+    simpleScene.addLightsource(new Pointlight(pointlight3Position, pointlight3Color, pointlight3Intensity, pointlight3falloff));
 
     return simpleScene;
   }
@@ -136,21 +130,21 @@ public class SceneReader {
     Material diffuseMaterial = MaterialBuilder.start().ambient(ambientLight).diffuse(0.8).build();
     Material mirrorMaterial = MaterialBuilder.start().ambient(ambientLight / 2d).diffuse(0.1d).reflection(0.9).build();
 
-    Shaders whiteDiffuse = new SimpleShader("white-diffuse", diffuseMaterial, 1d, 1d, 1d);
-    Shaders redDiffuse = new SimpleShader("red-diffuse", diffuseMaterial, 1d, 0d, 0d);
-    Shaders greenDiffuse = new SimpleShader("green-diffuse", diffuseMaterial, 0d, 1d, 0d);
-    Shaders blueDiffuse = new SimpleShader("blue-diffuse", diffuseMaterial, 0d, 0d, 1d);
-    Shaders whiteMirror = new SimpleShader("white-mirror", mirrorMaterial, 1d, 1d, 1d);
-    Shaders redMirror = new SimpleShader("red-diffuse", mirrorMaterial, 1d, 0d, 0d);
+    Shaders whiteDiffuse = new SimpleShader(diffuseMaterial, 1d, 1d, 1d);
+    Shaders redDiffuse = new SimpleShader(diffuseMaterial, 1d, 0d, 0d);
+    Shaders greenDiffuse = new SimpleShader(diffuseMaterial, 0d, 1d, 0d);
+    Shaders blueDiffuse = new SimpleShader(diffuseMaterial, 0d, 0d, 1d);
+    Shaders whiteMirror = new SimpleShader(mirrorMaterial, 1d, 1d, 1d);
+    Shaders redMirror = new SimpleShader(mirrorMaterial, 1d, 0d, 0d);
 
-    Shaders sphereCheckerShader = new CheckerShader("sphere-stripes", whiteMirror, blueDiffuse, 1d, 16d);
-    Shaders checkBoardShader = new CheckerShader("checker", redDiffuse, whiteDiffuse, 16, 16);
+    Shaders sphereCheckerShader = new CheckerShader(whiteMirror, blueDiffuse, 1d, 16d);
+    Shaders checkBoardShader = new CheckerShader(redDiffuse, whiteDiffuse, 16d, 16d);
 
-    Lightsources pointLight = new Pointlight("light", new Point3D(-2, 5, -2), new Color(1, 1, 1), 15, Falloff.Quadric);
+    Lightsources pointLight = new Pointlight(new Point3D(-2, 5, -2), new Color(1, 1, 1), 15, Falloff.Quadric);
 
-    Shapes plane = new Plane("plane", Point3D.ORIGIN, Normal3D.NORMAL_Y, whiteDiffuse, true);
-    Shapes sphere = new Sphere("sphere", new Point3D(0, 1.5, 0), 1, sphereCheckerShader, true);
-    Shapes distantSphere = new Sphere("distant-sphere", new Point3D(-2, 10, -5), 2, checkBoardShader, true);
+    Shapes plane = new Plane(Point3D.ORIGIN, Normal3D.NORMAL_Y, whiteDiffuse, true);
+    Shapes sphere = new Sphere(new Point3D(0, 1.5, 0), 1, sphereCheckerShader, true);
+    Shapes distantSphere = new Sphere(new Point3D(-2, 10, -5), 2, checkBoardShader, true);
 
     Scene scene = new Scene();
 
@@ -174,12 +168,12 @@ public class SceneReader {
 
     Material diffuseMaterial = MaterialBuilder.start().ambient(ambientLight).diffuse(0.8d).build();
 
-    Shaders diffuseWhite = new SimpleShader("shader", diffuseMaterial, 1, 1, 1);
+    Shaders diffuseWhite = new SimpleShader(diffuseMaterial, 1, 1, 1);
 
-    Lightsources light = new Pointlight("light", new Point3D(-2, 5, -2), new Color(1, 1, 1), 10, Falloff.Quadric);
+    Lightsources light = new Pointlight(new Point3D(-2, 5, -2), new Color(1, 1, 1), 10, Falloff.Quadric);
 
-    Shapes plane = new Plane("plane", Point3D.ORIGIN, Normal3D.NORMAL_Y, diffuseWhite, true);
-    Shapes sphere = new Sphere("sphere", new Point3D(0, 1, 0), 1, diffuseWhite, true);
+    Shapes plane = new Plane(Point3D.ORIGIN, Normal3D.NORMAL_Y, diffuseWhite, true);
+    Shapes sphere = new Sphere(new Point3D(0, 1, 0), 1, diffuseWhite, true);
 
     Scene scene = new Scene();
 

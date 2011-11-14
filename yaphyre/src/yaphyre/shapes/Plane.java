@@ -50,15 +50,15 @@ public class Plane extends AbstractShape {
 
   private final Normal3D normal;
 
-  public Plane(String id, Point3D origin, Normal3D normal, Shaders shader, boolean throwsShadow) {
-    super(id, shader, throwsShadow);
+  public Plane(Point3D origin, Normal3D normal, Shaders shader, boolean throwsShadow) {
+    super(shader, throwsShadow);
     this.origin = origin;
     this.normal = normal;
   }
 
   @Override
   public String toString() {
-    return MessageFormat.format("Plane[{0}, {1}, {2}]", getId(), this.origin, this.normal);
+    return MessageFormat.format("Plane[{0}, {1}]", this.origin, this.normal);
   }
 
   /**

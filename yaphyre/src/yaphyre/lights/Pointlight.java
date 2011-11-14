@@ -28,8 +28,8 @@ public class Pointlight extends AbstractLightsource {
 
   private final double intensity;
 
-  public Pointlight(String id, Point3D position, Color color, double intensity, Falloff falloff) {
-    super(id, position, color, falloff);
+  public Pointlight(Point3D position, Color color, double intensity, Falloff falloff) {
+    super(position, color, falloff);
     this.intensity = intensity;
   }
 

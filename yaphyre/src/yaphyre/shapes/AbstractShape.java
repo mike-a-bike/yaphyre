@@ -19,7 +19,6 @@ import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.raytracer.CollisionInformations;
 import yaphyre.shaders.Shaders;
-import yaphyre.util.IdentifiableObject;
 
 /**
  * Implementation of common methods for most {@link Shapes}.
@@ -29,14 +28,13 @@ import yaphyre.util.IdentifiableObject;
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
-public abstract class AbstractShape extends IdentifiableObject implements Shapes {
+public abstract class AbstractShape implements Shapes {
 
   private final Shaders shader;
 
   private final boolean throwsShadow;
 
-  protected AbstractShape(String id, Shaders shader, boolean throwsShadow) {
-    super(id);
+  protected AbstractShape(Shaders shader, boolean throwsShadow) {
     this.shader = shader;
     this.throwsShadow = throwsShadow;
   }
