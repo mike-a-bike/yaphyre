@@ -33,6 +33,7 @@ import org.apache.commons.cli.PosixParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import yaphyre.core.Samplers;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Vector3D;
 import yaphyre.raytracer.RayTracer;
@@ -40,7 +41,6 @@ import yaphyre.raytracer.Scene;
 import yaphyre.samplers.JitteredSampler;
 import yaphyre.samplers.RandomSampler;
 import yaphyre.samplers.RegularSampler;
-import yaphyre.samplers.Samplers;
 import yaphyre.samplers.SinglePointSampler;
 
 /**

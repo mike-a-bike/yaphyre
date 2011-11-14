@@ -32,3 +32,4 @@
  * instances of it. This may be used to safe memory if shapes get complex.
  */
 package yaphyre.shapes;
+import yaphyre.core.Shapes;

@@ -1,5 +1,6 @@
 package yaphyre.shaders;
 
+import yaphyre.core.Shaders;
 import yaphyre.geometry.Point2D;
 import yaphyre.util.Color;
 
