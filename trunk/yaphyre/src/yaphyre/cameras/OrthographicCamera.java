@@ -17,8 +17,8 @@ package yaphyre.cameras;
 
 import java.text.MessageFormat;
 
-import yaphyre.core.Cameras;
-import yaphyre.core.Films;
+import yaphyre.core.Camera;
+import yaphyre.core.Film;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
@@ -34,7 +34,7 @@ import com.google.common.base.Preconditions;
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
-public class OrthographicCamera<F extends Films> extends AbstractCamera<F> implements Cameras<F> {
+public class OrthographicCamera<F extends Film> extends AbstractCamera<F> implements Camera<F> {
 
   private final OrthographicCameraSettings cameraSettings;
 

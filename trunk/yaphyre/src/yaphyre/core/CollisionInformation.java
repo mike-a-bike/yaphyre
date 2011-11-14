@@ -25,9 +25,9 @@ import yaphyre.geometry.Point3D;
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
-public class CollisionInformations {
+public class CollisionInformation {
 
-  private final Shapes collisionShape;
+  private final Shape collisionShape;
 
   private final double collisionDistance;
 
@@ -37,20 +37,20 @@ public class CollisionInformations {
    * Creates a new instance for the collision informations.
    * 
    * @param collisionShape
-   *          The {@link Shapes} instance which is hit.
+   *          The {@link Shape} instance which is hit.
    * @param collisionDistance
    *          The value of the <code>t</code> parameter in which the collision
    *          happens.
    * @param collisionPoint
    *          The {@link Point3D} of the collision.
    */
-  public CollisionInformations(Shapes collisionShape, double collisionDistance, Point3D collisionPoint) {
+  public CollisionInformation(Shape collisionShape, double collisionDistance, Point3D collisionPoint) {
     this.collisionShape = collisionShape;
     this.collisionDistance = collisionDistance;
     this.collisionPoint = collisionPoint;
   }
 
-  public Shapes getCollisionShape() {
+  public Shape getCollisionShape() {
     return this.collisionShape;
   }
 

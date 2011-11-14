@@ -17,8 +17,8 @@ package yaphyre.cameras;
 
 import java.text.MessageFormat;
 
-import yaphyre.core.Cameras;
-import yaphyre.core.Films;
+import yaphyre.core.Camera;
+import yaphyre.core.Film;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
@@ -32,14 +32,14 @@ import com.google.common.base.Preconditions;
  * depth of field and/or aperture size, and forms are modeled here.
  * 
  * @param <F>
- *          The type of {@link Films} which is used by this instance.
+ *          The type of {@link Film} which is used by this instance.
  * 
  * @version $Revision: 42 $
  * 
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
-public class PerspectiveCamera<F extends Films> extends AbstractCamera<F> implements Cameras<F> {
+public class PerspectiveCamera<F extends Film> extends AbstractCamera<F> implements Camera<F> {
 
   private final PerspectiveCameraSettings cameraSettings;
 

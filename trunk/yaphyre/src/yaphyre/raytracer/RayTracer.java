@@ -25,11 +25,10 @@ import org.slf4j.LoggerFactory;
 import yaphyre.cameras.OrthographicCamera;
 import yaphyre.cameras.AbstractCamera.BaseCameraSettings;
 import yaphyre.cameras.OrthographicCamera.OrthographicCameraSettings;
-import yaphyre.core.Cameras;
-import yaphyre.core.CollisionInformations;
-import yaphyre.core.Lightsources;
-import yaphyre.core.Samplers;
-import yaphyre.core.Shapes;
+import yaphyre.core.CollisionInformation;
+import yaphyre.core.Lightsource;
+import yaphyre.core.Sampler;
+import yaphyre.core.Shape;
 import yaphyre.films.ImageFile;
 import yaphyre.films.ImageFile.FileType;
 import yaphyre.geometry.Normal3D;
@@ -61,7 +60,7 @@ public class RayTracer {
 
   private Camera camera;
 
-  private Samplers sampler;
+  private Sampler sampler;
 
   public void setScene(Scene scene) {
     this.scene = scene;
@@ -71,7 +70,7 @@ public class RayTracer {
     return this.scene;
   }
 
-  public void setSampler(Samplers sampler) {
+  public void setSampler(Sampler sampler) {
     this.sampler = sampler;
   }
 
@@ -80,7 +79,7 @@ public class RayTracer {
     ImageFile imageFile = new ImageFile(imageWidth, imageHeight, FileType.PNG);
     BaseCameraSettings<ImageFile> baseSettings = BaseCameraSettings.create(cameraPosition, cameraPosition.add(cameraDirection), imageFile);
     OrthographicCameraSettings orthoSettings = OrthographicCameraSettings.create(frameWidth, frameHeight);
-    Cameras<ImageFile> camera = new OrthographicCamera<ImageFile>(baseSettings, orthoSettings);
+    yaphyre.core.Camera<ImageFile> camera = new OrthographicCamera<ImageFile>(baseSettings, orthoSettings);
 
     LOGGER.debug("Camera initialized: ".concat(camera.toString()));
 
@@ -135,7 +134,7 @@ public class RayTracer {
     }
     iteration++;
 
-    CollisionInformations shapeCollisionInfo = this.scene.getCollidingShape(ray, Shapes.NO_INTERSECTION, false);
+    CollisionInformation shapeCollisionInfo = this.scene.getCollidingShape(ray, Shape.NO_INTERSECTION, false);
 
     if (shapeCollisionInfo != null) {
       Point2D uvCoordinates = shapeCollisionInfo.getCollisionShape().getMappedSurfacePoint(shapeCollisionInfo.getCollisionPoint());
@@ -151,9 +150,9 @@ public class RayTracer {
     return Color.BLACK;
   }
 
-  private Color calculateLightColor(CollisionInformations shapeCollisionInfo, Point2D uvCoordinates, Color objectColor) {
+  private Color calculateLightColor(CollisionInformation shapeCollisionInfo, Point2D uvCoordinates, Color objectColor) {
     Color lightColor = Color.BLACK;
-    for (Lightsources lightsource : this.scene.getLightsources()) {
+    for (Lightsource lightsource : this.scene.getLightsources()) {
 
       Vector3D lightVectorDirection = new Vector3D(shapeCollisionInfo.getCollisionPoint(), lightsource.getPosition()).normalize();
 
@@ -171,7 +170,7 @@ public class RayTracer {
     return lightColor;
   }
 
-  private Color calculateReflectedColor(Ray ray, int iteration, CollisionInformations shapeCollisionInfo, Point2D uvCoordinates) {
+  private Color calculateReflectedColor(Ray ray, int iteration, CollisionInformation shapeCollisionInfo, Point2D uvCoordinates) {
     Color reflectedColor = Color.BLACK;
     double reflectionValue = shapeCollisionInfo.getCollisionShape().getShader().getMaterial(uvCoordinates).getReflection();
     if (reflectionValue > 0d) {

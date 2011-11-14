@@ -15,8 +15,8 @@
  */
 package yaphyre.lights;
 
-import yaphyre.core.CollisionInformations;
-import yaphyre.core.Lightsources;
+import yaphyre.core.CollisionInformation;
+import yaphyre.core.Lightsource;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Vector3D;
@@ -33,7 +33,7 @@ import yaphyre.util.RenderStatistics;
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
-public abstract class AbstractLightsource implements Lightsources {
+public abstract class AbstractLightsource implements Lightsource {
 
   private final Point3D position;
 
@@ -61,7 +61,7 @@ public abstract class AbstractLightsource implements Lightsources {
     return this.falloff;
   }
 
-  protected CollisionInformations calculateVisibility(Point3D lightPoint, Point3D surfacePoint, Scene scene) {
+  protected CollisionInformation calculateVisibility(Point3D lightPoint, Point3D surfacePoint, Scene scene) {
     RenderStatistics.incShadowRays();
     Vector3D lightVector = new Vector3D(lightPoint, surfacePoint);
     Vector3D lightDirection = lightVector.normalize();

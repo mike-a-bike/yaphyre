@@ -19,8 +19,8 @@ import static java.lang.Math.signum;
 
 import java.text.MessageFormat;
 
-import yaphyre.core.Shaders;
-import yaphyre.core.Shapes;
+import yaphyre.core.Shader;
+import yaphyre.core.Shape;
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
@@ -51,7 +51,7 @@ public class Plane extends AbstractShape {
 
   private final Normal3D normal;
 
-  public Plane(Point3D origin, Normal3D normal, Shaders shader, boolean throwsShadow) {
+  public Plane(Point3D origin, Normal3D normal, Shader shader, boolean throwsShadow) {
     super(shader, throwsShadow);
     this.origin = origin;
     this.normal = normal;
@@ -81,7 +81,7 @@ public class Plane extends AbstractShape {
    *          The {@link Ray} to intersect with this plane.
    * 
    * @return The distance in which the ray intersects this plane or
-   *         {@link Shapes#NO_INTERSECTION} if there is no intersection.
+   *         {@link Shape#NO_INTERSECTION} if there is no intersection.
    */
   @Override
   public double getIntersectDistance(Ray ray) {
@@ -95,12 +95,12 @@ public class Plane extends AbstractShape {
     } else if (numerator != 0 && denominator == 0) {
       // The ray starts outside the plane and is parallel to the plane, so no
       // intersection, ever...
-      return Shapes.NO_INTERSECTION;
+      return Shape.NO_INTERSECTION;
     }
 
     double distance = numerator / denominator;
 
-    return (distance >= ray.getMint() && distance <= ray.getMaxt()) ? distance : Shapes.NO_INTERSECTION;
+    return (distance >= ray.getMint() && distance <= ray.getMaxt()) ? distance : Shape.NO_INTERSECTION;
 
   }
 

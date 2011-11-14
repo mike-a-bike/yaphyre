@@ -26,7 +26,7 @@ import yaphyre.geometry.Point3D;
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
-public interface Samplers {
+public interface Sampler {
 
   /**
    * Shuffle the sets. Call this to avoid aliasing.

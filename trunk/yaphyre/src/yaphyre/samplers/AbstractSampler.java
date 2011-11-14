@@ -30,12 +30,12 @@ import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import yaphyre.core.Samplers;
+import yaphyre.core.Sampler;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 
 /**
- * An abstract implementation of the interface {@link Samplers}. This is used to
+ * An abstract implementation of the interface {@link Sampler}. This is used to
  * ensure that all samplers provide a similar constructor.
  * 
  * @version $Revision: 46 $
@@ -43,7 +43,7 @@ import yaphyre.geometry.Point3D;
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
-public abstract class AbstractSampler implements Samplers {
+public abstract class AbstractSampler implements Sampler {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSampler.class);
 

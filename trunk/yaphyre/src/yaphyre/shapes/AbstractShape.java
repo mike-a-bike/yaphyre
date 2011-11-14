@@ -15,33 +15,33 @@
  */
 package yaphyre.shapes;
 
-import yaphyre.core.CollisionInformations;
-import yaphyre.core.Shaders;
-import yaphyre.core.Shapes;
+import yaphyre.core.CollisionInformation;
+import yaphyre.core.Shader;
+import yaphyre.core.Shape;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 
 /**
- * Implementation of common methods for most {@link Shapes}.
+ * Implementation of common methods for most {@link Shape}.
  * 
  * @version $Revision$
  * 
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
-public abstract class AbstractShape implements Shapes {
+public abstract class AbstractShape implements Shape {
 
-  private final Shaders shader;
+  private final Shader shader;
 
   private final boolean throwsShadow;
 
-  protected AbstractShape(Shaders shader, boolean throwsShadow) {
+  protected AbstractShape(Shader shader, boolean throwsShadow) {
     this.shader = shader;
     this.throwsShadow = throwsShadow;
   }
 
   @Override
-  public Shaders getShader() {
+  public Shader getShader() {
     return this.shader;
   }
 
@@ -56,14 +56,14 @@ public abstract class AbstractShape implements Shapes {
   }
 
   @Override
-  public CollisionInformations intersect(Ray ray) {
+  public CollisionInformation intersect(Ray ray) {
     throw new RuntimeException("Not implemented yet");
   }
 
   @Override
   public Point3D getIntersectionPoint(Ray ray) {
     double intersectionDistance = getIntersectDistance(ray);
-    if (intersectionDistance == Shapes.NO_INTERSECTION) {
+    if (intersectionDistance == Shape.NO_INTERSECTION) {
       return null;
     }
 

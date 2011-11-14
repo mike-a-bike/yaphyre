@@ -5,47 +5,47 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import yaphyre.core.CollisionInformations;
-import yaphyre.core.Lightsources;
-import yaphyre.core.Shaders;
-import yaphyre.core.Shapes;
+import yaphyre.core.CollisionInformation;
+import yaphyre.core.Lightsource;
+import yaphyre.core.Shader;
+import yaphyre.core.Shape;
 import yaphyre.geometry.Ray;
 
 public class Scene {
 
-  private final List<Shapes> shapes;
+  private final List<Shape> shapes;
 
-  private final List<Lightsources> lightsources;
+  private final List<Lightsource> lightsources;
 
-  private final List<Shaders> shaders;
+  private final List<Shader> shaders;
 
   public Scene() {
-    this.shapes = new LinkedList<Shapes>();
-    this.lightsources = new LinkedList<Lightsources>();
-    this.shaders = new LinkedList<Shaders>();
+    this.shapes = new LinkedList<Shape>();
+    this.lightsources = new LinkedList<Lightsource>();
+    this.shaders = new LinkedList<Shader>();
   }
 
-  public void addShape(Shapes shape) {
+  public void addShape(Shape shape) {
     this.shapes.add(shape);
   }
 
-  public List<Shapes> getShapes() {
+  public List<Shape> getShapes() {
     return Collections.unmodifiableList(this.shapes);
   }
 
-  public void addLightsource(Lightsources lightsource) {
+  public void addLightsource(Lightsource lightsource) {
     this.lightsources.add(lightsource);
   }
 
-  public List<Shaders> getShaders() {
+  public List<Shader> getShaders() {
     return Collections.unmodifiableList(this.shaders);
   }
 
-  public void addShader(Shaders shader) {
+  public void addShader(Shader shader) {
     this.shaders.add(shader);
   }
 
-  public List<Lightsources> getLightsources() {
+  public List<Lightsource> getLightsources() {
     return Collections.unmodifiableList(this.lightsources);
   }
 
@@ -54,14 +54,14 @@ public class Scene {
     return MessageFormat.format("Scene[shapes:{0,number},lights:{1,number},shaders:{2,number}]", this.shapes.size(), this.lightsources.size(), this.shaders.size());
   }
 
-  public CollisionInformations getCollidingShape(Ray ray, double maxDistance, boolean onlyShadowShapes) {
+  public CollisionInformation getCollidingShape(Ray ray, double maxDistance, boolean onlyShadowShapes) {
 
-    CollisionInformations result = null;
+    CollisionInformation result = null;
 
     double nearestCollitionDistance = maxDistance;
-    Shapes nearestCollitionShape = null;
+    Shape nearestCollitionShape = null;
 
-    for (Shapes shape : this.getShapes()) {
+    for (Shape shape : getShapes()) {
       if (onlyShadowShapes && shape.throwsShadow() == false) {
         continue;
       }
@@ -73,7 +73,7 @@ public class Scene {
     }
 
     if (nearestCollitionDistance < maxDistance) {
-      result = new CollisionInformations(nearestCollitionShape, nearestCollitionDistance, ray.getPoint(nearestCollitionDistance));
+      result = new CollisionInformation(nearestCollitionShape, nearestCollitionDistance, ray.getPoint(nearestCollitionDistance));
     }
 
     return result;

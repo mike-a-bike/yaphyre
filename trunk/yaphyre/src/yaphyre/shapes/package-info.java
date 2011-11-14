@@ -15,7 +15,7 @@
  */
 /**
  * This package contains all known shapes. The most used, public structure is
- * the {@link Shapes} interface. All shapes must implement this interface. The
+ * the {@link Shape} interface. All shapes must implement this interface. The
  * rendering process only uses this interface. So all concrete implementations
  * and implementation details are considered private.<br/>
  * 
@@ -32,4 +32,4 @@
  * instances of it. This may be used to safe memory if shapes get complex.
  */
 package yaphyre.shapes;
-import yaphyre.core.Shapes;
+import yaphyre.core.Shape;

@@ -33,7 +33,7 @@ import org.apache.commons.cli.PosixParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import yaphyre.core.Samplers;
+import yaphyre.core.Sampler;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Vector3D;
 import yaphyre.raytracer.RayTracer;
@@ -102,7 +102,7 @@ public class YaPhyRe {
     Scene scene = readScene(commandLine);
 
     LOGGER.debug("Initialize sampler");
-    Samplers sampler = parseSampler(commandLine);
+    Sampler sampler = parseSampler(commandLine);
 
     LOGGER.debug("Initializing RayTracer");
     RayTracer rayTracer = new RayTracer();
@@ -147,9 +147,9 @@ public class YaPhyRe {
     return scene;
   }
 
-  private static Samplers parseSampler(CommandLine commandLine) {
+  private static Sampler parseSampler(CommandLine commandLine) {
     String[] samplerSettings = commandLine.getOptionValues('a');
-    Samplers sampler = null;
+    Sampler sampler = null;
     int sampleCount = DEFAULT_SAMPLE_NUMBER;
     if (samplerSettings.length == 2) {
       sampleCount = Integer.parseInt(samplerSettings[1]);

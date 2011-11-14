@@ -16,8 +16,8 @@
 package yaphyre.shapes;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import yaphyre.core.Shaders;
-import yaphyre.core.Shapes;
+import yaphyre.core.Shader;
+import yaphyre.core.Shape;
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
@@ -38,13 +38,13 @@ import yaphyre.geometry.Transformation;
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
-public class Instance extends AbstractShape implements Shapes {
+public class Instance extends AbstractShape implements Shape {
 
-  private final Shapes baseShape;
+  private final Shape baseShape;
 
   private final Transformation instanceTransformation;
 
-  public Instance(Shapes baseShape, Transformation instanceTransformation, Shaders shader, boolean throwsShadow) {
+  public Instance(Shape baseShape, Transformation instanceTransformation, Shader shader, boolean throwsShadow) {
     super(shader, throwsShadow);
     checkNotNull(baseShape);
     checkNotNull(instanceTransformation);

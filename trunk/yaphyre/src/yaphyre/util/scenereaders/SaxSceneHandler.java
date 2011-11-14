@@ -27,9 +27,9 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import yaphyre.core.Lightsources;
-import yaphyre.core.Shaders;
-import yaphyre.core.Shapes;
+import yaphyre.core.Lightsource;
+import yaphyre.core.Shader;
+import yaphyre.core.Shape;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Transformation;
 import yaphyre.raytracer.Scene;
@@ -57,13 +57,13 @@ class SaxSceneHandler extends DefaultHandler {
 
   private static final String OBJECT_TYPE = "objectType";
 
-  private final Map<String, Shapes> shapes = new HashMap<String, Shapes>();
+  private final Map<String, Shape> shapes = new HashMap<String, Shape>();
 
-  private final Map<String, Lightsources> lights = new HashMap<String, Lightsources>();
+  private final Map<String, Lightsource> lights = new HashMap<String, Lightsource>();
 
   private final Map<String, Material> materials = new HashMap<String, Material>();
 
-  private final Map<String, Shaders> shaders = new HashMap<String, Shaders>();
+  private final Map<String, Shader> shaders = new HashMap<String, Shader>();
 
   private final Deque<Object> elementStack = new LinkedList<Object>();
 
@@ -132,7 +132,7 @@ class SaxSceneHandler extends DefaultHandler {
         if (Strings.isNullOrEmpty(elementRef)) {
           throw new SAXException("either 'id' or 'ref' must be specified for shaders");
         }
-        Shaders shader = this.shaders.get(elementRef);
+        Shader shader = this.shaders.get(elementRef);
         if (shader == null) {
           throw new SAXException("unknown shader '" + elementRef + "'");
         }
@@ -228,7 +228,7 @@ class SaxSceneHandler extends DefaultHandler {
       }
       SceneElement shaderElement = (SceneElement)this.elementStack.pop();
 
-      Shaders shader = new SimpleShader(material, color);
+      Shader shader = new SimpleShader(material, color);
       this.shaders.put(shaderElement.getId(), shader);
     }
 

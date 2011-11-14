@@ -29,7 +29,7 @@ import yaphyre.util.Color;
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
-public interface Shaders {
+public interface Shader {
 
   public Color getColor(Point2D uvCoordinate);
 
