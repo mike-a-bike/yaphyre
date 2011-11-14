@@ -17,83 +17,74 @@ package yaphyre.cameras;
 
 import yaphyre.core.Cameras;
 import yaphyre.core.Films;
-import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Transformation;
+import yaphyre.geometry.Vector3D;
+
+import com.google.common.base.Preconditions;
 
 /**
  * A common super class for all implemented {@link Cameras}. This handles some
  * common stuff like transformations and the film instances.
+ * 
+ * @param <F>
+ *          The type of film used by the instance.
  * 
  * @version $Revision: 42 $
  * 
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
-public abstract class AbstractCamera implements Cameras {
+public abstract class AbstractCamera<F extends Films> implements Cameras<F> {
 
-  private Transformation world2Camera;
+  private final Transformation world2Camera;
 
-  private Transformation camera2World;
+  private final Transformation camera2World;
 
-  private final Films film;
+  private final BaseCameraSettings<F> cameraSettings;
 
-  private final double nearClip;
-
-  private final double farClip;
-
-  private final Point3D position;
-
-  private final Normal3D direction;
-
-  public AbstractCamera(BaseCameraSettings baseSettings) {
-    this.nearClip = baseSettings.getNearClip();
-    this.farClip = baseSettings.getFarClip();
-    this.position = baseSettings.getPosition();
-    this.direction = baseSettings.getDirection();
-    this.film = baseSettings.getFilm();
+  public AbstractCamera(BaseCameraSettings<F> baseSettings) {
+    this.cameraSettings = baseSettings;
+    this.world2Camera = Transformation.lookAt(baseSettings.getPosition(), baseSettings.getLookAt(), baseSettings.getUp());
+    this.camera2World = this.world2Camera.inverse();
   }
 
   @Override
   public abstract Ray getCameraRay(Point2D viewPlanePoint);
 
   @Override
-  public Films getFilm() {
-    return this.film;
+  public F getFilm() {
+    return this.cameraSettings.getFilm();
   }
 
   protected double getNearClip() {
-    return this.nearClip;
+    return this.cameraSettings.getNearClip();
   }
 
   protected double getFarClip() {
-    return this.farClip;
+    return this.cameraSettings.getFarClip();
   }
 
   protected Point3D getPosition() {
-    return this.position;
+    return this.cameraSettings.getPosition();
   }
 
-  protected Normal3D getDirection() {
-    return this.direction;
+  protected Point3D getLookAt() {
+    return this.cameraSettings.getLookAt();
+  }
+
+  protected Vector3D getUp() {
+    return this.cameraSettings.getUp();
   }
 
   protected Transformation getCamera2World() {
     return this.camera2World;
   }
 
-  protected void setCamera2World(Transformation camera2World) {
-    this.camera2World = camera2World;
-  }
-
   protected Transformation getWorld2Camera() {
     return this.world2Camera;
-  }
-
-  protected void setWorld2Camera(Transformation world2Camera) {
-    this.world2Camera = world2Camera;
   }
 
   /**
@@ -105,31 +96,39 @@ public abstract class AbstractCamera implements Cameras {
    * @author Michael Bieri
    * @author $LastChangedBy: mike0041@gmail.com $
    */
-  public static class BaseCameraSettings {
+  public static class BaseCameraSettings<F extends Films> {
     private final double nearClip;
 
     private final double farClip;
 
-    private final Films film;
+    private final F film;
 
     private final Point3D position;
 
-    private final Normal3D direction;
+    private final Point3D lookAt;
 
-    public static BaseCameraSettings create(Point3D position, Normal3D direction, Films film) {
-      return create(0d, Double.MAX_VALUE, position, direction, film);
+    private final Vector3D up;
+
+    public static <T extends Films> BaseCameraSettings<T> create(Point3D position, Point3D lookAt, T film) {
+      return create(0d, Double.MAX_VALUE, position, lookAt, Vector3D.Y, film);
     }
 
-    public static BaseCameraSettings create(double nearClip, double farClip, Point3D position, Normal3D direction, Films film) {
-      return new BaseCameraSettings(nearClip, farClip, position, direction, film);
+    public static <T extends Films> BaseCameraSettings<T> create(Point3D position, Point3D lookAt, Vector3D up, T film) {
+      return create(0d, Double.MAX_VALUE, position, lookAt, up, film);
     }
 
-    private BaseCameraSettings(double nearClip, double farClip, Point3D position, Normal3D direction, Films film) {
+    public static <T extends Films> BaseCameraSettings<T> create(double nearClip, double farClip, Point3D position, Point3D lookAt, Vector3D up, T film) {
+      return new BaseCameraSettings<T>(nearClip, farClip, position, lookAt, up, film);
+    }
+
+    private BaseCameraSettings(double nearClip, double farClip, Point3D position, Point3D lookAt, Vector3D up, F film) {
+      Preconditions.checkArgument(!position.equals(lookAt), "the position and look at point must not be equal");
       this.nearClip = nearClip;
       this.farClip = farClip;
       this.position = position;
-      this.direction = direction;
+      this.lookAt = lookAt;
       this.film = film;
+      this.up = up;
     }
 
     public double getNearClip() {
@@ -144,11 +143,15 @@ public abstract class AbstractCamera implements Cameras {
       return this.position;
     }
 
-    public Normal3D getDirection() {
-      return this.direction;
+    public Point3D getLookAt() {
+      return this.lookAt;
     }
 
-    public Films getFilm() {
+    public Vector3D getUp() {
+      return this.up;
+    }
+
+    public F getFilm() {
       return this.film;
     }
   }

@@ -15,11 +15,13 @@
  */
 package yaphyre.cameras;
 
+import java.text.MessageFormat;
+
 import yaphyre.core.Cameras;
+import yaphyre.core.Films;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
-import yaphyre.geometry.Transformation;
 import yaphyre.geometry.Vector3D;
 
 import com.google.common.base.Preconditions;
@@ -32,30 +34,19 @@ import com.google.common.base.Preconditions;
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
-public class OrthographicCamera extends AbstractCamera implements Cameras {
+public class OrthographicCamera<F extends Films> extends AbstractCamera<F> implements Cameras<F> {
 
-  private static final Vector3D UP = Vector3D.Y;
-
-  private static final Vector3D RIGHT = Vector3D.X;
-
-  private final double viewPlaneWidth;
+  private final OrthographicCameraSettings cameraSettings;
 
   private final double viewPlaneWidthStart;
 
-  private final double viewPlaneHeight;
-
   private final double viewPlaneHeightStart;
 
-  public OrthographicCamera(BaseCameraSettings baseSettings, OrthographicCameraSettings orthographicSettings) {
-
+  public OrthographicCamera(BaseCameraSettings<F> baseSettings, OrthographicCameraSettings orthographicSettings) {
     super(baseSettings);
-
-    this.viewPlaneWidth = orthographicSettings.getViewPlaneWidth();
-    this.viewPlaneWidthStart = -(this.viewPlaneWidth / 2d);
-    this.viewPlaneHeight = orthographicSettings.getViewPlaneHeight();
-    this.viewPlaneHeightStart = -(this.viewPlaneHeight / 2d);
-
-    initTransformations();
+    this.cameraSettings = orthographicSettings;
+    this.viewPlaneWidthStart = -(this.cameraSettings.getViewPlaneWidth() / 2d);
+    this.viewPlaneHeightStart = -(this.cameraSettings.getViewPlaneHeight() / 2d);
   }
 
   @Override
@@ -70,10 +61,15 @@ public class OrthographicCamera extends AbstractCamera implements Cameras {
     return result;
   }
 
-  private void initTransformations() {
-    Transformation lookAt = Transformation.lookAt(super.getPosition(), super.getDirection().asVector(), UP, RIGHT);
-    setWorld2Camera(lookAt);
-    setCamera2World(lookAt.inverse());
+  @Override
+  public String toString() {
+    return MessageFormat.format("{0} [pos:{1}, lookat:{2}, width:{3}, height:{4}, film:{5}]",
+                                this.getClass().getSimpleName(),
+                                super.getPosition(),
+                                super.getLookAt(),
+                                String.valueOf(this.cameraSettings.getViewPlaneWidth()),
+                                String.valueOf(this.cameraSettings.getViewPlaneHeight()),
+                                super.getFilm());
   }
 
   /**
@@ -87,8 +83,8 @@ public class OrthographicCamera extends AbstractCamera implements Cameras {
    *         +width/2] and v &isin; [-height/2, height/2])
    */
   private Point2D mapViewPlanePoint(Point2D viewPlanePoint) {
-    double mappedU = this.viewPlaneWidthStart + this.viewPlaneWidth * viewPlanePoint.getU();
-    double mappedV = this.viewPlaneHeightStart + this.viewPlaneHeight * viewPlanePoint.getV();
+    double mappedU = this.viewPlaneWidthStart + this.cameraSettings.getViewPlaneWidth() * viewPlanePoint.getU();
+    double mappedV = this.viewPlaneHeightStart + this.cameraSettings.getViewPlaneHeight() * viewPlanePoint.getV();
     return new Point2D(mappedU, mappedV);
   }
 

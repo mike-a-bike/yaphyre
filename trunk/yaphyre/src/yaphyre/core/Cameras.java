@@ -21,12 +21,15 @@ import yaphyre.geometry.Ray;
 /**
  * This is the common interface all cameras must implement.
  * 
+ * @param <F>
+ *          The type of film used by a concrete instance.
+ * 
  * @version $Revision: 42 $
  * 
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
-public interface Cameras {
+public interface Cameras<F extends Films> {
 
   /**
    * Create a ray for the given u/v coordinates. Where <em>u</em> &isin; [0, 1]
@@ -41,6 +44,14 @@ public interface Cameras {
   public Ray getCameraRay(Point2D viewPlanePoint);
 
   /**
+   * Gets an {@link Iterable} instance to loop over all camera samples.
+   * 
+   * @return An instance of {@link Iterable} usable to loop over the camera
+   *         samples
+   */
+  // public Iterable<CameraSample> getCameraSamples();
+
+  /**
    * Get the {@link Films} instance that is associated with the camera. This is
    * usually an image file, but can be something else as well.
    * 
@@ -48,6 +59,6 @@ public interface Cameras {
    * 
    * @see yaphyre.films.ImageFile
    */
-  public Films getFilm();
+  public F getFilm();
 
 }
