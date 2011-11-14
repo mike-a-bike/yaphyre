@@ -17,7 +17,7 @@ package yaphyre.lights;
 
 import java.text.MessageFormat;
 
-import yaphyre.core.CollisionInformations;
+import yaphyre.core.CollisionInformation;
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point3D;
 import yaphyre.raytracer.Scene;
@@ -68,7 +68,7 @@ public class AreaLight extends AbstractLightsource {
     double accumulatedIntensity = 0d;
 
     for (Point3D origin : createOrigins()) {
-      CollisionInformations shadowCollision = super.calculateVisibility(origin, point, scene);
+      CollisionInformation shadowCollision = super.calculateVisibility(origin, point, scene);
       if (shadowCollision == null) {
         accumulatedIntensity += super.getFalloff().getIntensity(this.rayIntensity, origin.sub(point).length());
       }

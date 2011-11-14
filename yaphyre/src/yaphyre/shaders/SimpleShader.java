@@ -1,10 +1,10 @@
 package yaphyre.shaders;
 
-import yaphyre.core.Shaders;
+import yaphyre.core.Shader;
 import yaphyre.geometry.Point2D;
 import yaphyre.util.Color;
 
-public class SimpleShader implements Shaders {
+public class SimpleShader implements Shader {
 
   private final Color color;
 

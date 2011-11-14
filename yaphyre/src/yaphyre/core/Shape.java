@@ -21,29 +21,29 @@ import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 
 /**
- * Interface implemented by all {@link Shapes} of the rendering system.
+ * Interface implemented by all {@link Shape} of the rendering system.
  * 
  * @version $Revision$
  * 
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
-public interface Shapes {
+public interface Shape {
 
   /** Constant for signaling that there is no intersection. */
   public static final double NO_INTERSECTION = Double.POSITIVE_INFINITY;
 
   /**
-   * Gets the {@link Shaders} instance associated with this shape instance.
+   * Gets the {@link Shader} instance associated with this shape instance.
    * 
-   * @return The {@link Shaders} for this shape.
+   * @return The {@link Shader} for this shape.
    */
-  public Shaders getShader();
+  public Shader getShader();
 
   /**
    * Simple intersection test. This does not produce exact intersection
    * informations, but just informations about whether the given {@link Ray}
-   * hits this {@link Shapes} or not.
+   * hits this {@link Shape} or not.
    * 
    * @param ray
    *          The {@link Ray} to check for intersection.
@@ -62,11 +62,11 @@ public interface Shapes {
    * @param ray
    *          The {@link Ray} to check for intersection.
    * 
-   * @return The {@link CollisionInformations} instance describing the
-   *         intersection between the {@link Ray} and this {@link Shapes}
+   * @return The {@link CollisionInformation} instance describing the
+   *         intersection between the {@link Ray} and this {@link Shape}
    *         instance. <code>null</code> if no intersection happens.
    */
-  public CollisionInformations intersect(Ray ray);
+  public CollisionInformation intersect(Ray ray);
 
   /**
    * Calculate the distance in which the given {@link Ray} and this shape
@@ -82,7 +82,7 @@ public interface Shapes {
 
   /**
    * Returns the {@link Point3D} at which the given {@link Ray} intersects this
-   * {@link Shapes} instance. If the ray misses this shape, <code>null</code> is
+   * {@link Shape} instance. If the ray misses this shape, <code>null</code> is
    * returned.
    * 
    * @param ray

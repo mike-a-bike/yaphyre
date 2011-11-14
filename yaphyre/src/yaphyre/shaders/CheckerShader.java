@@ -15,7 +15,7 @@
  */
 package yaphyre.shaders;
 
-import yaphyre.core.Shaders;
+import yaphyre.core.Shader;
 import yaphyre.geometry.Point2D;
 import yaphyre.util.Color;
 
@@ -30,9 +30,9 @@ import yaphyre.util.Color;
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
-public class CheckerShader implements Shaders {
+public class CheckerShader implements Shader {
 
-  private final Shaders shader1, shader2;
+  private final Shader shader1, shader2;
 
   private final double uSize, vSize, uSizeInv, vSizeInv;
 
@@ -47,7 +47,7 @@ public class CheckerShader implements Shaders {
    * @param shader2
    *          The second shader
    */
-  public CheckerShader(String id, Shaders shader1, Shaders shader2) {
+  public CheckerShader(String id, Shader shader1, Shader shader2) {
     this(shader1, shader2, 1d, 1d);
   }
 
@@ -64,7 +64,7 @@ public class CheckerShader implements Shaders {
    * @param frequency
    *          The frequency with which the pattern changes.
    */
-  public CheckerShader(String id, Shaders shader1, Shaders shader2, double frequency) {
+  public CheckerShader(String id, Shader shader1, Shader shader2, double frequency) {
     this(shader1, shader2, frequency, frequency);
   }
 
@@ -83,7 +83,7 @@ public class CheckerShader implements Shaders {
    * @param vFrequency
    *          The frequency with which the pattern changes in the v direction.
    */
-  public CheckerShader(Shaders shader1, Shaders shader2, double uFrequency, double vFrequency) {
+  public CheckerShader(Shader shader1, Shader shader2, double uFrequency, double vFrequency) {
     this.shader1 = shader1;
     this.shader2 = shader2;
     this.uSizeInv = uFrequency;
@@ -102,7 +102,7 @@ public class CheckerShader implements Shaders {
     return getShaderAtCoordinate(uvCoordinate).getMaterial(uvCoordinate);
   }
 
-  private Shaders getShaderAtCoordinate(Point2D uvCoordinate) {
+  private Shader getShaderAtCoordinate(Point2D uvCoordinate) {
     double u = uvCoordinate.getU();
     double v = uvCoordinate.getV();
     u = (u >= 0) ? u : u - this.uSize;

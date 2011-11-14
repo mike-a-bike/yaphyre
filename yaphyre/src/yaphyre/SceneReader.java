@@ -1,8 +1,8 @@
 package yaphyre;
 
-import yaphyre.core.Lightsources;
-import yaphyre.core.Shaders;
-import yaphyre.core.Shapes;
+import yaphyre.core.Lightsource;
+import yaphyre.core.Shader;
+import yaphyre.core.Shape;
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point3D;
 import yaphyre.lights.Falloff;
@@ -38,10 +38,10 @@ public class SceneReader {
     Material mirrorMaterial = MaterialBuilder.start().ambient(1).diffuse(0.1d).reflection(0.9d).build();
 
     // shaders
-    Shaders whiteDiffuse = new SimpleShader(diffuseMaterial, white);
-    Shaders whiteMirror = new SimpleShader(mirrorMaterial, white);
-    Shaders redDiffuse = new SimpleShader(diffuseMaterial, red);
-    Shaders blueDiffuse = new SimpleShader(diffuseMaterial, blue);
+    Shader whiteDiffuse = new SimpleShader(diffuseMaterial, white);
+    Shader whiteMirror = new SimpleShader(mirrorMaterial, white);
+    Shader redDiffuse = new SimpleShader(diffuseMaterial, red);
+    Shader blueDiffuse = new SimpleShader(diffuseMaterial, blue);
 
     // walls
     Plane back = new Plane(new Point3D(0, 0, 6), Normal3D.NORMAL_Z.neg(), whiteDiffuse, true);
@@ -130,21 +130,21 @@ public class SceneReader {
     Material diffuseMaterial = MaterialBuilder.start().ambient(ambientLight).diffuse(0.8).build();
     Material mirrorMaterial = MaterialBuilder.start().ambient(ambientLight / 2d).diffuse(0.1d).reflection(0.9).build();
 
-    Shaders whiteDiffuse = new SimpleShader(diffuseMaterial, 1d, 1d, 1d);
-    Shaders redDiffuse = new SimpleShader(diffuseMaterial, 1d, 0d, 0d);
-    Shaders greenDiffuse = new SimpleShader(diffuseMaterial, 0d, 1d, 0d);
-    Shaders blueDiffuse = new SimpleShader(diffuseMaterial, 0d, 0d, 1d);
-    Shaders whiteMirror = new SimpleShader(mirrorMaterial, 1d, 1d, 1d);
-    Shaders redMirror = new SimpleShader(mirrorMaterial, 1d, 0d, 0d);
+    Shader whiteDiffuse = new SimpleShader(diffuseMaterial, 1d, 1d, 1d);
+    Shader redDiffuse = new SimpleShader(diffuseMaterial, 1d, 0d, 0d);
+    Shader greenDiffuse = new SimpleShader(diffuseMaterial, 0d, 1d, 0d);
+    Shader blueDiffuse = new SimpleShader(diffuseMaterial, 0d, 0d, 1d);
+    Shader whiteMirror = new SimpleShader(mirrorMaterial, 1d, 1d, 1d);
+    Shader redMirror = new SimpleShader(mirrorMaterial, 1d, 0d, 0d);
 
-    Shaders sphereCheckerShader = new CheckerShader(whiteMirror, blueDiffuse, 1d, 16d);
-    Shaders checkBoardShader = new CheckerShader(redDiffuse, whiteDiffuse, 16d, 16d);
+    Shader sphereCheckerShader = new CheckerShader(whiteMirror, blueDiffuse, 1d, 16d);
+    Shader checkBoardShader = new CheckerShader(redDiffuse, whiteDiffuse, 16d, 16d);
 
-    Lightsources pointLight = new Pointlight(new Point3D(-2, 5, -2), new Color(1, 1, 1), 15, Falloff.Quadric);
+    Lightsource pointLight = new Pointlight(new Point3D(-2, 5, -2), new Color(1, 1, 1), 15, Falloff.Quadric);
 
-    Shapes plane = new Plane(Point3D.ORIGIN, Normal3D.NORMAL_Y, whiteDiffuse, true);
-    Shapes sphere = new Sphere(new Point3D(0, 1.5, 0), 1, sphereCheckerShader, true);
-    Shapes distantSphere = new Sphere(new Point3D(-2, 10, -5), 2, checkBoardShader, true);
+    Shape plane = new Plane(Point3D.ORIGIN, Normal3D.NORMAL_Y, whiteDiffuse, true);
+    Shape sphere = new Sphere(new Point3D(0, 1.5, 0), 1, sphereCheckerShader, true);
+    Shape distantSphere = new Sphere(new Point3D(-2, 10, -5), 2, checkBoardShader, true);
 
     Scene scene = new Scene();
 
@@ -168,12 +168,12 @@ public class SceneReader {
 
     Material diffuseMaterial = MaterialBuilder.start().ambient(ambientLight).diffuse(0.8d).build();
 
-    Shaders diffuseWhite = new SimpleShader(diffuseMaterial, 1, 1, 1);
+    Shader diffuseWhite = new SimpleShader(diffuseMaterial, 1, 1, 1);
 
-    Lightsources light = new Pointlight(new Point3D(-2, 5, -2), new Color(1, 1, 1), 10, Falloff.Quadric);
+    Lightsource light = new Pointlight(new Point3D(-2, 5, -2), new Color(1, 1, 1), 10, Falloff.Quadric);
 
-    Shapes plane = new Plane(Point3D.ORIGIN, Normal3D.NORMAL_Y, diffuseWhite, true);
-    Shapes sphere = new Sphere(new Point3D(0, 1, 0), 1, diffuseWhite, true);
+    Shape plane = new Plane(Point3D.ORIGIN, Normal3D.NORMAL_Y, diffuseWhite, true);
+    Shape sphere = new Sphere(new Point3D(0, 1, 0), 1, diffuseWhite, true);
 
     Scene scene = new Scene();
 

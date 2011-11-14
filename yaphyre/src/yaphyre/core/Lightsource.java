@@ -15,25 +15,24 @@
  */
 package yaphyre.core;
 
+import yaphyre.geometry.Point3D;
+import yaphyre.raytracer.Scene;
 import yaphyre.util.Color;
 
 /**
- * Interface for all film instances. This is for recording rendered samples and
- * process them in an appropriate way. The most common form is an image file.
+ * Common interface for all light sources in the rendering system.
  * 
- * @version $Revision: 42 $
+ * @version $Revision$
  * 
  * @author Michael Bieri
- * @author $LastChangedBy: mike0041@gmail.com $
+ * @author $LastChangedBy$
  */
-public interface Films {
+public interface Lightsource {
 
-  public int getXResolution();
+  Point3D getPosition();
 
-  public int getYResolution();
+  public double getIntensity(Point3D point, Scene scene);
 
-  public void addCameraSample(CameraSample sample, Color color);
-
-  public void writeImageFile(int xSize, int ySize, String fileName);
+  public Color getColor();
 
 }

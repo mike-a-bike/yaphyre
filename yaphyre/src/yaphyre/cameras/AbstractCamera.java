@@ -15,8 +15,8 @@
  */
 package yaphyre.cameras;
 
-import yaphyre.core.Cameras;
-import yaphyre.core.Films;
+import yaphyre.core.Camera;
+import yaphyre.core.Film;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
@@ -26,7 +26,7 @@ import yaphyre.geometry.Vector3D;
 import com.google.common.base.Preconditions;
 
 /**
- * A common super class for all implemented {@link Cameras}. This handles some
+ * A common super class for all implemented {@link Camera}. This handles some
  * common stuff like transformations and the film instances.
  * 
  * @param <F>
@@ -37,7 +37,7 @@ import com.google.common.base.Preconditions;
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
-public abstract class AbstractCamera<F extends Films> implements Cameras<F> {
+public abstract class AbstractCamera<F extends Film> implements Camera<F> {
 
   private final Transformation world2Camera;
 
@@ -96,7 +96,7 @@ public abstract class AbstractCamera<F extends Films> implements Cameras<F> {
    * @author Michael Bieri
    * @author $LastChangedBy: mike0041@gmail.com $
    */
-  public static class BaseCameraSettings<F extends Films> {
+  public static class BaseCameraSettings<F extends Film> {
     private final double nearClip;
 
     private final double farClip;
@@ -109,15 +109,15 @@ public abstract class AbstractCamera<F extends Films> implements Cameras<F> {
 
     private final Vector3D up;
 
-    public static <T extends Films> BaseCameraSettings<T> create(Point3D position, Point3D lookAt, T film) {
+    public static <T extends Film> BaseCameraSettings<T> create(Point3D position, Point3D lookAt, T film) {
       return create(0d, Double.MAX_VALUE, position, lookAt, Vector3D.Y, film);
     }
 
-    public static <T extends Films> BaseCameraSettings<T> create(Point3D position, Point3D lookAt, Vector3D up, T film) {
+    public static <T extends Film> BaseCameraSettings<T> create(Point3D position, Point3D lookAt, Vector3D up, T film) {
       return create(0d, Double.MAX_VALUE, position, lookAt, up, film);
     }
 
-    public static <T extends Films> BaseCameraSettings<T> create(double nearClip, double farClip, Point3D position, Point3D lookAt, Vector3D up, T film) {
+    public static <T extends Film> BaseCameraSettings<T> create(double nearClip, double farClip, Point3D position, Point3D lookAt, Vector3D up, T film) {
       return new BaseCameraSettings<T>(nearClip, farClip, position, lookAt, up, film);
     }
 

@@ -27,8 +27,8 @@ import static yaphyre.math.MathUtils.div;
 
 import java.text.MessageFormat;
 
-import yaphyre.core.Shaders;
-import yaphyre.core.Shapes;
+import yaphyre.core.Shader;
+import yaphyre.core.Shape;
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
@@ -69,7 +69,7 @@ public class Sphere extends AbstractShape {
    *          The radius of the sphere. This value must be bigger than
    *          {@link MathUtils#EPSILON}.
    * @param shader
-   *          The {@link Shaders} instance used to render this sphere.
+   *          The {@link Shader} instance used to render this sphere.
    * @param throwsShadow
    *          Flag whether this object throws a show or not.
    * 
@@ -81,7 +81,7 @@ public class Sphere extends AbstractShape {
    *           {@link MathUtils#EPSILON}, an
    *           <code>IllegalArgumentException</code> is thrown.
    */
-  public Sphere(Point3D center, double radius, Shaders shader, boolean throwsShadow) throws NullPointerException, IllegalArgumentException {
+  public Sphere(Point3D center, double radius, Shader shader, boolean throwsShadow) throws NullPointerException, IllegalArgumentException {
     super(shader, throwsShadow);
     checkNotNull(center);
     checkArgument(radius > EPSILON, "the radius [%] is smaller than the allowed minimal size [%]", radius, EPSILON);
@@ -115,7 +115,7 @@ public class Sphere extends AbstractShape {
    *          The {@link Ray} to intersect with this sphere.
    * 
    * @return The distance in which the ray intersects this sphere, or if they do
-   *         not intersect {@link Shapes#NO_INTERSECTION}.
+   *         not intersect {@link Shape#NO_INTERSECTION}.
    */
   @Override
   public double getIntersectDistance(Ray ray) {
@@ -128,7 +128,7 @@ public class Sphere extends AbstractShape {
 
     final double[] solutions = Solver.Quadratic.solve(c, b, a);
 
-    double result = Shapes.NO_INTERSECTION;
+    double result = Shape.NO_INTERSECTION;
 
     for (double solution : solutions) {
       if (solution < result && solution >= 0d) {

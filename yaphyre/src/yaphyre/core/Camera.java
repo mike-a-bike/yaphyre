@@ -29,7 +29,7 @@ import yaphyre.geometry.Ray;
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
-public interface Cameras<F extends Films> {
+public interface Camera<F extends Film> {
 
   /**
    * Create a ray for the given u/v coordinates. Where <em>u</em> &isin; [0, 1]
@@ -52,10 +52,10 @@ public interface Cameras<F extends Films> {
   // public Iterable<CameraSample> getCameraSamples();
 
   /**
-   * Get the {@link Films} instance that is associated with the camera. This is
+   * Get the {@link Film} instance that is associated with the camera. This is
    * usually an image file, but can be something else as well.
    * 
-   * @return The {@link Films} instance for the camera.
+   * @return The {@link Film} instance for the camera.
    * 
    * @see yaphyre.films.ImageFile
    */

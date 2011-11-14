@@ -6,6 +6,8 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
+import yaphyre.core.Shader;
+import yaphyre.core.Shape;
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
@@ -13,8 +15,6 @@ import yaphyre.geometry.Ray;
 import yaphyre.geometry.Vector3D;
 import yaphyre.shaders.Material;
 import yaphyre.shaders.MaterialBuilder;
-import yaphyre.shaders.Shaders;
-import yaphyre.shapes.Shapes;
 import yaphyre.shapes.Sphere;
 import yaphyre.util.Color;
 
@@ -26,7 +26,7 @@ public class SphereTest {
 
   private static final String SHADER_ID = "shader1";
 
-  private Shapes createTestSphere() {
+  private Shape createTestSphere() {
     return new Sphere(new Point3D(2d, 0d, 0d), 1d, new TestShader(), true);
   }
 
@@ -35,7 +35,7 @@ public class SphereTest {
    * 
    * @return The unit sphere.
    */
-  private Shapes createUnitSphere() {
+  private Shape createUnitSphere() {
     return new Sphere(Point3D.ORIGIN, 1d, new TestShader(), true);
   }
 
@@ -51,13 +51,13 @@ public class SphereTest {
     Ray intersectingRay = new Ray(Point3D.ORIGIN, Normal3D.NORMAL_X.asVector());
     Ray nonIntersectingRay = new Ray(Point3D.ORIGIN, Normal3D.NORMAL_Y.asVector());
     Ray crookedRay = new Ray(Point3D.ORIGIN, new Vector3D(1, 0.25, 0.25).normalize());
-    Shapes testSphere = createTestSphere();
+    Shape testSphere = createTestSphere();
 
     double distance;
 
     distance = testSphere.getIntersectDistance(nonIntersectingRay);
     System.out.println(testSphere + " intersects with " + nonIntersectingRay + " at a distance of " + distance);
-    assertEquals(Shapes.NO_INTERSECTION, distance, 0);
+    assertEquals(Shape.NO_INTERSECTION, distance, 0);
 
     distance = testSphere.getIntersectDistance(intersectingRay);
     System.out.println(testSphere + " intersects with " + intersectingRay + " at a distance of " + distance);
@@ -74,8 +74,8 @@ public class SphereTest {
     Ray nonIntersectingRay = new Ray(Point3D.ORIGIN, Normal3D.NORMAL_Y.asVector());
     Ray crookedRay = new Ray(Point3D.ORIGIN, new Vector3D(1, 0.25, 0.25).normalize());
 
-    Shapes testSphere = createTestSphere();
-    Shapes unitSphere = createUnitSphere();
+    Shape testSphere = createTestSphere();
+    Shape unitSphere = createUnitSphere();
 
     Point3D intersectionPoint;
 
@@ -96,8 +96,8 @@ public class SphereTest {
 
   @Test
   public void testGetNormal() {
-    Shapes testSphere = createTestSphere();
-    Shapes unitSphere = createUnitSphere();
+    Shape testSphere = createTestSphere();
+    Shape unitSphere = createUnitSphere();
 
     Point3D p1 = new Point3D(1, 0, 0);
     Point3D p2 = new Point3D(3, 0, 0);
@@ -165,11 +165,11 @@ public class SphereTest {
 
   @Test
   public void testGetShader() {
-    Shapes s = createTestSphere();
+    Shape s = createTestSphere();
     assertNotNull(s.getShader());
   }
 
-  private static class TestShader implements Shaders {
+  private static class TestShader implements Shader {
     private static final Color TEST_COLOR = new Color(java.awt.Color.BLACK);
 
     @Override

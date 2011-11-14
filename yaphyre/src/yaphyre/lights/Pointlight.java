@@ -17,7 +17,7 @@ package yaphyre.lights;
 
 import java.text.MessageFormat;
 
-import yaphyre.core.CollisionInformations;
+import yaphyre.core.CollisionInformation;
 import yaphyre.geometry.Point3D;
 import yaphyre.raytracer.Scene;
 import yaphyre.util.Color;
@@ -41,7 +41,7 @@ public class Pointlight extends AbstractLightsource {
   @Override
   public double getIntensity(Point3D point, Scene scene) {
     double intensity = 0d;
-    CollisionInformations shadowCollision = calculateVisibility(getPosition(), point, scene);
+    CollisionInformation shadowCollision = calculateVisibility(getPosition(), point, scene);
     if (shadowCollision == null) {
       intensity = getFalloff().getIntensity(this.intensity, getPosition().sub(point).length());
     }

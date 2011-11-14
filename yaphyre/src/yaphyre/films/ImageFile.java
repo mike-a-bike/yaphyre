@@ -18,7 +18,7 @@ package yaphyre.films;
 import java.text.MessageFormat;
 
 import yaphyre.core.CameraSample;
-import yaphyre.core.Films;
+import yaphyre.core.Film;
 import yaphyre.util.Color;
 
 /**
@@ -30,7 +30,7 @@ import yaphyre.util.Color;
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
-public class ImageFile implements Films {
+public class ImageFile implements Film {
 
   private static final FileType DEFAULT_FILE_TYPE = FileType.PNG;
 
