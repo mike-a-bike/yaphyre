@@ -18,7 +18,6 @@ package yaphyre.lights;
 import yaphyre.geometry.Point3D;
 import yaphyre.raytracer.Scene;
 import yaphyre.util.Color;
-import yaphyre.util.IdentifiableObjects;
 
 /**
  * Common interface for all light sources in the rendering system.
@@ -28,7 +27,7 @@ import yaphyre.util.IdentifiableObjects;
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
-public interface Lightsources extends IdentifiableObjects {
+public interface Lightsources {
 
   public Point3D getPosition();
 

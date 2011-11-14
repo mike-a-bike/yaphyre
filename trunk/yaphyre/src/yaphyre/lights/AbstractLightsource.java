@@ -22,7 +22,6 @@ import yaphyre.math.MathUtils;
 import yaphyre.raytracer.CollisionInformations;
 import yaphyre.raytracer.Scene;
 import yaphyre.util.Color;
-import yaphyre.util.IdentifiableObject;
 import yaphyre.util.RenderStatistics;
 
 /**
@@ -33,7 +32,7 @@ import yaphyre.util.RenderStatistics;
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
-public abstract class AbstractLightsource extends IdentifiableObject implements Lightsources {
+public abstract class AbstractLightsource implements Lightsources {
 
   private final Point3D position;
 
@@ -41,8 +40,7 @@ public abstract class AbstractLightsource extends IdentifiableObject implements 
 
   private final Falloff falloff;
 
-  protected AbstractLightsource(String id, Point3D position, Color color, Falloff falloff) {
-    super(id);
+  protected AbstractLightsource(Point3D position, Color color, Falloff falloff) {
     this.position = position;
     this.color = color;
     this.falloff = falloff;

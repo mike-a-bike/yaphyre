@@ -17,7 +17,6 @@ package yaphyre.shaders;
 
 import yaphyre.geometry.Point2D;
 import yaphyre.util.Color;
-import yaphyre.util.IdentifiableObjects;
 
 /**
  * The common interface for all shading activities. It provides two method. One
@@ -29,7 +28,7 @@ import yaphyre.util.IdentifiableObjects;
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
-public interface Shaders extends IdentifiableObjects {
+public interface Shaders {
 
   public Color getColor(Point2D uvCoordinate);
 

@@ -228,7 +228,7 @@ class SaxSceneHandler extends DefaultHandler {
       }
       SceneElement shaderElement = (SceneElement)this.elementStack.pop();
 
-      Shaders shader = new SimpleShader(shaderElement.getId(), material, color);
+      Shaders shader = new SimpleShader(material, color);
       this.shaders.put(shaderElement.getId(), shader);
     }
 

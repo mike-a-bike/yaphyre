@@ -17,7 +17,6 @@ package yaphyre.shaders;
 
 import yaphyre.geometry.Point2D;
 import yaphyre.util.Color;
-import yaphyre.util.IdentifiableObject;
 
 /**
  * A simple checker pattern. No ray tracer is complete without one ;-) This
@@ -30,7 +29,7 @@ import yaphyre.util.IdentifiableObject;
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
-public class CheckerShader extends IdentifiableObject implements Shaders {
+public class CheckerShader implements Shaders {
 
   private final Shaders shader1, shader2;
 
@@ -48,7 +47,7 @@ public class CheckerShader extends IdentifiableObject implements Shaders {
    *          The second shader
    */
   public CheckerShader(String id, Shaders shader1, Shaders shader2) {
-    this(id, shader1, shader2, 1d, 1d);
+    this(shader1, shader2, 1d, 1d);
   }
 
   /**
@@ -65,7 +64,7 @@ public class CheckerShader extends IdentifiableObject implements Shaders {
    *          The frequency with which the pattern changes.
    */
   public CheckerShader(String id, Shaders shader1, Shaders shader2, double frequency) {
-    this(id, shader1, shader2, frequency, frequency);
+    this(shader1, shader2, frequency, frequency);
   }
 
   /**
@@ -83,8 +82,7 @@ public class CheckerShader extends IdentifiableObject implements Shaders {
    * @param vFrequency
    *          The frequency with which the pattern changes in the v direction.
    */
-  public CheckerShader(String id, Shaders shader1, Shaders shader2, double uFrequency, double vFrequency) {
-    super(id);
+  public CheckerShader(Shaders shader1, Shaders shader2, double uFrequency, double vFrequency) {
     this.shader1 = shader1;
     this.shader2 = shader2;
     this.uSizeInv = uFrequency;

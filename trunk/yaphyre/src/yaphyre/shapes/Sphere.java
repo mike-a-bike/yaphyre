@@ -80,8 +80,8 @@ public class Sphere extends AbstractShape {
    *           {@link MathUtils#EPSILON}, an
    *           <code>IllegalArgumentException</code> is thrown.
    */
-  public Sphere(String id, Point3D center, double radius, Shaders shader, boolean throwsShadow) throws NullPointerException, IllegalArgumentException {
-    super(id, shader, throwsShadow);
+  public Sphere(Point3D center, double radius, Shaders shader, boolean throwsShadow) throws NullPointerException, IllegalArgumentException {
+    super(shader, throwsShadow);
     checkNotNull(center);
     checkArgument(radius > EPSILON, "the radius [%] is smaller than the allowed minimal size [%]", radius, EPSILON);
     this.center = center;
@@ -90,7 +90,7 @@ public class Sphere extends AbstractShape {
 
   @Override
   public String toString() {
-    return MessageFormat.format("Sphere[{0}, {1}, {2}]", getId(), this.center, this.radius);
+    return MessageFormat.format("Sphere[{0}, {1}]", this.center, this.radius);
   }
 
   /**

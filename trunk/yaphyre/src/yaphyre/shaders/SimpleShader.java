@@ -2,24 +2,22 @@ package yaphyre.shaders;
 
 import yaphyre.geometry.Point2D;
 import yaphyre.util.Color;
-import yaphyre.util.IdentifiableObject;
 
-public class SimpleShader extends IdentifiableObject implements Shaders {
+public class SimpleShader implements Shaders {
 
   private final Color color;
 
   private final Material material;
 
-  public SimpleShader(String id, java.awt.Color awtColor, Material material) {
-    this(id, material, new Color(awtColor));
+  public SimpleShader(java.awt.Color awtColor, Material material) {
+    this(material, new Color(awtColor));
   }
 
-  public SimpleShader(String id, Material material, double red, double green, double blue) {
-    this(id, material, new Color(red, green, blue));
+  public SimpleShader(Material material, double red, double green, double blue) {
+    this(material, new Color(red, green, blue));
   }
 
-  public SimpleShader(String id, Material material, Color color) {
-    super(id);
+  public SimpleShader(Material material, Color color) {
     this.material = material;
     this.color = color;
   }
