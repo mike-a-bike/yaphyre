@@ -22,6 +22,12 @@ import java.awt.image.BufferedImage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import yaphyre.cameras.OrthographicCamera;
+import yaphyre.cameras.AbstractCamera.BaseCameraSettings;
+import yaphyre.cameras.OrthographicCamera.OrthographicCameraSettings;
+import yaphyre.core.Cameras;
+import yaphyre.films.ImageFile;
+import yaphyre.films.ImageFile.FileType;
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
@@ -40,7 +46,6 @@ import yaphyre.util.RenderStatistics;
  * TODO:
  * <ul>
  * <li>Implement the correct camera handling (rotation matrix, look at, ...)</li>
- * <li>Check-in the source to google-code (YaPhyRe)</li>
  * </ul>
  * 
  * @author Michael Bieri
@@ -70,6 +75,13 @@ public class RayTracer {
   }
 
   public BufferedImage render(int imageWidth, int imageHeight, double frameWidth, double frameHeight, Point3D cameraPosition, Vector3D cameraDirection) {
+
+    ImageFile imageFile = new ImageFile(imageWidth, imageHeight, FileType.PNG);
+    BaseCameraSettings<ImageFile> baseSettings = BaseCameraSettings.create(cameraPosition, cameraPosition.add(cameraDirection), imageFile);
+    OrthographicCameraSettings orthoSettings = OrthographicCameraSettings.create(frameWidth, frameHeight);
+    Cameras<ImageFile> camera = new OrthographicCamera<ImageFile>(baseSettings, orthoSettings);
+
+    LOGGER.debug("Camera initialized: ".concat(camera.toString()));
 
     this.camera = setupCamera(imageWidth, imageHeight, frameWidth, frameHeight, cameraPosition, cameraDirection);
 
@@ -125,17 +137,11 @@ public class RayTracer {
     CollisionInformations shapeCollisionInfo = this.scene.getCollidingShape(ray, Shapes.NO_INTERSECTION, false);
 
     if (shapeCollisionInfo != null) {
-
       Point2D uvCoordinates = shapeCollisionInfo.getCollisionShape().getMappedSurfacePoint(shapeCollisionInfo.getCollisionPoint());
-
       Color objectColor = shapeCollisionInfo.getCollisionShape().getShader().getColor(uvCoordinates);
-
       Color ambientColor = objectColor.multiply(shapeCollisionInfo.getCollisionShape().getShader().getMaterial(uvCoordinates).getAmbient());
-
       Color lightColor = calculateLightColor(shapeCollisionInfo, uvCoordinates, objectColor);
-
       Color reflectedColor = calculateReflectedColor(ray, iteration, shapeCollisionInfo, uvCoordinates);
-
       Color refractedColor = Color.BLACK;
 
       return ambientColor.add(lightColor).add(reflectedColor).add(refractedColor);
