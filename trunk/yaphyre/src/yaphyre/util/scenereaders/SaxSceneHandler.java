@@ -27,14 +27,14 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import yaphyre.core.Lightsources;
+import yaphyre.core.Shaders;
+import yaphyre.core.Shapes;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Transformation;
-import yaphyre.lights.Lightsources;
 import yaphyre.raytracer.Scene;
 import yaphyre.shaders.Material;
-import yaphyre.shaders.Shaders;
 import yaphyre.shaders.SimpleShader;
-import yaphyre.shapes.Shapes;
 import yaphyre.util.Color;
 
 import com.google.common.base.Strings;

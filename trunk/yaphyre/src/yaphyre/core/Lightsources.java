@@ -13,25 +13,26 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package yaphyre.shaders;
+package yaphyre.core;
 
-import yaphyre.geometry.Point2D;
+import yaphyre.geometry.Point3D;
+import yaphyre.raytracer.Scene;
 import yaphyre.util.Color;
 
 /**
- * The common interface for all shading activities. It provides two method. One
- * for accessing the material at the given u- v- coordinates. And another for
- * accessing the material properties at the given coordinates.
+ * Common interface for all light sources in the rendering system.
  * 
  * @version $Revision$
  * 
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
-public interface Shaders {
+public interface Lightsources {
 
-  public Color getColor(Point2D uvCoordinate);
+  public Point3D getPosition();
 
-  public Material getMaterial(Point2D uvCoordinate);
+  public double getIntensity(Point3D point, Scene scene);
+
+  public Color getColor();
 
 }

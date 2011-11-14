@@ -13,10 +13,9 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package yaphyre.raytracer;
+package yaphyre.core;
 
 import yaphyre.geometry.Point3D;
-import yaphyre.shapes.Shapes;
 
 /**
  * A record which contains all the informations relevant for a collision.

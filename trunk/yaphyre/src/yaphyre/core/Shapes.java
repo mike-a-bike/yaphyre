@@ -13,14 +13,12 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package yaphyre.shapes;
+package yaphyre.core;
 
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
-import yaphyre.raytracer.CollisionInformations;
-import yaphyre.shaders.Shaders;
 
 /**
  * Interface implemented by all {@link Shapes} of the rendering system.

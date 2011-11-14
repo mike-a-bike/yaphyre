@@ -16,12 +16,13 @@
 package yaphyre.shapes;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import yaphyre.core.Shaders;
+import yaphyre.core.Shapes;
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Transformation;
-import yaphyre.shaders.Shaders;
 
 /**
  * This shape is special since it does not represent a shape itself. It is a

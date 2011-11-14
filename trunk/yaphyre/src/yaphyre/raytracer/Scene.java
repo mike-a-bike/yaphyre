@@ -5,10 +5,11 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import yaphyre.core.CollisionInformations;
+import yaphyre.core.Lightsources;
+import yaphyre.core.Shaders;
+import yaphyre.core.Shapes;
 import yaphyre.geometry.Ray;
-import yaphyre.lights.Lightsources;
-import yaphyre.shaders.Shaders;
-import yaphyre.shapes.Shapes;
 
 public class Scene {
 

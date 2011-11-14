@@ -1,18 +1,18 @@
 package yaphyre;
 
+import yaphyre.core.Lightsources;
+import yaphyre.core.Shaders;
+import yaphyre.core.Shapes;
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point3D;
 import yaphyre.lights.Falloff;
-import yaphyre.lights.Lightsources;
 import yaphyre.lights.Pointlight;
 import yaphyre.raytracer.Scene;
 import yaphyre.shaders.CheckerShader;
 import yaphyre.shaders.Material;
 import yaphyre.shaders.MaterialBuilder;
-import yaphyre.shaders.Shaders;
 import yaphyre.shaders.SimpleShader;
 import yaphyre.shapes.Plane;
-import yaphyre.shapes.Shapes;
 import yaphyre.shapes.Sphere;
 import yaphyre.util.Color;
 

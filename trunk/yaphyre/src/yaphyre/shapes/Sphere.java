@@ -27,6 +27,8 @@ import static yaphyre.math.MathUtils.div;
 
 import java.text.MessageFormat;
 
+import yaphyre.core.Shaders;
+import yaphyre.core.Shapes;
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
@@ -34,7 +36,6 @@ import yaphyre.geometry.Ray;
 import yaphyre.geometry.Vector3D;
 import yaphyre.math.MathUtils;
 import yaphyre.math.Solver;
-import yaphyre.shaders.Shaders;
 
 /**
  * A sphere in the three dimensional space is defined as:<br/>

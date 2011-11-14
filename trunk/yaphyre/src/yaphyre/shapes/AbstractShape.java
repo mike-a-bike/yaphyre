@@ -15,10 +15,11 @@
  */
 package yaphyre.shapes;
 
+import yaphyre.core.CollisionInformations;
+import yaphyre.core.Shaders;
+import yaphyre.core.Shapes;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
-import yaphyre.raytracer.CollisionInformations;
-import yaphyre.shaders.Shaders;
 
 /**
  * Implementation of common methods for most {@link Shapes}.

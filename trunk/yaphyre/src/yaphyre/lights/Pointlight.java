@@ -17,8 +17,8 @@ package yaphyre.lights;
 
 import java.text.MessageFormat;
 
+import yaphyre.core.CollisionInformations;
 import yaphyre.geometry.Point3D;
-import yaphyre.raytracer.CollisionInformations;
 import yaphyre.raytracer.Scene;
 import yaphyre.util.Color;
 

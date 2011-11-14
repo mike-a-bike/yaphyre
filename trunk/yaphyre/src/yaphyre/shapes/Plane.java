@@ -19,12 +19,13 @@ import static java.lang.Math.signum;
 
 import java.text.MessageFormat;
 
+import yaphyre.core.Shaders;
+import yaphyre.core.Shapes;
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Vector3D;
-import yaphyre.shaders.Shaders;
 
 /**
  * Plane represented by a point on the plane and the normal. Since on a plane

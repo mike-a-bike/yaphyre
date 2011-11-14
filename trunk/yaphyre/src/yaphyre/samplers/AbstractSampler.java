@@ -30,6 +30,7 @@ import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import yaphyre.core.Samplers;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 
