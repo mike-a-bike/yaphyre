@@ -38,7 +38,7 @@ import java.text.MessageFormat;
  */
 public class Ray {
 
-  private static final String TO_STRING_FORMAT = "Ray[o={0}, d={1}, t=[{2}, {3}]]";
+  private static final String TO_STRING_FORMAT = "Ray[o:{0}, d:{1}, t:[{2}, {3}]]";
 
   private final Point3D origin;
 

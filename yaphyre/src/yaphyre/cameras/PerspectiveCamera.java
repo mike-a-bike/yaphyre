@@ -45,10 +45,13 @@ public class PerspectiveCamera<F extends Film> extends AbstractCamera<F> impleme
 
   private final Point3D focalPoint;
 
+  private final double aspectRatioInv;
+
   public PerspectiveCamera(BaseCameraSettings<F> baseSettings, PerspectiveCameraSettings perspectiveSettings) {
     super(baseSettings);
     this.cameraSettings = perspectiveSettings;
     this.focalPoint = new Point3D(0, 0, -this.cameraSettings.getFocalLength());
+    this.aspectRatioInv = 1d / this.cameraSettings.getAspectRatio();
   }
 
   @Override
@@ -67,18 +70,18 @@ public class PerspectiveCamera<F extends Film> extends AbstractCamera<F> impleme
 
   private Point3D mapViewPlanePoint(Point2D viewPlanePoint) {
     double u = viewPlanePoint.getU() - 0.5d;
-    double v = (viewPlanePoint.getV() - 0.5d) * this.cameraSettings.getAspectRatio();
-    return new Point3D(viewPlanePoint.getU() - 0.5d, viewPlanePoint.getV() - 0.5d, 0d);
+    double v = (viewPlanePoint.getV() - 0.5d) * this.aspectRatioInv;
+    return new Point3D(u, v, 0d);
   }
 
   @Override
   public String toString() {
-    return MessageFormat.format("{0} [pos:{1}, lookAt:{2}, apect:{3}, focal:{4}, film:{5}]",
+    return MessageFormat.format("{0} [pos:{1}, lookAt:{2}, apect ratio:{3,number,0.000}, focal length:{4,number,0.###}, film:{5}]",
                                 this.getClass().getSimpleName(),
                                 super.getPosition(),
                                 super.getLookAt(),
-                                String.valueOf(this.cameraSettings.getAspectRatio()),
-                                String.valueOf(this.cameraSettings.getFocalLength()),
+                                this.cameraSettings.getAspectRatio(),
+                                this.cameraSettings.getFocalLength(),
                                 super.getFilm());
   }
 

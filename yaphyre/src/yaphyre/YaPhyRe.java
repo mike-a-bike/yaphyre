@@ -154,7 +154,6 @@ public class YaPhyRe {
     if (samplerSettings.length == 2) {
       sampleCount = Integer.parseInt(samplerSettings[1]);
     }
-    LOGGER.debug("Sampler settings: {} {}", samplerSettings[0], sampleCount);
     if (samplerSettings[0].equalsIgnoreCase("single")) {
       sampler = new SinglePointSampler();
     } else if (samplerSettings[0].equalsIgnoreCase("regular")) {
@@ -164,6 +163,7 @@ public class YaPhyRe {
     } else if (samplerSettings[0].equalsIgnoreCase("jittered")) {
       sampler = new JitteredSampler(sampleCount);
     }
+    LOGGER.debug("Sampler: {}", sampler.toString());
     return sampler;
   }
 

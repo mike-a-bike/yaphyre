@@ -21,6 +21,8 @@ import yaphyre.core.CameraSample;
 import yaphyre.core.Film;
 import yaphyre.util.Color;
 
+import com.google.common.base.Preconditions;
+
 /**
  * Film implementation which records the camera samples as colored pixels in an
  * image file.
@@ -65,7 +67,13 @@ public class ImageFile implements Film {
 
   @Override
   public void addCameraSample(CameraSample sample, Color color) {
-    throw new RuntimeException("Not implemented yet");
+    int uCoordinate = (int)sample.getRasterPoint().getU();
+    int vCoordinate = (int)sample.getRasterPoint().getV();
+
+    Preconditions.checkPositionIndex(uCoordinate, this.xResolution);
+    Preconditions.checkPositionIndex(vCoordinate, this.yResolution);
+
+    this.pixelColors[vCoordinate * this.xResolution + vCoordinate] = color;
   }
 
   @Override
