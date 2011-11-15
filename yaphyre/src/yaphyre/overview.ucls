@@ -1,26 +1,191 @@
 <class-diagram version="0.9.86" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true">  
-  <class corner="BOTTOM_RIGHT" language="java" name="yaphyre.YaPhyRe" project="yaphyre" 
-    file="/yaphyre/src/yaphyre/YaPhyRe.java" binary="false">    
-    <position x="563" y="157" width="-1" height="-1"/>    
-    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true"/>      
-      <operations public="true" package="true" protected="true" private="true"/>    
-    </display>  
-  </class>  
   <class corner="BOTTOM_RIGHT" language="java" name="yaphyre.raytracer.RayTracer" project="yaphyre" 
     file="/yaphyre/src/yaphyre/raytracer/RayTracer.java" binary="false">    
-    <position x="563" y="520" width="-1" height="-1"/>    
+    <position x="781" y="253" width="-1" height="-1"/>    
     <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="yaphyre.core.Shape" project="yaphyre" 
+    file="/yaphyre/src/yaphyre/core/Shape.java" binary="false">    
+    <position x="160" y="460" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </interface>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="yaphyre.core.Shader" project="yaphyre" 
+    file="/yaphyre/src/yaphyre/core/Shader.java" binary="false">    
+    <position x="420" y="613" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </interface>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="yaphyre.core.Camera" project="yaphyre" 
+    file="/yaphyre/src/yaphyre/core/Camera.java" binary="false">    
+    <position x="1225" y="134" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </interface>  
+  <class corner="BOTTOM_RIGHT" language="java" name="yaphyre.core.CameraSample" project="yaphyre" 
+    file="/yaphyre/src/yaphyre/core/CameraSample.java" binary="false">    
+    <position x="1132" y="585" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="yaphyre.core.Film" project="yaphyre" 
+    file="/yaphyre/src/yaphyre/core/Film.java" binary="false">    
+    <position x="1166" y="356" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </interface>  
+  <class corner="BOTTOM_RIGHT" language="java" name="yaphyre.raytracer.Scene" project="yaphyre" 
+    file="/yaphyre/src/yaphyre/raytracer/Scene.java" binary="false">    
+    <position x="802" y="543" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="yaphyre.core.Lightsource" project="yaphyre" 
+    file="/yaphyre/src/yaphyre/core/Lightsource.java" binary="false">    
+    <position x="420" y="295" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </interface>  
+  <interface corner="BOTTOM_RIGHT" language="java" name="yaphyre.core.Sampler" project="yaphyre" 
+    file="/yaphyre/src/yaphyre/core/Sampler.java" binary="false">    
+    <position x="291" y="89" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </interface>  
+  <class corner="BOTTOM_RIGHT" language="java" name="yaphyre.geometry.Point2D" project="yaphyre" 
+    file="/yaphyre/src/yaphyre/geometry/Point2D.java" binary="false">    
+    <position x="1443" y="565" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <association>    
+    <source project="yaphyre" name="yaphyre.raytracer.RayTracer" file="/yaphyre/src/yaphyre/raytracer/RayTracer.java" 
+      binary="false" navigable="false">      
+      <attribute name="scene"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="yaphyre" name="yaphyre.raytracer.Scene" file="/yaphyre/src/yaphyre/raytracer/Scene.java" 
+      binary="false" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
   <dependency>    
-    <source project="yaphyre" name="yaphyre.YaPhyRe" file="/yaphyre/src/yaphyre/YaPhyRe.java" binary="false"/>    
-    <target project="yaphyre" name="yaphyre.raytracer.RayTracer" file="/yaphyre/src/yaphyre/raytracer/RayTracer.java" 
+    <source project="yaphyre" name="yaphyre.raytracer.RayTracer" file="/yaphyre/src/yaphyre/raytracer/RayTracer.java" 
+      binary="false"/>    
+    <target project="yaphyre" name="yaphyre.core.Lightsource" file="/yaphyre/src/yaphyre/core/Lightsource.java" 
       binary="false"/>  
   </dependency>  
+  <association>    
+    <source project="yaphyre" name="yaphyre.raytracer.Scene" file="/yaphyre/src/yaphyre/raytracer/Scene.java" 
+      binary="false" navigable="false">      
+      <attribute name="shapes"/>      
+      <multiplicity minimum="0" maximum="2147483647"/>    
+    </source>    
+    <target project="yaphyre" name="yaphyre.core.Shape" file="/yaphyre/src/yaphyre/core/Shape.java" binary="false" 
+      navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <source project="yaphyre" name="yaphyre.core.CameraSample" file="/yaphyre/src/yaphyre/core/CameraSample.java" 
+      binary="false" navigable="false">      
+      <attribute name="rasterPoint"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="yaphyre" name="yaphyre.geometry.Point2D" file="/yaphyre/src/yaphyre/geometry/Point2D.java" 
+      binary="false" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <source project="yaphyre" name="yaphyre.raytracer.Scene" file="/yaphyre/src/yaphyre/raytracer/Scene.java" 
+      binary="false" navigable="false">      
+      <attribute name="lightsources"/>      
+      <multiplicity minimum="0" maximum="2147483647"/>    
+    </source>    
+    <target project="yaphyre" name="yaphyre.core.Lightsource" file="/yaphyre/src/yaphyre/core/Lightsource.java" 
+      binary="false" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency>    
+    <source project="yaphyre" name="yaphyre.core.Camera" file="/yaphyre/src/yaphyre/core/Camera.java" binary="false"/>    
+    <target project="yaphyre" name="yaphyre.core.Film" file="/yaphyre/src/yaphyre/core/Film.java" binary="false"/>  
+  </dependency>  
+  <dependency>    
+    <source project="yaphyre" name="yaphyre.raytracer.RayTracer" file="/yaphyre/src/yaphyre/raytracer/RayTracer.java" 
+      binary="false"/>    
+    <target project="yaphyre" name="yaphyre.core.CameraSample" file="/yaphyre/src/yaphyre/core/CameraSample.java" 
+      binary="false"/>  
+  </dependency>  
+  <dependency>    
+    <source project="yaphyre" name="yaphyre.core.Film" file="/yaphyre/src/yaphyre/core/Film.java" binary="false"/>    
+    <target project="yaphyre" name="yaphyre.core.CameraSample" file="/yaphyre/src/yaphyre/core/CameraSample.java" 
+      binary="false"/>  
+  </dependency>  
+  <dependency>    
+    <source project="yaphyre" name="yaphyre.core.Lightsource" file="/yaphyre/src/yaphyre/core/Lightsource.java" 
+      binary="false"/>    
+    <target project="yaphyre" name="yaphyre.raytracer.Scene" file="/yaphyre/src/yaphyre/raytracer/Scene.java" 
+      binary="false"/>  
+  </dependency>  
+  <association>    
+    <source project="yaphyre" name="yaphyre.core.CameraSample" file="/yaphyre/src/yaphyre/core/CameraSample.java" 
+      binary="false" navigable="false">      
+      <attribute name="lensCoordinates"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="yaphyre" name="yaphyre.geometry.Point2D" file="/yaphyre/src/yaphyre/geometry/Point2D.java" 
+      binary="false" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency>    
+    <source project="yaphyre" name="yaphyre.raytracer.RayTracer" file="/yaphyre/src/yaphyre/raytracer/RayTracer.java" 
+      binary="false"/>    
+    <target project="yaphyre" name="yaphyre.core.Camera" file="/yaphyre/src/yaphyre/core/Camera.java" binary="false"/>  
+  </dependency>  
+  <dependency>    
+    <source project="yaphyre" name="yaphyre.core.Shape" file="/yaphyre/src/yaphyre/core/Shape.java" binary="false"/>    
+    <target project="yaphyre" name="yaphyre.core.Shader" file="/yaphyre/src/yaphyre/core/Shader.java" binary="false"/>  
+  </dependency>  
+  <association>    
+    <source project="yaphyre" name="yaphyre.raytracer.Scene" file="/yaphyre/src/yaphyre/raytracer/Scene.java" 
+      binary="false" navigable="false">      
+      <attribute name="shaders"/>      
+      <multiplicity minimum="0" maximum="2147483647"/>    
+    </source>    
+    <target project="yaphyre" name="yaphyre.core.Shader" file="/yaphyre/src/yaphyre/core/Shader.java" binary="false" 
+      navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <source project="yaphyre" name="yaphyre.raytracer.RayTracer" file="/yaphyre/src/yaphyre/raytracer/RayTracer.java" 
+      binary="false" navigable="false">      
+      <attribute name="sampler"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </source>    
+    <target project="yaphyre" name="yaphyre.core.Sampler" file="/yaphyre/src/yaphyre/core/Sampler.java" binary="false" 
+      navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
   <classifier-display autosize="true" package="true" initial-value="false" signature="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true"/>    
     <operations public="true" package="true" protected="true" private="true"/>  
