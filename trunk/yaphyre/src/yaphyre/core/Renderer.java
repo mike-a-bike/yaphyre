@@ -15,34 +15,18 @@
  */
 package yaphyre.core;
 
-import yaphyre.util.Color;
+import yaphyre.raytracer.Scene;
 
 /**
- * Interface for all film instances. This is for recording rendered samples and
- * process them in an appropriate way. The most common form is an image file.
+ * Common interface of all renderer in this rendering system
  * 
- * @version $Revision: 42 $
+ * @version $Revision: 78 $
  * 
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
-public interface Film {
+public interface Renderer {
 
-  public int getXResolution();
-
-  public int getYResolution();
-
-  /**
-   * Adds a new sample for this film to record.
-   * 
-   * @param sample
-   *          The {@link CameraSample} instance which contains all the necessary
-   *          meta information.
-   * @param color
-   *          The {@link Color} to record.
-   */
-  public void addCameraSample(CameraSample sample, Color color);
-
-  public void writeImageFile(int xSize, int ySize, String fileName);
+  public void render(Scene scene);
 
 }

@@ -22,9 +22,10 @@ import java.awt.image.BufferedImage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import yaphyre.cameras.OrthographicCamera;
+import yaphyre.cameras.PerspectiveCamera;
 import yaphyre.cameras.AbstractCamera.BaseCameraSettings;
-import yaphyre.cameras.OrthographicCamera.OrthographicCameraSettings;
+import yaphyre.cameras.PerspectiveCamera.PerspectiveCameraSettings;
+import yaphyre.core.CameraSample;
 import yaphyre.core.CollisionInformation;
 import yaphyre.core.Lightsource;
 import yaphyre.core.Sampler;
@@ -78,8 +79,12 @@ public class RayTracer {
 
     ImageFile imageFile = new ImageFile(imageWidth, imageHeight, FileType.PNG);
     BaseCameraSettings<ImageFile> baseSettings = BaseCameraSettings.create(cameraPosition, cameraPosition.add(cameraDirection), imageFile);
-    OrthographicCameraSettings orthoSettings = OrthographicCameraSettings.create(frameWidth, frameHeight);
-    yaphyre.core.Camera<ImageFile> camera = new OrthographicCamera<ImageFile>(baseSettings, orthoSettings);
+    PerspectiveCameraSettings perspSetings = PerspectiveCameraSettings.create(((double)imageWidth) / ((double)imageHeight), 10d);
+    yaphyre.core.Camera<ImageFile> camera = new PerspectiveCamera<ImageFile>(baseSettings, perspSetings);
+    // OrthographicCameraSettings orthoSettings =
+    // OrthographicCameraSettings.create(frameWidth, frameHeight);
+    // yaphyre.core.Camera<ImageFile> camera = new
+    // OrthographicCamera<ImageFile>(baseSettings, orthoSettings);
 
     LOGGER.debug("Camera initialized: ".concat(camera.toString()));
 
@@ -94,21 +99,31 @@ public class RayTracer {
       this.sampler = new SinglePointSampler();
     }
 
-    for (int y = 0; y < imageHeight; y++) {
-      for (int x = 0; x < imageWidth; x++) {
-        Point2D basePoint = new Point2D(x, y);
+    double uScale = 1d / imageWidth;
+    double vScale = 1d / imageHeight;
+
+    for (int v = 0; v < imageHeight; v++) {
+      for (int u = 0; u < imageWidth; u++) {
+
+        CameraSample sample = new CameraSample();
+
+        Point2D rasterPoint = new Point2D(u, v);
+        sample.setRasterPoint(rasterPoint);
 
         Color color = Color.BLACK;
         int sampleCount = 0;
         for (Point2D samplePoint : this.sampler.getUnitSquareSamples()) {
           sampleCount++;
-          Ray eyeRay = this.camera.createEyeRay(basePoint.add(samplePoint));
+          Point2D cameraCoordinates = rasterPoint.add(samplePoint).mul(uScale, vScale);
+          Ray eyeRay = camera.getCameraRay(cameraCoordinates);
           RenderStatistics.incEyeRays();
           color = color.add(traceRay(eyeRay, 1));
         }
         color = color.multiply(1d / sampleCount);
 
-        this.camera.setColor(x, y, color.clip());
+        camera.getFilm().addCameraSample(sample, color);
+
+        this.camera.setColor(u, v, color.clip());
       }
     }
 

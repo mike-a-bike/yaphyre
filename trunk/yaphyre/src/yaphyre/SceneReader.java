@@ -139,10 +139,11 @@ public class SceneReader {
 
     Shader sphereCheckerShader = new CheckerShader(whiteMirror, blueDiffuse, 1d, 16d);
     Shader checkBoardShader = new CheckerShader(redDiffuse, whiteDiffuse, 16d, 16d);
+    Shader planeCeckerShader = new CheckerShader(whiteDiffuse, greenDiffuse, 0.5d, 0.5d);
 
     Lightsource pointLight = new Pointlight(new Point3D(-2, 5, -2), new Color(1, 1, 1), 15, Falloff.Quadric);
 
-    Shape plane = new Plane(Point3D.ORIGIN, Normal3D.NORMAL_Y, whiteDiffuse, true);
+    Shape plane = new Plane(Point3D.ORIGIN, Normal3D.NORMAL_Y, planeCeckerShader, true);
     Shape sphere = new Sphere(new Point3D(0, 1.5, 0), 1, sphereCheckerShader, true);
     Shape distantSphere = new Sphere(new Point3D(-2, 10, -5), 2, checkBoardShader, true);
 

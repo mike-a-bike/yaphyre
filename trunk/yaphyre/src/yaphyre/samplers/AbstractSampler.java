@@ -22,6 +22,7 @@ import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
 import static yaphyre.math.MathUtils.TWO_PI;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -55,6 +56,8 @@ public abstract class AbstractSampler implements Sampler {
 
   private List<List<Point2D>> sampleSets;
 
+  private final int numberOfSamples;
+
   /**
    * Protected empty constructor. This can only be called from subclasses, since
    * there is no initialization whatsoever. Derived classes calling this
@@ -62,7 +65,7 @@ public abstract class AbstractSampler implements Sampler {
    * call the {@link #createSamples(int)} method.
    */
   protected AbstractSampler() {
-
+    this.numberOfSamples = 0;
   }
 
   /**
@@ -75,6 +78,7 @@ public abstract class AbstractSampler implements Sampler {
    *          effective samples may vary according to the implemented algorithm.
    */
   public AbstractSampler(int numberOfSamples) {
+    this.numberOfSamples = numberOfSamples;
     createSampleSets(numberOfSamples);
   }
 
@@ -208,4 +212,9 @@ public abstract class AbstractSampler implements Sampler {
    *         sample on a unit square.
    */
   protected abstract List<Point2D> createSamples(int numberOfSamples);
+
+  @Override
+  public String toString() {
+    return MessageFormat.format("{0}({1})", this.getClass().getSimpleName(), String.valueOf(this.numberOfSamples));
+  }
 }

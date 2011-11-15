@@ -47,7 +47,7 @@ public class CheckerShader implements Shader {
    * @param shader2
    *          The second shader
    */
-  public CheckerShader(String id, Shader shader1, Shader shader2) {
+  public CheckerShader(Shader shader1, Shader shader2) {
     this(shader1, shader2, 1d, 1d);
   }
 
@@ -64,7 +64,7 @@ public class CheckerShader implements Shader {
    * @param frequency
    *          The frequency with which the pattern changes.
    */
-  public CheckerShader(String id, Shader shader1, Shader shader2, double frequency) {
+  public CheckerShader(Shader shader1, Shader shader2, double frequency) {
     this(shader1, shader2, frequency, frequency);
   }
 

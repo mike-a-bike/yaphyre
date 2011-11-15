@@ -56,4 +56,9 @@ public class SinglePointSampler extends AbstractSampler {
     return sampleList;
   }
 
+  @Override
+  public String toString() {
+    return this.getClass().getSimpleName();
+  }
+
 }

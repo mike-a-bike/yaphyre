@@ -89,6 +89,10 @@ public class Point2D {
     return new Point2D(this.u * s, this.v * s);
   }
 
+  public Point2D mul(double su, double sv) {
+    return new Point2D(this.u * su, this.v * sv);
+  }
+
   public double dist(Point2D p) {
     return MathUtils.calcLength(p.u - this.u, p.v - this.v);
   }
