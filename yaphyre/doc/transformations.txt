@@ -1,4 +1,4 @@
-Sraster: ([0, umax] [0, vmax])
+Raster: ([0, umax] [0, vmax])
 
 ratio = umax / vmax
 
