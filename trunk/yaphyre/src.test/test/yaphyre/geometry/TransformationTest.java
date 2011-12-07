@@ -42,7 +42,7 @@ public class TransformationTest {
     p = new Point2D(0d, 0d);
     pt = rasterTransformation.transform(p);
 
-    assertEquals(p, pt);
+    assertEquals(new Point2D(0d, 0d), pt);
 
     p = new Point2D(640d, 480d);
     pt = rasterTransformation.transform(p);
@@ -69,6 +69,36 @@ public class TransformationTest {
 
     assertEquals(new Point2D(320d, 240d), pt);
 
+  }
+
+  @Test
+  public void testMul() {
+
+    Transformation trans1 = Transformation.rasterToUnitSquare(640, 480);
+    Transformation trans2 = Transformation.translate(-0.5d, -0.5d, 0);
+    Transformation transCombined = trans2.mul(trans1);
+
+    Point2D p;
+    Point2D pt1;
+    Point2D pt2;
+
+    p = new Point2D(0d, 0d);
+    pt1 = transCombined.transform(p);
+    pt2 = trans2.transform(trans1.transform(p));
+
+    assertEquals(pt1, pt2);
+
+    p = new Point2D(640d, 480d);
+    pt1 = transCombined.transform(p);
+    pt2 = trans2.transform(trans1.transform(p));
+
+    assertEquals(pt1, pt2);
+
+    p = new Point2D(320d, 240d);
+    pt1 = transCombined.transform(p);
+    pt2 = trans2.transform(trans1.transform(p));
+
+    assertEquals(pt1, pt2);
   }
 
   @Test
