@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Michael Bieri
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -17,6 +17,7 @@ package yaphyre.geometry;
 
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
+import static java.lang.Math.tan;
 import static java.lang.Math.toRadians;
 import static yaphyre.math.MathUtils.div;
 
@@ -25,9 +26,9 @@ import static yaphyre.math.MathUtils.div;
  * factory methods for the most used transformations like translation, rotation
  * around various axes, scaling and the rather special transformation for
  * 'look-at', orthographic mapping and perspective mappings.
- * 
+ *
  * @version $Revision$
- * 
+ *
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
@@ -39,17 +40,21 @@ public class Transformation {
 
   private final Matrix matrixInv;
 
+  private Transformation inverse;
+
+  private Transformation transposed;
+
   /**
    * Factory method for creating a {@link Transformation} for the given
    * translation.
-   * 
+   *
    * @param x
    *          The x component of the translation
    * @param y
    *          The y component of the translation
    * @param z
    *          The z component of the translation
-   * 
+   *
    * @return A {@link Transformation} with the translation matrix and its
    *         inverse.
    */
@@ -68,14 +73,14 @@ public class Transformation {
   /**
    * Factory method for creating a scaling {@link Transformation}. The scaling
    * factors for each direction can be different.
-   * 
+   *
    * @param sx
    *          The amount of scaling along the x axis.
    * @param sy
    *          The amount of scaling along the y axis.
    * @param sz
    *          The amount of scaling along the z axis.
-   * 
+   *
    * @return A {@link Transformation} with the scaling matrix and its inverse.
    */
   public static Transformation scale(double sx, double sy, double sz) {
@@ -92,10 +97,10 @@ public class Transformation {
 
   /**
    * Factory for the rotation around the x axis.
-   * 
+   *
    * @param angle
    *          The angle (in degree) to rotate around the x axis.
-   * 
+   *
    * @return A {@link Transformation} with the rotation matrix.
    */
   public static Transformation rotateX(double angle) {
@@ -109,10 +114,10 @@ public class Transformation {
 
   /**
    * Factory for the rotation around the y axis.
-   * 
+   *
    * @param angle
    *          The angle (in degree) to rotate around the y axis.
-   * 
+   *
    * @return A {@link Transformation} with the rotation matrix.
    */
   public static Transformation rotateY(double angle) {
@@ -126,10 +131,10 @@ public class Transformation {
 
   /**
    * Factory for the rotation around the z axis.
-   * 
+   *
    * @param angle
    *          The angle (in degree) to rotate around the z axis.
-   * 
+   *
    * @return A {@link Transformation} with the rotation matrix.
    */
   public static Transformation rotateZ(double angle) {
@@ -144,12 +149,12 @@ public class Transformation {
   /**
    * {@link Transformation} which rotates a certain angle around an arbitrary
    * axis defined by the given {@link Vector3D}.
-   * 
+   *
    * @param angle
    *          The angle (in degrees) to rotate.
    * @param axis
    *          The axis to rotate around.
-   * 
+   *
    * @return A {@link Transformation} with the rotation matrix.
    */
   public static Transformation rotate(double angle, Vector3D axis) {
@@ -188,7 +193,7 @@ public class Transformation {
    * at'. In order to define the correct {@link Transformation}, an 'up'
    * {@link Vector3D} is needed based on which the new coordinate system is
    * built. The up vector is recalculated during the transformation.
-   * 
+   *
    * @param eye
    *          The location of the eye ({@link Point3D})
    * @param lookAt
@@ -196,10 +201,10 @@ public class Transformation {
    * @param up
    *          An imaginary up vector to make rotations of the coordinate system
    *          possible ({@link Vector3D})
-   * 
+   *
    * @return A {@link Transformation} which aligns the given coordinates with
    *         the aligned coordinate system.
-   * 
+   *
    * @see http://cs.fit.edu/~wds/classes/cse5255/thesis/viewTrans/viewTrans.html
    */
   public static Transformation lookAt(Point3D eye, Point3D lookAt, Vector3D up) {
@@ -211,18 +216,18 @@ public class Transformation {
                                                     {right.y, newUp.y, dir.y, eye.y},
                                                     {right.z, newUp.z, dir.z, eye.z},
                                                     {0, 0, 0, 1}});
-    
+
     return new Transformation(camToWorld.inverse(), camToWorld);
   }
 
   /**
    * An orthographic projection matrix.
-   * 
+   *
    * @param znear
    *          The near clipping distance.
    * @param zfar
    *          The far clipping distance.
-   * 
+   *
    * @return A {@link Transformation} containing the view transformation.
    */
   public static Transformation orthographic(double znear, double zfar) {
@@ -233,15 +238,15 @@ public class Transformation {
 
   /**
    * The transformation matrix for perspective projection onto the view plane.
-   * 
+   *
    * @param fov
-   *          The field of view. The angle between the to and bottom plane of
+   *          The field of view. The angle between the top and bottom plane of
    *          the view frustum.
    * @param near
    *          The new clipping distance.
    * @param far
    *          The far clipping distance.
-   * 
+   *
    * @return A transformation matrix to transform between camera and world
    *         coordinates.
    */
@@ -250,89 +255,188 @@ public class Transformation {
                                               {0, 1, 0, 0},
                                               {0, 0, far / (far - near), -far * near / (far - near)},
                                               {0, 0, 1, 0}});
-    double invTanAng = 1d / Math.tan(toRadians(fov) / 2d);
+    double invTanAng = 1d / tan(toRadians(fov) / 2d);
     Transformation scale = scale(invTanAng, invTanAng, 1);
     return scale.mul(new Transformation(persp));
   }
 
+  /**
+   * Transform the screen (raster-) coordinates with x &isin; [0,
+   * <code>xResolution</code> ] and y &isin; [0, <code>yResolution</code>] onto
+   * the unit square where u &isin; [0, 1] and v &isin; [0, 1].
+   *
+   * @param xResolution
+   *          The max x coordinate.
+   * @param yResolution
+   *          The max y coordinate.
+   *
+   * @return A {@link Transformation} which maps the raster coordinates onto a
+   *         unit square.
+   */
+  public static Transformation rasterToUnitSquare(int xResolution, int yResolution) {
+    return scale((double)xResolution, (double)yResolution, 1d).inverse();
+  }
+
+  /**
+   * Create a new instance of an identity transformation. Which means all
+   * objects transformed by this will not change.
+   */
   public Transformation() {
-    this.matrix = Matrix.IDENTITY;
-    this.matrixInv = Matrix.IDENTITY;
+    this(Matrix.IDENTITY, Matrix.IDENTITY);
   }
 
+  /**
+   * Create a new transformation instance based on the given transformation
+   * matrix. The inverse of the matrix is pre-calculated on instantiation to
+   * optimize its later use.
+   *
+   * @param matrix
+   *          The {@link Matrix} this transformation is based upon.
+   */
   public Transformation(Matrix matrix) {
-    this.matrix = matrix;
-    this.matrixInv = matrix.inverse();
+    this(matrix, matrix.inverse());
   }
 
+  /**
+   * Create a new transformation instance which uses the given matrix for
+   * transformation and the inverse matrix for the inverse transformation. Use
+   * this when calculating the inverse of a special matrix can be done more
+   * efficiently than solving the inverse equation. For example: The scaling and
+   * translation matrices are very simple to inverse.
+   *
+   * @param matrix
+   *          The {@link Matrix} this transformation uses.
+   * @param inverse
+   *          The {@link Matrix} used for its inverse.
+   */
   public Transformation(Matrix matrix, Matrix inverse) {
     this.matrix = matrix;
     this.matrixInv = inverse;
+    this.inverse = null;
+    this.transposed = null;
   }
 
-  public Matrix getMatrix() {
-    return this.matrix;
+  /**
+   * Calculate the inverse {@link Transformation} for this
+   * {@link Transformation}.
+   *
+   * @return A new instance representing the inverse operation.
+   */
+  public Transformation inverse() {
+    if (this.inverse == null) {
+      this.inverse = new Transformation(this.matrixInv, this.matrix);
+    }
+    return this.inverse;
   }
 
-  public Matrix getInverseMatrix() {
-    return this.matrixInv;
+  /**
+   * Calculate the transposed {@link Transformation} for this instance.
+   *
+   * @return A new instance representing the transposed operation.
+   */
+  public Transformation transpose() {
+    if (this.transposed == null) {
+      this.transposed = new Transformation(this.matrix.transpose(), this.matrixInv.transpose());
+    }
+    return this.transposed;
   }
 
+  /**
+   * Multiply two Transformations. Use this to 'chain' multiple
+   * {@link Transformation}s into one single operation.
+   *
+   * @param trans
+   *          The instance to multiply this instance with.
+   *
+   * @return A new {@link Transformation} containing both operations within one
+   *         instance.
+   */
   public Transformation mul(Transformation trans) {
     Matrix matrix = this.matrix.mul(trans.matrix);
     Matrix matrixInv = this.matrixInv.mul(trans.matrixInv);
     return new Transformation(matrix, matrixInv);
   }
 
-  public Transformation inverse() {
-    return new Transformation(this.matrixInv, this.matrix);
-  }
-
-  public Transformation transpose() {
-    return new Transformation(this.matrix.transpose(), this.matrixInv.transpose());
-  }
-
+  /**
+   * Transform a {@link Point3D} using the operation stored within this
+   * instance. Points are scaled, rotated and translated.
+   *
+   * @param p
+   *          The {@link Point3D} to transform.
+   *
+   * @return The transformed instance.
+   */
   public Point3D transform(Point3D p) {
-    return this.transform(p, this.matrix);
-  }
-
-  public Point3D transformInverse(Point3D p) {
-    return this.transform(p, this.matrixInv);
-  }
-
-  private Point3D transform(Point3D p, Matrix m) {
     double[] homogenousPoint = new double[] {p.x, p.y, p.z, 1};
-    double[] result = m.mul(homogenousPoint);
+    double[] result = this.matrix.mul(homogenousPoint);
     return new Point3D(div(result[0], result[3]), div(result[1], result[3]), div(result[2], result[3]));
   }
 
+  /**
+   * Transform a {@link Point2D} using the operation within this transformation
+   * instance. Points are scaled, rotated and translated.
+   *
+   * @param p
+   *          The {@link Point2D} to transform.
+   *
+   * @return A transformed {@link Point2D} instance.
+   */
+  public Point2D transform(Point2D p) {
+    double[] homogenousPoint = new double[] {p.u, p.v, 0, 1};
+    double[] result = this.matrix.mul(homogenousPoint);
+    return new Point2D(div(result[0], result[3]), div(result[1], result[3]));
+  }
+
+  /**
+   * Transform a {@link Vector3D} using the operation of this transformation
+   * instance. Vectors are scaled and rotated. Since a mathematical vector has
+   * no defined origin, a vector is not translated.
+   *
+   * @param v
+   *          The {@link Vector3D} to transform.
+   *
+   * @return A new, transformed {@link Vector3D} instance.
+   */
   public Vector3D transform(Vector3D v) {
-    return this.transform(v, this.matrix);
-  }
-
-  public Vector3D transformInverse(Vector3D v) {
-    return this.transform(v, this.matrixInv);
-  }
-
-  private Vector3D transform(Vector3D v, Matrix m) {
     double[] homogenousVector = new double[] {v.x, v.y, v.z, 0};
-    double[] result = m.mul(homogenousVector);
+    double[] result = this.matrix.mul(homogenousVector);
     return new Vector3D(result[0], result[1], result[2]);
   }
 
+  /**
+   * Transforms a {@link Normal3D}. Normals are very special. In order to
+   * maintain their properties (like being perpendicular to the curve at a given
+   * point) their transformation is somewhat complicated.<br/>
+   * Like vectors, they are not translated, but we use the transposed matrix of
+   * the inverse of the transformation matrix.<br/>
+   * See the first article below. It actually makes sense ;-)
+   *
+   * @param n
+   *          The {@link Normal3D} to transform.
+   *
+   * @return The transformed {@link Normal3D} instance.
+   *
+   * @see <a href="http://www.unknownroad.com/rtfm/graphics/rt_normals.html">Transforming Normals</a>
+   * @see <a href="http://tog.acm.org/resources/RTNews/html/rtnews1a.html#art4">Abnormal Normals</a>
+   */
   public Normal3D transform(Normal3D n) {
-    return this.transform(n, this.matrixInv);
-  }
-
-  public Normal3D transformInverse(Normal3D n) {
-    return this.transform(n, this.matrix);
-  }
-
-  private Normal3D transform(Normal3D n, Matrix m) {
     double[] homogenousNormal = new double[] {n.x, n.y, n.z, 0};
-    double[] result = m.transpose().mul(homogenousNormal);
+    double[] result = this.matrixInv.transpose().mul(homogenousNormal);
     return new Normal3D(result[0], result[1], result[2]);
   }
+
+  /**
+   * This transforms a {@link Ray} instance. To do this, the point of origin for
+   * the ray ({@link Ray#getOrigin()}) is transformed as a {@link Point3D} and
+   * its direction ({@link Ray#getDirection()}) is transformed as a vector.
+   * Please notice, the length of the direction vector is not necessarily one
+   * after the transformation.
+   *
+   * @param r
+   *          The {@link Ray} to transform.
+   *
+   * @return The transformed ray.
+   */
 
   public Ray transform(Ray r) {
     Point3D newOrigin = this.transform(r.getOrigin());
@@ -340,9 +444,11 @@ public class Transformation {
     return new Ray(newOrigin, newDirection, r.getMint(), r.getMaxt());
   }
 
-  public Ray transformInverse(Ray r) {
-    Point3D newOrigin = this.transformInverse(r.getOrigin());
-    Vector3D newDirection = this.transformInverse(r.getDirection());
-    return new Ray(newOrigin, newDirection);
-  }
+  public Matrix getMatrix() {
+   return this.matrix;
+ }
+
+  public Matrix getInverseMatrix() {
+   return this.matrixInv;
+ }
 }
