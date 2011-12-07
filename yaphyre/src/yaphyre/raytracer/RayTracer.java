@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Michael Bieri
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -36,6 +36,7 @@ import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
+import yaphyre.geometry.Transformation;
 import yaphyre.geometry.Vector3D;
 import yaphyre.samplers.SinglePointSampler;
 import yaphyre.util.Color;
@@ -48,7 +49,7 @@ import yaphyre.util.RenderStatistics;
  * <ul>
  * <li>Implement the correct camera handling (rotation matrix, look at, ...)</li>
  * </ul>
- * 
+ *
  * @author Michael Bieri
  */
 public class RayTracer {
@@ -99,13 +100,12 @@ public class RayTracer {
       this.sampler = new SinglePointSampler();
     }
 
-    double uScale = 1d / imageWidth;
-    double vScale = 1d / imageHeight;
-
     for (int v = 0; v < imageHeight; v++) {
       for (int u = 0; u < imageWidth; u++) {
 
         CameraSample sample = new CameraSample();
+
+        Transformation rasterToCamera = Transformation.rasterToUnitSquare(imageWidth, imageHeight);
 
         Point2D rasterPoint = new Point2D(u, v);
         sample.setRasterPoint(rasterPoint);
@@ -114,7 +114,7 @@ public class RayTracer {
         int sampleCount = 0;
         for (Point2D samplePoint : this.sampler.getUnitSquareSamples()) {
           sampleCount++;
-          Point2D cameraCoordinates = rasterPoint.add(samplePoint).mul(uScale, vScale);
+          Point2D cameraCoordinates = rasterToCamera.transform(rasterPoint.add(samplePoint));
           Ray eyeRay = camera.getCameraRay(cameraCoordinates);
           RenderStatistics.incEyeRays();
           color = color.add(traceRay(eyeRay, 1));
@@ -147,16 +147,15 @@ public class RayTracer {
       RenderStatistics.incCancelledRays();
       return Color.BLACK;
     }
-    iteration++;
 
     CollisionInformation shapeCollisionInfo = this.scene.getCollidingShape(ray, Shape.NO_INTERSECTION, false);
 
     if (shapeCollisionInfo != null) {
       Point2D uvCoordinates = shapeCollisionInfo.getCollisionShape().getMappedSurfacePoint(shapeCollisionInfo.getCollisionPoint());
       Color objectColor = shapeCollisionInfo.getCollisionShape().getShader().getColor(uvCoordinates);
-      Color ambientColor = objectColor.multiply(shapeCollisionInfo.getCollisionShape().getShader().getMaterial(uvCoordinates).getAmbient());
+      Color ambientColor = (iteration == 1) ? objectColor.multiply(shapeCollisionInfo.getCollisionShape().getShader().getMaterial(uvCoordinates).getAmbient()) : Color.BLACK;
       Color lightColor = calculateLightColor(shapeCollisionInfo, uvCoordinates, objectColor);
-      Color reflectedColor = calculateReflectedColor(ray, iteration, shapeCollisionInfo, uvCoordinates);
+      Color reflectedColor = calculateReflectedColor(ray, iteration++, shapeCollisionInfo, uvCoordinates);
       Color refractedColor = Color.BLACK;
 
       return ambientColor.add(lightColor).add(reflectedColor).add(refractedColor);
