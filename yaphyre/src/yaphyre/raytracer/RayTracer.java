@@ -58,7 +58,7 @@ import yaphyre.util.RenderStatistics;
  * <ul>
  * <li>Implement the correct camera handling (rotation matrix, look at, ...)</li>
  * </ul>
- *
+ * 
  * @author Michael Bieri
  */
 public class RayTracer {
@@ -76,6 +76,8 @@ public class RayTracer {
 
   private Sampler sampler;
 
+  private boolean useSingleTreadedRendering = false;
+
   public void setScene(Scene scene) {
     this.scene = scene;
   }
@@ -88,11 +90,15 @@ public class RayTracer {
     this.sampler = sampler;
   }
 
+  public void useSingleThreadedRenderer() {
+    this.useSingleTreadedRendering = true;
+  }
+
   public BufferedImage render(int imageWidth, int imageHeight, double frameWidth, double frameHeight, Point3D cameraPosition, Vector3D cameraDirection) {
 
     ImageFile imageFile = new ImageFile(imageWidth, imageHeight, FileType.PNG);
     BaseCameraSettings<ImageFile> baseSettings = BaseCameraSettings.create(cameraPosition, cameraPosition.add(cameraDirection), imageFile);
-    PerspectiveCameraSettings perspSetings = PerspectiveCameraSettings.create(((double)imageWidth) / ((double)imageHeight), 25d);
+    PerspectiveCameraSettings perspSetings = PerspectiveCameraSettings.create(((double) imageWidth) / ((double) imageHeight), 25d);
     yaphyre.core.Camera<ImageFile> camera = new PerspectiveCamera<ImageFile>(baseSettings, perspSetings);
     // OrthographicCameraSettings orthoSettings =
     // OrthographicCameraSettings.create(frameWidth, frameHeight);
@@ -101,7 +107,7 @@ public class RayTracer {
 
     LOGGER.debug("Camera initialized: ".concat(camera.toString()));
 
-    this.camera = setupCamera(imageWidth, imageHeight, frameWidth, frameHeight, cameraPosition, cameraDirection);
+    this.camera = this.setupCamera(imageWidth, imageHeight, frameWidth, frameHeight, cameraPosition, cameraDirection);
 
     LOGGER.info("{}", this.scene);
 
@@ -113,51 +119,68 @@ public class RayTracer {
     // TODO move this transformation into the camera
     Transformation rasterToCamera = Transformation.rasterToUnitSquare(imageWidth, imageHeight);
 
-    // Slicing up the work
-    int numberOfCores = Runtime.getRuntime().availableProcessors();
-    int numberOfRenderingTasks = numberOfCores * SLICES_PER_CORE;
-    int sliceWidth = (imageWidth + (numberOfRenderingTasks - 1)) / numberOfRenderingTasks;
-    List<RenderCallable> slices = new ArrayList<RayTracer.RenderCallable>();
+    long duration = 0l;
+    long cpuTime = 0l;
 
-    LOGGER.info("Splitting rendering into {} slices", numberOfRenderingTasks);
+    if (this.useSingleTreadedRendering) {
 
-    for (int i = 0; i < numberOfRenderingTasks; i++) {
-      int sliceId = i + 1;
-      int sliceStart = i * sliceWidth;
-      int sliceEnd = Math.min(imageWidth, (i + 1) * sliceWidth);
+      LOGGER.info("Using single threaded rendering");
 
-      LOGGER.info("Preparing slice {} [{}, {}]", new Object[] {sliceId, sliceStart, sliceEnd});
+      RenderWindow renderWindow = new RenderWindow(0, imageWidth, 0, imageHeight);
 
-      RenderWindow window = new RenderWindow(sliceStart, sliceEnd, 0, imageHeight);
-      slices.add(new RenderCallable(sliceId, camera, sampler, window, rasterToCamera));
-    }
+      duration = System.nanoTime();
+      this.renderWindow(camera, this.sampler, renderWindow, rasterToCamera);
+      duration = (System.nanoTime() - duration) / 1000l / 1000l;
+      cpuTime = duration;
 
-    ExecutorService renderingExecutor = Executors.newFixedThreadPool(numberOfCores);
+    } else {
 
-    long duration = 0;
-    long renderStart = System.nanoTime();
-    long cpuTime = 0;
+      // Slicing up the work
+      int numberOfCores = Runtime.getRuntime().availableProcessors();
+      int numberOfRenderingTasks = numberOfCores * SLICES_PER_CORE;
+      int sliceWidth = (imageWidth + (numberOfRenderingTasks - 1)) / numberOfRenderingTasks;
+      List<RenderCallable> slices = new ArrayList<RayTracer.RenderCallable>();
 
-    try {
-      LOGGER.info("Start rendering");
-      List<Future<Long>> renderResults = renderingExecutor.invokeAll(slices);
-      boolean allDone;
-      do {
-        Thread.sleep(1000);
-        allDone = true;
-        for (Future<Long> result : renderResults) {
-          allDone &= result.isDone();
-        }
-      } while (!allDone);
-      duration = (System.nanoTime() - renderStart) / 1000 / 1000;
-      for (Future<Long> result : renderResults) {
-        cpuTime += result.get();
+      LOGGER.info("Using mutli threaded renderer with {} cores", numberOfCores);
+      LOGGER.info("Splitting rendering into {} slices", numberOfRenderingTasks);
+
+      for (int i = 0; i < numberOfRenderingTasks; i++) {
+        int sliceId = i + 1;
+        int sliceStart = i * sliceWidth;
+        int sliceEnd = Math.min(imageWidth, (i + 1) * sliceWidth);
+
+        LOGGER.debug("Preparing slice {} [{}, {}]", new Object[] { sliceId, sliceStart, sliceEnd });
+
+        RenderWindow window = new RenderWindow(sliceStart, sliceEnd, 0, imageHeight);
+        slices.add(new RenderCallable(sliceId, camera, this.sampler, window, rasterToCamera));
       }
-    } catch (Exception e) {
-      LOGGER.error("Error while rendering", e);
+
+      ExecutorService renderingExecutor = Executors.newFixedThreadPool(numberOfCores);
+
+      long renderStart = System.nanoTime();
+
+      try {
+        LOGGER.info("Start rendering");
+        List<Future<Long>> renderResults = renderingExecutor.invokeAll(slices);
+        boolean allDone;
+        do {
+          Thread.sleep(1000);
+          allDone = true;
+          for (Future<Long> result : renderResults) {
+            allDone &= result.isDone();
+          }
+        } while (!allDone);
+        duration = (System.nanoTime() - renderStart) / 1000 / 1000;
+        for (Future<Long> result : renderResults) {
+          cpuTime += result.get();
+        }
+      } catch (Exception e) {
+        LOGGER.error("Error while rendering", e);
+      }
+
     }
 
-    printRenderStatistics(duration, cpuTime);
+    this.printRenderStatistics(duration, cpuTime);
 
     return this.camera.createColorImage();
 
@@ -167,7 +190,7 @@ public class RayTracer {
    * This contains the actual render loop. Use this method for creating the
    * color informations. The results are recorded by the {@link Film} which is
    * in the camera (just like in real life...).
-   *
+   * 
    * @param camera
    *          The {@link yaphyre.core.Camera} containing the {@link Film} which
    *          records all the information.
@@ -198,7 +221,7 @@ public class RayTracer {
           Point2D cameraCoordinates = rasterToCamera.transform(rasterPoint.add(samplePoint));
           Ray eyeRay = camera.getCameraRay(cameraCoordinates);
           RenderStatistics.incEyeRays();
-          color = color.add(traceRay(eyeRay, 1));
+          color = color.add(this.traceRay(eyeRay, 1));
         }
         color = color.multiply(1d / sampleCount);
 
@@ -215,13 +238,13 @@ public class RayTracer {
    * through the scene. If it hits an object secondary rays may be generated
    * which in turn are traced again by this method. It calls itself recursively
    * in order to calculate effects like reflection and refraction.
-   *
+   * 
    * @param ray
    *          The {@link Ray} to follow trough the scene.
    * @param iteration
    *          The iteration depth. Prevents the algorithm from being stuck in an
    *          endless loop.
-   *
+   * 
    * @return The {@link Color} the origin of the {@link Ray} "sees" in the
    *         scene.
    */
@@ -238,8 +261,8 @@ public class RayTracer {
       Point2D uvCoordinates = shapeCollisionInfo.getCollisionShape().getMappedSurfacePoint(shapeCollisionInfo.getCollisionPoint());
       Color objectColor = shapeCollisionInfo.getCollisionShape().getShader().getColor(uvCoordinates);
       Color ambientColor = (iteration == 1) ? objectColor.multiply(shapeCollisionInfo.getCollisionShape().getShader().getMaterial(uvCoordinates).getAmbient()) : Color.BLACK;
-      Color lightColor = calculateLightColor(shapeCollisionInfo, uvCoordinates, objectColor);
-      Color reflectedColor = calculateReflectedColor(ray, iteration++, shapeCollisionInfo, uvCoordinates);
+      Color lightColor = this.calculateLightColor(shapeCollisionInfo, uvCoordinates, objectColor);
+      Color reflectedColor = this.calculateReflectedColor(ray, iteration++, shapeCollisionInfo, uvCoordinates);
       Color refractedColor = Color.BLACK;
 
       return ambientColor.add(lightColor).add(reflectedColor).add(refractedColor);
@@ -278,7 +301,7 @@ public class RayTracer {
       Point3D reflectedRayStartPoint = shapeCollisionInfo.getCollisionPoint().add(reflectedRayDirection.scale(EPSILON));
       Ray reflectedRay = new Ray(reflectedRayStartPoint, reflectedRayDirection);
       RenderStatistics.incSecondaryRays();
-      reflectedColor = traceRay(reflectedRay, iteration).multiply(reflectionValue);
+      reflectedColor = this.traceRay(reflectedRay, iteration).multiply(reflectionValue);
     }
     return reflectedColor;
   }
@@ -287,7 +310,7 @@ public class RayTracer {
     LOGGER.info("Rendering finished in: {}ms", duration);
     if (LOGGER.isDebugEnabled()) {
       LOGGER.debug("Effective CPU time: {}ms", cpuTime);
-      LOGGER.debug(MessageFormat.format("Parallelization gain: {0,number,0.000}", ((double)cpuTime) / ((double)duration)));
+      LOGGER.debug(MessageFormat.format("Parallelization gain: {0,number,0.000}", ((double) cpuTime) / ((double) duration)));
     }
     LOGGER.info("{} eye rays calculated", RenderStatistics.getEyeRays());
     LOGGER.info("{} secondary rays calculated", RenderStatistics.getSecondaryRays());
@@ -318,7 +341,7 @@ public class RayTracer {
   /**
    * Implementation of the {@link Callable} interface in order to parallelize
    * the rendering process.
-   *
+   * 
    * @author Michael Bieri
    */
   private class RenderCallable implements Callable<Long> {
@@ -346,16 +369,16 @@ public class RayTracer {
      * does is calling the
      * {@link RayTracer#renderWindow(yaphyre.core.Camera, Sampler, RenderWindow, Transformation)}
      * method in order to render the content of its allocated raster area.
-     *
+     * 
      * @return The duration in milliseconds
      */
     @Override
     public Long call() throws Exception {
-      LOGGER.info("Starting slice {}", this.sliceId);
+      LOGGER.debug("Starting slice {}", this.sliceId);
       long startTime = System.nanoTime();
-      RayTracer.this.renderWindow(camera, sampler, window, rasterToCamera);
+      RayTracer.this.renderWindow(this.camera, this.sampler, this.window, this.rasterToCamera);
       long duration = (System.nanoTime() - startTime) / 1000 / 1000;
-      LOGGER.info("Slice {} done in {}ms", new Object[] {this.sliceId, duration});
+      LOGGER.debug("Slice {} done in {}ms", new Object[] { this.sliceId, duration });
       return duration;
     }
 
