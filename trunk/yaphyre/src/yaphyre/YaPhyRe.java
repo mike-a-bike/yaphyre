@@ -46,9 +46,9 @@ import yaphyre.samplers.SinglePointSampler;
 /**
  * The main class starting the application. This class parses the command line,
  * prepares the environment and calls the renderer.
- *
+ * 
  * @version $Revision$
- *
+ * 
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
@@ -108,6 +108,9 @@ public class YaPhyRe {
     RayTracer rayTracer = new RayTracer();
     rayTracer.setScene(scene);
     rayTracer.setSampler(sampler);
+    if (commandLine.hasOption("single")) {
+      rayTracer.useSingleThreadedRenderer();
+    }
 
     LOGGER.info("Render image");
     BufferedImage renderedImage = rayTracer.render(imageWidth, imageHeight, frameWidth, frameHeight, cameraPosition, cameraDirection);
@@ -183,7 +186,7 @@ public class YaPhyRe {
     commandLineOptions.addOption(OptionBuilder.withArgName("pixel").hasArg().withLongOpt("width").withDescription("Width of the rendered image").create('w'));
     commandLineOptions.addOption(OptionBuilder.withArgName("pixel").hasArg().withLongOpt("height").withDescription("Height of the rendered image").create('h'));
     commandLineOptions.addOption(OptionBuilder.withArgName("strategy [samples]").hasArgs(2).withLongOpt("sampling").isRequired().withDescription("Type and number of samples for anti aliasing").create('a'));
-    commandLineOptions.addOption(OptionBuilder.withArgName("number").hasArg().withLongOpt("tasks").withDescription("Number of parallel rendering tasks").create('t'));
+    commandLineOptions.addOption(OptionBuilder.withLongOpt("single").withDescription("Perform rendering with in a single task").create());
     commandLineOptions.addOption(OptionBuilder.withLongOpt("show").withDescription("Shows the created image when finished").create());
     commandLineOptions.addOption(OptionBuilder.withLongOpt("help").withDescription("Shows this help").create());
     return parser.parse(commandLineOptions, args);
