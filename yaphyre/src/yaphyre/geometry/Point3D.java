@@ -21,6 +21,8 @@ import static yaphyre.math.MathUtils.calculateLengthSquared;
 import java.io.Serializable;
 import java.text.MessageFormat;
 
+import yaphyre.math.MathUtils;
+
 /**
  * Abstraction of a point in a 3d Cartesian coordinate system.
  *
@@ -102,13 +104,13 @@ public class Point3D implements Serializable {
       return false;
     }
     Point3D other = (Point3D)obj;
-    if (Double.doubleToLongBits(this.x) != Double.doubleToLongBits(other.x)) {
+    if (!MathUtils.equalsWithTolerance(x, other.x)) {
       return false;
     }
-    if (Double.doubleToLongBits(this.y) != Double.doubleToLongBits(other.y)) {
+    if (!MathUtils.equalsWithTolerance(y, other.y)) {
       return false;
     }
-    if (Double.doubleToLongBits(this.z) != Double.doubleToLongBits(other.z)) {
+    if (!MathUtils.equalsWithTolerance(z, other.z)) {
       return false;
     }
     return true;

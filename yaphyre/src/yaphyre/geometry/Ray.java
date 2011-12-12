@@ -20,6 +20,8 @@ import static yaphyre.math.MathUtils.EPSILON;
 import java.io.Serializable;
 import java.text.MessageFormat;
 
+import yaphyre.math.MathUtils;
+
 /**
  * Simple implementation of a ray. These are used as seeing rays and shadow
  * rays.<br/>
@@ -65,6 +67,47 @@ public class Ray implements Serializable {
   @Override
   public String toString() {
     return MessageFormat.format(TO_STRING_FORMAT, this.origin, this.direction, this.mint, this.maxt);
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + direction.hashCode();
+    result = prime * result + origin.hashCode();
+    long temp;
+    temp = Double.doubleToLongBits(maxt);
+    result = prime * result + (int)(temp ^ (temp >>> 32));
+    temp = Double.doubleToLongBits(mint);
+    result = prime * result + (int)(temp ^ (temp >>> 32));
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (!(obj instanceof Ray)) {
+      return false;
+    }
+    Ray other = (Ray)obj;
+    if (!direction.equals(other.direction)) {
+      return false;
+    }
+    if (!origin.equals(other.origin)) {
+      return false;
+    }
+    if (!MathUtils.equalsWithTolerance(maxt,other.maxt)) {
+      return false;
+    }
+    if (!MathUtils.equalsWithTolerance(mint, other.mint)) {
+      return false;
+    }
+    return true;
   }
 
   public Point3D getPoint(double distance) {

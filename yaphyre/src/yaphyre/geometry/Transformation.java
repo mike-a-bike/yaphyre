@@ -89,13 +89,13 @@ public class Transformation implements Serializable {
    */
   public static Transformation scale(double sx, double sy, double sz) {
     Matrix matrix = new Matrix(new double[][] { {sx, 0, 0, 0},
-                                               {0, sy, 0, 0},
-                                               {0, 0, sz, 0},
-                                               {0, 0, 0, 1}});
+                                                {0, sy, 0, 0},
+                                                {0, 0, sz, 0},
+                                                {0, 0, 0, 1}});
     Matrix inv = new Matrix(new double[][] { {1d / sx, 0, 0, 0},
-                                            {0, 1d / sy, 0, 0},
-                                            {0, 0, 1d / sz, 0},
-                                            {0, 0, 0, 1}});
+                                             {0, 1d / sy, 0, 0},
+                                             {0, 0, 1d / sz, 0},
+                                             {0, 0, 0, 1}});
     return new Transformation(matrix, inv);
   }
 
@@ -256,9 +256,9 @@ public class Transformation implements Serializable {
    */
   public static Transformation perspective(double fov, double near, double far) {
     Matrix persp = new Matrix(new double[][] { {1, 0, 0, 0},
-                                              {0, 1, 0, 0},
-                                              {0, 0, far / (far - near), -far * near / (far - near)},
-                                              {0, 0, 1, 0}});
+                                               {0, 1, 0, 0},
+                                               {0, 0, far / (far - near), -far * near / (far - near)},
+                                               {0, 0, 1, 0}});
     double invTanAng = 1d / tan(toRadians(fov) / 2d);
     Transformation scale = scale(invTanAng, invTanAng, 1);
     return scale.mul(new Transformation(persp));
@@ -409,7 +409,7 @@ public class Transformation implements Serializable {
 
   /**
    * Transforms a {@link Normal3D}. Normals are very special. In order to
-   * maintain their properties (like being perpendicular to the curve at a given
+   * maintain their properties (like being perpendicular to a surface at a given
    * point) their transformation is somewhat complicated.<br/>
    * Like vectors, they are not translated, but we use the transposed matrix of
    * the inverse of the transformation matrix.<br/>

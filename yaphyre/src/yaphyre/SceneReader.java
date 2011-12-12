@@ -5,6 +5,7 @@ import yaphyre.core.Shader;
 import yaphyre.core.Shape;
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point3D;
+import yaphyre.geometry.Transformation;
 import yaphyre.lights.Falloff;
 import yaphyre.lights.Pointlight;
 import yaphyre.raytracer.Scene;
@@ -20,9 +21,9 @@ import yaphyre.util.Color;
  * Read a very simple file format in order to make the development and testing
  * simpler.<br/>
  * TODO: IMPLEMENT THIS...
- * 
+ *
  * @author Michael Bieri
- * 
+ *
  */
 public class SceneReader {
 
@@ -51,8 +52,8 @@ public class SceneReader {
     Plane right = new Plane(new Point3D(3, 0, 0), Normal3D.NORMAL_X.neg(), blueDiffuse, true);
 
     // spheres
-    Sphere sphereLeft = new Sphere(new Point3D(-2, -2, 3), 1, whiteMirror, true);
-    Sphere sphereRight = new Sphere(new Point3D(1, 0, 2), 1.5, whiteDiffuse, true);
+    Sphere sphereLeft = Sphere.createSphere(new Point3D(-2, -2, 3), 1, whiteMirror, true);
+    Sphere sphereRight = Sphere.createSphere(new Point3D(1, 0, 2), 1.5, whiteDiffuse, true);
 
     // light
     Pointlight light = new Pointlight(new Point3D(0, 3 - 1e-5, 3), white, 5, Falloff.Quadric);
@@ -112,8 +113,8 @@ public class SceneReader {
 
     Scene simpleScene = new Scene();
 
-    simpleScene.addShape(new Sphere(sphere1Center, sphere1Radius, whiteShader, true));
-    simpleScene.addShape(new Sphere(sphere2Center, sphere2Radius, whiteMirror, true));
+    simpleScene.addShape(Sphere.createSphere(sphere1Center, sphere1Radius, whiteShader, true));
+    simpleScene.addShape(Sphere.createSphere(sphere2Center, sphere2Radius, whiteMirror, true));
     simpleScene.addShape(new Plane(planeOrigin, planeNormal, whiteMirror, true));
 
     simpleScene.addLightsource(new Pointlight(pointlight1Position, pointlight1Color, pointlight1Intensity, pointlight1falloff));
@@ -137,15 +138,18 @@ public class SceneReader {
     Shader whiteMirror = new SimpleShader(mirrorMaterial, 1d, 1d, 1d);
     Shader redMirror = new SimpleShader(mirrorMaterial, 1d, 0d, 0d);
 
-    Shader sphereCheckerShader = new CheckerShader(whiteMirror, blueDiffuse, 1d, 16d);
+    Shader sphereCheckerShader = new CheckerShader(whiteMirror, blueDiffuse, 16d, 16d);
     Shader checkBoardShader = new CheckerShader(redDiffuse, whiteDiffuse, 16d, 16d);
     Shader planeCeckerShader = new CheckerShader(whiteDiffuse, greenDiffuse, 0.5d, 0.5d);
 
     Lightsource pointLight = new Pointlight(new Point3D(-2, 5, -2), new Color(1, 1, 1), 15, Falloff.Quadric);
 
+    Transformation sphereTransformation = Transformation.rotateX(90).mul(Transformation.translate(0, 1.5, 0));
+    Transformation distantTransformation = Transformation.scale(2, 2, 2).mul(Transformation.translate(-2, 10, -5));
+
     Shape plane = new Plane(Point3D.ORIGIN, Normal3D.NORMAL_Y, planeCeckerShader, true);
-    Shape sphere = new Sphere(new Point3D(0, 1.5, 0), 1, sphereCheckerShader, true);
-    Shape distantSphere = new Sphere(new Point3D(-2, 10, -5), 2, checkBoardShader, true);
+    Shape sphere = new Sphere(sphereTransformation, sphereCheckerShader, true);
+    Shape distantSphere = new Sphere(distantTransformation, checkBoardShader, true);
 
     Scene scene = new Scene();
 
@@ -160,7 +164,7 @@ public class SceneReader {
 
   /**
    * 'Historic' scene: The first scene ever rendered with <em>yaphyre</em>.
-   * 
+   *
    * @return A very simple {@link Scene} containing one light, one plane and one
    *         sphere.
    */
@@ -174,7 +178,7 @@ public class SceneReader {
     Lightsource light = new Pointlight(new Point3D(-2, 5, -2), new Color(1, 1, 1), 10, Falloff.Quadric);
 
     Shape plane = new Plane(Point3D.ORIGIN, Normal3D.NORMAL_Y, diffuseWhite, true);
-    Shape sphere = new Sphere(new Point3D(0, 1, 0), 1, diffuseWhite, true);
+    Shape sphere = Sphere.createSphere(new Point3D(0, 1, 0), 1, diffuseWhite, true);
 
     Scene scene = new Scene();
 

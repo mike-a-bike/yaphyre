@@ -47,7 +47,7 @@ public class Instance extends AbstractShape implements Shape {
   private final Transformation instanceTransformation;
 
   public Instance(Shape baseShape, Transformation instanceTransformation, Shader shader, boolean throwsShadow) {
-    super(shader, throwsShadow);
+    super(Transformation.IDENTITY, shader, throwsShadow);
     checkNotNull(baseShape);
     checkNotNull(instanceTransformation);
     this.baseShape = baseShape;

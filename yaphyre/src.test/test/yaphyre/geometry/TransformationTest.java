@@ -2,11 +2,11 @@ package test.yaphyre.geometry;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
 import yaphyre.geometry.Matrix;
+import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Transformation;
@@ -129,6 +129,46 @@ public class TransformationTest {
   }
 
   @Test
+  public void testTransfromPoint() {
+    Point3D p1;
+    Point3D p2;
+    Transformation t;
+
+    p1 = new Point3D(1, 0, 0);
+    p2 = new Point3D(10, 1, 1);
+    t = Transformation.translate(9, 1, 1);
+    assertEquals(p2, t.transform(p1));
+
+    p1 = new Point3D(1, 1, 0);
+    p2 = new Point3D(10, 10, 0);
+    t = Transformation.scale(10, 10, 10);
+    assertEquals(p2, t.transform(p1));
+
+  }
+
+  @Test
+  public void testTransformNormal() {
+    Normal3D n1;
+    Normal3D n2;
+    Transformation t;
+
+    n1 = new Normal3D(0.5, 0.5, 0);
+    n2 = new Normal3D(0.25, 0.5, 0);
+    t = Transformation.scale(2, 1, 1);
+    assertEquals(n2, t.transform(n1));
+
+    n1 = new Normal3D(1, 1, 0);
+    n2 = new Normal3D(-1, 1, 0);
+    t = Transformation.rotateZ(90);
+    assertEquals(n2, t.transform(n1));
+
+    n1 = new Normal3D(1, 0, 0);
+    n2 = new Normal3D(1, 0, 0);
+    t = Transformation.translate(10, 10, 10);
+    assertEquals(n2, t.transform(n1));
+  }
+
+  @Test
   public void testRotate() {
 
     Vector3D v;
@@ -147,23 +187,10 @@ public class TransformationTest {
     r = t.transform(r);
     assertEquals(Vector3D.X, r);
 
-    fail("Not implemented yet");
-    // Vector3D v;
-    // Vector3D r;
-    // Transformation t;
-    //
-    // v = Vector3D.Y;
-    // t = Transformation.rotateX(90);
-    // r = t.transform(v);
-    // assertEquals(Vector3D.Z, r);
-    // r = t.transformInverse(r);
-    // assertEquals(v, r);
-    //
-    // v = Vector3D.Z;
-    // t = Transformation.rotateY(90);
-    // r = t.transform(v);
-    // assertEquals(Vector3D.X, r);
-    // r = t.transformInverse(r);
-    // assertEquals(v, r);
+    v = new Vector3D(1, 1, 0);
+    t = Transformation.rotateZ(90);
+    r = t.transform(v);
+    assertEquals(new Vector3D(-1, 1, 0), r);
+
   }
 }
