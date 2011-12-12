@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Michael Bieri
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -46,10 +46,12 @@ import yaphyre.math.Solver;
  * <li>p: point on the sphere</li>
  * <li>r: radius</li>
  * </ul>
- * 
+ *
  * @author Michael Bieri
  */
 public class Sphere extends AbstractShape {
+
+  private static final long serialVersionUID = 1097197998913588149L;
 
   private final Point3D center;
 
@@ -59,7 +61,7 @@ public class Sphere extends AbstractShape {
    * Creates a new instance of a sphere. It is defined by its center (as
    * {@link Point3D}) and its radius. Since it extends {@link AbstractShape},
    * all the mandatory fields from there are also needed.
-   * 
+   *
    * @param id
    *          A string which identifies this instance.
    * @param center
@@ -72,7 +74,7 @@ public class Sphere extends AbstractShape {
    *          The {@link Shader} instance used to render this sphere.
    * @param throwsShadow
    *          Flag whether this object throws a show or not.
-   * 
+   *
    * @throws NullPointerException
    *           If <code>center</code> is <code>null</code>, a
    *           <code>NullPointerException</code> is thrown.
@@ -94,6 +96,42 @@ public class Sphere extends AbstractShape {
     return MessageFormat.format("Sphere[{0}, {1}]", this.center, this.radius);
   }
 
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result + ((center == null) ? 0 : center.hashCode());
+    long temp;
+    temp = Double.doubleToLongBits(radius);
+    result = prime * result + (int)(temp ^ (temp >>> 32));
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (!(obj instanceof Sphere)) {
+      return false;
+    }
+    Sphere other = (Sphere)obj;
+    if (center == null) {
+      if (other.center != null) {
+        return false;
+      }
+    } else if (!center.equals(other.center)) {
+      return false;
+    }
+    if (Double.doubleToLongBits(radius) != Double.doubleToLongBits(other.radius)) {
+      return false;
+    }
+    return true;
+  }
+
   /**
    * Determine the distance on a half line where this line intersects with the
    * sphere. To do this, we use the parametric form of a line which is:<br/>
@@ -110,10 +148,10 @@ public class Sphere extends AbstractShape {
    * Solutions:<br/>
    * <em>t</em><sub>0</sub> = (-b - SQRT( b<sup>2</sup> - 4ac)) / 2a<br/>
    * <em>t</em><sub>1</sub> = (-b + SQRT( b<sup>2</sup> - 4ac)) / 2a<br/>
-   * 
+   *
    * @param ray
    *          The {@link Ray} to intersect with this sphere.
-   * 
+   *
    * @return The distance in which the ray intersects this sphere, or if they do
    *         not intersect {@link Shape#NO_INTERSECTION}.
    */
@@ -163,11 +201,11 @@ public class Sphere extends AbstractShape {
    * <li><em>tan</em>(&phi;) = <em>y</em> / <em>x</em></li>
    * </ul>
    * With &theta; &isin; [0, &pi;) and &phi; &isin; [0, 2&pi;)
-   * 
+   *
    * @throws NullPointerException
    *           If <code>surfacePoint</code> is <code>null</code> a
    *           {@link NullPointerException} is thrown.
-   * 
+   *
    * @throws IllegalArgumentException
    *           If <code>surfacePoint</code> does not lie on the surface of the
    *           sphere an {@link IllegalArgumentException} is thrown.

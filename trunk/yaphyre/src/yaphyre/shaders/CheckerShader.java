@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Michael Bieri
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -24,13 +24,15 @@ import yaphyre.util.Color;
  * implementation uses two shader to create the color of the pixel to show. So
  * it is for example possible to create a checked pattern within the checker
  * pattern itself.
- * 
+ *
  * @version $Revision: 40 $
- * 
+ *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
 public class CheckerShader implements Shader {
+
+  private static final long serialVersionUID = -4840381886169680635L;
 
   private final Shader shader1, shader2;
 
@@ -39,7 +41,7 @@ public class CheckerShader implements Shader {
   /**
    * Creates a simple checker with the given two shader. The frequency of the
    * change is 1.
-   * 
+   *
    * @param id
    *          The id of the shader
    * @param shader1
@@ -54,7 +56,7 @@ public class CheckerShader implements Shader {
   /**
    * Create a new checker shader defined by its id, the two shader used for its
    * tiles and the frequency with which the pattern changes.
-   * 
+   *
    * @param id
    *          The id of the shader
    * @param shader1
@@ -71,7 +73,7 @@ public class CheckerShader implements Shader {
   /**
    * Create a new checker shader defined by its id, the two shader used for its
    * tiles and the frequency with which the pattern changes.
-   * 
+   *
    * @param id
    *          The id of the shader
    * @param shader1
@@ -91,6 +93,67 @@ public class CheckerShader implements Shader {
     this.vSizeInv = vFrequency;
     this.vSize = 1d / vFrequency;
   }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((shader1 == null) ? 0 : shader1.hashCode());
+    result = prime * result + ((shader2 == null) ? 0 : shader2.hashCode());
+    long temp;
+    temp = Double.doubleToLongBits(uSize);
+    result = prime * result + (int)(temp ^ (temp >>> 32));
+    temp = Double.doubleToLongBits(uSizeInv);
+    result = prime * result + (int)(temp ^ (temp >>> 32));
+    temp = Double.doubleToLongBits(vSize);
+    result = prime * result + (int)(temp ^ (temp >>> 32));
+    temp = Double.doubleToLongBits(vSizeInv);
+    result = prime * result + (int)(temp ^ (temp >>> 32));
+    return result;
+  }
+
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (!(obj instanceof CheckerShader)) {
+      return false;
+    }
+    CheckerShader other = (CheckerShader)obj;
+    if (shader1 == null) {
+      if (other.shader1 != null) {
+        return false;
+      }
+    } else if (!shader1.equals(other.shader1)) {
+      return false;
+    }
+    if (shader2 == null) {
+      if (other.shader2 != null) {
+        return false;
+      }
+    } else if (!shader2.equals(other.shader2)) {
+      return false;
+    }
+    if (Double.doubleToLongBits(uSize) != Double.doubleToLongBits(other.uSize)) {
+      return false;
+    }
+    if (Double.doubleToLongBits(uSizeInv) != Double.doubleToLongBits(other.uSizeInv)) {
+      return false;
+    }
+    if (Double.doubleToLongBits(vSize) != Double.doubleToLongBits(other.vSize)) {
+      return false;
+    }
+    if (Double.doubleToLongBits(vSizeInv) != Double.doubleToLongBits(other.vSizeInv)) {
+      return false;
+    }
+    return true;
+  }
+
 
   @Override
   public Color getColor(Point2D uvCoordinate) {

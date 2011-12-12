@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Michael Bieri
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,17 +15,20 @@
  */
 package yaphyre.geometry;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 
 /**
  * Represents a normal in the 3d Cartesian coordinate system.
- * 
+ *
  * @version $Revision: 37 $
- * 
+ *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
-public class Normal3D {
+public class Normal3D implements Serializable {
+
+  private static final long serialVersionUID = 5210137820413107110L;
 
   public static final Normal3D NORMAL_X = new Normal3D(1d, 0d, 0d);
 

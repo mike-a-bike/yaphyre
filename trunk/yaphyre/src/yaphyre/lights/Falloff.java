@@ -1,5 +1,7 @@
 package yaphyre.lights;
 
+import java.io.Serializable;
+
 /**
  * Representation and implementation of different falloff algorithms. With the
  * exception of {@link Falloff#None}, the result becomes smaller the bigger the
@@ -11,11 +13,11 @@ package yaphyre.lights;
  * d<sup>2</sup></li>
  * <li>Cubic: The value decreases with a cubic function: v = i / d<sup>3</sup></li>
  * </ul>
- * 
+ *
  * @author Michael Bieri
- * 
+ *
  */
-public enum Falloff {
+public enum Falloff implements Serializable {
   None {
     @Override
     public double getIntensity(double intensity, double distance) {

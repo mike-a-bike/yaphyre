@@ -40,6 +40,8 @@ import yaphyre.geometry.Transformation;
  */
 public class Instance extends AbstractShape implements Shape {
 
+  private static final long serialVersionUID = -8356972729048615712L;
+
   private final Shape baseShape;
 
   private final Transformation instanceTransformation;
