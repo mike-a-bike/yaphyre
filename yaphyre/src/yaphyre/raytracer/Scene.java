@@ -1,5 +1,6 @@
 package yaphyre.raytracer;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -11,7 +12,9 @@ import yaphyre.core.Shader;
 import yaphyre.core.Shape;
 import yaphyre.geometry.Ray;
 
-public class Scene {
+public class Scene implements Serializable {
+
+  private static final long serialVersionUID = 7351378461914059224L;
 
   private final List<Shape> shapes;
 

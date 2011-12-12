@@ -21,6 +21,8 @@ import static java.lang.Math.tan;
 import static java.lang.Math.toRadians;
 import static yaphyre.math.MathUtils.div;
 
+import java.io.Serializable;
+
 /**
  * This class encapsulates a series of transformations. This class also provides
  * factory methods for the most used transformations like translation, rotation
@@ -32,7 +34,9 @@ import static yaphyre.math.MathUtils.div;
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
-public class Transformation {
+public class Transformation implements Serializable {
+
+  private static final long serialVersionUID = 2965313538211290303L;
 
   public static final Transformation IDENTITY = new Transformation(Matrix.IDENTITY);
 

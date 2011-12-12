@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Michael Bieri
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,17 +15,21 @@
  */
 package yaphyre.core;
 
+import java.io.Serializable;
+
 import yaphyre.geometry.Point3D;
 
 /**
  * A record which contains all the informations relevant for a collision.
- * 
+ *
  * @version $Revision$
- * 
+ *
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
-public class CollisionInformation {
+public class CollisionInformation implements Serializable {
+
+  private static final long serialVersionUID = 9132420627811920135L;
 
   private final Shape collisionShape;
 
@@ -35,7 +39,7 @@ public class CollisionInformation {
 
   /**
    * Creates a new instance for the collision informations.
-   * 
+   *
    * @param collisionShape
    *          The {@link Shape} instance which is hit.
    * @param collisionDistance

@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Michael Bieri
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -39,13 +39,15 @@ import yaphyre.geometry.Vector3D;
  * <li>p<sub>0</sub>: the origin</li>
  * <li>n: the normal of the plane</li>
  * </ul>
- * 
+ *
  * @version $Revision$
- * 
+ *
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
 public class Plane extends AbstractShape {
+
+  private static final long serialVersionUID = 6001965721771220664L;
 
   private final Point3D origin;
 
@@ -62,6 +64,44 @@ public class Plane extends AbstractShape {
     return MessageFormat.format("Plane[{0}, {1}]", this.origin, this.normal);
   }
 
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result + ((normal == null) ? 0 : normal.hashCode());
+    result = prime * result + ((origin == null) ? 0 : origin.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (!(obj instanceof Plane)) {
+      return false;
+    }
+    Plane other = (Plane)obj;
+    if (normal == null) {
+      if (other.normal != null) {
+        return false;
+      }
+    } else if (!normal.equals(other.normal)) {
+      return false;
+    }
+    if (origin == null) {
+      if (other.origin != null) {
+        return false;
+      }
+    } else if (!origin.equals(other.origin)) {
+      return false;
+    }
+    return true;
+  }
+
   /**
    * Intersect the plane with a ray. We use the parametric form of the line
    * equation to determine the distance in which the line intersects this plane.<br/>
@@ -76,10 +116,10 @@ public class Plane extends AbstractShape {
    * line intersects with the plane, the denominator and the numerator are zero<br/>
    * If the result is negative, the line intersects with the plane behind the
    * origin of the ray, so there is no visible intersection.
-   * 
+   *
    * @param ray
    *          The {@link Ray} to intersect with this plane.
-   * 
+   *
    * @return The distance in which the ray intersects this plane or
    *         {@link Shape#NO_INTERSECTION} if there is no intersection.
    */
@@ -121,11 +161,11 @@ public class Plane extends AbstractShape {
   /**
    * The normal of a plane is independent from the position on the plane, so
    * always the defining normal is returned.
-   * 
+   *
    * @param surfacePoint
    *          The surface point (as {@link Vector3D}) for which the normal is
    *          asked.
-   * 
+   *
    * @return The normal of the plane (position independent)
    */
   @Override

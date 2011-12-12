@@ -29,6 +29,8 @@ import java.util.concurrent.Future;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.annotations.Beta;
+
 import yaphyre.cameras.AbstractCamera.BaseCameraSettings;
 import yaphyre.cameras.PerspectiveCamera;
 import yaphyre.cameras.PerspectiveCamera.PerspectiveCameraSettings;
@@ -83,6 +85,7 @@ public class RayTracer {
 
   private Scene scene;
 
+  @Beta
   private Camera camera;
 
   private Sampler sampler;
@@ -431,6 +434,7 @@ public class RayTracer {
    * This is only tempory. Setup a {@link Camera}. This will be needed lo longer
    * as soon as the {@link yaphyre.core.Camera} implementation is finished.
    */
+  @Beta
   private Camera setupCamera(int width, int height, double frameWidth, double frameHeight, Point3D cameraPosition, Vector3D cameraDirection) {
 
     int imageArraySize = width * height;

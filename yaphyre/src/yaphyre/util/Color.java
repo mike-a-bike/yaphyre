@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Michael Bieri
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -17,6 +17,8 @@ package yaphyre.util;
 
 import static com.google.common.primitives.Doubles.max;
 import static com.google.common.primitives.Doubles.min;
+
+import java.io.Serializable;
 
 import com.google.common.base.Objects;
 
@@ -30,10 +32,12 @@ import com.google.common.base.Objects;
  * another context it is necessary to make sure that the values are within the
  * allowed range. To do this, this class provides a helper method called
  * {@link Color#clip()}.
- * 
+ *
  * @author Michael Bieri
  */
-public class Color {
+public class Color implements Serializable {
+
+  private static final long serialVersionUID = 6104986207165257901L;
 
   /** Represent the value of black. */
   public static final Color BLACK = new Color(0d, 0d, 0d);
@@ -74,7 +78,7 @@ public class Color {
    * Compares two instances. If the instance to compare to is a {@link Color},
    * non-null and each its three color components has the same value as this
    * instance, the two {@link Color}s are equal.
-   * 
+   *
    * @return <code>true</code> if both {@link Color} instances represent the
    *         same red, green and blue values.
    */
@@ -110,10 +114,10 @@ public class Color {
   /**
    * Multiply this color with another color. It does this by multiplying the
    * separate components with each other.
-   * 
+   *
    * @param other
    *          The {@link Color} to multiply the values with.
-   * 
+   *
    * @return A new instance with the multiplied values.
    */
   public Color multiply(Color other) {
@@ -123,10 +127,10 @@ public class Color {
   /**
    * Multiply the values of this color with a scalar. Thus 'scaling' the color
    * value.
-   * 
+   *
    * @param factor
    *          The value to multiply each color value with.
-   * 
+   *
    * @return A new instance with the multiplied values.
    */
   public Color multiply(double factor) {
@@ -136,10 +140,10 @@ public class Color {
   /**
    * Add another {@link Color} to this {@link Color}. Adds each component
    * separately and creates a new color with these values.
-   * 
+   *
    * @param other
    *          The {@link Color} to add to this instance.
-   * 
+   *
    * @return A new instance of {@link Color} with the added values.
    */
   public Color add(Color other) {
@@ -154,7 +158,7 @@ public class Color {
    * By clipping the color values it ensures that values smaller than zero are
    * set to zero and values bigger than one are set to one. Any other values are
    * left as they are.
-   * 
+   *
    * @return A new instance of {@link Color} with each component value between
    *         zero and one.
    */
@@ -169,7 +173,7 @@ public class Color {
    * If a value for one of the three color components exceeds the range of zero
    * to one all the components are scaled so that the biggest value is one and
    * all the others are scaled accordingly.
-   * 
+   *
    * @return A new instance of {@link Color} with the scaled values.
    */
   public Color rescale() {
@@ -187,7 +191,7 @@ public class Color {
   /**
    * Creates a new color instance with each component raised to the power of
    * <code>pow</code>. This can be used for gamma correction.
-   * 
+   *
    * @param pow
    *          The power to which each component is raised.
    * @return A new {@link Color} with the scaled values.
