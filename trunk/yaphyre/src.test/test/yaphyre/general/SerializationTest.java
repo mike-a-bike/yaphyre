@@ -23,7 +23,7 @@ public class SerializationTest {
   @Test
   public void testShapeSerialization() {
     try {
-      Shape sphere = new Sphere(new Point3D(10, 20, 30), 1, new SimpleShader(new Material(0.2, 0.25, 0.1, 0.9, 0), new Color(1, 0, 0)), true);
+      Shape sphere = Sphere.createSphere(new Point3D(10, 20, 30), 1, new SimpleShader(new Material(0.2, 0.25, 0.1, 0.9, 0), new Color(1, 0, 0)), true);
       Shape plane = new Plane(new Point3D(4, 5, 6), new Normal3D(1, 1, 2), new SimpleShader(new Material(0, 1, 0, 0, 0), new Color(1, 1, 1)), false);
 
       ByteArrayOutputStream buffer = new ByteArrayOutputStream();

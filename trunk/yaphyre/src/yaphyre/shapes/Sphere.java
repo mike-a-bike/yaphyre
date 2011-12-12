@@ -33,6 +33,7 @@ import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
+import yaphyre.geometry.Transformation;
 import yaphyre.geometry.Vector3D;
 import yaphyre.math.MathUtils;
 import yaphyre.math.Solver;
@@ -51,11 +52,75 @@ import yaphyre.math.Solver;
  */
 public class Sphere extends AbstractShape {
 
-  private static final long serialVersionUID = 1097197998913588149L;
+  private static final long serialVersionUID = -8353927614531728405L;
 
   private final Point3D center;
 
   private final double radius;
+
+  /**
+   * Helper method for creating a sphere where the center and its radius are
+   * known. This creates a transformation which scales the unit sphere by the
+   * size of the given radius and translates it to the given coordinates. So,
+   * the resulting matrix looks like this: <br/>
+   * [[r 0 0 c<sub>x</sub>] [0 r 0 c<sub>y</sub>] [0 0 r c<sub>z</sub>] [0 0 0
+   * 1]]
+   *
+   * @param center
+   *          The center of the sphere (c<sub>x, y, z</sub>)
+   * @param radius
+   *          Its radius (r)
+   * @param shader
+   *          The {@link Shader} to use for rendering
+   * @param throwsShadow
+   *          Flag whether this {@link Shape} throws a shadow or not
+   *
+   * @return A new instance of {@link Sphere}.
+   *
+   * @throws NullPointerException
+   *           If either <code>center</code> or <code>shader</code> are
+   *           <code>null</code>, a {@link NullPointerException} is thrown.
+   * @throws IllegalArgumentException
+   *           If <code>radius</code> is too small, an
+   *           {@link IllegalArgumentException} is thrown.
+   */
+  public static Sphere createSphere(Point3D center, double radius, Shader shader, boolean throwsShadow) throws NullPointerException, IllegalArgumentException {
+    checkArgument(radius > EPSILON);
+    checkNotNull(center);
+    checkNotNull(shader);
+    Transformation scaling = Transformation.scale(radius, radius, radius);
+    Transformation translation = Transformation.translate(center.getX(), center.getY(), center.getZ());
+    Transformation objectToWorld = translation.mul(scaling);
+    return new Sphere(objectToWorld, shader, throwsShadow);
+  }
+
+  /**
+   * Creates a unit sphere at the origin of the world coordinates. Changes in
+   * the position of the objects and the radius are made by providing a
+   * transformation matrix.
+   * <ul>
+   * <li>Change the radius -> Use a scaling transformation.</li>
+   * <li>Change the center -> Use a translation transformation.</li>
+   * <li>Make an ellipsoid -> Use a non uniform scaling transformation</li>
+   * </ul>
+   *
+   * @param objectToWorld
+   *          The {@link Transformation} to translate from object space into
+   *          world space.
+   * @param shader
+   *          The {@link Shader} to use for this instance.
+   * @param throwsShadow
+   *          Flag whether this shape throws a shadow or not.
+   *
+   * @throws NullPointerException
+   *           If either <code>objectToWorld</code> or <code>shader</code> is
+   *           <code>null</code>, a {@link NullPointerException} is thrown.
+   */
+  public Sphere(Transformation objectToWorld, Shader shader, boolean throwsShadow) throws NullPointerException {
+    super(objectToWorld, shader, throwsShadow);
+    this.center = Point3D.ORIGIN;
+    this.radius = 1d;
+  }
 
   /**
    * Creates a new instance of a sphere. It is defined by its center (as
@@ -83,8 +148,8 @@ public class Sphere extends AbstractShape {
    *           {@link MathUtils#EPSILON}, an
    *           <code>IllegalArgumentException</code> is thrown.
    */
-  public Sphere(Point3D center, double radius, Shader shader, boolean throwsShadow) throws NullPointerException, IllegalArgumentException {
-    super(shader, throwsShadow);
+  private Sphere(Point3D center, double radius, Shader shader, boolean throwsShadow) throws NullPointerException, IllegalArgumentException {
+    super(Transformation.IDENTITY, shader, throwsShadow);
     checkNotNull(center);
     checkArgument(radius > EPSILON, "the radius [%] is smaller than the allowed minimal size [%]", radius, EPSILON);
     this.center = center;
@@ -100,7 +165,7 @@ public class Sphere extends AbstractShape {
   public int hashCode() {
     final int prime = 31;
     int result = super.hashCode();
-    result = prime * result + ((center == null) ? 0 : center.hashCode());
+    result = prime * result + center.hashCode();
     long temp;
     temp = Double.doubleToLongBits(radius);
     result = prime * result + (int)(temp ^ (temp >>> 32));
@@ -119,11 +184,7 @@ public class Sphere extends AbstractShape {
       return false;
     }
     Sphere other = (Sphere)obj;
-    if (center == null) {
-      if (other.center != null) {
-        return false;
-      }
-    } else if (!center.equals(other.center)) {
+    if (!center.equals(other.center)) {
       return false;
     }
     if (Double.doubleToLongBits(radius) != Double.doubleToLongBits(other.radius)) {
@@ -143,11 +204,13 @@ public class Sphere extends AbstractShape {
    * <li>d: direction</li>
    * <li><em>t</em>: parameter value</li>
    * </ul>
-   * We have to solve a quadratic equation: a*<em>t</em><sup>2</sup> + b*
-   * <em>t</em> + c = 0<br/>
+   * We have to solve a quadratic equation: c<sub>2</sub>*<em>t</em><sup>2</sup>
+   * + c<sub>1</sub>* <em>t</em> + c<sub>0</sub> = 0<br/>
    * Solutions:<br/>
-   * <em>t</em><sub>0</sub> = (-b - SQRT( b<sup>2</sup> - 4ac)) / 2a<br/>
-   * <em>t</em><sub>1</sub> = (-b + SQRT( b<sup>2</sup> - 4ac)) / 2a<br/>
+   * <em>t</em><sub>0</sub> = (-c<sub>1</sub> - SQRT( c<sub>1</sub><sup>2</sup>
+   * - 4c<sub>2</sub>c<sub>0</sub>)) / 2c<sub>2</sub><br/>
+   * <em>t</em><sub>1</sub> = (-c<sub>1</sub> + SQRT( c<sub>1</sub><sup>2</sup>
+   * - 4c<sub>2</sub>c<sub>0</sub>)) / 2c<sub>2</sub><br/>
    *
    * @param ray
    *          The {@link Ray} to intersect with this sphere.
@@ -157,14 +220,18 @@ public class Sphere extends AbstractShape {
    */
   @Override
   public double getIntersectDistance(Ray ray) {
+
+    // Transform the incoming ray from the world space into the object space.
+    ray = super.getWorldToObject().transform(ray);
+
     // Transform the origin of the ray into the object space of the sphere.
     Vector3D oc = ray.getOrigin().sub(this.center);
 
-    final double a = ray.getDirection().dot(ray.getDirection());
-    final double b = 2 * oc.dot(ray.getDirection());
-    final double c = oc.dot(oc) - this.radius * this.radius;
+    final double c2 = ray.getDirection().dot(ray.getDirection());
+    final double c1 = 2 * oc.dot(ray.getDirection());
+    final double c0 = oc.dot(oc) - this.radius * this.radius;
 
-    final double[] solutions = Solver.Quadratic.solve(c, b, a);
+    final double[] solutions = Solver.Quadratic.solve(c0, c1, c2);
 
     double result = Shape.NO_INTERSECTION;
 
@@ -179,7 +246,8 @@ public class Sphere extends AbstractShape {
 
   @Override
   public Normal3D getNormal(Point3D surfacePoint) {
-    return surfacePoint.sub(this.center).asNormal();
+    surfacePoint = super.getWorldToObject().transform(surfacePoint);
+    return super.getObjectToWorld().transform(surfacePoint.sub(this.center).asNormal());
   }
 
   public Point3D getCenter() {
@@ -194,7 +262,7 @@ public class Sphere extends AbstractShape {
    * Map the given point onto the <em>u</em>/<em>v</em> coordinates of the
    * sphere. This is done by converting the standard Cartesian coordinates into
    * the polar representation and mapping the angles &theta; and &phi; to the
-   * standard <em>u</em>/<em>v</em> range [0, 1]<br/>
+   * standard <em>u</em>/<em>v</em> range {u, v &isin; [0, 1]}<br/>
    * The definition is:
    * <ul>
    * <li><em>cos</em>(&theta;) = <em>z</em> / <em>r</em></li>
@@ -212,6 +280,7 @@ public class Sphere extends AbstractShape {
    */
   @Override
   public Point2D getMappedSurfacePoint(Point3D surfacePoint) throws NullPointerException, IllegalArgumentException {
+    surfacePoint = super.getWorldToObject().transform(surfacePoint);
     // Make sure, that the point lies on the surface.
     checkNotNull(surfacePoint, "surfacePoint must not be null");
     Vector3D surfacePointVector = new Vector3D(this.center, surfacePoint);
@@ -221,7 +290,7 @@ public class Sphere extends AbstractShape {
     double theta = acos(div(surfacePointVector.getZ(), this.radius));
     double phi = atan2(surfacePointVector.getY(), surfacePointVector.getX()) + PI;
 
-    // Map to [0, 1] for u and v
+    // Map u and v to [0, 1]
     double u = phi * INV_TWO_PI;
     double v = theta * INV_PI;
 

@@ -15,11 +15,14 @@
  */
 package yaphyre.shapes;
 
+import com.google.common.base.Preconditions;
+
 import yaphyre.core.CollisionInformation;
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
+import yaphyre.geometry.Transformation;
 
 /**
  * Implementation of common methods for most {@link Shape}.
@@ -37,44 +40,74 @@ public abstract class AbstractShape implements Shape {
 
   private final boolean throwsShadow;
 
-  protected AbstractShape(Shader shader, boolean throwsShadow) {
+  private final Transformation worldToObject;
+
+  private final Transformation objectToWorld;
+
+  /**
+   * Initialize the common fields for all {@link Shape}s. Each {@link Shape}
+   * defines a point of origin for its own, which is translated to the world
+   * coordinate space using the given transformation. {@link Ray}s are
+   * translated by the inverse of the {@link Transformation} to calculate an
+   * eventual intersection.</br> Please remember, that the order of the
+   * {@link Transformation} matters. It is not the same if the object is rotated
+   * an then translated or first translated and then rotated.
+   *
+   * @param objectToWorld
+   *          The {@link Transformation} used to map world coordinates to object
+   *          coordinates.
+   * @param shader
+   *          The {@link Shader} instance to use when rendering this
+   *          {@link Shape}.
+   * @param throwsShadow
+   *          Flag whether this {@link Shape} throws a shadow or not.
+   *
+   * @throws NullPointerException
+   *           If either <code>objectToWorld</code> or <code>shader</code> is
+   *           <code>null</code> a {@link NullPointerException} is thrown
+   */
+  protected AbstractShape(Transformation objectToWorld, Shader shader, boolean throwsShadow) throws NullPointerException {
+    Preconditions.checkNotNull(objectToWorld);
+    Preconditions.checkNotNull(shader);
     this.shader = shader;
     this.throwsShadow = throwsShadow;
+    this.objectToWorld = objectToWorld;
+    this.worldToObject = this.objectToWorld.inverse();
   }
 
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((shader == null) ? 0 : shader.hashCode());
+    result = prime * result + objectToWorld.hashCode();
+    result = prime * result + shader.hashCode();
     result = prime * result + (throwsShadow ? 1231 : 1237);
     return result;
   }
 
-
-
-
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     AbstractShape other = (AbstractShape)obj;
-    if (shader == null) {
-      if (other.shader != null)
-        return false;
-    } else if (!shader.equals(other.shader))
+    if (!shader.equals(other.shader)) {
       return false;
-    if (throwsShadow != other.throwsShadow)
+    }
+    if (!objectToWorld.equals(other.objectToWorld)) {
       return false;
+    }
+    if (throwsShadow != other.throwsShadow) {
+      return false;
+    }
     return true;
   }
-
-
-
 
   @Override
   public Shader getShader() {
@@ -84,6 +117,14 @@ public abstract class AbstractShape implements Shape {
   @Override
   public boolean throwsShadow() {
     return this.throwsShadow;
+  }
+
+  protected Transformation getWorldToObject() {
+    return this.worldToObject;
+  }
+
+  protected Transformation getObjectToWorld() {
+    return this.objectToWorld;
   }
 
   @Override
@@ -104,6 +145,10 @@ public abstract class AbstractShape implements Shape {
     }
 
     return ray.getPoint(intersectionDistance);
+  }
+
+  protected Ray transformToObjectSpace(Ray ray) {
+    return this.worldToObject.transform(ray);
   }
 
 }

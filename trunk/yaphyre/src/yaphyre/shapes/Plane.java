@@ -19,12 +19,15 @@ import static java.lang.Math.signum;
 
 import java.text.MessageFormat;
 
+import com.google.common.base.Preconditions;
+
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
+import yaphyre.geometry.Transformation;
 import yaphyre.geometry.Vector3D;
 
 /**
@@ -54,7 +57,9 @@ public class Plane extends AbstractShape {
   private final Normal3D normal;
 
   public Plane(Point3D origin, Normal3D normal, Shader shader, boolean throwsShadow) {
-    super(shader, throwsShadow);
+    super(Transformation.IDENTITY, shader, throwsShadow);
+    Preconditions.checkNotNull(origin);
+    Preconditions.checkNotNull(normal);
     this.origin = origin;
     this.normal = normal;
   }
@@ -68,8 +73,8 @@ public class Plane extends AbstractShape {
   public int hashCode() {
     final int prime = 31;
     int result = super.hashCode();
-    result = prime * result + ((normal == null) ? 0 : normal.hashCode());
-    result = prime * result + ((origin == null) ? 0 : origin.hashCode());
+    result = prime * result + normal.hashCode();
+    result = prime * result + origin.hashCode();
     return result;
   }
 
@@ -85,18 +90,10 @@ public class Plane extends AbstractShape {
       return false;
     }
     Plane other = (Plane)obj;
-    if (normal == null) {
-      if (other.normal != null) {
-        return false;
-      }
-    } else if (!normal.equals(other.normal)) {
+    if (!normal.equals(other.normal)) {
       return false;
     }
-    if (origin == null) {
-      if (other.origin != null) {
-        return false;
-      }
-    } else if (!origin.equals(other.origin)) {
+    if (!origin.equals(other.origin)) {
       return false;
     }
     return true;

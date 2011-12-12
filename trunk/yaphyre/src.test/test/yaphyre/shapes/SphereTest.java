@@ -3,6 +3,7 @@ package test.yaphyre.shapes;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
@@ -27,23 +28,41 @@ public class SphereTest {
   private static final String SHADER_ID = "shader1";
 
   private Shape createTestSphere() {
-    return new Sphere(new Point3D(2d, 0d, 0d), 1d, new TestShader(), true);
+    return Sphere.createSphere(new Point3D(2d, 0d, 0d), 1d, new TestShader(), true);
   }
 
   /**
    * Creates a sphere at the coordinate origin with a radius of 1.
-   * 
+   *
    * @return The unit sphere.
    */
   private Shape createUnitSphere() {
-    return new Sphere(Point3D.ORIGIN, 1d, new TestShader(), true);
+    return Sphere.createSphere(Point3D.ORIGIN, 1d, new TestShader(), true);
   }
 
   @Test
   public void testSphere() {
-    Sphere s = new Sphere(new Point3D(1d, 1d, 1d), 1d, null, true);
+    Sphere s = Sphere.createSphere(new Point3D(1d, 1d, 1d), 1d, new TestShader(), true);
     System.out.println("New sphere created: " + s);
     assertNotNull(s);
+  }
+
+  @Test
+  public void testStaticSphereConstructor() {
+
+    Sphere staticSphere = Sphere.createSphere(Point3D.ORIGIN, 2, new TestShader(), true);
+    Sphere constructorSphere = Sphere.createSphere(Point3D.ORIGIN, 2, new TestShader(), true);
+
+    Ray testRay = new Ray(new Point3D(-10, 0, 0), Vector3D.X);
+
+    Point3D intersectPoint1 = staticSphere.getIntersectionPoint(testRay);
+    Point3D intersectPoint2 = constructorSphere.getIntersectionPoint(testRay);
+
+    assertEquals(intersectPoint2, intersectPoint1);
+
+    assertEquals(constructorSphere.getNormal(intersectPoint2), staticSphere.getNormal(intersectPoint1));
+
+    fail("Not implemented yet");
   }
 
   @Test
@@ -75,7 +94,6 @@ public class SphereTest {
     Ray crookedRay = new Ray(Point3D.ORIGIN, new Vector3D(1, 0.25, 0.25).normalize());
 
     Shape testSphere = createTestSphere();
-    Shape unitSphere = createUnitSphere();
 
     Point3D intersectionPoint;
 
@@ -169,6 +187,7 @@ public class SphereTest {
     assertNotNull(s.getShader());
   }
 
+  @SuppressWarnings("serial")
   private static class TestShader implements Shader {
     private static final Color TEST_COLOR = new Color(java.awt.Color.BLACK);
 
@@ -183,6 +202,23 @@ public class SphereTest {
     public Material getMaterial(Point2D uvCoordinate) {
       return TEST_MATERIAL;
     }
+
+    @Override
+    public int hashCode() {
+      return this.getClass().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) {
+        return false;
+      }
+      if (obj instanceof TestShader) {
+        return true;
+      }
+      return false;
+    }
+
   }
 
 }

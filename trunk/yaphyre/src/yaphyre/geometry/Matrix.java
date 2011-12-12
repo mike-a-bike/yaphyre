@@ -18,6 +18,7 @@ package yaphyre.geometry;
 import static com.google.common.base.Preconditions.checkArgument;
 import static yaphyre.math.MathUtils.equalsWithTolerance;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.Arrays;
 
@@ -35,7 +36,9 @@ import org.apache.commons.math.linear.RealMatrix;
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
-public class Matrix {
+public class Matrix implements Serializable {
+
+  private static final long serialVersionUID = 1125712454842709925L;
 
   private static final int DIMENSION = 4;
 

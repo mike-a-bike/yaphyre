@@ -18,6 +18,8 @@ package yaphyre.geometry;
 import java.io.Serializable;
 import java.text.MessageFormat;
 
+import yaphyre.math.MathUtils;
+
 /**
  * Represents a normal in the 3d Cartesian coordinate system.
  *
@@ -75,13 +77,13 @@ public class Normal3D implements Serializable {
       return false;
     }
     Normal3D other = (Normal3D)obj;
-    if (Double.doubleToLongBits(this.x) != Double.doubleToLongBits(other.x)) {
+    if (!MathUtils.equalsWithTolerance(x, other.x)) {
       return false;
     }
-    if (Double.doubleToLongBits(this.y) != Double.doubleToLongBits(other.y)) {
+    if (!MathUtils.equalsWithTolerance(y, other.y)) {
       return false;
     }
-    if (Double.doubleToLongBits(this.z) != Double.doubleToLongBits(other.z)) {
+    if (!MathUtils.equalsWithTolerance(z, other.z)) {
       return false;
     }
     return true;

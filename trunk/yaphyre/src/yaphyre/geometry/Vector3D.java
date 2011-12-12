@@ -48,10 +48,29 @@ public class Vector3D implements Serializable {
 
   final double x, y, z;
 
+  /**
+   * Creates a new instance of {@link Vector3D} so that P<sub>start</sub> + V =
+   * P<sub>end</sub>
+   *
+   * @param start
+   *          The start point for the calculation (P<sub>start</sub>)
+   * @param end
+   *          The end point for tha calculation (P<sub>end</sub>)
+   */
   public Vector3D(Point3D start, Point3D end) {
     this(end.x - start.x, end.y - start.y, end.z - start.z);
   }
 
+  /**
+   * Create a new {@link Vector3D} with the given components.
+   *
+   * @param x
+   *          The X axis component.
+   * @param y
+   *          The Y axis component.
+   * @param z
+   *          The Z axis component.
+   */
   public Vector3D(double x, double y, double z) {
     this.x = x;
     this.y = y;
@@ -134,6 +153,20 @@ public class Vector3D implements Serializable {
     }
     Vector3D other = (Vector3D)o;
     return this.equals(other, MathUtils.EPSILON);
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    long temp;
+    temp = Double.doubleToLongBits(this.x);
+    result = prime * result + (int)(temp ^ (temp >>> 32));
+    temp = Double.doubleToLongBits(this.y);
+    result = prime * result + (int)(temp ^ (temp >>> 32));
+    temp = Double.doubleToLongBits(this.z);
+    result = prime * result + (int)(temp ^ (temp >>> 32));
+    return result;
   }
 
   public boolean equals(Vector3D vector, double tolerance) {
