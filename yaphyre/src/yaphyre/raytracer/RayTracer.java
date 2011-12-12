@@ -58,17 +58,27 @@ import yaphyre.util.RenderStatistics;
  * <ul>
  * <li>Implement the correct camera handling (rotation matrix, look at, ...)</li>
  * </ul>
- * 
+ *
  * @author Michael Bieri
  */
 public class RayTracer {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(RayTracer.class);
 
-  private static final int MAX_ITERATIONS = 10;
-
-  /** Tuning factor for parallelization. */
+  /**
+   * Tuning factor for parallelization: Number of image slices per cpu to
+   * render.
+   */
   private static final int SLICES_PER_CORE = 2;
+
+  /**
+   * Tuning factor for parallelization: How long to wait between checks if the
+   * rendering is finished.
+   */
+  private static final int THREAD_POLL_TIMEOUT = 1000;
+
+  /** Hard limit after which the rendering is canceled. */
+  private static final int MAX_ITERATIONS = 10;
 
   private Scene scene;
 
@@ -98,7 +108,7 @@ public class RayTracer {
 
     ImageFile imageFile = new ImageFile(imageWidth, imageHeight, FileType.PNG);
     BaseCameraSettings<ImageFile> baseSettings = BaseCameraSettings.create(cameraPosition, cameraPosition.add(cameraDirection), imageFile);
-    PerspectiveCameraSettings perspSetings = PerspectiveCameraSettings.create(((double) imageWidth) / ((double) imageHeight), 25d);
+    PerspectiveCameraSettings perspSetings = PerspectiveCameraSettings.create(((double)imageWidth) / ((double)imageHeight), 25d);
     yaphyre.core.Camera<ImageFile> camera = new PerspectiveCamera<ImageFile>(baseSettings, perspSetings);
     // OrthographicCameraSettings orthoSettings =
     // OrthographicCameraSettings.create(frameWidth, frameHeight);
@@ -149,7 +159,7 @@ public class RayTracer {
         int sliceStart = i * sliceWidth;
         int sliceEnd = Math.min(imageWidth, (i + 1) * sliceWidth);
 
-        LOGGER.debug("Preparing slice {} [{}, {}]", new Object[] { sliceId, sliceStart, sliceEnd });
+        LOGGER.debug("Preparing slice {} [{}, {}]", new Object[] {sliceId, sliceStart, sliceEnd});
 
         RenderWindow window = new RenderWindow(sliceStart, sliceEnd, 0, imageHeight);
         slices.add(new RenderCallable(sliceId, camera, this.sampler, window, rasterToCamera));
@@ -161,19 +171,24 @@ public class RayTracer {
 
       try {
         LOGGER.info("Start rendering");
+
         List<Future<Long>> renderResults = renderingExecutor.invokeAll(slices);
         boolean allDone;
         do {
-          Thread.sleep(1000);
+          Thread.sleep(THREAD_POLL_TIMEOUT);
           allDone = true;
           for (Future<Long> result : renderResults) {
             allDone &= result.isDone();
           }
         } while (!allDone);
+
         duration = (System.nanoTime() - renderStart) / 1000 / 1000;
         for (Future<Long> result : renderResults) {
           cpuTime += result.get();
         }
+
+        renderingExecutor.shutdown();
+
       } catch (Exception e) {
         LOGGER.error("Error while rendering", e);
       }
@@ -190,7 +205,7 @@ public class RayTracer {
    * This contains the actual render loop. Use this method for creating the
    * color informations. The results are recorded by the {@link Film} which is
    * in the camera (just like in real life...).
-   * 
+   *
    * @param camera
    *          The {@link yaphyre.core.Camera} containing the {@link Film} which
    *          records all the information.
@@ -238,13 +253,13 @@ public class RayTracer {
    * through the scene. If it hits an object secondary rays may be generated
    * which in turn are traced again by this method. It calls itself recursively
    * in order to calculate effects like reflection and refraction.
-   * 
+   *
    * @param ray
    *          The {@link Ray} to follow trough the scene.
    * @param iteration
    *          The iteration depth. Prevents the algorithm from being stuck in an
    *          endless loop.
-   * 
+   *
    * @return The {@link Color} the origin of the {@link Ray} "sees" in the
    *         scene.
    */
@@ -310,7 +325,7 @@ public class RayTracer {
     LOGGER.info("Rendering finished in: {}ms", duration);
     if (LOGGER.isDebugEnabled()) {
       LOGGER.debug("Effective CPU time: {}ms", cpuTime);
-      LOGGER.debug(MessageFormat.format("Parallelization gain: {0,number,0.000}", ((double) cpuTime) / ((double) duration)));
+      LOGGER.debug(MessageFormat.format("Parallelization gain: {0,number,0.000}", ((double)cpuTime) / ((double)duration)));
     }
     LOGGER.info("{} eye rays calculated", RenderStatistics.getEyeRays());
     LOGGER.info("{} secondary rays calculated", RenderStatistics.getSecondaryRays());
@@ -341,7 +356,7 @@ public class RayTracer {
   /**
    * Implementation of the {@link Callable} interface in order to parallelize
    * the rendering process.
-   * 
+   *
    * @author Michael Bieri
    */
   private class RenderCallable implements Callable<Long> {
@@ -369,7 +384,7 @@ public class RayTracer {
      * does is calling the
      * {@link RayTracer#renderWindow(yaphyre.core.Camera, Sampler, RenderWindow, Transformation)}
      * method in order to render the content of its allocated raster area.
-     * 
+     *
      * @return The duration in milliseconds
      */
     @Override
@@ -378,7 +393,7 @@ public class RayTracer {
       long startTime = System.nanoTime();
       RayTracer.this.renderWindow(this.camera, this.sampler, this.window, this.rasterToCamera);
       long duration = (System.nanoTime() - startTime) / 1000 / 1000;
-      LOGGER.debug("Slice {} done in {}ms", new Object[] { this.sliceId, duration });
+      LOGGER.debug("Slice {} done in {}ms", new Object[] {this.sliceId, duration});
       return duration;
     }
 
