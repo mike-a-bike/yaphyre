@@ -22,6 +22,7 @@ import static java.lang.Math.toRadians;
 import static yaphyre.math.MathUtils.div;
 
 import java.io.Serializable;
+import java.text.MessageFormat;
 
 /**
  * This class encapsulates a series of transformations. This class also provides
@@ -318,6 +319,14 @@ public class Transformation implements Serializable {
     this.matrixInv = inverse;
     this.inverse = null;
     this.transposed = null;
+  }
+
+  /**
+   * Simple implementation representing the main transformation matrix.
+   */
+  @Override
+  public String toString() {
+    return MessageFormat.format("Transformation: {}", this.matrix.toString());
   }
 
   /**
