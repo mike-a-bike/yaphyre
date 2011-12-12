@@ -54,8 +54,10 @@ public class Sphere extends AbstractShape {
 
   private static final long serialVersionUID = -8353927614531728405L;
 
+  /* TODO: Remove center */
   private final Point3D center;
 
+  /* TODO: Remove radius */
   private final double radius;
 
   /**
@@ -120,40 +122,6 @@ public class Sphere extends AbstractShape {
     super(objectToWorld, shader, throwsShadow);
     this.center = Point3D.ORIGIN;
     this.radius = 1d;
-  }
-
-  /**
-   * Creates a new instance of a sphere. It is defined by its center (as
-   * {@link Point3D}) and its radius. Since it extends {@link AbstractShape},
-   * all the mandatory fields from there are also needed.
-   *
-   * @param id
-   *          A string which identifies this instance.
-   * @param center
-   *          A {@link Point3D} which describes where the center of the sphere
-   *          lies. This cannot be <code>null</code>.
-   * @param radius
-   *          The radius of the sphere. This value must be bigger than
-   *          {@link MathUtils#EPSILON}.
-   * @param shader
-   *          The {@link Shader} instance used to render this sphere.
-   * @param throwsShadow
-   *          Flag whether this object throws a show or not.
-   *
-   * @throws NullPointerException
-   *           If <code>center</code> is <code>null</code>, a
-   *           <code>NullPointerException</code> is thrown.
-   * @throws IllegalArgumentException
-   *           If the <code>radius</code> is smaller than
-   *           {@link MathUtils#EPSILON}, an
-   *           <code>IllegalArgumentException</code> is thrown.
-   */
-  private Sphere(Point3D center, double radius, Shader shader, boolean throwsShadow) throws NullPointerException, IllegalArgumentException {
-    super(Transformation.IDENTITY, shader, throwsShadow);
-    checkNotNull(center);
-    checkArgument(radius > EPSILON, "the radius [%] is smaller than the allowed minimal size [%]", radius, EPSILON);
-    this.center = center;
-    this.radius = radius;
   }
 
   @Override
@@ -244,18 +212,20 @@ public class Sphere extends AbstractShape {
     return result;
   }
 
+  /**
+   * Calculate the normal for the given point. For a {@link Sphere} this is
+   * pretty simple:
+   * <ol>
+   * <li>Transform the surface point into the object space</li>
+   * <li>Construct the vector connecting the origin of the sphere and the
+   * surface point</li>
+   * <li>Transform the resulting normal back to world space</li>
+   * </ol>
+   */
   @Override
   public Normal3D getNormal(Point3D surfacePoint) {
     surfacePoint = super.getWorldToObject().transform(surfacePoint);
     return super.getObjectToWorld().transform(surfacePoint.sub(this.center).asNormal());
-  }
-
-  public Point3D getCenter() {
-    return this.center;
-  }
-
-  public double getRadius() {
-    return this.radius;
   }
 
   /**
