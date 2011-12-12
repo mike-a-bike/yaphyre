@@ -52,12 +52,13 @@ import yaphyre.util.Color;
 import yaphyre.util.RenderStatistics;
 
 /**
- * This is it. This is the raytracer which actually creates an image from all
- * the scene garbage.<br/>
- * TODO:
- * <ul>
- * <li>Implement the correct camera handling (rotation matrix, look at, ...)</li>
- * </ul>
+ * This is the class which exposes the rendering algorithm to the caller. It
+ * takes some basic information like the scene description and the camera setup
+ * to do its work. Since the raytracing algorithm is suited excellently for
+ * parallelization, it slices up the work to use all the available CPUs within a
+ * system. The parallelization can be prevented (for debugging purposes for
+ * example) by calling the {@link #useSingleThreadedRenderer()} method to
+ * enforce single threaded rendering.
  *
  * @author Michael Bieri
  */
@@ -100,10 +101,51 @@ public class RayTracer {
     this.sampler = sampler;
   }
 
+  /**
+   * Call this method to prevent the usage of all available CPUs. This forces
+   * the renderer to use no additional threads and perform all its work on the
+   * main thread. Use this for debugging purposes only, since it slows the
+   * rendering process down significantly.
+   */
   public void useSingleThreadedRenderer() {
     this.useSingleTreadedRendering = true;
   }
 
+  /**
+   * Get the number of CPUs in the system.
+   *
+   * @return The number of available CPUs.
+   */
+  private int getNumberOfCPUs() {
+    return Runtime.getRuntime().availableProcessors();
+  }
+
+  /**
+   * This method is the public entry point to start the rendering. It takes all
+   * the needed arguments in order to setup and execute the rendering process.
+   * Notice: This method does no rendering on its own, but calls the
+   * {@link #renderWindow(yaphyre.core.Camera, Sampler, RenderWindow, Transformation)}
+   * method which renders a part of the image designated by the given
+   * {@link RenderWindow}.<br/>
+   * This method is responsible for preparing the rendering and managing the
+   * multi-threaded execution of the rendering process.
+   *
+   * @param imageWidth
+   *          The number of pixels the image is wide.
+   * @param imageHeight
+   *          The number of pixels the image is high.
+   * @param frameWidth
+   *          The virtual frame width (used for orthographic projection)
+   * @param frameHeight
+   *          The virtual frame height (used for orthographic projection)
+   * @param cameraPosition
+   *          The position of the camera in 3D space.
+   * @param cameraDirection
+   *          The direction in which the camera is oriented.
+   *
+   * @return A {@link BufferedImage} which contains the rendered image. This can
+   *         be saved or used for further transformation.
+   */
   public BufferedImage render(int imageWidth, int imageHeight, double frameWidth, double frameHeight, Point3D cameraPosition, Vector3D cameraDirection) {
 
     ImageFile imageFile = new ImageFile(imageWidth, imageHeight, FileType.PNG);
@@ -146,7 +188,7 @@ public class RayTracer {
     } else {
 
       // Slicing up the work
-      int numberOfCores = Runtime.getRuntime().availableProcessors();
+      int numberOfCores = getNumberOfCPUs();
       int numberOfRenderingTasks = numberOfCores * SLICES_PER_CORE;
       int sliceWidth = (imageWidth + (numberOfRenderingTasks - 1)) / numberOfRenderingTasks;
       List<RenderCallable> slices = new ArrayList<RayTracer.RenderCallable>();
@@ -286,6 +328,21 @@ public class RayTracer {
     return Color.BLACK;
   }
 
+  /**
+   * For a given point, calculate the hue and brightness contributed by the
+   * lights in the scene.
+   *
+   * @param shapeCollisionInfo
+   *          The {@link CollisionInformation} describing where the point lies
+   *          and of which {@link Shape} it is a part of.
+   * @param uvCoordinates
+   *          The u/v coordinates on the shape.
+   * @param objectColor
+   *          The {@link Color} of the shape.
+   *
+   * @return The Color of the light which depends on the distance and the angle
+   *         under which the light is 'seen'.
+   */
   private Color calculateLightColor(CollisionInformation shapeCollisionInfo, Point2D uvCoordinates, Color objectColor) {
     Color lightColor = Color.BLACK;
     for (Lightsource lightsource : this.scene.getLightsources()) {
@@ -306,10 +363,30 @@ public class RayTracer {
     return lightColor;
   }
 
+  /**
+   * If the shape has any reflective attributes (not diffuse reflection), this
+   * method handles the contribution of that. It creates a reflected ray based
+   * on the incoming ray and the normal of the surface at the collision point.
+   * The origin of that ray is the point of collision (with a small correction
+   * to prevent self-shadowing). It the calls {@link #traceRay(Ray, int)} to
+   * determine the {@link Color} information at that point.
+   *
+   * @param ray
+   *          The incoming ray.
+   * @param iteration
+   *          The iteration (used to cancel the recursive nature of the
+   *          algorithm).
+   * @param shapeCollisionInfo
+   *          The {@link Shape} for which the reflection is calculated.
+   * @param uvCoordinates
+   *          The u/v coordinates on the {@link Shape}.
+   *
+   * @return The {@link Color} for what the reflected ray 'sees' in the scene.
+   */
   private Color calculateReflectedColor(Ray ray, int iteration, CollisionInformation shapeCollisionInfo, Point2D uvCoordinates) {
     Color reflectedColor = Color.BLACK;
     double reflectionValue = shapeCollisionInfo.getCollisionShape().getShader().getMaterial(uvCoordinates).getReflection();
-    if (reflectionValue > 0d) {
+    if (reflectionValue > 0) {
       // reflected = eye - 2 * (eye . normal) * normal
       Normal3D normal = shapeCollisionInfo.getCollisionShape().getNormal(shapeCollisionInfo.getCollisionPoint());
       Vector3D reflectedRayDirection = ray.getDirection().sub(normal.scale(2d * ray.getDirection().dot(normal))).normalize();
@@ -321,11 +398,28 @@ public class RayTracer {
     return reflectedColor;
   }
 
+  /**
+   * Print some statistics, like number of rays, rendering time, total CPU time
+   * and some more. The two parameter are used to calculate the factor by which
+   * the rendering was speed up by using multiple CPUs.
+   *
+   * @param duration
+   *          The duration of the rendering (the time the caller had to wait)
+   * @param cpuTime
+   *          The total time used by all involved CPUs. This is at least the
+   *          same as the value of <code>duration</code> but when using more
+   *          than one CPU this value may be higher.
+   */
   private void printRenderStatistics(long duration, long cpuTime) {
     LOGGER.info("Rendering finished in: {}ms", duration);
     if (LOGGER.isDebugEnabled()) {
-      LOGGER.debug("Effective CPU time: {}ms", cpuTime);
-      LOGGER.debug(MessageFormat.format("Parallelization gain: {0,number,0.000}", ((double)cpuTime) / ((double)duration)));
+      if (this.useSingleTreadedRendering) {
+        LOGGER.debug("Single threaded rendering");
+      } else {
+        LOGGER.debug("Number of available CPUS: {}", this.getNumberOfCPUs());
+        LOGGER.debug("Effective CPU time: {}ms", cpuTime);
+        LOGGER.debug(MessageFormat.format("Parallelization gain: {0,number,0.000}", ((double)cpuTime) / ((double)duration)));
+      }
     }
     LOGGER.info("{} eye rays calculated", RenderStatistics.getEyeRays());
     LOGGER.info("{} secondary rays calculated", RenderStatistics.getSecondaryRays());
@@ -333,6 +427,10 @@ public class RayTracer {
     LOGGER.info("{} rays where cancelled", RenderStatistics.getCancelledRays());
   }
 
+  /**
+   * This is only tempory. Setup a {@link Camera}. This will be needed lo longer
+   * as soon as the {@link yaphyre.core.Camera} implementation is finished.
+   */
   private Camera setupCamera(int width, int height, double frameWidth, double frameHeight, Point3D cameraPosition, Vector3D cameraDirection) {
 
     int imageArraySize = width * height;
