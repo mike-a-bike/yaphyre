@@ -54,6 +54,10 @@ public class Point3D implements Serializable {
     return new Vector3D(this.x, this.y, this.z);
   }
 
+  public Normal3D asNormal() {
+    return new Normal3D(this.x, this.y, this.z);
+  }
+
   public Point3D add(Vector3D v) {
     return new Point3D(this.x + v.x, this.y + v.y, this.z + v.z);
   }
@@ -127,5 +131,6 @@ public class Point3D implements Serializable {
   public double getZ() {
     return this.z;
   }
+
 
 }

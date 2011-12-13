@@ -3,16 +3,17 @@ package test.yaphyre.shapes;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
+import yaphyre.geometry.Matrix;
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
+import yaphyre.geometry.Transformation;
 import yaphyre.geometry.Vector3D;
 import yaphyre.shaders.Material;
 import yaphyre.shaders.MaterialBuilder;
@@ -20,12 +21,6 @@ import yaphyre.shapes.Sphere;
 import yaphyre.util.Color;
 
 public class SphereTest {
-
-  private static final String SHPERE_ID = "sphere1";
-
-  private static final String UNIT_SPHERE_ID = "unitSphere";
-
-  private static final String SHADER_ID = "shader1";
 
   private Shape createTestSphere() {
     return Sphere.createSphere(new Point3D(2d, 0d, 0d), 1d, new TestShader(), true);
@@ -50,19 +45,38 @@ public class SphereTest {
   @Test
   public void testStaticSphereConstructor() {
 
+    Transformation objectToWorld = Transformation.scale(2, 2, 2);
+
     Sphere staticSphere = Sphere.createSphere(Point3D.ORIGIN, 2, new TestShader(), true);
-    Sphere constructorSphere = Sphere.createSphere(Point3D.ORIGIN, 2, new TestShader(), true);
+    Sphere constructorSphere = new Sphere(objectToWorld, new TestShader(), true);
 
     Ray testRay = new Ray(new Point3D(-10, 0, 0), Vector3D.X);
 
     Point3D intersectPoint1 = staticSphere.getIntersectionPoint(testRay);
     Point3D intersectPoint2 = constructorSphere.getIntersectionPoint(testRay);
 
+    assertEquals(constructorSphere, staticSphere);
     assertEquals(intersectPoint2, intersectPoint1);
+    assertEquals(constructorSphere.getNormal(intersectPoint2).asVector().normalize(), staticSphere.getNormal(intersectPoint1).asVector().normalize());
 
-    assertEquals(constructorSphere.getNormal(intersectPoint2), staticSphere.getNormal(intersectPoint1));
+    // sphere with radius 3 at the coordinates [0, 1, 1]
+    Matrix initMatrix = new Matrix(new double[][] { {3, 0, 0, 0},
+                                                    {0, 3, 0, 1},
+                                                    {0, 0, 3, 1},
+                                                    {0, 0, 0, 1} } );
 
-    fail("Not implemented yet");
+    objectToWorld = new Transformation(initMatrix);
+    staticSphere = Sphere.createSphere(new Point3D(0, 1, 1), 3, new TestShader(), true);
+    constructorSphere = new Sphere(objectToWorld, new TestShader(), true);
+    testRay = new Ray(new Point3D(-10, 1.5, 1), Vector3D.X);
+
+    intersectPoint1 = staticSphere.getIntersectionPoint(testRay);
+    intersectPoint2 = constructorSphere.getIntersectionPoint(testRay);
+
+    assertEquals(constructorSphere, staticSphere);
+    assertEquals(intersectPoint2, intersectPoint1);
+    assertEquals(constructorSphere.getNormal(intersectPoint2).asVector().normalize(), staticSphere.getNormal(intersectPoint1).asVector().normalize());
+
   }
 
   @Test
@@ -211,7 +225,7 @@ public class SphereTest {
     @Override
     public boolean equals(Object obj) {
       if (this == obj) {
-        return false;
+        return true;
       }
       if (obj instanceof TestShader) {
         return true;

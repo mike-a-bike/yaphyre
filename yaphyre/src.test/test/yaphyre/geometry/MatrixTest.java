@@ -50,7 +50,7 @@ public class MatrixTest {
   }
 
   @Test
-  public void testMatricMulScalar() {
+  public void testMatrixMulScalar() {
     Matrix M = createTestMatrix();
     Matrix Mr = M.mul(2);
     Matrix R = new Matrix(2, 4, 6, 8,
@@ -68,6 +68,28 @@ public class MatrixTest {
                    6.5, 7, 7.5, 8);
 
     assertEquals(R, Mr);
+
+  }
+
+  @Test
+  public void testMatrixMulMatrix() {
+    Matrix M1 = new Matrix(3, 0, 0, 0,
+                           0, 4, 0, 0,
+                           0, 0, 5, 0,
+                           0, 0, 0, 1);
+
+    Matrix M2 = new Matrix(1, 0, 0, -1,
+                           0, 1, 0, -2,
+                           0, 0, 1, -3,
+                           0, 0, 0, 1);
+
+    Matrix Mr = new Matrix(3, 0, 0, -1,
+                           0, 4, 0, -2,
+                           0, 0, 5, -3,
+                           0, 0, 0, 1);
+
+    assertEquals(Mr, M2.mul(M1));
+
 
   }
 
@@ -100,9 +122,39 @@ public class MatrixTest {
 
   @Test
   public void testInverse() {
-    Matrix M = new Matrix(1, 7, 4, 2, 0, 9, 2, 5, 2, 2, 3, 2, 9, 9, 9, 9);
+    Matrix M = new Matrix(1, 7, 4, 2,
+                          0, 9, 2, 5,
+                          2, 2, 3, 2,
+                          9, 9, 9, 9);
     Matrix Mi = M.inverse();
     Matrix Mr = M.mul(Mi);
+
+    assertEquals(Matrix.IDENTITY, Mr);
+
+    M = new Matrix(1, 0, 0, 1,
+                   0, 1, 0, 1,
+                   0, 0, 1, 1,
+                   0, 0, 0, 1);
+    Mi = M.inverse();
+    Mr = M.mul(Mi);
+
+    assertEquals(Matrix.IDENTITY, Mr);
+
+    M = new Matrix(2, 0, 0, 0,
+                   0, 2, 0, 0,
+                   0, 0, 2, 0,
+                   0, 0, 0, 1);
+    Mi = M.inverse();
+    Mr = M.mul(Mi);
+
+    assertEquals(Matrix.IDENTITY, Mr);
+
+    M = new Matrix(3, 0, 0, 1,
+                   0, 3, 0, 1,
+                   0, 0, 3, 1,
+                   0, 0, 0, 1);
+    Mi = M.inverse();
+    Mr = M.mul(Mi);
 
     assertEquals(Matrix.IDENTITY, Mr);
   }

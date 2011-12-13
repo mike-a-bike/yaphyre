@@ -236,6 +236,12 @@ public class RayTracer {
 
       } catch (Exception e) {
         LOGGER.error("Error while rendering", e);
+      } finally {
+        try {
+          renderingExecutor.shutdownNow();
+        } catch (Exception e) {
+          LOGGER.error("Could not shutdown the rendering engines!", e);
+        }
       }
 
     }

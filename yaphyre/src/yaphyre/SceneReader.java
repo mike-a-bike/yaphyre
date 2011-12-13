@@ -144,8 +144,8 @@ public class SceneReader {
 
     Lightsource pointLight = new Pointlight(new Point3D(-2, 5, -2), new Color(1, 1, 1), 15, Falloff.Quadric);
 
-    Transformation sphereTransformation = Transformation.rotateX(90).mul(Transformation.translate(0, 1.5, 0));
-    Transformation distantTransformation = Transformation.scale(2, 2, 2).mul(Transformation.translate(-2, 10, -5));
+    Transformation sphereTransformation = Transformation.translate(0, 1.5, 0).mul(Transformation.rotateX(90));
+    Transformation distantTransformation = Transformation.translate(-2, 10, -5).mul(Transformation.scale(2, 2, 2));
 
     Shape plane = new Plane(Point3D.ORIGIN, Normal3D.NORMAL_Y, planeCeckerShader, true);
     Shape sphere = new Sphere(sphereTransformation, sphereCheckerShader, true);
