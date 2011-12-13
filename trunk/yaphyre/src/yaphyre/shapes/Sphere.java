@@ -23,7 +23,6 @@ import static java.lang.Math.atan2;
 import static yaphyre.math.MathUtils.EPSILON;
 import static yaphyre.math.MathUtils.INV_PI;
 import static yaphyre.math.MathUtils.INV_TWO_PI;
-import static yaphyre.math.MathUtils.div;
 
 import java.text.MessageFormat;
 
@@ -35,7 +34,6 @@ import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Transformation;
 import yaphyre.geometry.Vector3D;
-import yaphyre.math.MathUtils;
 import yaphyre.math.Solver;
 
 /**
@@ -54,11 +52,11 @@ public class Sphere extends AbstractShape {
 
   private static final long serialVersionUID = -8353927614531728405L;
 
-  /* TODO: Remove center */
-  private final Point3D center;
+  /** The radius of the unit sphere is 1. */
+  private static final int RADIUS = 1;
 
-  /* TODO: Remove radius */
-  private final double radius;
+  /** The squared radius of the unit sphere is 1: 1^2 = 1 */
+  private static final int RADIUS_SQUARED = 1;
 
   /**
    * Helper method for creating a sphere where the center and its radius are
@@ -120,23 +118,16 @@ public class Sphere extends AbstractShape {
    */
   public Sphere(Transformation objectToWorld, Shader shader, boolean throwsShadow) throws NullPointerException {
     super(objectToWorld, shader, throwsShadow);
-    this.center = Point3D.ORIGIN;
-    this.radius = 1d;
   }
 
   @Override
   public String toString() {
-    return MessageFormat.format("Sphere[{0}, {1}]", this.center, this.radius);
+    return MessageFormat.format("Sphere[{0}]", super.getObjectToWorld().toString());
   }
 
   @Override
   public int hashCode() {
-    final int prime = 31;
     int result = super.hashCode();
-    result = prime * result + center.hashCode();
-    long temp;
-    temp = Double.doubleToLongBits(radius);
-    result = prime * result + (int)(temp ^ (temp >>> 32));
     return result;
   }
 
@@ -149,13 +140,6 @@ public class Sphere extends AbstractShape {
       return false;
     }
     if (!(obj instanceof Sphere)) {
-      return false;
-    }
-    Sphere other = (Sphere)obj;
-    if (!center.equals(other.center)) {
-      return false;
-    }
-    if (Double.doubleToLongBits(radius) != Double.doubleToLongBits(other.radius)) {
       return false;
     }
     return true;
@@ -193,11 +177,11 @@ public class Sphere extends AbstractShape {
     ray = super.getWorldToObject().transform(ray);
 
     // Transform the origin of the ray into the object space of the sphere.
-    Vector3D oc = ray.getOrigin().sub(this.center);
+    Vector3D oc = ray.getOrigin().asVector();
 
     final double c2 = ray.getDirection().dot(ray.getDirection());
     final double c1 = 2 * oc.dot(ray.getDirection());
-    final double c0 = oc.dot(oc) - this.radius * this.radius;
+    final double c0 = oc.dot(oc) - RADIUS_SQUARED;
 
     final double[] solutions = Solver.Quadratic.solve(c0, c1, c2);
 
@@ -225,7 +209,7 @@ public class Sphere extends AbstractShape {
   @Override
   public Normal3D getNormal(Point3D surfacePoint) {
     surfacePoint = super.getWorldToObject().transform(surfacePoint);
-    return super.getObjectToWorld().transform(surfacePoint.sub(this.center).asNormal());
+    return super.getObjectToWorld().transform(surfacePoint.asNormal());
   }
 
   /**
@@ -253,12 +237,11 @@ public class Sphere extends AbstractShape {
     surfacePoint = super.getWorldToObject().transform(surfacePoint);
     // Make sure, that the point lies on the surface.
     checkNotNull(surfacePoint, "surfacePoint must not be null");
-    Vector3D surfacePointVector = new Vector3D(this.center, surfacePoint);
-    checkArgument(Math.abs(surfacePointVector.length() - this.radius) <= EPSILON, "the point % does not lie on the surface of %", surfacePoint, this);
+    checkArgument(Math.abs(surfacePoint.asVector().length()) - RADIUS <= EPSILON, "the point % does not lie on the surface of %", surfacePoint, this);
 
     // Calculate the two angles of the spherical coordinates
-    double theta = acos(div(surfacePointVector.getZ(), this.radius));
-    double phi = atan2(surfacePointVector.getY(), surfacePointVector.getX()) + PI;
+    double theta = acos(surfacePoint.getZ());
+    double phi = atan2(surfacePoint.getY(), surfacePoint.getX()) + PI;
 
     // Map u and v to [0, 1]
     double u = phi * INV_TWO_PI;

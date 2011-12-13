@@ -326,7 +326,37 @@ public class Transformation implements Serializable {
    */
   @Override
   public String toString() {
-    return MessageFormat.format("Transformation: {}", this.matrix.toString());
+    return MessageFormat.format("Transformation: {0}", this.matrix.toString());
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((matrix == null) ? 0 : matrix.hashCode());
+    result = prime * result + ((matrixInv == null) ? 0 : matrixInv.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (!(obj instanceof Transformation)) {
+      return false;
+    }
+    Transformation other = (Transformation)obj;
+    if (!matrix.equals(other.matrix)) {
+      return false;
+    }
+    if (!matrixInv.equals(other.matrixInv)) {
+      return false;
+    }
+    return true;
   }
 
   /**
@@ -366,8 +396,7 @@ public class Transformation implements Serializable {
    */
   public Transformation mul(Transformation trans) {
     Matrix matrix = this.matrix.mul(trans.matrix);
-    Matrix matrixInv = this.matrixInv.mul(trans.matrixInv);
-    return new Transformation(matrix, matrixInv);
+    return new Transformation(matrix);
   }
 
   /**
