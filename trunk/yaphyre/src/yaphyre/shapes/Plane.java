@@ -56,25 +56,21 @@ public class Plane extends AbstractShape {
 
   private final Normal3D normal;
 
-  public Plane(Point3D origin, Normal3D normal, Shader shader, boolean throwsShadow) {
-    super(Transformation.IDENTITY, shader, throwsShadow);
-    Preconditions.checkNotNull(origin);
-    Preconditions.checkNotNull(normal);
-    this.origin = origin;
-    this.normal = normal;
+  public Plane(Transformation planeToWorld, Shader shader, boolean throwsShadow) {
+    super(planeToWorld, shader, throwsShadow);
+    this.origin = Point3D.ORIGIN;
+    this.normal = Normal3D.NORMAL_Y;
   }
 
   @Override
   public String toString() {
-    return MessageFormat.format("Plane[{0}, {1}]", this.origin, this.normal);
+    return MessageFormat.format("Plane[{0}]", super.getObjectToWorld());
   }
 
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = super.hashCode();
-    result = prime * result + normal.hashCode();
-    result = prime * result + origin.hashCode();
     return result;
   }
 
@@ -87,13 +83,6 @@ public class Plane extends AbstractShape {
       return false;
     }
     if (!(obj instanceof Plane)) {
-      return false;
-    }
-    Plane other = (Plane)obj;
-    if (!normal.equals(other.normal)) {
-      return false;
-    }
-    if (!origin.equals(other.origin)) {
       return false;
     }
     return true;
@@ -122,6 +111,7 @@ public class Plane extends AbstractShape {
    */
   @Override
   public double getIntersectDistance(Ray ray) {
+    ray = super.transformToObjectSpace(ray);
     double numerator = this.origin.sub(ray.getOrigin()).dot(this.normal);
     double denominator = ray.getDirection().dot(this.normal);
 
@@ -143,6 +133,7 @@ public class Plane extends AbstractShape {
 
   @Override
   public boolean isHitBy(Ray ray) {
+    ray = super.transformToObjectSpace(ray);
     double numerator = this.origin.sub(ray.getOrigin()).dot(this.normal);
     double denominator = ray.getDirection().dot(this.normal);
 
@@ -167,15 +158,18 @@ public class Plane extends AbstractShape {
    */
   @Override
   public Normal3D getNormal(Point3D surfacePoint) {
-    return this.normal;
+    surfacePoint = super.getWorldToObject().transform(surfacePoint);
+    return super.getObjectToWorld().transform(this.normal);
   }
 
   /**
-   * Maps the given point to the planes u/v coordinates
+   * Maps the given point to the planes u/v coordinates. Since each surface
+   * point lies on the x/z plane, the y component can be ignored. So [u, v] =
+   * [x, z].
    */
   @Override
   public Point2D getMappedSurfacePoint(Point3D surfacePoint) {
-    // TODO implement real mapping to the surface
+    surfacePoint = super.getWorldToObject().transform(surfacePoint);
     return new Point2D(surfacePoint.getX(), surfacePoint.getZ());
   }
 

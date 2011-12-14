@@ -1,10 +1,34 @@
+/*
+ * Copyright 2011 Michael Bieri
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
 package yaphyre.shaders;
 
 import yaphyre.core.Shader;
 import yaphyre.geometry.Point2D;
 import yaphyre.util.Color;
 
-public class SimpleShader implements Shader {
+/**
+ * This class implements a very simple {@link Shader}. It contains a single
+ * material which is returned independent from the object coordinates.
+ *
+ * @version $Revision$
+ *
+ * @author Michael Bieri
+ * @author $LastChangedBy$
+ */
+public class SimpleShader extends AbstractShader implements Shader {
 
   private static final long serialVersionUID = 5072616518896339854L;
 
@@ -21,6 +45,7 @@ public class SimpleShader implements Shader {
   }
 
   public SimpleShader(Material material, Color color) {
+    super(null);
     this.material = material;
     this.color = color;
   }
@@ -29,11 +54,11 @@ public class SimpleShader implements Shader {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((color == null) ? 0 : color.hashCode());
-    result = prime * result + ((material == null) ? 0 : material.hashCode());
+    result = prime * result + super.hashCode();
+    result = prime * result + color.hashCode();
+    result = prime * result + material.hashCode();
     return result;
   }
-
 
   @Override
   public boolean equals(Object obj) {
@@ -44,19 +69,14 @@ public class SimpleShader implements Shader {
     if (getClass() != obj.getClass())
       return false;
     SimpleShader other = (SimpleShader)obj;
-    if (color == null) {
-      if (other.color != null)
-        return false;
-    } else if (!color.equals(other.color))
+    if (!super.equals(obj))
       return false;
-    if (material == null) {
-      if (other.material != null)
-        return false;
-    } else if (!material.equals(other.material))
+    if (!color.equals(other.color))
+      return false;
+    if (!material.equals(other.material))
       return false;
     return true;
   }
-
 
   @Override
   public Color getColor(Point2D uvCoordinate) {

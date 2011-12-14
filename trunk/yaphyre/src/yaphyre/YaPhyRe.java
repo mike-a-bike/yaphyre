@@ -46,9 +46,9 @@ import yaphyre.samplers.SinglePointSampler;
 /**
  * The main class starting the application. This class parses the command line,
  * prepares the environment and calls the renderer.
- * 
+ *
  * @version $Revision$
- * 
+ *
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
@@ -138,15 +138,19 @@ public class YaPhyRe {
   }
 
   private static Scene readScene(CommandLine commandLine) {
-    Scene scene = SceneReader.createSimpleScene();
-    // Scene scene = SceneReader.createSceneWithSpheres();
-    // SceneReaders<File> xmlFileReader = new XMLFileSceneReader();
-    // File sceneFile = new File(commandLine.getOptionValue('s'));
-    // Scene scene = xmlFileReader.readScene(sceneFile);
-    // if (scene == null) {
-    // LOGGER.error("Could not read scene from: {}", sceneFile.getPath());
-    // return;
-    // }
+    Scene scene = null;
+    String sceneName = commandLine.getOptionValue('s').trim().toLowerCase();
+    LOGGER.info("Trying to load scene <{}>", sceneName);
+    if (sceneName.equals("first")) {
+      scene = SceneReader.createFirstLight();
+    } else if (sceneName.equals("spheres")) {
+      scene = SceneReader.createSceneWithSpheres();
+    } else if (sceneName.equals("simple")) {
+      scene = SceneReader.createSimpleScene();
+    } else {
+      LOGGER.warn("Scene not found! Using fallback scene (simple)");
+      scene = SceneReader.createSimpleScene();
+    }
     return scene;
   }
 
@@ -180,7 +184,7 @@ public class YaPhyRe {
   private static CommandLine parseCommandLine(String... args) throws ParseException {
     CommandLineParser parser = new PosixParser();
     commandLineOptions = new Options();
-    commandLineOptions.addOption(OptionBuilder.withArgName("file").hasArg().isRequired().withLongOpt("scene").withDescription("Scene file name").create('s'));
+    commandLineOptions.addOption(OptionBuilder.withArgName("<first|spheres|simple>").hasArg().isRequired().withLongOpt("scene").withDescription("Scene to render").create('s'));
     commandLineOptions.addOption(OptionBuilder.withArgName("file").hasArg().withLongOpt("out").withDescription("Output file name").create('o'));
     commandLineOptions.addOption(OptionBuilder.withArgName("format").hasArg().withLongOpt("format").withDescription("Format of the output image file").create('f'));
     commandLineOptions.addOption(OptionBuilder.withArgName("pixel").hasArg().withLongOpt("width").withDescription("Width of the rendered image").create('w'));
