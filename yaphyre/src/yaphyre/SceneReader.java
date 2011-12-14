@@ -3,7 +3,6 @@ package yaphyre;
 import yaphyre.core.Lightsource;
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
-import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Transformation;
 import yaphyre.lights.Falloff;
@@ -27,53 +26,6 @@ import yaphyre.util.Color;
  */
 public class SceneReader {
 
-  public static final Scene createConellBox() {
-
-    // colors
-    Color white = new Color(1, 1, 1);
-    Color red = new Color(1, 0, 0);
-    Color blue = new Color(0, 0, 1);
-
-    // materials
-    Material diffuseMaterial = MaterialBuilder.start().ambient(1).diffuse(0.8d).build();
-    Material mirrorMaterial = MaterialBuilder.start().ambient(1).diffuse(0.1d).reflection(0.9d).build();
-
-    // shaders
-    Shader whiteDiffuse = new SimpleShader(diffuseMaterial, white);
-    Shader whiteMirror = new SimpleShader(mirrorMaterial, white);
-    Shader redDiffuse = new SimpleShader(diffuseMaterial, red);
-    Shader blueDiffuse = new SimpleShader(diffuseMaterial, blue);
-
-    // walls
-    Plane back = new Plane(new Point3D(0, 0, 6), Normal3D.NORMAL_Z.neg(), whiteDiffuse, true);
-    Plane top = new Plane(new Point3D(0, 3, 0), Normal3D.NORMAL_Y.neg(), whiteDiffuse, true);
-    Plane bottom = new Plane(new Point3D(0, -3, 0), Normal3D.NORMAL_Y, whiteDiffuse, true);
-    Plane left = new Plane(new Point3D(-3, 0, 0), Normal3D.NORMAL_X, redDiffuse, true);
-    Plane right = new Plane(new Point3D(3, 0, 0), Normal3D.NORMAL_X.neg(), blueDiffuse, true);
-
-    // spheres
-    Sphere sphereLeft = Sphere.createSphere(new Point3D(-2, -2, 3), 1, whiteMirror, true);
-    Sphere sphereRight = Sphere.createSphere(new Point3D(1, 0, 2), 1.5, whiteDiffuse, true);
-
-    // light
-    Pointlight light = new Pointlight(new Point3D(0, 3 - 1e-5, 3), white, 5, Falloff.Quadric);
-
-    // put it all together
-    Scene conellBox = new Scene();
-
-    conellBox.addLightsource(light);
-
-    conellBox.addShape(back);
-    conellBox.addShape(top);
-    conellBox.addShape(bottom);
-    conellBox.addShape(left);
-    conellBox.addShape(right);
-    conellBox.addShape(sphereLeft);
-    conellBox.addShape(sphereRight);
-
-    return conellBox;
-  }
-
   public static final Scene createSceneWithSpheres() {
 
     double ambientLight = 0.1;
@@ -83,9 +35,6 @@ public class SceneReader {
 
     Point3D sphere2Center = new Point3D(2.5, 1.5, 1.5);
     double sphere2Radius = 0.5;
-
-    Point3D planeOrigin = Point3D.ORIGIN;
-    Normal3D planeNormal = Normal3D.NORMAL_Y;
 
     Point3D pointlight1Position = new Point3D(-1, 5, 0);
     double pointlight1Intensity = 10d;
@@ -115,7 +64,7 @@ public class SceneReader {
 
     simpleScene.addShape(Sphere.createSphere(sphere1Center, sphere1Radius, whiteShader, true));
     simpleScene.addShape(Sphere.createSphere(sphere2Center, sphere2Radius, whiteMirror, true));
-    simpleScene.addShape(new Plane(planeOrigin, planeNormal, whiteMirror, true));
+    simpleScene.addShape(new Plane(Transformation.IDENTITY, whiteMirror, true));
 
     simpleScene.addLightsource(new Pointlight(pointlight1Position, pointlight1Color, pointlight1Intensity, pointlight1falloff));
     simpleScene.addLightsource(new Pointlight(pointlight2Position, pointlight2Color, pointlight2Intensity, pointlight2falloff));
@@ -138,16 +87,17 @@ public class SceneReader {
     Shader whiteMirror = new SimpleShader(mirrorMaterial, 1d, 1d, 1d);
     Shader redMirror = new SimpleShader(mirrorMaterial, 1d, 0d, 0d);
 
-    Shader sphereCheckerShader = new CheckerShader(whiteMirror, blueDiffuse, 16d, 16d);
-    Shader checkBoardShader = new CheckerShader(redDiffuse, whiteDiffuse, 16d, 16d);
-    Shader planeCeckerShader = new CheckerShader(whiteDiffuse, greenDiffuse, 0.5d, 0.5d);
+    Shader sphereCheckerShader = new CheckerShader(Transformation.IDENTITY, whiteMirror, blueDiffuse, 4d, 4d);
+    Shader checkBoardShader = new CheckerShader(Transformation.IDENTITY, redDiffuse, whiteDiffuse, 16d, 16d);
+    Shader planeCeckerShader = new CheckerShader(Transformation.IDENTITY, whiteDiffuse, greenDiffuse, 0.5d, 0.5d);
 
     Lightsource pointLight = new Pointlight(new Point3D(-2, 5, -2), new Color(1, 1, 1), 15, Falloff.Quadric);
 
-    Transformation sphereTransformation = Transformation.translate(0, 1.5, 0).mul(Transformation.rotateX(90));
-    Transformation distantTransformation = Transformation.translate(-2, 10, -5).mul(Transformation.scale(2, 2, 2));
+    Transformation sphereTransformation = Transformation.translate(0, 1.5, 0).mul(Transformation.rotateY(30).mul(Transformation.rotateX(60)));
+    Transformation distantTransformation = Transformation.translate(-2, 10, -5).mul(Transformation.scale(2, 2, 2).mul(Transformation.rotateX(90)));
+    Transformation planeTransformation = Transformation.rotateX(-10).mul(Transformation.translate(0, -1, 0).mul(Transformation.rotateY(30)));
 
-    Shape plane = new Plane(Point3D.ORIGIN, Normal3D.NORMAL_Y, planeCeckerShader, true);
+    Shape plane = new Plane(planeTransformation, planeCeckerShader, true);
     Shape sphere = new Sphere(sphereTransformation, sphereCheckerShader, true);
     Shape distantSphere = new Sphere(distantTransformation, checkBoardShader, true);
 
@@ -177,7 +127,7 @@ public class SceneReader {
 
     Lightsource light = new Pointlight(new Point3D(-2, 5, -2), new Color(1, 1, 1), 10, Falloff.Quadric);
 
-    Shape plane = new Plane(Point3D.ORIGIN, Normal3D.NORMAL_Y, diffuseWhite, true);
+    Shape plane = new Plane(Transformation.IDENTITY, diffuseWhite, true);
     Shape sphere = Sphere.createSphere(new Point3D(0, 1, 0), 1, diffuseWhite, true);
 
     Scene scene = new Scene();

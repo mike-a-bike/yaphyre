@@ -15,8 +15,12 @@
  */
 package yaphyre.shaders;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import yaphyre.core.Shader;
 import yaphyre.geometry.Point2D;
+import yaphyre.geometry.Transformation;
 import yaphyre.util.Color;
 
 /**
@@ -30,7 +34,7 @@ import yaphyre.util.Color;
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
-public class CheckerShader implements Shader {
+public class CheckerShader extends AbstractShader implements Shader {
 
   private static final long serialVersionUID = -4840381886169680635L;
 
@@ -42,23 +46,25 @@ public class CheckerShader implements Shader {
    * Creates a simple checker with the given two shader. The frequency of the
    * change is 1.
    *
-   * @param id
-   *          The id of the shader
+   * @param shaderToObject
+   *          An eventual {@link Transformation} used to map the shader
+   *          coordinates into the object coordinate space.
    * @param shader1
    *          The first shader
    * @param shader2
    *          The second shader
    */
-  public CheckerShader(Shader shader1, Shader shader2) {
-    this(shader1, shader2, 1d, 1d);
+  public CheckerShader(Transformation shaderToObject, Shader shader1, Shader shader2) {
+    this(shaderToObject, shader1, shader2, 1d, 1d);
   }
 
   /**
    * Create a new checker shader defined by its id, the two shader used for its
    * tiles and the frequency with which the pattern changes.
    *
-   * @param id
-   *          The id of the shader
+   * @param shaderToObject
+   *          An eventual {@link Transformation} used to map the shader
+   *          coordinates into the object coordinate space.
    * @param shader1
    *          The first shader
    * @param shader2
@@ -66,16 +72,17 @@ public class CheckerShader implements Shader {
    * @param frequency
    *          The frequency with which the pattern changes.
    */
-  public CheckerShader(Shader shader1, Shader shader2, double frequency) {
-    this(shader1, shader2, frequency, frequency);
+  public CheckerShader(Transformation shaderToObject, Shader shader1, Shader shader2, double frequency) {
+    this(shaderToObject, shader1, shader2, frequency, frequency);
   }
 
   /**
    * Create a new checker shader defined by its id, the two shader used for its
    * tiles and the frequency with which the pattern changes.
    *
-   * @param id
-   *          The id of the shader
+   * @param shaderToObject
+   *          An eventual {@link Transformation} used to map the shader
+   *          coordinates into the object coordinate space.
    * @param shader1
    *          The first shader
    * @param shader2
@@ -85,9 +92,11 @@ public class CheckerShader implements Shader {
    * @param vFrequency
    *          The frequency with which the pattern changes in the v direction.
    */
-  public CheckerShader(Shader shader1, Shader shader2, double uFrequency, double vFrequency) {
-    this.shader1 = shader1;
-    this.shader2 = shader2;
+  public CheckerShader(Transformation shaderToObject, Shader shader1, Shader shader2, double uFrequency, double vFrequency) {
+    super(shaderToObject);
+    checkArgument(uFrequency > 0d && vFrequency > 0d);
+    this.shader1 = checkNotNull(shader1);
+    this.shader2 = checkNotNull(shader2);
     this.uSizeInv = uFrequency;
     this.uSize = 1d / uFrequency;
     this.vSizeInv = vFrequency;
@@ -111,7 +120,6 @@ public class CheckerShader implements Shader {
     result = prime * result + (int)(temp ^ (temp >>> 32));
     return result;
   }
-
 
   @Override
   public boolean equals(Object obj) {
@@ -154,7 +162,6 @@ public class CheckerShader implements Shader {
     return true;
   }
 
-
   @Override
   public Color getColor(Point2D uvCoordinate) {
     return getShaderAtCoordinate(uvCoordinate).getColor(uvCoordinate);
@@ -166,8 +173,9 @@ public class CheckerShader implements Shader {
   }
 
   private Shader getShaderAtCoordinate(Point2D uvCoordinate) {
-    double u = uvCoordinate.getU();
-    double v = uvCoordinate.getV();
+    Point2D shaderCoordinate = super.toShaderCoordinate(uvCoordinate);
+    double u = shaderCoordinate.getU();
+    double v = shaderCoordinate.getV();
     u = (u >= 0) ? u : u - this.uSize;
     v = (v > +0) ? v : v - this.vSize;
     boolean xEven = ((int)(u * this.uSizeInv)) % 2 == 0;
