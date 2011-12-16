@@ -77,7 +77,7 @@ public class Matrix implements Serializable {
   private Matrix() {
     this.m = new double[DIMENSION][DIMENSION];
   }
-  
+
   @Override
   public String toString() {
     Object[] rows = new String[4];
@@ -129,41 +129,60 @@ public class Matrix implements Serializable {
   }
 
   public Matrix add(Matrix other) {
-    return new Matrix(this.m[0][0] + other.m[0][0], this.m[0][1] + other.m[0][1], this.m[0][2] + other.m[0][2], this.m[0][3] + other.m[0][3],
-                      this.m[1][0] + other.m[1][0], this.m[1][1] + other.m[1][1], this.m[1][2] + other.m[1][2], this.m[1][3] + other.m[1][3],
-                      this.m[2][0] + other.m[2][0], this.m[2][1] + other.m[2][1], this.m[2][2] + other.m[2][2], this.m[2][3] + other.m[2][3],
-                      this.m[3][0] + other.m[3][0], this.m[3][1] + other.m[3][1], this.m[3][2] + other.m[3][2], this.m[3][3] + other.m[3][3]);
+    Matrix result = new Matrix();
+    for(int row = 0; row < DIMENSION; row++) {
+      for(int col = 0; col < DIMENSION; col++) {
+        result.m[row][col] = this.m[row][col] + other.m[row][col];
+      }
+    }
+    return result;
   }
 
   public Matrix mul(double s) {
-    return new Matrix(this.m[0][0] * s, this.m[0][1] * s, this.m[0][2] * s, this.m[0][3] * s,
-                      this.m[1][0] * s, this.m[1][1] * s, this.m[1][2] * s, this.m[1][3] * s,
-                      this.m[2][0] * s, this.m[2][1] * s, this.m[2][2] * s, this.m[2][3] * s,
-                      this.m[3][0] * s, this.m[3][1] * s, this.m[3][2] * s, this.m[3][3] * s);
+    Matrix result = new Matrix();
+    for(int row = 0; row < DIMENSION; row++) {
+      for(int col = 0; col < DIMENSION; col++) {
+        result.m[row][col] = this.m[row][col] * s;
+      }
+    }
+    return result;
   }
 
   public Matrix mul(Matrix M) {
     if (M.equals(IDENTITY)) {
       return this;
     }
-    RealMatrix rmThis = MatrixUtils.createRealMatrix(this.m);
-    RealMatrix rmOther = MatrixUtils.createRealMatrix(M.m);
-    RealMatrix rmResult = rmThis.multiply(rmOther);
-    return new Matrix(rmResult.getData());
+
+    Matrix result = new Matrix();
+
+    for(int i = 0; i < DIMENSION; i++) {
+      for(int j = 0; j < DIMENSION; j++) {
+        result.m[i][j] = this.m[i][0] * M.m[0][j] + this.m[i][1] * M.m[1][j] + this.m[i][2] * M.m[2][j] + this.m[i][3] * M.m[3][j];
+      }
+    }
+
+    return result;
   }
 
   double[] mul(double[] vect) {
-    RealMatrix columnMatrix = MatrixUtils.createColumnRealMatrix(vect);
-    RealMatrix rm = MatrixUtils.createRealMatrix(this.m);
-    return rm.multiply(columnMatrix).getColumn(0);
+    double[] result = new double[DIMENSION];
+
+    result[0] = this.m[0][0] * vect[0] + this.m[0][1] * vect[1] + this.m[0][2] * vect[2] + this.m[0][3] * vect[3];
+    result[1] = this.m[1][0] * vect[0] + this.m[1][1] * vect[1] + this.m[1][2] * vect[2] + this.m[1][3] * vect[3];
+    result[2] = this.m[2][0] * vect[0] + this.m[2][1] * vect[1] + this.m[2][2] * vect[2] + this.m[2][3] * vect[3];
+    result[3] = this.m[3][0] * vect[0] + this.m[3][1] * vect[1] + this.m[3][2] * vect[2] + this.m[3][3] * vect[3];
+
+    return result;
   }
 
   public Matrix transpose() {
     if (this.transposed == null) {
-      this.transposed = new Matrix(this.m[0][0], this.m[1][0], this.m[2][0], this.m[3][0],
-                                   this.m[0][1], this.m[1][1], this.m[2][1], this.m[3][1],
-                                   this.m[0][2], this.m[1][2], this.m[2][2], this.m[3][2],
-                                   this.m[0][3], this.m[1][3], this.m[2][3], this.m[3][3]);
+      this.transposed = new Matrix();
+      for(int row = 0; row < DIMENSION; row++) {
+        for(int col = 0; col < DIMENSION; col++) {
+          this.transposed.m[row][col] = this.m[col][row];
+        }
+      }
     }
     return this.transposed;
   }
