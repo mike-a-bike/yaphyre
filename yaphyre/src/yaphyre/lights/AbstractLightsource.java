@@ -17,10 +17,10 @@ package yaphyre.lights;
 
 import yaphyre.core.CollisionInformation;
 import yaphyre.core.Lightsource;
+import yaphyre.geometry.MathUtils;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Vector3D;
-import yaphyre.math.MathUtils;
 import yaphyre.raytracer.Scene;
 import yaphyre.util.Color;
 import yaphyre.util.RenderStatistics;

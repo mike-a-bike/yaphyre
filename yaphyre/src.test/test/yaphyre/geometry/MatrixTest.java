@@ -7,8 +7,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import yaphyre.geometry.MathUtils;
 import yaphyre.geometry.Matrix;
-import yaphyre.math.MathUtils;
 
 public class MatrixTest {
 

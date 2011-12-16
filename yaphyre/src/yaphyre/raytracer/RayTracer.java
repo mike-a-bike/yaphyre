@@ -15,7 +15,7 @@
  */
 package yaphyre.raytracer;
 
-import static yaphyre.math.MathUtils.EPSILON;
+import static yaphyre.geometry.MathUtils.EPSILON;
 
 import java.awt.image.BufferedImage;
 import java.text.MessageFormat;

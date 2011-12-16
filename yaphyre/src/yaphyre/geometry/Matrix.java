@@ -16,7 +16,7 @@
 package yaphyre.geometry;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static yaphyre.math.MathUtils.equalsWithTolerance;
+import static yaphyre.geometry.MathUtils.equalsWithTolerance;
 
 import java.io.Serializable;
 import java.text.MessageFormat;

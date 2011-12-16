@@ -82,6 +82,7 @@ public abstract class AbstractShape implements Shape {
     result = prime * result + objectToWorld.hashCode();
     result = prime * result + shader.hashCode();
     result = prime * result + (throwsShadow ? 1231 : 1237);
+    result = prime * result + this.getClass().hashCode();
     return result;
   }
 

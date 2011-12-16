@@ -18,7 +18,6 @@ package yaphyre.geometry;
 import java.io.Serializable;
 import java.text.MessageFormat;
 
-import yaphyre.math.MathUtils;
 
 /**
  * Abstraction of a point in a 2 dimensional space. This uses u and v as
@@ -86,6 +85,10 @@ public class Point2D implements Serializable {
 
   public Point2D add(Point2D p) {
     return new Point2D(this.u + p.u, this.v + p.v);
+  }
+
+  public Point3D add(Point3D p) {
+    return new Point3D(this.u + p.x, this.v + p.y, p.z);
   }
 
   public Point2D mul(double s) {

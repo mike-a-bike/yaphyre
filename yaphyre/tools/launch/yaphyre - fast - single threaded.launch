@@ -12,7 +12,7 @@
 <listEntry value="org.eclipse.debug.ui.launchGroup.debug"/>
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="yaphyre.YaPhyRe"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-s simple -w 640 -h 480 -a single --single"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-s dov -w 640 -h 480 -a single --single"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="yaphyre"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx1024m -ea"/>
 </launchConfiguration>

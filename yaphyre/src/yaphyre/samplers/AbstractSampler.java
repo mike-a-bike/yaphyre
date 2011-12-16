@@ -20,7 +20,7 @@ import static java.lang.Math.cos;
 import static java.lang.Math.pow;
 import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
-import static yaphyre.math.MathUtils.TWO_PI;
+import static yaphyre.geometry.MathUtils.TWO_PI;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;

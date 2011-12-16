@@ -18,8 +18,12 @@ package yaphyre.lights;
 import java.text.MessageFormat;
 
 import yaphyre.core.CollisionInformation;
+import yaphyre.core.Sampler;
 import yaphyre.geometry.Normal3D;
+import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
+import yaphyre.geometry.Transformation;
+import yaphyre.geometry.Vector3D;
 import yaphyre.raytracer.Scene;
 import yaphyre.util.Color;
 
@@ -35,61 +39,68 @@ public class AreaLight extends AbstractLightsource {
 
   private static final long serialVersionUID = -3600533548259119486L;
 
-  private static final String TO_STRING_FORMAT = "AreaLight[{0}, {1}, {2}x{2}, {4}x{4}, {5}, {3}]";
+  private static final String TO_STRING_FORMAT = "AreaLight[{0}, {1}, {2}, {3}, {4}, {5}]";
 
   private final Normal3D normal;
 
   private final double size;
 
-  private final int samplesPerSide;
-
-  private final int numberOfRays;
-
-  private final double rayIntensity;
-
   private final double intensity;
 
-  public AreaLight(Point3D position, Normal3D normal, double size, int samplesPerSide, double intensity, Color color, Falloff falloff) {
+  private final Sampler sampler;
+
+  private final Shape shape;
+
+  private final Transformation lightToWorld;
+
+  private final Transformation samplerToLight;
+
+  public AreaLight(Point3D position, Color color, Falloff falloff, double intensity, Normal3D normal, double size, Sampler sampler, Shape shape) {
     super(position, color, falloff);
     this.normal = normal;
     this.size = size;
-    this.samplesPerSide = samplesPerSide;
-    this.numberOfRays = this.samplesPerSide * this.samplesPerSide;
     this.intensity = intensity;
-    this.rayIntensity = this.intensity / this.numberOfRays;
+    this.sampler = sampler;
+    this.shape = shape;
+    this.lightToWorld = Transformation.lookAt(position, position.add(normal.asVector()), Vector3D.Y).inverse();
+    this.samplerToLight = Transformation.scale(size, size, size).mul(Transformation.translate(-0.5, -0.5, 0));
   }
 
   @Override
   public String toString() {
-    return MessageFormat.format(TO_STRING_FORMAT, getPosition(), this.normal, this.size, getColor(), this.samplesPerSide, this.intensity);
+    return MessageFormat.format(TO_STRING_FORMAT, getPosition(), this.normal, this.size, getColor(), this.intensity, this.sampler);
   }
 
   @Override
   public double getIntensity(Point3D point, Scene scene) {
-
-    double accumulatedIntensity = 0d;
-
-    for (Point3D origin : createOrigins()) {
-      CollisionInformation shadowCollision = super.calculateVisibility(origin, point, scene);
+    int sampleCount = 0;
+    int rayCount = 0;
+    double distance = this.getPosition().sub(point).length();
+    for (Point2D lightSample : this.getLightSamples()) {
+      sampleCount++;
+      lightSample = this.samplerToLight.transform(lightSample);
+      Point3D lightPoint = this.lightToWorld.transform(new Point3D(lightSample.getU(), lightSample.getV(), 0));
+      CollisionInformation shadowCollision = super.calculateVisibility(lightPoint, point, scene);
       if (shadowCollision == null) {
-        accumulatedIntensity += super.getFalloff().getIntensity(this.rayIntensity, origin.sub(point).length());
+        rayCount++;
       }
     }
-
-    return accumulatedIntensity;
-
+    assert sampleCount > 0 : "Empty sample count!";
+    return super.getFalloff().getIntensity(this.intensity * ((double)rayCount) / ((double)sampleCount), distance);
   }
 
-  /**
-   * Calculates an array of origin points based on the distribution in a 1x1
-   * unit rectangle which is the transformed into the scene coordinate space by
-   * the lights position and direction.
-   *
-   * @return An array of {@link Point3D}, each representing a start point for a
-   *         light ray.
-   */
-  private Point3D[] createOrigins() {
-    throw new RuntimeException("Not implemented yet");
+  public Iterable<Point2D> getLightSamples() {
+    switch (this.shape) {
+      case Square:
+        return this.sampler.getUnitSquareSamples();
+      case Disc:
+        return this.sampler.getUnitCircleSamples();
+    }
+    throw new RuntimeException("Unknown light shape");
+  }
+
+  public static enum Shape {
+    Square, Disc;
   }
 
 }
