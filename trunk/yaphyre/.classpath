@@ -4,11 +4,6 @@
 	<classpathentry kind="src" path="src.test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="lib/guava-r09.jar" sourcepath="lib.src/guava-src-r09.zip">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/yaphyre/lib.src/guava-javadoc-r09.zip!/javadoc"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="lib/commons-math-2.2.jar" sourcepath="lib.src/commons-math-2.2-sources.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:platform:/resource/yaphyre/lib.src/commons-math-2.2-javadoc.jar!/"/>
@@ -20,6 +15,11 @@
 	<classpathentry kind="lib" path="lib/commons-cli-1.2.jar" sourcepath="lib.src/commons-cli-1.2-sources.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:platform:/resource/yaphyre/lib.src/commons-cli-1.2-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/guava-10.0.1.jar" sourcepath="lib.src/guava-10.0.1-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/yaphyre/lib.src/guava-10.0.1-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
