@@ -74,6 +74,10 @@ public class Matrix implements Serializable {
     }
   }
 
+  private Matrix() {
+    this.m = new double[DIMENSION][DIMENSION];
+  }
+  
   @Override
   public String toString() {
     Object[] rows = new String[4];
