@@ -12,7 +12,6 @@ import yaphyre.lights.Falloff;
 import yaphyre.lights.Pointlight;
 import yaphyre.raytracer.Scene;
 import yaphyre.samplers.JitteredSampler;
-import yaphyre.samplers.RegularSampler;
 import yaphyre.shaders.CheckerShader;
 import yaphyre.shaders.Material;
 import yaphyre.shaders.MaterialBuilder;
@@ -140,11 +139,11 @@ public class SceneReader {
     final Shape blueBall = new Sphere(Transformation.translate(0, 1.5, 0), blueDiffuse, true);
     final Shape greenBall = new Sphere(Transformation.translate(2, 1.5, 2), greenDiffuse, true);
 
-    final Sampler lightSampler = new RegularSampler(4);
+    final Sampler lightSampler = new JitteredSampler(64);
 
     final Point3D lightPosition = new Point3D(2.5, 5, -5);
     final Normal3D lightDirection = Point3D.ORIGIN.sub(lightPosition).asNormal();
-    final Lightsource areaLight = new AreaLight(lightPosition, new Color(1, 1, 1), Falloff.Quadric, 30, lightDirection, 1, lightSampler, yaphyre.lights.AreaLight.Shape.Disc);
+    final Lightsource areaLight = new AreaLight(lightPosition, new Color(1, 1, 1), Falloff.Quadric, 30, lightDirection, 4, lightSampler, yaphyre.lights.AreaLight.Shape.Square);
 
     final Scene scene = new Scene();
 
