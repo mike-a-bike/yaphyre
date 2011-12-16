@@ -1,13 +1,18 @@
 package yaphyre;
 
 import yaphyre.core.Lightsource;
+import yaphyre.core.Sampler;
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
+import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Transformation;
+import yaphyre.lights.AreaLight;
 import yaphyre.lights.Falloff;
 import yaphyre.lights.Pointlight;
 import yaphyre.raytracer.Scene;
+import yaphyre.samplers.JitteredSampler;
+import yaphyre.samplers.RegularSampler;
 import yaphyre.shaders.CheckerShader;
 import yaphyre.shaders.Material;
 import yaphyre.shaders.MaterialBuilder;
@@ -54,9 +59,12 @@ public class SceneReader {
     Material diffuseMaterial = MaterialBuilder.start().ambient(ambientLight).diffuse(0.8).build();
     Material mirrorMaterial = MaterialBuilder.start().ambient(ambientLight / 2d).diffuse(0.1d).reflection(0.9).build();
 
-    SimpleShader redShader = new SimpleShader(diffuseMaterial, new Color(1d, 0d, 0d));
-    SimpleShader greenShader = new SimpleShader(diffuseMaterial, new Color(0d, 1d, 0d));
-    SimpleShader blueShader = new SimpleShader(diffuseMaterial, new Color(0d, 0d, 1d));
+    // SimpleShader redShader = new SimpleShader(diffuseMaterial, new Color(1d,
+    // 0d, 0d));
+    // SimpleShader greenShader = new SimpleShader(diffuseMaterial, new
+    // Color(0d, 1d, 0d));
+    // SimpleShader blueShader = new SimpleShader(diffuseMaterial, new Color(0d,
+    // 0d, 1d));
     SimpleShader whiteShader = new SimpleShader(diffuseMaterial, new Color(1d, 1d, 1d));
     SimpleShader whiteMirror = new SimpleShader(mirrorMaterial, new Color(1d, 1d, 1d));
 
@@ -85,7 +93,7 @@ public class SceneReader {
     Shader greenDiffuse = new SimpleShader(diffuseMaterial, 0d, 1d, 0d);
     Shader blueDiffuse = new SimpleShader(diffuseMaterial, 0d, 0d, 1d);
     Shader whiteMirror = new SimpleShader(mirrorMaterial, 1d, 1d, 1d);
-    Shader redMirror = new SimpleShader(mirrorMaterial, 1d, 0d, 0d);
+    // Shader redMirror = new SimpleShader(mirrorMaterial, 1d, 0d, 0d);
 
     Shader sphereCheckerShader = new CheckerShader(Transformation.IDENTITY, whiteMirror, blueDiffuse, 4d, 4d);
     Shader checkBoardShader = new CheckerShader(Transformation.IDENTITY, redDiffuse, whiteDiffuse, 16d, 16d);
@@ -110,6 +118,45 @@ public class SceneReader {
     scene.addShape(distantSphere);
 
     return scene;
+  }
+
+  public static final Scene createDOFScene() {
+
+    final double ambientLight = 0.075d;
+
+    final Material diffuseMaterial = MaterialBuilder.start().ambient(ambientLight).diffuse(0.8).build();
+    // final Material mirrorMaterial =
+    // MaterialBuilder.start().ambient(ambientLight /
+    // 2d).diffuse(0.1d).reflection(0.9).build();
+
+    final Shader whiteDiffuse = new SimpleShader(diffuseMaterial, 1d, 1d, 1d);
+    final Shader redDiffuse = new SimpleShader(diffuseMaterial, 1d, 0d, 0d);
+    final Shader greenDiffuse = new SimpleShader(diffuseMaterial, 0d, 1d, 0d);
+    final Shader blueDiffuse = new SimpleShader(diffuseMaterial, 0d, 0d, 1d);
+    // final Shader whiteMirror = new SimpleShader(mirrorMaterial, 1d, 1d, 1d);
+
+    final Shape floor = new Plane(Transformation.IDENTITY, whiteDiffuse, false);
+    final Shape redBall = new Sphere(Transformation.translate(-2, 1.5, -2), redDiffuse, true);
+    final Shape blueBall = new Sphere(Transformation.translate(0, 1.5, 0), blueDiffuse, true);
+    final Shape greenBall = new Sphere(Transformation.translate(2, 1.5, 2), greenDiffuse, true);
+
+    final Sampler lightSampler = new RegularSampler(4);
+
+    final Point3D lightPosition = new Point3D(2.5, 5, -5);
+    final Normal3D lightDirection = Point3D.ORIGIN.sub(lightPosition).asNormal();
+    final Lightsource areaLight = new AreaLight(lightPosition, new Color(1, 1, 1), Falloff.Quadric, 30, lightDirection, 1, lightSampler, yaphyre.lights.AreaLight.Shape.Disc);
+
+    final Scene scene = new Scene();
+
+    scene.addShape(floor);
+    scene.addShape(redBall);
+    scene.addShape(blueBall);
+    scene.addShape(greenBall);
+
+    scene.addLightsource(areaLight);
+
+    return scene;
+
   }
 
   /**

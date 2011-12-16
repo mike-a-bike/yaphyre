@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package yaphyre.math;
+package yaphyre.geometry;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.lang.Math.PI;
@@ -21,7 +21,7 @@ import static java.lang.Math.acos;
 import static java.lang.Math.cbrt;
 import static java.lang.Math.cos;
 import static java.lang.Math.sqrt;
-import static yaphyre.math.MathUtils.div;
+import static yaphyre.geometry.MathUtils.div;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package yaphyre.math;
+package yaphyre.geometry;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.abs;

@@ -15,13 +15,12 @@
  */
 package yaphyre.geometry;
 
-import static yaphyre.math.MathUtils.calcLength;
-import static yaphyre.math.MathUtils.calculateLengthSquared;
+import static yaphyre.geometry.MathUtils.calcLength;
+import static yaphyre.geometry.MathUtils.calculateLengthSquared;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
 
-import yaphyre.math.MathUtils;
 
 /**
  * Abstraction of a point in a 3d Cartesian coordinate system.
@@ -56,6 +55,14 @@ public class Point3D implements Serializable {
 
   public Normal3D asNormal() {
     return new Normal3D(this.x, this.y, this.z);
+  }
+
+  public Point3D add(Point3D p) {
+    return new Point3D(this.x + p.x, this.y + p.y, this.z + p.z);
+  }
+
+  public Point3D add(Point2D p) {
+    return new Point3D(this.x + p.u, this.y + p.v, this.z);
   }
 
   public Point3D add(Vector3D v) {

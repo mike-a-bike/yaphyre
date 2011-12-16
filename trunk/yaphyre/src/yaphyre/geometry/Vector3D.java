@@ -20,7 +20,6 @@ import static java.lang.Math.abs;
 import java.io.Serializable;
 import java.text.MessageFormat;
 
-import yaphyre.math.MathUtils;
 
 /**
  * Represent an arithmetical vector within a 3 dimensional Cartesian coordinate

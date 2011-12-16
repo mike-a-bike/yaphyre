@@ -19,7 +19,7 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.tan;
 import static java.lang.Math.toRadians;
-import static yaphyre.math.MathUtils.div;
+import static yaphyre.geometry.MathUtils.div;
 
 import java.io.Serializable;
 import java.text.MessageFormat;

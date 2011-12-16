@@ -19,8 +19,6 @@ import static java.lang.Math.signum;
 
 import java.text.MessageFormat;
 
-import com.google.common.base.Preconditions;
-
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
 import yaphyre.geometry.Normal3D;
@@ -65,13 +63,6 @@ public class Plane extends AbstractShape {
   @Override
   public String toString() {
     return MessageFormat.format("Plane[{0}]", super.getObjectToWorld());
-  }
-
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = super.hashCode();
-    return result;
   }
 
   @Override

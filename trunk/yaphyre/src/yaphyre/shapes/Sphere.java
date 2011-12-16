@@ -20,9 +20,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.lang.Math.PI;
 import static java.lang.Math.acos;
 import static java.lang.Math.atan2;
-import static yaphyre.math.MathUtils.EPSILON;
-import static yaphyre.math.MathUtils.INV_PI;
-import static yaphyre.math.MathUtils.INV_TWO_PI;
+import static yaphyre.geometry.MathUtils.EPSILON;
+import static yaphyre.geometry.MathUtils.INV_PI;
+import static yaphyre.geometry.MathUtils.INV_TWO_PI;
 
 import java.text.MessageFormat;
 
@@ -32,9 +32,9 @@ import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
+import yaphyre.geometry.Solver;
 import yaphyre.geometry.Transformation;
 import yaphyre.geometry.Vector3D;
-import yaphyre.math.Solver;
 
 /**
  * A sphere in the three dimensional space is defined as:<br/>
@@ -126,12 +126,6 @@ public class Sphere extends AbstractShape {
   }
 
   @Override
-  public int hashCode() {
-    int result = super.hashCode();
-    return result;
-  }
-
-  @Override
   public boolean equals(Object obj) {
     if (this == obj) {
       return true;
@@ -188,7 +182,7 @@ public class Sphere extends AbstractShape {
     double result = Shape.NO_INTERSECTION;
 
     for (double solution : solutions) {
-      if (solution < result && solution >= 0d) {
+      if (solution < result && (solution >= ray.getMint() && solution <= ray.getMaxt())) {
         result = solution;
       }
     }
