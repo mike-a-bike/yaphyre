@@ -24,9 +24,9 @@ import yaphyre.util.Color;
  * Read a very simple file format in order to make the development and testing
  * simpler.<br/>
  * TODO: IMPLEMENT THIS...
- *
+ * 
  * @author Michael Bieri
- *
+ * 
  */
 public class SceneReader {
 
@@ -121,18 +121,46 @@ public class SceneReader {
 
   public static final Scene createDOFScene() {
 
-    final double ambientLight = 0.075d;
+    final double ambientLight = 0.25d;
 
     final Material diffuseMaterial = MaterialBuilder.start().ambient(ambientLight).diffuse(0.8).build();
-    // final Material mirrorMaterial =
-    // MaterialBuilder.start().ambient(ambientLight /
-    // 2d).diffuse(0.1d).reflection(0.9).build();
 
     final Shader whiteDiffuse = new SimpleShader(diffuseMaterial, 1d, 1d, 1d);
     final Shader redDiffuse = new SimpleShader(diffuseMaterial, 1d, 0d, 0d);
     final Shader greenDiffuse = new SimpleShader(diffuseMaterial, 0d, 1d, 0d);
     final Shader blueDiffuse = new SimpleShader(diffuseMaterial, 0d, 0d, 1d);
-    // final Shader whiteMirror = new SimpleShader(mirrorMaterial, 1d, 1d, 1d);
+
+    final Shape floor = new Plane(Transformation.IDENTITY, whiteDiffuse, false);
+    final Shape redBall = new Sphere(Transformation.translate(-2, 1.5, -2), redDiffuse, true);
+    final Shape blueBall = new Sphere(Transformation.translate(0, 1.5, 0), blueDiffuse, true);
+    final Shape greenBall = new Sphere(Transformation.translate(2, 1.5, 2), greenDiffuse, true);
+
+    final Point3D lightPosition = new Point3D(2.5, 5, -5);
+    final Lightsource pointLight = new Pointlight(lightPosition, new Color(1, 1, 1), 30, Falloff.Quadric);
+
+    final Scene scene = new Scene();
+
+    scene.addShape(floor);
+    scene.addShape(redBall);
+    scene.addShape(blueBall);
+    scene.addShape(greenBall);
+
+    scene.addLightsource(pointLight);
+
+    return scene;
+
+  }
+
+  public static final Scene createAreaLightScene() {
+
+    final double ambientLight = 0.1d;
+
+    final Material diffuseMaterial = MaterialBuilder.start().ambient(ambientLight).diffuse(0.8).build();
+
+    final Shader whiteDiffuse = new SimpleShader(diffuseMaterial, 1d, 1d, 1d);
+    final Shader redDiffuse = new SimpleShader(diffuseMaterial, 1d, 0d, 0d);
+    final Shader greenDiffuse = new SimpleShader(diffuseMaterial, 0d, 1d, 0d);
+    final Shader blueDiffuse = new SimpleShader(diffuseMaterial, 0d, 0d, 1d);
 
     final Shape floor = new Plane(Transformation.IDENTITY, whiteDiffuse, false);
     final Shape redBall = new Sphere(Transformation.translate(-2, 1.5, -2), redDiffuse, true);
@@ -160,7 +188,7 @@ public class SceneReader {
 
   /**
    * 'Historic' scene: The first scene ever rendered with <em>yaphyre</em>.
-   *
+   * 
    * @return A very simple {@link Scene} containing one light, one plane and one
    *         sphere.
    */
