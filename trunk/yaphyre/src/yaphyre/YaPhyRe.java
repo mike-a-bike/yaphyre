@@ -46,9 +46,9 @@ import yaphyre.samplers.SinglePointSampler;
 /**
  * The main class starting the application. This class parses the command line,
  * prepares the environment and calls the renderer.
- *
+ * 
  * @version $Revision$
- *
+ * 
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
@@ -149,7 +149,10 @@ public class YaPhyRe {
       scene = SceneReader.createSimpleScene();
     } else if (sceneName.equals("dov")) {
       scene = SceneReader.createDOFScene();
-    } else {
+    } else if (sceneName.equals("area")) {
+      scene = SceneReader.createAreaLightScene();
+    }
+    else {
       LOGGER.warn("Scene not found! Using fallback scene (simple)");
       scene = SceneReader.createSimpleScene();
     }
@@ -186,7 +189,7 @@ public class YaPhyRe {
   private static CommandLine parseCommandLine(String... args) throws ParseException {
     CommandLineParser parser = new PosixParser();
     commandLineOptions = new Options();
-    commandLineOptions.addOption(OptionBuilder.withArgName("<first|spheres|simple|dov>").hasArg().isRequired().withLongOpt("scene").withDescription("Scene to render").create('s'));
+    commandLineOptions.addOption(OptionBuilder.withArgName("<first|spheres|simple|dov|area>").hasArg().isRequired().withLongOpt("scene").withDescription("Scene to render").create('s'));
     commandLineOptions.addOption(OptionBuilder.withArgName("file").hasArg().withLongOpt("out").withDescription("Output file name").create('o'));
     commandLineOptions.addOption(OptionBuilder.withArgName("format").hasArg().withLongOpt("format").withDescription("Format of the output image file").create('f'));
     commandLineOptions.addOption(OptionBuilder.withArgName("pixel").hasArg().withLongOpt("width").withDescription("Width of the rendered image").create('w'));
