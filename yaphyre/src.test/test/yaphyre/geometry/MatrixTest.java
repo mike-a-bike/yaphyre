@@ -90,7 +90,6 @@ public class MatrixTest {
 
     assertEquals(Mr, M2.mul(M1));
 
-
   }
 
   @Test
