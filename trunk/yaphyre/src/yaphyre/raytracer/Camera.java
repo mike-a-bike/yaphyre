@@ -1,12 +1,12 @@
 /*
  * Copyright 2011 Michael Bieri
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -26,9 +26,9 @@ import yaphyre.util.Color;
 /**
  * see {@link http://www.cubic.org/docs/camera.htm} for some pretty cool
  * documentation about cameras
- * 
+ *
  * @version $Revision$
- * 
+ *
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
@@ -56,15 +56,11 @@ public class Camera {
 
   public double stepX;
 
-  private double stepX_half;
-
   public double minY;
 
   public double maxY;
 
   public double stepY;
-
-  private double stepY_half;
 
   public double gamma = 1;
 
@@ -90,13 +86,13 @@ public class Camera {
 
   /**
    * Create an 'eye' ray starting at the given coordinate.
-   * 
+   *
    * TODO transform the ray from the camera space into the world space.
-   * 
+   *
    * @param point
    *          A {@link Point2D} which defines a set of coordinates which define
    *          a point within the view plane.
-   * 
+   *
    * @return A new {@link Ray} instance with the transformed starting
    *         coordinates and the direction according to the cameras direction.
    */

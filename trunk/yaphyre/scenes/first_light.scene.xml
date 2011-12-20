@@ -1,58 +1,44 @@
 <scene>
-  <!--
-    Camera
-    up: 0, 1, 0
-    location: 0, 25, -100
-    look at: 0, 1, 0
-   -->
-  <camera id="camera">
-    <location x="0" y="25" z="-100" />
-    <look-at x="0" y="1" z="0" />
-  </camera>
+	<!-- Perspective Camera up: 0,1,0 location: 0,25,-100 look at: 0,1,0 focal-length:25mm
+		aspect-ratio:4/3 -->
+	<camera id="camera" type="perspective">
+		<film type="image" xRes="1280" yRes="960" fileType="png"/>
+		<location x="0" y="25" z="-100" />
+		<look-at x="0" y="1" z="0" />
+		<up x="0" y="1" z="0" />
+		<perspective aspect-ratio="1.3333" focal-legth="25" />
+	</camera>
 
-  <!--
-    Diffuse Material
-    ambient light: 0.075
-    diffuse: 0.8
-   -->
-  <material id="diffuse" ambient="0.075" diffuse="0.8" />
+	<!-- Diffuse Material ambient light: 0.075 diffuse: 0.8 -->
+	<material id="diffuse" ambient="0.075" diffuse="0.8" />
 
-  <!--
-    Shader
-    material: diffuse
-    color: white
-   -->
-  <shader id="white" type="simple">
-    <material ref="diffuse" />
-    <color r="1" g="1" b="1" a="1" />
-  </shader>
+	<!-- Shader material: diffuse color: white -->
+	<shader id="white" type="simple">
+		<material ref="diffuse" />
+		<color r="1" g="1" b="1" />
+	</shader>
 
-  <!--
-    Point light
-    position: 0, 0, 0
-    translate to: -2, 5, -2
-   -->
-  <light id="light" type="point">
-    <location x="-2" y="5" z="-2" />
-    <color r="1" g="1" b="1" a="1" />
-    <intensity value="10" />
-    <falloff value="quadric" />
-  </light>
+	<!-- Point light position: 0, 0, 0 translate to: -2, 5, -2 -->
+	<light id="light" type="point">
+		<color r="1" g="1" b="1" />
+		<intensity value="10" />
+		<falloff value="quadric" />
+		<transform>
+			<translate dx="-2" dy="5" dz="-2" />
+		</transform>
+	</light>
 
-  <!--
-    Sphere
-    center: 0, 1, 0 radius: 1
-   -->
-  <sphere x="0" y="1" z="0" r="1">
-    <shader ref="white" />
-  </sphere>
+	<!-- Sphere center: 0, 1, 0 radius: 1 -->
+	<sphere>
+		<shader ref="white" />
+		<transform>
+			<translate dx="0" dy="1" dz="0" />
+		</transform>
+	</sphere>
 
-  <!--
-    Plane
-    normal: 0, 1, 0 (y-axis) offset: 0
-   -->
-  <plane x="0" y="1" z="0" d="0">
-    <shader ref="white" />
-  </plane>
+	<!-- Plane normal: 0, 1, 0 (y-axis) offset: 0 -->
+	<plane>
+		<shader ref="white" />
+	</plane>
 
 </scene>

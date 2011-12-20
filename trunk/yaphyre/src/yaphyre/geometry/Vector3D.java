@@ -35,7 +35,7 @@ public class Vector3D implements Serializable {
 
   private static final long serialVersionUID = 6313172979195055223L;
 
-  private final String TO_STRING_FORMAT = "<{0,number,0.000}, {1,number,0.000}, {2,number,0.000}>";
+  private static final String TO_STRING_FORMAT = "<{0,number,0.000}, {1,number,0.000}, {2,number,0.000}>";
 
   public static final Vector3D NULL = new Vector3D(0d, 0d, 0d);
 
@@ -181,7 +181,7 @@ public class Vector3D implements Serializable {
 
   @Override
   public String toString() {
-    return MessageFormat.format(this.TO_STRING_FORMAT, this.x, this.y, this.z);
+    return MessageFormat.format(Vector3D.TO_STRING_FORMAT, this.x, this.y, this.z);
   }
 
   public double getX() {
