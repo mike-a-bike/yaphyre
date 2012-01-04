@@ -49,4 +49,9 @@ public class Pointlight extends AbstractLightsource {
     }
     return intensity;
   }
+
+  @Override
+  public boolean isPointLightSource() {
+    return true;
+  }
 }

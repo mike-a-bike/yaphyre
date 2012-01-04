@@ -78,6 +78,9 @@ public class AreaLight extends AbstractLightsource {
     double distance = this.getPosition().sub(point).length();
     for (Point2D lightSample : this.getLightSamples()) {
       sampleCount++;
+      if (this.shape == Shape.Disc) {
+        lightSample = lightSample.mul(0.5d);
+      }
       lightSample = this.samplerToLight.transform(lightSample);
       Point3D lightPoint = this.lightToWorld.transform(new Point3D(lightSample.getU(), lightSample.getV(), 0));
       CollisionInformation shadowCollision = super.calculateVisibility(lightPoint, point, scene);
@@ -89,7 +92,7 @@ public class AreaLight extends AbstractLightsource {
     return super.getFalloff().getIntensity(this.intensity * ((double)rayCount) / ((double)sampleCount), distance);
   }
 
-  public Iterable<Point2D> getLightSamples() {
+  private Iterable<Point2D> getLightSamples() {
     switch (this.shape) {
       case Square:
         return this.sampler.getUnitSquareSamples();
@@ -97,6 +100,11 @@ public class AreaLight extends AbstractLightsource {
         return this.sampler.getUnitCircleSamples();
     }
     throw new RuntimeException("Unknown light shape");
+  }
+
+  @Override
+  public boolean isPointLightSource() {
+    return false;
   }
 
   public static enum Shape {

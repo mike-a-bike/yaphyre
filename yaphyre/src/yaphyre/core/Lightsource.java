@@ -37,4 +37,6 @@ public interface Lightsource extends Serializable {
 
   public Color getColor();
 
+  public boolean isPointLightSource();
+
 }

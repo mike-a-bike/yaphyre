@@ -46,9 +46,9 @@ import yaphyre.samplers.SinglePointSampler;
 /**
  * The main class starting the application. This class parses the command line,
  * prepares the environment and calls the renderer.
- * 
+ *
  * @version $Revision$
- * 
+ *
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
@@ -174,6 +174,9 @@ public class YaPhyRe {
       sampler = new RandomSampler(sampleCount);
     } else if (samplerSettings[0].equalsIgnoreCase("jittered")) {
       sampler = new JitteredSampler(sampleCount);
+    } else {
+      // Fallback to make sure that a sampler is set.
+      sampler = new SinglePointSampler();
     }
     LOGGER.debug("Sampler: {}", sampler.toString());
     return sampler;
