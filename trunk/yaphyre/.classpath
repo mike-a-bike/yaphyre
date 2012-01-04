@@ -17,9 +17,9 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/yaphyre/lib.src/commons-cli-1.2-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/guava-10.0.1.jar" sourcepath="lib.src/guava-10.0.1-sources.jar">
+	<classpathentry kind="lib" path="lib/guava-11.0.jar" sourcepath="lib.src/guava-11.0-sources.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/yaphyre/lib.src/guava-10.0.1-javadoc.jar!/"/>
+			<attribute name="javadoc_location" value="jar:platform:/resource/yaphyre/lib.src/guava-11.0-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
