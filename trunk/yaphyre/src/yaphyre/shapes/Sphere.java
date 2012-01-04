@@ -130,13 +130,18 @@ public class Sphere extends AbstractShape {
     if (this == obj) {
       return true;
     }
-    if (!super.equals(obj)) {
-      return false;
-    }
     if (!(obj instanceof Sphere)) {
       return false;
     }
+    if (!super.equals(obj)) {
+      return false;
+    }
     return true;
+  }
+
+  @Override
+  public int hashCode() {
+    return super.hashCode();
   }
 
   /**

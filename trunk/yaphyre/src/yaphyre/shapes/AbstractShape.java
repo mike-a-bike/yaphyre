@@ -15,6 +15,7 @@
  */
 package yaphyre.shapes;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
 import yaphyre.core.CollisionInformation;
@@ -77,13 +78,7 @@ public abstract class AbstractShape implements Shape {
 
   @Override
   public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + objectToWorld.hashCode();
-    result = prime * result + shader.hashCode();
-    result = prime * result + (throwsShadow ? 1231 : 1237);
-    result = prime * result + this.getClass().hashCode();
-    return result;
+    return Objects.hashCode(this.getClass(), objectToWorld, shader, throwsShadow);
   }
 
   @Override
@@ -97,17 +92,8 @@ public abstract class AbstractShape implements Shape {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    AbstractShape other = (AbstractShape)obj;
-    if (!shader.equals(other.shader)) {
-      return false;
-    }
-    if (!objectToWorld.equals(other.objectToWorld)) {
-      return false;
-    }
-    if (throwsShadow != other.throwsShadow) {
-      return false;
-    }
-    return true;
+    final AbstractShape other = (AbstractShape)obj;
+    return Objects.equal(shader, other.shader) && Objects.equal(objectToWorld, other.objectToWorld) && Objects.equal(throwsShadow, other.throwsShadow);
   }
 
   @Override

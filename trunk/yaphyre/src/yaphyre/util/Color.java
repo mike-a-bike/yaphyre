@@ -88,7 +88,7 @@ public class Color implements Serializable {
       return true;
     }
     if (obj instanceof Color) {
-      Color color = (Color) obj;
+      final Color color = (Color) obj;
       return color.red == this.red && color.green == this.green && color.blue == this.blue;
     }
     return false;

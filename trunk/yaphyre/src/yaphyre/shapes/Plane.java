@@ -40,9 +40,9 @@ import yaphyre.geometry.Vector3D;
  * <li>p<sub>0</sub>: the origin</li>
  * <li>n: the normal of the plane</li>
  * </ul>
- * 
+ *
  * @version $Revision$
- * 
+ *
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
@@ -70,13 +70,18 @@ public class Plane extends AbstractShape {
     if (this == obj) {
       return true;
     }
-    if (!super.equals(obj)) {
-      return false;
-    }
     if (!(obj instanceof Plane)) {
       return false;
     }
+    if (!super.equals(obj)) {
+      return false;
+    }
     return true;
+  }
+
+  @Override
+  public int hashCode() {
+    return super.hashCode();
   }
 
   /**
@@ -93,10 +98,10 @@ public class Plane extends AbstractShape {
    * line intersects with the plane, the denominator and the numerator are zero<br/>
    * If the result is negative, the line intersects with the plane behind the
    * origin of the ray, so there is no visible intersection.
-   * 
+   *
    * @param ray
    *          The {@link Ray} to intersect with this plane.
-   * 
+   *
    * @return The distance in which the ray intersects this plane or
    *         {@link Shape#NO_INTERSECTION} if there is no intersection.
    */
@@ -140,11 +145,11 @@ public class Plane extends AbstractShape {
   /**
    * The normal of a plane is independent from the position on the plane, so
    * always the defining normal is returned.
-   * 
+   *
    * @param surfacePoint
    *          The surface point (as {@link Vector3D}) for which the normal is
    *          asked.
-   * 
+   *
    * @return The normal of the plane (position independent)
    */
   @Override
