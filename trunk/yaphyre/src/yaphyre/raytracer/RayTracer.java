@@ -52,6 +52,7 @@ import yaphyre.util.Color;
 import yaphyre.util.RenderStatistics;
 
 import com.google.common.annotations.Beta;
+import com.google.common.base.Stopwatch;
 
 /**
  * This is the class which exposes the rendering algorithm to the caller. It
@@ -61,7 +62,7 @@ import com.google.common.annotations.Beta;
  * system. The parallelization can be prevented (for debugging purposes for
  * example) by calling the {@link #useSingleThreadedRenderer()} method to
  * enforce single threaded rendering.
- * 
+ *
  * @author Michael Bieri
  */
 public class RayTracer {
@@ -116,7 +117,7 @@ public class RayTracer {
 
   /**
    * Get the number of CPUs in the system.
-   * 
+   *
    * @return The number of available CPUs.
    */
   private int getNumberOfCPUs() {
@@ -132,7 +133,7 @@ public class RayTracer {
    * {@link RenderWindow}.<br/>
    * This method is responsible for preparing the rendering and managing the
    * multi-threaded execution of the rendering process.
-   * 
+   *
    * @param imageWidth
    *          The number of pixels the image is wide.
    * @param imageHeight
@@ -145,7 +146,7 @@ public class RayTracer {
    *          The position of the camera in 3D space.
    * @param cameraDirection
    *          The direction in which the camera is oriented.
-   * 
+   *
    * @return A {@link BufferedImage} which contains the rendered image. This can
    *         be saved or used for further transformation.
    */
@@ -174,7 +175,7 @@ public class RayTracer {
     // TODO move this transformation into the camera
     Transformation rasterToCamera = Transformation.rasterToUnitSquare(imageWidth, imageHeight);
 
-    long duration = 0l;
+    Stopwatch overallTime = new Stopwatch();
     long cpuTime = 0l;
 
     if (this.useSingleTreadedRendering) {
@@ -183,10 +184,10 @@ public class RayTracer {
 
       RenderWindow renderWindow = new RenderWindow(0, imageWidth, 0, imageHeight);
 
-      duration = System.nanoTime();
+      overallTime.start();
       this.renderWindow(camera, this.sampler, renderWindow, rasterToCamera);
-      duration = (System.nanoTime() - duration) / 1000l / 1000l;
-      cpuTime = duration;
+      overallTime.stop();
+      cpuTime = overallTime.elapsedMillis();
 
     } else {
 
@@ -212,11 +213,10 @@ public class RayTracer {
 
       ExecutorService renderingExecutor = Executors.newFixedThreadPool(numberOfCores);
 
-      long renderStart = System.nanoTime();
-
       try {
         LOGGER.info("Start rendering");
 
+        overallTime.start();
         List<Future<Long>> renderResults = renderingExecutor.invokeAll(slices);
         boolean allDone;
         do {
@@ -226,8 +226,8 @@ public class RayTracer {
             allDone &= result.isDone();
           }
         } while (!allDone);
+        overallTime.stop();
 
-        duration = (System.nanoTime() - renderStart) / 1000 / 1000;
         for (Future<Long> result : renderResults) {
           cpuTime += result.get();
         }
@@ -246,7 +246,7 @@ public class RayTracer {
 
     }
 
-    this.printRenderStatistics(duration, cpuTime);
+    this.printRenderStatistics(overallTime.elapsedMillis(), cpuTime);
 
     return this.camera.createColorImage();
 
@@ -256,7 +256,7 @@ public class RayTracer {
    * This contains the actual render loop. Use this method for creating the
    * color informations. The results are recorded by the {@link Film} which is
    * in the camera (just like in real life...).
-   * 
+   *
    * @param camera
    *          The {@link yaphyre.core.Camera} containing the {@link Film} which
    *          records all the information.
@@ -304,13 +304,13 @@ public class RayTracer {
    * through the scene. If it hits an object secondary rays may be generated
    * which in turn are traced again by this method. It calls itself recursively
    * in order to calculate effects like reflection and refraction.
-   * 
+   *
    * @param ray
    *          The {@link Ray} to follow trough the scene.
    * @param iteration
    *          The iteration depth. Prevents the algorithm from being stuck in an
    *          endless loop.
-   * 
+   *
    * @return The {@link Color} the origin of the {@link Ray} "sees" in the
    *         scene.
    */
@@ -340,7 +340,7 @@ public class RayTracer {
   /**
    * For a given point, calculate the hue and brightness contributed by the
    * lights in the scene.
-   * 
+   *
    * @param shapeCollisionInfo
    *          The {@link CollisionInformation} describing where the point lies
    *          and of which {@link Shape} it is a part of.
@@ -348,7 +348,7 @@ public class RayTracer {
    *          The u/v coordinates on the shape.
    * @param objectColor
    *          The {@link Color} of the shape.
-   * 
+   *
    * @return The Color of the light which depends on the distance and the angle
    *         under which the light is 'seen'.
    */
@@ -379,7 +379,7 @@ public class RayTracer {
    * The origin of that ray is the point of collision (with a small correction
    * to prevent self-shadowing). It the calls {@link #traceRay(Ray, int)} to
    * determine the {@link Color} information at that point.
-   * 
+   *
    * @param ray
    *          The incoming ray.
    * @param iteration
@@ -389,7 +389,7 @@ public class RayTracer {
    *          The {@link Shape} for which the reflection is calculated.
    * @param uvCoordinates
    *          The u/v coordinates on the {@link Shape}.
-   * 
+   *
    * @return The {@link Color} for what the reflected ray 'sees' in the scene.
    */
   private Color calculateReflectedColor(Ray ray, int iteration, CollisionInformation shapeCollisionInfo, Point2D uvCoordinates) {
@@ -411,7 +411,7 @@ public class RayTracer {
    * Print some statistics, like number of rays, rendering time, total CPU time
    * and some more. The two parameter are used to calculate the factor by which
    * the rendering was speed up by using multiple CPUs.
-   * 
+   *
    * @param duration
    *          The duration of the rendering (the time the caller had to wait)
    * @param cpuTime
@@ -465,7 +465,7 @@ public class RayTracer {
   /**
    * Implementation of the {@link Callable} interface in order to parallelize
    * the rendering process.
-   * 
+   *
    * @author Michael Bieri
    */
   private class RenderCallable implements Callable<Long> {
@@ -493,17 +493,18 @@ public class RayTracer {
      * does is calling the
      * {@link RayTracer#renderWindow(yaphyre.core.Camera, Sampler, RenderWindow, Transformation)}
      * method in order to render the content of its allocated raster area.
-     * 
+     *
      * @return The duration in milliseconds
      */
     @Override
     public Long call() throws Exception {
       LOGGER.debug("Starting slice {}", this.sliceId);
-      long startTime = System.nanoTime();
+      Stopwatch renderingStopwatch = new Stopwatch();
+      renderingStopwatch.start();
       RayTracer.this.renderWindow(this.camera, this.sampler, this.window, this.rasterToCamera);
-      long duration = (System.nanoTime() - startTime) / 1000 / 1000;
-      LOGGER.debug("Slice {} done in {}ms", new Object[] { this.sliceId, duration });
-      return duration;
+      renderingStopwatch.stop();
+      LOGGER.debug("Slice {} done in {}ms", new Object[] { this.sliceId, renderingStopwatch.elapsedMillis() });
+      return renderingStopwatch.elapsedMillis();
     }
 
   }

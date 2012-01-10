@@ -1,12 +1,29 @@
 <scene>
-	<!-- Perspective Camera up: 0,1,0 location: 0,25,-100 look at: 0,1,0 focal-length:25mm
-		aspect-ratio:4/3 -->
+
+	<!-- Perspective Camera -->
 	<camera id="camera" type="perspective">
-		<film type="image" xRes="1280" yRes="960" fileType="png"/>
+
+		<!-- Generic camera properties -->
+		<!-- located at 0, 25, -100, looking at 0, 1, 0 -->
 		<location x="0" y="25" z="-100" />
 		<look-at x="0" y="1" z="0" />
 		<up x="0" y="1" z="0" />
-		<perspective aspect-ratio="1.3333" focal-legth="25" />
+
+		<!-- Type specific settings -->
+		<!-- Aspect ratio: 4/3 (1280/960) -> Square Pixels, Lens: 50mm (fov 40),
+			Depth of field: 50 units -->
+		<cameraproperty name="aspect-ratio" value="1.333333" />
+		<cameraproperty name="fov" value="40" />
+		<cameraproperty name="dof" value="50" />
+
+		<!-- Film (ImageFile) -->
+		<film type="imageFile">
+			<filmproperty name="xRes" value="1280" />
+			<filmproperty name="yRes" value="960" />
+			<filmproperty name="fileType" value="png" />
+			<filmproperty name="gamma" value="2.4" />
+		</film>
+
 	</camera>
 
 	<!-- Diffuse Material ambient light: 0.075 diffuse: 0.8 -->

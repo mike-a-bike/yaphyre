@@ -1,0 +1,37 @@
+/*
+ * Copyright 2011 Michael Bieri
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+package yaphyre.core;
+
+import yaphyre.geometry.Ray;
+
+/**
+ * Bounding boxes are used to speed up the rendering process. Complex
+ * {@link Shape}s are wrapped by such a {@link BoundingBox} to which simplifies
+ * the task of determining if a {@link Ray} potentially intersects with a shape.
+ * If the {@link Ray} intersects the bounding box, the more expensive check must
+ * be performed to check if the {@link Ray} also intersects with the wrapped
+ * {@link Shape}.
+ *
+ * @version $Revision: 91 $
+ *
+ * @author Michael Bieri
+ * @author $LastChangedBy: mike0041@gmail.com $
+ */
+public interface BoundingBox {
+
+  public boolean interects(Ray ray);
+
+}
