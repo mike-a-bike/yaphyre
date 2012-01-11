@@ -19,7 +19,8 @@ import static yaphyre.geometry.MathUtils.calcLength;
 import static yaphyre.geometry.MathUtils.calculateLengthSquared;
 
 import java.io.Serializable;
-import java.text.MessageFormat;
+
+import com.google.common.base.Objects;
 
 
 /**
@@ -46,7 +47,7 @@ public class Point3D implements Serializable {
 
   @Override
   public String toString() {
-    return MessageFormat.format("[{0,number,0.000}, {1,number,0.000}, {2,number,0.000}]", this.x, this.y, this.z);
+    return Objects.toStringHelper(this.getClass()).add("x", x).add("y", y).add("z", z).toString();
   }
 
   public Vector3D asVector() {
@@ -91,16 +92,7 @@ public class Point3D implements Serializable {
 
   @Override
   public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    long temp;
-    temp = Double.doubleToLongBits(this.x);
-    result = prime * result + (int)(temp ^ (temp >>> 32));
-    temp = Double.doubleToLongBits(this.y);
-    result = prime * result + (int)(temp ^ (temp >>> 32));
-    temp = Double.doubleToLongBits(this.z);
-    result = prime * result + (int)(temp ^ (temp >>> 32));
-    return result;
+    return Objects.hashCode(this.getClass(), this.x, this.y, this.z);
   }
 
   @Override

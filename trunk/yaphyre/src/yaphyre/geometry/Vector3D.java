@@ -18,24 +18,22 @@ package yaphyre.geometry;
 import static java.lang.Math.abs;
 
 import java.io.Serializable;
-import java.text.MessageFormat;
 
+import com.google.common.base.Objects;
 
 /**
  * Represent an arithmetical vector within a 3 dimensional Cartesian coordinate
  * space. This class also provides the rudimentary operations for calculating
  * with vectors.
- *
+ * 
  * @version $Revision$
- *
+ * 
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
 public class Vector3D implements Serializable {
 
   private static final long serialVersionUID = 6313172979195055223L;
-
-  private static final String TO_STRING_FORMAT = "<{0,number,0.000}, {1,number,0.000}, {2,number,0.000}>";
 
   public static final Vector3D NULL = new Vector3D(0d, 0d, 0d);
 
@@ -50,7 +48,7 @@ public class Vector3D implements Serializable {
   /**
    * Creates a new instance of {@link Vector3D} so that P<sub>start</sub> + V =
    * P<sub>end</sub>
-   *
+   * 
    * @param start
    *          The start point for the calculation (P<sub>start</sub>)
    * @param end
@@ -62,7 +60,7 @@ public class Vector3D implements Serializable {
 
   /**
    * Create a new {@link Vector3D} with the given components.
-   *
+   * 
    * @param x
    *          The X axis component.
    * @param y
@@ -77,7 +75,7 @@ public class Vector3D implements Serializable {
   }
 
   public Normal3D asNormal() {
-    Vector3D unitVector = normalize();
+    Vector3D unitVector = this.normalize();
     return new Normal3D(unitVector.x, unitVector.y, unitVector.z);
   }
 
@@ -114,13 +112,13 @@ public class Vector3D implements Serializable {
   }
 
   public Vector3D normalize() throws ArithmeticException {
-    double length = length();
+    double length = this.length();
     if (length == 0d) {
       throw new ArithmeticException("Cannot create unit vector from zero length vector");
     } else if (length == 1d) {
       return this;
     }
-    return scale(1 / length);
+    return this.scale(1 / length);
   }
 
   public Vector3D scale(double s) {
@@ -150,7 +148,7 @@ public class Vector3D implements Serializable {
     if (!(o instanceof Vector3D)) {
       return false;
     }
-    Vector3D other = (Vector3D)o;
+    Vector3D other = (Vector3D) o;
     return this.equals(other, MathUtils.EPSILON);
   }
 
@@ -160,11 +158,11 @@ public class Vector3D implements Serializable {
     int result = 1;
     long temp;
     temp = Double.doubleToLongBits(this.x);
-    result = prime * result + (int)(temp ^ (temp >>> 32));
+    result = prime * result + (int) (temp ^ (temp >>> 32));
     temp = Double.doubleToLongBits(this.y);
-    result = prime * result + (int)(temp ^ (temp >>> 32));
+    result = prime * result + (int) (temp ^ (temp >>> 32));
     temp = Double.doubleToLongBits(this.z);
-    result = prime * result + (int)(temp ^ (temp >>> 32));
+    result = prime * result + (int) (temp ^ (temp >>> 32));
     return result;
   }
 
@@ -181,7 +179,7 @@ public class Vector3D implements Serializable {
 
   @Override
   public String toString() {
-    return MessageFormat.format(Vector3D.TO_STRING_FORMAT, this.x, this.y, this.z);
+    return Objects.toStringHelper(this.getClass()).add("x", this.x).add("y", this.y).add("z", this.z).toString();
   }
 
   public double getX() {

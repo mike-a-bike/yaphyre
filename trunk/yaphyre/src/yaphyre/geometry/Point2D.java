@@ -16,7 +16,8 @@
 package yaphyre.geometry;
 
 import java.io.Serializable;
-import java.text.MessageFormat;
+
+import com.google.common.base.Objects;
 
 
 /**
@@ -80,7 +81,7 @@ public class Point2D implements Serializable {
 
   @Override
   public String toString() {
-    return MessageFormat.format("<{0,number,0.000}, {1,number,0.000}>", this.u, this.v);
+    return Objects.toStringHelper(this.getClass()).add("u", u).add("v", v).toString();
   }
 
   public Point2D add(Point2D p) {
