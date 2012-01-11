@@ -154,10 +154,15 @@ public class BoundingBoxTest {
 
     BoundingBox box = new BoundingBox(new Point3D(-1, -1, -1), new Point3D(1, 1, 1));
 
-    System.out.println("box = " + box.toString());
-
     BoundingBox b1 = new BoundingBox(new Point3D(0, 0, 0), new Point3D(1, 1, 1));
     BoundingBox b2 = new BoundingBox(new Point3D(0, 0, 0), new Point3D(2, 2, 2));
+
+    System.out.println("box = " + box.toString());
+    System.out.println("b1 = " + b1.toString());
+    System.out.println("b2 = " + b2.toString());
+
+    System.out.println("box overlaps with b1: " + box.overlaps(b1));
+    System.out.println("box overlaps with b2: " + box.overlaps(b2));
 
     assertTrue(box.overlaps(b1));
     assertFalse(box.overlaps(b2));
