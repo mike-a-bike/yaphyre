@@ -18,31 +18,29 @@ package yaphyre.geometry;
 import static yaphyre.geometry.MathUtils.EPSILON;
 
 import java.io.Serializable;
-import java.text.MessageFormat;
 
+import com.google.common.base.Objects;
 
 /**
  * Simple implementation of a ray. These are used as seeing rays and shadow
  * rays.<br/>
- *
+ * 
  * It is defined by an origin ({@link Point3D}) and a direction (
  * {@link Vector3D}). A point on the ray are represented in a parametric way so
  * that:
- *
+ * 
  * <pre>
  * p(distance) = origin + distance * direction
  * </pre>
- *
+ * 
  * @version $Revision$
- *
+ * 
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
 public class Ray implements Serializable {
 
   private static final long serialVersionUID = 6349693380913182303L;
-
-  private static final String TO_STRING_FORMAT = "Ray[o:{0}, d:{1}, t:[{2}, {3}]]";
 
   private final Point3D origin;
 
@@ -65,20 +63,20 @@ public class Ray implements Serializable {
 
   @Override
   public String toString() {
-    return MessageFormat.format(TO_STRING_FORMAT, this.origin, this.direction, this.mint, this.maxt);
+    return Objects.toStringHelper(this.getClass()).add("origin", this.origin).add("direction", this.direction).toString();
   }
 
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + direction.hashCode();
-    result = prime * result + origin.hashCode();
+    result = prime * result + this.direction.hashCode();
+    result = prime * result + this.origin.hashCode();
     long temp;
-    temp = Double.doubleToLongBits(maxt);
-    result = prime * result + (int)(temp ^ (temp >>> 32));
-    temp = Double.doubleToLongBits(mint);
-    result = prime * result + (int)(temp ^ (temp >>> 32));
+    temp = Double.doubleToLongBits(this.maxt);
+    result = prime * result + (int) (temp ^ (temp >>> 32));
+    temp = Double.doubleToLongBits(this.mint);
+    result = prime * result + (int) (temp ^ (temp >>> 32));
     return result;
   }
 
@@ -93,17 +91,17 @@ public class Ray implements Serializable {
     if (!(obj instanceof Ray)) {
       return false;
     }
-    Ray other = (Ray)obj;
-    if (!direction.equals(other.direction)) {
+    Ray other = (Ray) obj;
+    if (!this.direction.equals(other.direction)) {
       return false;
     }
-    if (!origin.equals(other.origin)) {
+    if (!this.origin.equals(other.origin)) {
       return false;
     }
-    if (!MathUtils.equalsWithTolerance(maxt,other.maxt)) {
+    if (!MathUtils.equalsWithTolerance(this.maxt, other.maxt)) {
       return false;
     }
-    if (!MathUtils.equalsWithTolerance(mint, other.mint)) {
+    if (!MathUtils.equalsWithTolerance(this.mint, other.mint)) {
       return false;
     }
     return true;

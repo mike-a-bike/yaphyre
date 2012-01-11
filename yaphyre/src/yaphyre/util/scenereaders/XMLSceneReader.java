@@ -18,7 +18,6 @@ package yaphyre.util.scenereaders;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.swing.TransferHandler;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
