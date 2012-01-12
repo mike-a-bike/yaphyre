@@ -7,7 +7,7 @@ import com.google.common.base.Strings;
 
 import yaphyre.core.Film;
 import yaphyre.films.ImageFile;
-import yaphyre.films.ImageFile.FileType;
+import yaphyre.films.ImageFile.ImageFormat;
 
 public class FilmHandler extends AbstractNodeHandler<Film> {
 
@@ -22,7 +22,7 @@ public class FilmHandler extends AbstractNodeHandler<Film> {
       if (Strings.isNullOrEmpty(fileType)) {
         result = new ImageFile(xRes, yRes);
       } else {
-        result = new ImageFile(xRes, yRes, Enum.valueOf(FileType.class, fileType.trim()));
+        result = new ImageFile(xRes, yRes, Enum.valueOf(ImageFormat.class, fileType.trim()));
       }
     }
     return result;

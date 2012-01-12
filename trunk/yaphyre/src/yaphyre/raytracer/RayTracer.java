@@ -40,7 +40,7 @@ import yaphyre.core.RenderWindow;
 import yaphyre.core.Sampler;
 import yaphyre.core.Shape;
 import yaphyre.films.ImageFile;
-import yaphyre.films.ImageFile.FileType;
+import yaphyre.films.ImageFile.ImageFormat;
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
@@ -152,7 +152,7 @@ public class RayTracer {
    */
   public BufferedImage render(int imageWidth, int imageHeight, double frameWidth, double frameHeight, Point3D cameraPosition, Vector3D cameraDirection) {
 
-    ImageFile imageFile = new ImageFile(imageWidth, imageHeight, FileType.PNG);
+    ImageFile imageFile = new ImageFile(imageWidth, imageHeight, ImageFormat.PNG);
     BaseCameraSettings<ImageFile> baseSettings = BaseCameraSettings.create(cameraPosition, cameraPosition.add(cameraDirection), imageFile);
     PerspectiveCameraSettings perspSetings = PerspectiveCameraSettings.create(((double) imageWidth) / ((double) imageHeight), 25d);
     yaphyre.core.Camera<ImageFile> camera = new PerspectiveCamera<ImageFile>(baseSettings, perspSetings);

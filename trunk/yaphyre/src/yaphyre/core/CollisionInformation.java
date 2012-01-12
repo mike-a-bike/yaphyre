@@ -17,6 +17,8 @@ package yaphyre.core;
 
 import java.io.Serializable;
 
+import com.google.common.base.Objects;
+
 import yaphyre.geometry.Point3D;
 
 /**
@@ -52,6 +54,11 @@ public class CollisionInformation implements Serializable {
     this.collisionShape = collisionShape;
     this.collisionDistance = collisionDistance;
     this.collisionPoint = collisionPoint;
+  }
+
+  @Override
+  public String toString() {
+    return Objects.toStringHelper(this.getClass()).add("shape", collisionShape).add("distance", collisionDistance).add("point", collisionPoint).toString();
   }
 
   public Shape getCollisionShape() {
