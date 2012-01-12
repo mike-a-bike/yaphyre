@@ -22,5 +22,10 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/yaphyre/lib.src/guava-11.0-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/joox-0.9.3.jar" sourcepath="lib.src/joox-0.9.3-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/yaphyre/lib.src/joox-0.9.3-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
