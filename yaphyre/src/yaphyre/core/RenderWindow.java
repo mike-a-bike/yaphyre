@@ -15,7 +15,7 @@
  */
 package yaphyre.core;
 
-import java.text.MessageFormat;
+import com.google.common.base.Objects;
 
 /**
  * A simple abstraction holding four coordinates which describe a window on the
@@ -37,7 +37,11 @@ public class RenderWindow {
 
   @Override
   public String toString() {
-    return MessageFormat.format("RenderWindow [<{0}, {1}> - <{2}, {3}>]", this.xMin, this.yMin, this.xMax, this.yMax);
+    return Objects.toStringHelper(getClass())
+        .add("xMin", xMin)
+        .add("yMin", yMin)
+        .add("xMax", xMax)
+        .add("yMax", yMax).toString();
   }
 
   public int getXMin() {
