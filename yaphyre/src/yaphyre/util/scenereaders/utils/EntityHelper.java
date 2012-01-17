@@ -4,6 +4,6 @@ import org.joox.Match;
 
 public interface EntityHelper<T> {
 
-  public T decodeEnity(Match entityMatch);
+  public T decodeEntity(Match entityMatch);
 
 }

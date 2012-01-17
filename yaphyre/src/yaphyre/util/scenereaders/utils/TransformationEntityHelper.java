@@ -17,8 +17,10 @@ class TransformationEntityHelper implements EntityHelper<Transformation> {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(TransformationEntityHelper.class);
 
+  public static final TransformationEntityHelper INSTANCE = new TransformationEntityHelper();
+
   @Override
-  public Transformation decodeEnity(Match entityMatch) {
+  public Transformation decodeEntity(Match entityMatch) {
     Deque<Transformation> transformationStack = Lists.newLinkedList();
     for (Match transformationMatch : entityMatch.children().each()) {
       transformationStack.push(decodeSingleTransformation(transformationMatch));
@@ -83,18 +85,18 @@ class TransformationEntityHelper implements EntityHelper<Transformation> {
   }
 
   private Transformation decodeRotationAxis(Match rotationMatch) {
-    Vector3D axis = Vector3DEntityHelper.INSTANCE.decodeEnity(rotationMatch.child("axis"));
+    Vector3D axis = Vector3DEntityHelper.INSTANCE.decodeEntity(rotationMatch.child("axis"));
     double angle = rotationMatch.attr("angle", Double.class);
     return Transformation.rotate(angle, axis);
   }
 
   private Transformation decodeLookAt(Match transformationMatch) {
-    Point3D eye = Point3DEntityHelper.INSTANCE.decodeEnity(transformationMatch.child("eye"));
-    Point3D lookAt = Point3DEntityHelper.INSTANCE.decodeEnity(transformationMatch.child("lookAt"));
+    Point3D eye = Point3DEntityHelper.INSTANCE.decodeEntity(transformationMatch.child("eye"));
+    Point3D lookAt = Point3DEntityHelper.INSTANCE.decodeEntity(transformationMatch.child("lookAt"));
     Match upMatch = transformationMatch.child("up");
     Vector3D up = Vector3D.Y;
     if (!upMatch.isEmpty()) {
-      up = Vector3DEntityHelper.INSTANCE.decodeEnity(upMatch);
+      up = Vector3DEntityHelper.INSTANCE.decodeEntity(upMatch);
     }
     return Transformation.lookAt(eye, lookAt, up);
   }

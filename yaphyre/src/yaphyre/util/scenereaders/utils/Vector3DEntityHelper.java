@@ -9,7 +9,7 @@ class Vector3DEntityHelper implements EntityHelper<Vector3D> {
   public static final EntityHelper<Vector3D> INSTANCE = new Vector3DEntityHelper();
 
   @Override
-  public Vector3D decodeEnity(Match entityMatch) {
+  public Vector3D decodeEntity(Match entityMatch) {
     double x = entityMatch.attr("x", Double.class);
     double y = entityMatch.attr("y", Double.class);
     double z = entityMatch.attr("z", Double.class);
