@@ -1,27 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <scene>
 
 	<!-- Perspective Camera -->
 	<camera id="camera" type="perspective">
 
-		<!-- Generic camera properties -->
-		<!-- located at 0, 25, -100, looking at 0, 1, 0 -->
-		<location x="0" y="25" z="-100" />
-		<look-at x="0" y="1" z="0" />
-		<up x="0" y="1" z="0" />
+    <!-- located at 0, 25, -100, looking at 0, 1, 0, up is along the Y axis -->
+    <transform>
+      <lookAt>
+        <eye x="0" y="25" z="-100" />
+        <look-at x="0" y="1" z="0" />
+        <up x="0" y="1" z="0" />
+      </lookAt>
+    </transform>
 
 		<!-- Type specific settings -->
 		<!-- Aspect ratio: 4/3 (1280/960) -> Square Pixels, Lens: 50mm (fov 40),
 			Depth of field: 50 units -->
-		<cameraproperty name="aspect-ratio" value="1.333333" />
-		<cameraproperty name="fov" value="40" />
-		<cameraproperty name="dof" value="50" />
+		<property name="aspect-ratio" value="1.333333" />
+		<property name="fov" value="40" />
+		<property name="dof" value="50" />
 
 		<!-- Film (ImageFile) -->
 		<film type="imageFile">
-			<filmproperty name="xRes" value="1280" />
-			<filmproperty name="yRes" value="960" />
-			<filmproperty name="fileType" value="png" />
-			<filmproperty name="gamma" value="2.4" />
+			<property name="xRes" value="1280" />
+			<property name="yRes" value="960" />
+			<property name="fileType" value="png" />
+			<property name="gamma" value="2.4" />
 		</film>
 
 	</camera>
@@ -38,10 +43,11 @@
 	<!-- Point light position: 0, 0, 0 translate to: -2, 5, -2 -->
 	<light id="light" type="point">
 		<color r="1" g="1" b="1" />
-		<intensity value="10" />
+		<energy value="10" />
 		<falloff value="quadric" />
 		<transform>
 			<translate dx="-2" dy="5" dz="-2" />
+			<scale sx="1" sy="1" sz="0.5" />
 		</transform>
 	</light>
 

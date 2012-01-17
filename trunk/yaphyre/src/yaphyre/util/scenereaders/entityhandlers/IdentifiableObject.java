@@ -13,31 +13,37 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package yaphyre.core;
-
-import yaphyre.raytracer.Scene;
+package yaphyre.util.scenereaders.entityhandlers;
 
 /**
- * Common interface for all scene readers. It does not matter where the
- * implementing reader gets its data from. The type of the datasource is defined
- * by a generic.
+ * Simple wrapper class holding an instance with its associated id. The id may
+ * be null.
  *
  * @version $Revision: 37 $
  *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
+ *
+ * @param <T>
+ *          The type of the object held by a concrete instance.
  */
-public interface SceneReaders<T> {
+public class IdentifiableObject<T> {
 
-  /**
-   * Read a {@link Scene} from the given source.
-   *
-   * @param source
-   *          The source to read the data from.
-   *
-   * @return A new instance of {@link Scene} containing the data from the
-   *         source.
-   */
-  public Scene readScene(T source);
+  private final T object;
+
+  private final String id;
+
+  public IdentifiableObject(String id, T object) {
+    this.object = object;
+    this.id = id;
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public T getObject() {
+    return object;
+  }
 
 }

@@ -2,6 +2,8 @@ package yaphyre.lights;
 
 import java.io.Serializable;
 
+import yaphyre.geometry.MathUtils;
+
 /**
  * Representation and implementation of different falloff algorithms. With the
  * exception of {@link Falloff#None}, the result becomes smaller the bigger the
@@ -27,7 +29,7 @@ public enum Falloff implements Serializable {
   Linear {
     @Override
     public double getIntensity(double intensity, double distance) {
-      if (distance == 0d) {
+      if (distance <= MathUtils.EPSILON) {
         return intensity;
       }
       return intensity / distance;
@@ -36,7 +38,7 @@ public enum Falloff implements Serializable {
   Quadric {
     @Override
     public double getIntensity(double intensity, double distance) {
-      if (distance == 0d) {
+      if (distance <= MathUtils.EPSILON) {
         return intensity;
       }
       return intensity / (distance * distance);
@@ -45,7 +47,7 @@ public enum Falloff implements Serializable {
   Cubic {
     @Override
     public double getIntensity(double intensity, double distance) {
-      if (distance == 0d) {
+      if (distance <= MathUtils.EPSILON) {
         return intensity;
       }
       return intensity / (distance * distance * distance);
