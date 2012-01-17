@@ -26,11 +26,9 @@ public class PointlightEntityHandler extends EntityHandler<IdentifiableObject<Li
     String id = entityMatch.id();
     Color lightColor = HelperFactory.getColorHelper().decodeEntity(entityMatch.child("color"));
     Point3D position = Point3D.ORIGIN;
-    Transformation transformation = null;
-    Match transformMatch = entityMatch.child("transform");
-    if (!transformMatch.isEmpty()) {
-      transformation = HelperFactory.getTransformationHelper().decodeEntity(transformMatch);
-    }
+    Transformation transformation = super.decodeTransform(entityMatch);
+
+    transformation.getClass();
 
     return new IdentifiableObject<Lightsource>(id, new Pointlight(position, lightColor, 0, Falloff.Quadric));
   }

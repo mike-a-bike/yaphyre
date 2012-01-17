@@ -19,6 +19,9 @@ import java.util.List;
 
 import org.joox.Match;
 
+import yaphyre.geometry.Transformation;
+import yaphyre.util.scenereaders.utils.HelperFactory;
+
 /**
  * Abstract super class for all EnityHandler implementations. Each
  * implementation handles one or more entities. Each {@link EntityHandler}
@@ -40,5 +43,24 @@ public abstract class EntityHandler<T extends IdentifiableObject<?>> {
   public abstract String getXPath();
 
   public abstract List<String> getValidParents();
+
+  /**
+   * Decodes a transformation from the given {@link Match}. Each element
+   * containing a transformation uses the tag <i>transform</i> to mark it.
+   *
+   * @param entityMatch
+   *          The {@link Match} representing the surrounding entity.
+   *
+   * @return A {@link Transformation} instance if the entity contains a
+   *         transformation, <code>null</code> otherwise.
+   */
+  protected Transformation decodeTransform(Match entityMatch) {
+    Transformation transformation = null;
+    Match transformMatch = entityMatch.child("transform");
+    if (!transformMatch.isEmpty()) {
+      transformation = HelperFactory.getTransformationHelper().decodeEntity(transformMatch);
+    }
+    return transformation;
+  }
 
 }
