@@ -13,31 +13,32 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package yaphyre.core;
+package yaphyre.util.scenereaders.entityhandlers;
 
-import yaphyre.raytracer.Scene;
+import java.util.List;
+
+import org.joox.Match;
 
 /**
- * Common interface for all scene readers. It does not matter where the
- * implementing reader gets its data from. The type of the datasource is defined
- * by a generic.
+ * Abstract super class for all EnityHandler implementations. Each
+ * implementation handles one or more entities. Each {@link EntityHandler}
+ * supply an XPath expression which is used to select the corresponding
+ * instances from the whole document.
  *
  * @version $Revision: 37 $
  *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
+ *
+ * @param <T>
+ *          The concrete type created by the implementing handler.
  */
-public interface SceneReaders<T> {
+public abstract class EntityHandler<T extends IdentifiableObject<?>> {
 
-  /**
-   * Read a {@link Scene} from the given source.
-   *
-   * @param source
-   *          The source to read the data from.
-   *
-   * @return A new instance of {@link Scene} containing the data from the
-   *         source.
-   */
-  public Scene readScene(T source);
+  public abstract T decodeEnity(Match entityMatch);
+
+  public abstract String getXPath();
+
+  public abstract List<String> getValidParents();
 
 }

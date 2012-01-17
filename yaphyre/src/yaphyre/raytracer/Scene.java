@@ -1,16 +1,18 @@
 package yaphyre.raytracer;
 
 import java.io.Serializable;
-import java.text.MessageFormat;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
+import yaphyre.core.Camera;
 import yaphyre.core.CollisionInformation;
+import yaphyre.core.Film;
 import yaphyre.core.Lightsource;
-import yaphyre.core.Shader;
 import yaphyre.core.Shape;
 import yaphyre.geometry.Ray;
+
+import com.google.common.base.Objects;
+import com.google.common.collect.Lists;
 
 public class Scene implements Serializable {
 
@@ -20,12 +22,20 @@ public class Scene implements Serializable {
 
   private final List<Lightsource> lightsources;
 
-  private final List<Shader> shaders;
+  private final List<Camera<? extends Film>> cameras;
 
   public Scene() {
-    this.shapes = new LinkedList<Shape>();
-    this.lightsources = new LinkedList<Lightsource>();
-    this.shaders = new LinkedList<Shader>();
+    this.shapes = Lists.newArrayList();
+    this.lightsources = Lists.newArrayList();
+    this.cameras = Lists.newArrayList();
+  }
+
+  public void addCamera(Camera<? extends Film> camera) {
+    this.cameras.add(camera);
+  }
+
+  public List<Camera<? extends Film>> getCameras() {
+    return Collections.unmodifiableList(this.cameras);
   }
 
   public void addShape(Shape shape) {
@@ -40,21 +50,13 @@ public class Scene implements Serializable {
     this.lightsources.add(lightsource);
   }
 
-  public List<Shader> getShaders() {
-    return Collections.unmodifiableList(this.shaders);
-  }
-
-  public void addShader(Shader shader) {
-    this.shaders.add(shader);
-  }
-
   public List<Lightsource> getLightsources() {
     return Collections.unmodifiableList(this.lightsources);
   }
 
   @Override
   public String toString() {
-    return MessageFormat.format("Scene[shapes:{0,number},lights:{1,number},shaders:{2,number}]", this.shapes.size(), this.lightsources.size(), this.shaders.size());
+    return Objects.toStringHelper(this.getClass()).add("cameras", this.cameras.size()).add("shapes", this.shapes.size()).add("lightsources", this.lightsources.size()).toString();
   }
 
   public CollisionInformation getCollidingShape(Ray ray, double maxDistance, boolean onlyShadowShapes) {
