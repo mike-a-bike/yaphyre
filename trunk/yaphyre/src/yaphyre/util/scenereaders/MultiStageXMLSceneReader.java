@@ -113,7 +113,7 @@ public class MultiStageXMLSceneReader implements SceneReaders<InputStream> {
     for(EntityHandler<IdentifiableObject<Lightsource>> lightHandler : LIGHT_HANDLERS) {
       Match lights = document.xpath(lightHandler.getXPath());
       for(Match light : lights.each()) {
-        scene.addLightsource(lightHandler.decodeEnity(light).getObject());
+        scene.addLightsource(lightHandler.decodeEntity(light).getObject());
       }
     }
   }

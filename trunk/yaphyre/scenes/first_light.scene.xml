@@ -47,7 +47,6 @@
 		<falloff value="quadric" />
 		<transform>
 			<translate dx="-2" dy="5" dz="-2" />
-			<scale sx="1" sy="1" sz="0.5" />
 		</transform>
 	</light>
 

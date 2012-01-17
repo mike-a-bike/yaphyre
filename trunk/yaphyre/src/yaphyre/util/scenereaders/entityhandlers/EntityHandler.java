@@ -35,7 +35,7 @@ import org.joox.Match;
  */
 public abstract class EntityHandler<T extends IdentifiableObject<?>> {
 
-  public abstract T decodeEnity(Match entityMatch);
+  public abstract T decodeEntity(Match entityMatch);
 
   public abstract String getXPath();
 
