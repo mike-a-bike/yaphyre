@@ -15,6 +15,8 @@
  */
 package yaphyre.util.scenereaders.entityhandlers;
 
+import com.google.common.base.Objects;
+
 /**
  * Simple wrapper class holding an instance with its associated id. The id may
  * be null.
@@ -36,6 +38,11 @@ public class IdentifiableObject<T> {
   public IdentifiableObject(String id, T object) {
     this.object = object;
     this.id = id;
+  }
+
+  @Override
+  public String toString() {
+    return Objects.toStringHelper(IdentifiableObject.class).add("id", id).add("object", object).toString();
   }
 
   public String getId() {

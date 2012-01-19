@@ -15,43 +15,62 @@
  */
 package yaphyre.lights;
 
-import java.text.MessageFormat;
-
-import yaphyre.core.CollisionInformation;
+import yaphyre.core.LightSample;
+import yaphyre.core.Lightsource;
+import yaphyre.core.VisibilityTester;
 import yaphyre.geometry.Point3D;
-import yaphyre.raytracer.Scene;
+import yaphyre.geometry.Transformation;
+import yaphyre.geometry.Vector3D;
 import yaphyre.util.Color;
 
-public class Pointlight extends AbstractLightsource {
+/**
+ * A simple point light. The characteristics of this {@link Lightsource} is,
+ * that is has no physical size and radiates uniformly in all directions. Since
+ * it is infinitesimally small, it is a so called delta light source, which
+ * means, that the energy distribution is a delta function. It cannot be sampled
+ * by using a purely random approach, since it cannot be hit by any ray.
+ *
+ * @version $Revision$
+ *
+ * @author Michael Bieri
+ * @author $LastChangedBy$
+ *
+ */
+public class Pointlight extends Lightsource {
 
   private static final long serialVersionUID = -1976888619913693137L;
 
-  private final static String TO_STRING_FORMAT = "Pointlight[{0}, {1}, {2}, {3}]";
+  /**
+   * The position of the point light. This is pre-calculated for convenience
+   * reasons.
+   */
+  private final Point3D position;
 
-  private final double intensity;
-
-  public Pointlight(Point3D position, Color color, double intensity, Falloff falloff) {
-    super(position, color, falloff);
-    this.intensity = intensity;
+  public Pointlight(Transformation l2w, Color color, double intensity) {
+    super(l2w, color, intensity, 1);
+    position = super.getLight2World().transform(Point3D.ORIGIN);
   }
 
   @Override
-  public String toString() {
-    return MessageFormat.format(TO_STRING_FORMAT, getPosition(), super.getColor(), this.intensity, getFalloff());
+  public LightSample sample(Point3D point) {
+    double distanceSquared = point.sub(this.position).lengthSquared();
+    Color energy = this.getColor().multiply(this.getIntensity() / distanceSquared);
+    Vector3D wi = this.position.sub(point).normalize();
+    VisibilityTester visibilityTester = new VisibilityTester(point, this.position);
+    return new LightSample(energy, wi, visibilityTester);
+  }
+
+  /**
+   * The pointlight emits the same amount of energy in all directions. So the
+   * total energy is integrated over a spheres surface.
+   */
+  @Override
+  public Color getTotalEnergy() {
+    return super.getColor().multiply(super.getIntensity() * 4d * Math.PI);
   }
 
   @Override
-  public double getIntensity(Point3D point, Scene scene) {
-    double intensity = 0d;
-    CollisionInformation shadowCollision = calculateVisibility(getPosition(), point, scene);
-    if (shadowCollision == null) {
-      intensity = getFalloff().getIntensity(this.intensity, getPosition().sub(point).length());
-    }
-    return intensity;
-  }
-
-  @Override
-  public boolean isPointLightSource() {
+  public boolean isDeltaLight() {
     return true;
   }
 }

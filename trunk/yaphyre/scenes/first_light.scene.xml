@@ -43,8 +43,7 @@
 	<!-- Point light position: 0, 0, 0 translate to: -2, 5, -2 -->
 	<light id="light" type="point">
 		<color r="1" g="1" b="1" />
-		<energy value="10" />
-		<falloff value="quadric" />
+		<intensity value="10" />
 		<transform>
 			<translate dx="-2" dy="5" dz="-2" />
 		</transform>
