@@ -24,17 +24,17 @@ import com.google.common.base.Objects;
 /**
  * Simple implementation of a ray. These are used as seeing rays and shadow
  * rays.<br/>
- * 
+ *
  * It is defined by an origin ({@link Point3D}) and a direction (
  * {@link Vector3D}). A point on the ray are represented in a parametric way so
  * that:
- * 
+ *
  * <pre>
  * p(distance) = origin + distance * direction
  * </pre>
- * 
+ *
  * @version $Revision$
- * 
+ *
  * @author Michael Bieri
  * @author $LastChangedBy$
  */

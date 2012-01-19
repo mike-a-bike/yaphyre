@@ -18,8 +18,10 @@ package yaphyre.core;
 import java.io.Serializable;
 
 import yaphyre.geometry.Point3D;
-import yaphyre.raytracer.Scene;
+import yaphyre.geometry.Transformation;
 import yaphyre.util.Color;
+
+import com.google.common.base.Objects;
 
 /**
  * Common interface for all light sources in the rendering system.
@@ -29,14 +31,75 @@ import yaphyre.util.Color;
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
-public interface Lightsource extends Serializable {
+public abstract class Lightsource implements Serializable {
 
-  Point3D getPosition();
+  private static final long serialVersionUID = -6028978583820615734L;
 
-  public double getIntensity(Point3D point, Scene scene);
+  private final Transformation l2w, w2l;
 
-  public Color getColor();
+  private final double intensity;
 
-  public boolean isPointLightSource();
+  private final Color color;
+
+  private final int numberOfSamples;
+
+  public Lightsource(Transformation l2w, Color color, double intensity, int numberOfSamples) {
+    this.l2w = l2w;
+    this.w2l = l2w.inverse();
+    this.color = color;
+    this.intensity = intensity;
+    this.numberOfSamples = numberOfSamples;
+  }
+
+  @Override
+  public String toString() {
+    return Objects.toStringHelper(this.getClass()).add("intensity", color.multiply(intensity)).add("l2w", l2w).add("samples", numberOfSamples).add("delta light", isDeltaLight()).toString();
+  }
+
+  /**
+   * Samples the light properties for the given {@link Point3D}. The resulting
+   * {@link LightSample} contains the information about the incident light ray
+   * direction, the intensity of the light and the yet to solve visibility of
+   * the lightsource from the given points view.
+   *
+   * @param point
+   *          The {@link Point3D} to sample the light from.
+   *
+   * @return A {@link LightSample} instance containing all the necessary
+   *         information about this light seen from the given point.
+   */
+  public abstract LightSample sample(Point3D point);
+
+  /**
+   * Gets the total emitted light energy.
+   *
+   * @return A {@link Color} instance scaled to the extent of the lights
+   *         intensity.
+   */
+  public abstract Color getTotalEnergy();
+
+  protected Transformation getLight2World() {
+    return this.l2w;
+  }
+
+  protected Transformation getWorld2Light() {
+    return this.w2l;
+  }
+
+  protected double getIntensity() {
+    return this.intensity;
+  }
+
+  public Color getColor() {
+    return this.color;
+  }
+
+  public boolean isDeltaLight() {
+    return false;
+  }
+
+  public int getNumberOfSamples() {
+    return this.numberOfSamples;
+  }
 
 }

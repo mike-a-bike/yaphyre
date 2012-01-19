@@ -150,11 +150,12 @@ public class YaPhyRe {
     } else if (sceneName.equals("dof")) {
       scene = SceneReader.createDOFScene();
     } else if (sceneName.equals("area")) {
-      scene = SceneReader.createAreaLightScene();
+      LOGGER.warn("This scene cannot be created any more.");
+      scene = SceneReader.createFirstLight();
     }
     else {
-      LOGGER.warn("Scene not found! Using fallback scene (simple)");
-      scene = SceneReader.createSimpleScene();
+      LOGGER.warn("Scene not found! Using fallback scene (first)");
+      scene = SceneReader.createFirstLight();
     }
     return scene;
   }

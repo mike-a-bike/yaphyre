@@ -35,10 +35,12 @@ import yaphyre.cameras.PerspectiveCamera.PerspectiveCameraSettings;
 import yaphyre.core.CameraSample;
 import yaphyre.core.CollisionInformation;
 import yaphyre.core.Film;
+import yaphyre.core.LightSample;
 import yaphyre.core.Lightsource;
 import yaphyre.core.RenderWindow;
 import yaphyre.core.Sampler;
 import yaphyre.core.Shape;
+import yaphyre.core.VisibilityTester;
 import yaphyre.films.ImageFile;
 import yaphyre.films.ImageFile.ImageFormat;
 import yaphyre.geometry.Normal3D;
@@ -356,16 +358,14 @@ public class RayTracer {
     Color lightColor = Color.BLACK;
     for (Lightsource lightsource : this.scene.getLightsources()) {
 
-      Vector3D lightVectorDirection = new Vector3D(shapeCollisionInfo.getCollisionPoint(), lightsource.getPosition()).normalize();
+      Point3D collisionPoint = shapeCollisionInfo.getCollisionPoint();
+      LightSample sample = lightsource.sample(collisionPoint);
 
-      double lightIntensity = lightsource.getIntensity(shapeCollisionInfo.getCollisionPoint(), this.scene);
-
-      if (lightIntensity > 0d) {
+      if (sample.getVisibilityTester().isUnobstructed(this.scene)) {
         Normal3D shapeNormal = shapeCollisionInfo.getCollisionShape().getNormal(shapeCollisionInfo.getCollisionPoint());
         double diffuse = shapeCollisionInfo.getCollisionShape().getShader().getMaterial(uvCoordinates).getDiffuse();
-        diffuse *= Math.abs(lightVectorDirection.dot(shapeNormal));
-        diffuse *= lightIntensity;
-        lightColor = lightColor.add(objectColor.multiply(lightsource.getColor()).multiply(diffuse));
+        diffuse *= Math.abs(sample.getIncidentDirection().dot(shapeNormal));
+        lightColor = lightColor.add(objectColor.multiply(sample.getEnergy()).multiply(diffuse));
       }
 
     }
