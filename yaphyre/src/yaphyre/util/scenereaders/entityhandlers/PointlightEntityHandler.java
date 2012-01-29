@@ -15,16 +15,18 @@
  */
 package yaphyre.util.scenereaders.entityhandlers;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.Map;
 
 import org.joox.Match;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import yaphyre.core.Lightsource;
+import yaphyre.core.Shader;
+import yaphyre.core.Shape;
 import yaphyre.geometry.Transformation;
 import yaphyre.lights.Pointlight;
+import yaphyre.shaders.Material;
 import yaphyre.util.Color;
 import yaphyre.util.scenereaders.utils.HelperFactory;
 
@@ -32,19 +34,19 @@ import com.google.common.base.Preconditions;
 
 /**
  * This handler reads a point light source from the given match.
- *
+ * 
  * @version $Revision: 37 $
- *
+ * 
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
- *
+ * 
  */
 public class PointlightEntityHandler extends EntityHandler<IdentifiableObject<Lightsource>> {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(PointlightEntityHandler.class);
 
   @Override
-  public IdentifiableObject<Lightsource> decodeEntity(Match entityMatch) {
+  public IdentifiableObject<Lightsource> decodeEntity(Match entityMatch, Map<String, IdentifiableObject<Material>> knownMaterials, Map<String, IdentifiableObject<Shader>> knownShaders, Map<String, IdentifiableObject<Shape>> knownShapes) {
 
     LOGGER.trace("enter decodeEntity: {}", entityMatch);
 
@@ -53,7 +55,7 @@ public class PointlightEntityHandler extends EntityHandler<IdentifiableObject<Li
 
     String id = entityMatch.id();
     Color lightColor = HelperFactory.getColorHelper().decodeEntity(entityMatch.child("color"));
-    double intensity = entityMatch.child("intensity").attr("value", Double.class);
+    double intensity = super.readNumericAttribute(entityMatch.child("intensity"), "value", 0d, Double.class);
     Transformation transformation = super.decodeTransform(entityMatch);
 
     transformation.getClass();
@@ -68,11 +70,6 @@ public class PointlightEntityHandler extends EntityHandler<IdentifiableObject<Li
   @Override
   public String getXPath() {
     return "//light[@type = \"point\"]";
-  }
-
-  @Override
-  public List<String> getValidParents() {
-    return Collections.emptyList();
   }
 
 }

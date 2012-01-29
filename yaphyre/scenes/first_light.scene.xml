@@ -5,17 +5,17 @@
 	<!-- Perspective Camera -->
 	<camera id="camera" type="perspective">
 
-    <!-- located at 0, 25, -100, looking at 0, 1, 0, up is along the Y axis -->
-    <transform>
-      <lookAt>
-        <eye x="0" y="25" z="-100" />
-        <look-at x="0" y="1" z="0" />
-        <up x="0" y="1" z="0" />
-      </lookAt>
-    </transform>
+		<!-- located at 0, 25, -100, looking at 0, 1, 0, up is along the Y axis -->
+		<transform>
+			<lookAt>
+				<eye x="0" y="25" z="-100" />
+				<look-at x="0" y="1" z="0" />
+				<up x="0" y="1" z="0" />
+			</lookAt>
+		</transform>
 
 		<!-- Type specific settings -->
-		<!-- Aspect ratio: 4/3 (1280/960) -> Square Pixels, Lens: 50mm (fov 40),
+		<!-- Aspect ratio: 4/3 (1280/960) -> Square Pixels, Lens: 50mm (fov 40), 
 			Depth of field: 50 units -->
 		<property name="aspect-ratio" value="1.333333" />
 		<property name="fov" value="40" />

@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static yaphyre.geometry.MathUtils.equalsWithTolerance;
 
 import java.io.Serializable;
-import java.text.MessageFormat;
 import java.util.Arrays;
 
 import org.apache.commons.math.linear.InvalidMatrixException;
@@ -30,9 +29,9 @@ import org.apache.commons.math.linear.RealMatrix;
 
 /**
  * Rudimentary implementation of some essential matrix operations.
- *
+ * 
  * @version $Revision$
- *
+ * 
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
@@ -43,10 +42,6 @@ public class Matrix implements Serializable {
   private static final int DIMENSION = 4;
 
   public static final Matrix IDENTITY = new Matrix(MatrixUtils.createRealIdentityMatrix(DIMENSION).getData());
-
-  private static final String TO_STRING_ROW = "[{0,number,0.###}, {1,number,0.###}, {2,number,0.###}, {3,number,0.###}]";
-
-  private static final String TO_STRING = "[{0}, {1}, {2}, {3}]";
 
   private double determinant = Double.NaN;
 
@@ -80,11 +75,7 @@ public class Matrix implements Serializable {
 
   @Override
   public String toString() {
-    Object[] rows = new String[4];
-    for (int row = 0; row < DIMENSION; row++) {
-      rows[row] = MessageFormat.format(TO_STRING_ROW, this.m[row][0], this.m[row][1], this.m[row][2], this.m[row][3]);
-    }
-    return MessageFormat.format(TO_STRING, rows);
+    return Arrays.deepToString(this.m);
   }
 
   @Override
@@ -103,10 +94,10 @@ public class Matrix implements Serializable {
     if (obj == null) {
       return false;
     }
-    if (getClass() != obj.getClass()) {
+    if (this.getClass() != obj.getClass()) {
       return false;
     }
-    Matrix other = (Matrix)obj;
+    Matrix other = (Matrix) obj;
     if (this.m.length != other.m.length) {
       return false;
     }
@@ -130,8 +121,8 @@ public class Matrix implements Serializable {
 
   public Matrix add(Matrix other) {
     Matrix result = new Matrix();
-    for(int row = 0; row < DIMENSION; row++) {
-      for(int col = 0; col < DIMENSION; col++) {
+    for (int row = 0; row < DIMENSION; row++) {
+      for (int col = 0; col < DIMENSION; col++) {
         result.m[row][col] = this.m[row][col] + other.m[row][col];
       }
     }
@@ -140,8 +131,8 @@ public class Matrix implements Serializable {
 
   public Matrix mul(double s) {
     Matrix result = new Matrix();
-    for(int row = 0; row < DIMENSION; row++) {
-      for(int col = 0; col < DIMENSION; col++) {
+    for (int row = 0; row < DIMENSION; row++) {
+      for (int col = 0; col < DIMENSION; col++) {
         result.m[row][col] = this.m[row][col] * s;
       }
     }
@@ -155,8 +146,8 @@ public class Matrix implements Serializable {
 
     Matrix result = new Matrix();
 
-    for(int i = 0; i < DIMENSION; i++) {
-      for(int j = 0; j < DIMENSION; j++) {
+    for (int i = 0; i < DIMENSION; i++) {
+      for (int j = 0; j < DIMENSION; j++) {
         result.m[i][j] = this.m[i][0] * M.m[0][j] + this.m[i][1] * M.m[1][j] + this.m[i][2] * M.m[2][j] + this.m[i][3] * M.m[3][j];
       }
     }
@@ -178,8 +169,8 @@ public class Matrix implements Serializable {
   public Matrix transpose() {
     if (this.transposed == null) {
       this.transposed = new Matrix();
-      for(int row = 0; row < DIMENSION; row++) {
-        for(int col = 0; col < DIMENSION; col++) {
+      for (int row = 0; row < DIMENSION; row++) {
+        for (int col = 0; col < DIMENSION; col++) {
           this.transposed.m[row][col] = this.m[col][row];
         }
       }
@@ -189,21 +180,21 @@ public class Matrix implements Serializable {
 
   public double getDeterminat() {
     if (this.inverse == null && this.invertible) {
-      calculateInternals();
+      this.calculateInternals();
     }
     return this.determinant;
   }
 
   public Matrix inverse() {
     if (this.inverse == null && this.invertible) {
-      calculateInternals();
+      this.calculateInternals();
     }
     return this.inverse;
   }
 
   public boolean isInvertible() {
     if (this.inverse == null && this.invertible) {
-      calculateInternals();
+      this.calculateInternals();
     }
     return this.invertible;
   }
