@@ -32,14 +32,14 @@ public class SphereEntityHandler extends EntityHandler<IdentifiableObject<Shape>
 
     IdentifiableObject<Shape> result = new IdentifiableObject<Shape>(id, sphere);
 
-    LOGGER.trace("exiting decodeEntity: {}", result);
+    LOGGER.trace("exit decodeEntity: {}", result);
 
     return result;
   }
 
   @Override
   public String getXPath() {
-    return "//sphere";
+    return "/scene/sphere";
   }
 
 }
