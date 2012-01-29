@@ -35,6 +35,7 @@ import yaphyre.util.scenereaders.entityhandlers.EntityHandler;
 import yaphyre.util.scenereaders.entityhandlers.IdentifiableObject;
 import yaphyre.util.scenereaders.entityhandlers.MaterialEntityHandler;
 import yaphyre.util.scenereaders.entityhandlers.PointlightEntityHandler;
+import yaphyre.util.scenereaders.entityhandlers.SimpleShaderEnityHandler;
 import yaphyre.util.scenereaders.entityhandlers.SphereEntityHandler;
 
 import com.google.common.base.Preconditions;
@@ -79,6 +80,7 @@ public class MultiStageXMLSceneReader implements SceneReaders<InputStream> {
 
   private static List<EntityHandler<IdentifiableObject<Shader>>> initShaderHandlers() {
     List<EntityHandler<IdentifiableObject<Shader>>> result = Lists.newArrayList();
+    result.add(new SimpleShaderEnityHandler());
     return result;
   }
 
@@ -168,8 +170,13 @@ public class MultiStageXMLSceneReader implements SceneReaders<InputStream> {
   }
 
   private void handleStageShader(Scene scene, Match document) {
-    // TODO Auto-generated method stub
-
+    for (EntityHandler<IdentifiableObject<Shader>> shaderHandler : SHADER_HANDLERS) {
+      Match shaders = document.xpath(shaderHandler.getXPath());
+      for (Match shader : shaders.each()) {
+        IdentifiableObject<Shader> decodedShader = shaderHandler.decodeEntity(shader, this.knownMaterials, this.knownShaders, this.knownShapes);
+        this.knownShaders.put(decodedShader.getId(), decodedShader);
+      }
+    }
   }
 
   private void handleStagePrimitive(Scene scene, Match document) {

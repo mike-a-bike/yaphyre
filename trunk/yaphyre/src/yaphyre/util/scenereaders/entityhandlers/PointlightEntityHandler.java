@@ -62,14 +62,14 @@ public class PointlightEntityHandler extends EntityHandler<IdentifiableObject<Li
 
     IdentifiableObject<Lightsource> result = new IdentifiableObject<Lightsource>(id, new Pointlight(transformation, lightColor, intensity));
 
-    LOGGER.trace("exiting decodeEntity: {}", result);
+    LOGGER.trace("exit decodeEntity: {}", result);
 
     return result;
   }
 
   @Override
   public String getXPath() {
-    return "//light[@type = \"point\"]";
+    return "/scene/light[@type = \"point\"]";
   }
 
 }

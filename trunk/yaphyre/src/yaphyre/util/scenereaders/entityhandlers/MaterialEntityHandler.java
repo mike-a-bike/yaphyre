@@ -31,14 +31,14 @@ public class MaterialEntityHandler extends EntityHandler<IdentifiableObject<Mate
 
     IdentifiableObject<Material> result = new IdentifiableObject<Material>(id, new Material(ambient, diffuse, specular, reflection, refraction));
 
-    LOGGER.trace("exiting decodeEntity: {}", result);
+    LOGGER.trace("exit decodeEntity: {}", result);
 
     return result;
   }
 
   @Override
   public String getXPath() {
-    return "//material";
+    return "/scene/material";
   }
 
 }
