@@ -99,7 +99,7 @@ public abstract class EntityHandler<T extends IdentifiableObject<?>> {
    *         transformation, <code>null</code> otherwise.
    */
   protected Transformation decodeTransform(Match entityMatch) {
-    Transformation transformation = null;
+    Transformation transformation = Transformation.IDENTITY;
     Match transformMatch = entityMatch.child("transform");
     if (!transformMatch.isEmpty()) {
       transformation = HelperFactory.getTransformationHelper().decodeEntity(transformMatch);
