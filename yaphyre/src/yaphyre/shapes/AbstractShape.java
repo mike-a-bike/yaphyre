@@ -15,9 +15,6 @@
  */
 package yaphyre.shapes;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
-
 import yaphyre.core.CollisionInformation;
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
@@ -25,11 +22,14 @@ import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Transformation;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
+
 /**
  * Implementation of common methods for most {@link Shape}.
- *
+ * 
  * @version $Revision$
- *
+ * 
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
@@ -53,7 +53,7 @@ public abstract class AbstractShape implements Shape {
    * eventual intersection.</br> Please remember, that the order of the
    * {@link Transformation} matters. It is not the same if the object is rotated
    * an then translated or first translated and then rotated.
-   *
+   * 
    * @param objectToWorld
    *          The {@link Transformation} used to map world coordinates to object
    *          coordinates.
@@ -62,14 +62,16 @@ public abstract class AbstractShape implements Shape {
    *          {@link Shape}.
    * @param throwsShadow
    *          Flag whether this {@link Shape} throws a shadow or not.
-   *
+   * 
    * @throws NullPointerException
    *           If either <code>objectToWorld</code> or <code>shader</code> is
    *           <code>null</code> a {@link NullPointerException} is thrown
    */
   protected AbstractShape(Transformation objectToWorld, Shader shader, boolean throwsShadow) throws NullPointerException {
+
     Preconditions.checkNotNull(objectToWorld);
     Preconditions.checkNotNull(shader);
+
     this.shader = shader;
     this.throwsShadow = throwsShadow;
     this.objectToWorld = objectToWorld;
@@ -78,7 +80,7 @@ public abstract class AbstractShape implements Shape {
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(this.getClass(), objectToWorld, shader, throwsShadow);
+    return Objects.hashCode(this.getClass(), this.objectToWorld, this.shader, this.throwsShadow);
   }
 
   @Override
@@ -89,11 +91,11 @@ public abstract class AbstractShape implements Shape {
     if (obj == null) {
       return false;
     }
-    if (getClass() != obj.getClass()) {
+    if (this.getClass() != obj.getClass()) {
       return false;
     }
-    final AbstractShape other = (AbstractShape)obj;
-    return Objects.equal(shader, other.shader) && Objects.equal(objectToWorld, other.objectToWorld) && Objects.equal(throwsShadow, other.throwsShadow);
+    final AbstractShape other = (AbstractShape) obj;
+    return Objects.equal(this.shader, other.shader) && Objects.equal(this.objectToWorld, other.objectToWorld) && Objects.equal(this.throwsShadow, other.throwsShadow);
   }
 
   @Override
@@ -116,7 +118,7 @@ public abstract class AbstractShape implements Shape {
 
   @Override
   public boolean isHitBy(Ray ray) {
-    return (getIntersectDistance(ray) > 0d);
+    return (this.getIntersectDistance(ray) > 0d);
   }
 
   @Override
@@ -126,7 +128,7 @@ public abstract class AbstractShape implements Shape {
 
   @Override
   public Point3D getIntersectionPoint(Ray ray) {
-    double intersectionDistance = getIntersectDistance(ray);
+    double intersectionDistance = this.getIntersectDistance(ray);
     if (intersectionDistance == Shape.NO_INTERSECTION) {
       return null;
     }
