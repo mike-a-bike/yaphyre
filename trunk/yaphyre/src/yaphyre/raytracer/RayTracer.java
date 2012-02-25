@@ -89,19 +89,13 @@ public class RayTracer {
   private boolean useSingleTreadedRendering = false;
 
   public void setScene(Scene scene) {
+    Preconditions.checkNotNull(scene, "scene must not be null");
+    Preconditions.checkArgument(scene.getCameras().size() > 0, "the scene contains no cameras");
     this.scene = scene;
   }
 
   public Scene getScene() {
     return this.scene;
-  }
-
-  public void setCamera(Camera camera) {
-    this.camera = camera;
-  }
-
-  public Camera getCamera() {
-    return this.camera;
   }
 
   public void setSampler(Sampler sampler) {
@@ -128,22 +122,31 @@ public class RayTracer {
   }
 
   /**
-   * This method is the public entry point to start the rendering. It takes all
-   * the needed arguments in order to setup and execute the rendering process.
-   * Notice: This method does no rendering on its own, but calls the
+   * This method is the public entry point to start the rendering.
+   */
+  public void render() {
+    Preconditions.checkState(this.scene != null, "'scene' must be initialized before calling 'render'");
+    for (Camera camera : this.scene.getCameras()) {
+      this.render(camera);
+    }
+  }
+
+  /**
+   * The real rendering loop. This takes the given camera and renders the scene
+   * from its view. Notice: This method does no rendering on its own, but calls
+   * the
    * {@link #renderWindow(yaphyre.core.Camera, Sampler, RenderWindow, Transformation)}
    * method which renders a part of the image designated by the given
    * {@link RenderWindow}.<br/>
    * This method is responsible for preparing the rendering and managing the
    * multi-threaded execution of the rendering process.
    * 
-   * @return A {@link Film} instance containing the recorded image information
-   *         (like a real film...)
+   * @param camera
+   *          The {@link Camera} to render the scene for.
    */
-  public Film render() {
+  private void render(Camera camera) {
 
-    Preconditions.checkState(this.scene != null, "'scene' must be initialized before calling 'render'");
-    Preconditions.checkState(this.camera != null, "'camera' must be initialized before calling 'render'");
+    this.camera = camera;
 
     int imageWidth = this.camera.getFilm().getXResolution();
     int imageHeight = this.camera.getFilm().getYResolution();
@@ -230,8 +233,6 @@ public class RayTracer {
     }
 
     this.printRenderStatistics(overallTime.elapsedMillis(), cpuTime);
-
-    return this.camera.getFilm();
 
   }
 
