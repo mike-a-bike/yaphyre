@@ -4,8 +4,8 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-import yaphyre.cameras.OrthographicCamera;
 import yaphyre.cameras.AbstractCamera.BaseCameraSettings;
+import yaphyre.cameras.OrthographicCamera;
 import yaphyre.cameras.OrthographicCamera.OrthographicCameraSettings;
 import yaphyre.core.Camera;
 import yaphyre.films.ImageFile;
@@ -16,17 +16,9 @@ public class OrthographicCameraTest {
 
   @Test
   public void testGetCameraRay() {
-    Camera<ImageFile> camera;
+    Camera camera;
 
-    camera = getOriginCamera();
-
-    System.out.println(camera.getCameraRay(new Point2D(0, 0)));
-    System.out.println(camera.getCameraRay(new Point2D(1, 0)));
-    System.out.println(camera.getCameraRay(new Point2D(0, 1)));
-    System.out.println(camera.getCameraRay(new Point2D(1, 1)));
-    System.out.println(camera.getCameraRay(new Point2D(0.5, 0.5)));
-
-    camera = getZCamera();
+    camera = this.getOriginCamera();
 
     System.out.println(camera.getCameraRay(new Point2D(0, 0)));
     System.out.println(camera.getCameraRay(new Point2D(1, 0)));
@@ -34,7 +26,7 @@ public class OrthographicCameraTest {
     System.out.println(camera.getCameraRay(new Point2D(1, 1)));
     System.out.println(camera.getCameraRay(new Point2D(0.5, 0.5)));
 
-    camera = getOffsettedOriginCamera();
+    camera = this.getZCamera();
 
     System.out.println(camera.getCameraRay(new Point2D(0, 0)));
     System.out.println(camera.getCameraRay(new Point2D(1, 0)));
@@ -42,7 +34,15 @@ public class OrthographicCameraTest {
     System.out.println(camera.getCameraRay(new Point2D(1, 1)));
     System.out.println(camera.getCameraRay(new Point2D(0.5, 0.5)));
 
-    camera = getTiltedCamera();
+    camera = this.getOffsettedOriginCamera();
+
+    System.out.println(camera.getCameraRay(new Point2D(0, 0)));
+    System.out.println(camera.getCameraRay(new Point2D(1, 0)));
+    System.out.println(camera.getCameraRay(new Point2D(0, 1)));
+    System.out.println(camera.getCameraRay(new Point2D(1, 1)));
+    System.out.println(camera.getCameraRay(new Point2D(0.5, 0.5)));
+
+    camera = this.getTiltedCamera();
 
     System.out.println(camera.getCameraRay(new Point2D(0, 0)));
     System.out.println(camera.getCameraRay(new Point2D(1, 0)));
@@ -51,40 +51,40 @@ public class OrthographicCameraTest {
     System.out.println(camera.getCameraRay(new Point2D(0.5, 0.5)));
   }
 
-  private Camera<ImageFile> getZCamera() {
-    BaseCameraSettings<ImageFile> baseSettings = BaseCameraSettings.create(new Point3D(0, 0, -1), Point3D.ORIGIN, new ImageFile(800, 600));
+  private Camera getZCamera() {
+    BaseCameraSettings baseSettings = BaseCameraSettings.create(new Point3D(0, 0, -1), Point3D.ORIGIN);
     OrthographicCameraSettings orthoSettings = OrthographicCameraSettings.create(4, 3);
 
-    return new OrthographicCamera<ImageFile>(baseSettings, orthoSettings);
+    return new OrthographicCamera(baseSettings, orthoSettings, new ImageFile(800, 600));
   }
 
-  private Camera<ImageFile> getOffsettedOriginCamera() {
-    BaseCameraSettings<ImageFile> baseSettings = BaseCameraSettings.create(new Point3D(0, 1, 0), new Point3D(0, 1, 1), new ImageFile(800, 600));
+  private Camera getOffsettedOriginCamera() {
+    BaseCameraSettings baseSettings = BaseCameraSettings.create(new Point3D(0, 1, 0), new Point3D(0, 1, 1));
     OrthographicCameraSettings orthoSettings = OrthographicCameraSettings.create(4, 3);
 
-    return new OrthographicCamera<ImageFile>(baseSettings, orthoSettings);
+    return new OrthographicCamera(baseSettings, orthoSettings, new ImageFile(800, 600));
   }
 
-  private Camera<ImageFile> getOriginCamera() {
-    BaseCameraSettings<ImageFile> baseSettings = BaseCameraSettings.create(Point3D.ORIGIN, new Point3D(0, 0, 1), new ImageFile(800, 600));
+  private Camera getOriginCamera() {
+    BaseCameraSettings baseSettings = BaseCameraSettings.create(Point3D.ORIGIN, new Point3D(0, 0, 1));
     OrthographicCameraSettings orthoSettings = OrthographicCameraSettings.create(4, 3);
 
-    return new OrthographicCamera<ImageFile>(baseSettings, orthoSettings);
+    return new OrthographicCamera(baseSettings, orthoSettings, new ImageFile(800, 600));
   }
 
-  private Camera<ImageFile> getTiltedCamera() {
-    BaseCameraSettings<ImageFile> baseSettings = BaseCameraSettings.create(new Point3D(0, 1, -2), Point3D.ORIGIN, new ImageFile(800, 600));
+  private Camera getTiltedCamera() {
+    BaseCameraSettings baseSettings = BaseCameraSettings.create(new Point3D(0, 1, -2), Point3D.ORIGIN);
     OrthographicCameraSettings orthoSettings = OrthographicCameraSettings.create(4, 3);
 
-    return new OrthographicCamera<ImageFile>(baseSettings, orthoSettings);
+    return new OrthographicCamera(baseSettings, orthoSettings, new ImageFile(800, 600));
   }
 
   @Test
   public void testOrthographicCamera() {
-    BaseCameraSettings<ImageFile> baseSettings = BaseCameraSettings.create(new Point3D(1, 1, 0), new Point3D(1, 1, 1), new ImageFile(800, 600));
+    BaseCameraSettings baseSettings = BaseCameraSettings.create(new Point3D(1, 1, 0), new Point3D(1, 1, 1));
     OrthographicCameraSettings orthographicSettings = OrthographicCameraSettings.create(4, 3);
 
-    Camera<ImageFile> camera = new OrthographicCamera<ImageFile>(baseSettings, orthographicSettings);
+    Camera camera = new OrthographicCamera(baseSettings, orthographicSettings, new ImageFile(800, 600));
 
     assertNotNull(camera);
   }

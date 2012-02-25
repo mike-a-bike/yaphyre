@@ -15,6 +15,15 @@
  */
 package yaphyre.films;
 
+import java.awt.image.BufferedImage;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import yaphyre.core.CameraSample;
 import yaphyre.core.Film;
 import yaphyre.util.Color;
@@ -25,13 +34,15 @@ import com.google.common.base.Preconditions;
 /**
  * Film implementation which records the camera samples as colored pixels in an
  * image file.
- *
+ * 
  * @version $Revision: 42 $
- *
+ * 
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
 public class ImageFile implements Film {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(ImageFile.class);
 
   private static final ImageFormat DEFAULT_IMAGE_FORMAT = ImageFormat.PNG;
 
@@ -48,6 +59,9 @@ public class ImageFile implements Film {
   }
 
   public ImageFile(int xResolution, int yResolution, ImageFormat imageFormat) {
+
+    Preconditions.checkArgument(imageFormat == ImageFormat.JPEG || imageFormat == ImageFormat.PNG, "unsupoorted image format: %s", imageFormat);
+
     this.xResolution = xResolution;
     this.yResolution = yResolution;
     this.imageFormat = imageFormat;
@@ -69,25 +83,66 @@ public class ImageFile implements Film {
     int uCoordinate = (int) sample.getRasterPoint().getU();
     int vCoordinate = (int) sample.getRasterPoint().getV();
 
-    Preconditions.checkPositionIndex(uCoordinate, this.xResolution);
-    Preconditions.checkPositionIndex(vCoordinate, this.yResolution);
+    this.setColor(uCoordinate, vCoordinate, color);
 
-    this.pixelColors[vCoordinate * this.xResolution + vCoordinate] = color;
+  }
+
+  private void setColor(int x, int y, Color color) {
+
+    Preconditions.checkPositionIndex(x, this.xResolution);
+    Preconditions.checkPositionIndex(y, this.yResolution);
+
+    this.pixelColors[y * this.xResolution + x] = color;
+  }
+
+  private Color getColor(int x, int y) {
+
+    Preconditions.checkPositionIndex(x, this.xResolution);
+    Preconditions.checkPositionIndex(y, this.yResolution);
+
+    return this.pixelColors[y * this.xResolution + x];
   }
 
   @Override
   public void writeImageFile(int xSize, int ySize, String fileName) {
-    if (xSize != this.xResolution || ySize != this.yResolution) {
-      // SCALE IMAGE....
+    Preconditions.checkArgument(xSize == this.xResolution && ySize == this.yResolution, "scaling is not yet supported");
+
+    BufferedImage image = this.createImageFromData();
+
+    try {
+      FileOutputStream imageFileStream = new FileOutputStream(fileName);
+      ImageIO.write(image, this.imageFormat.toString(), imageFileStream);
+      imageFileStream.close();
+    } catch (IOException ioe) {
+      LOGGER.error("Could not write image file: '" + fileName + "'", ioe);
     }
+
+  }
+
+  private BufferedImage createImageFromData() {
+    BufferedImage result = new BufferedImage(this.xResolution, this.yResolution, BufferedImage.TYPE_INT_RGB);
+
+    for (int y = 0; y < this.yResolution; y++) {
+      for (int x = 0; x < this.xResolution; x++) {
+        Color pixelColor = this.getColor(x, this.yResolution - y).clip();
+        int red = (int) (pixelColor.getRed() * 255);
+        int green = (int) (pixelColor.getGreen() * 255);
+        int blue = (int) (pixelColor.getBlue() * 255);
+        int alpha = 0xff;
+        int argb = ((alpha << 24) | (red << 16) | (green << 8) | blue);
+        result.setRGB(x, y, argb);
+      }
+    }
+
+    return result;
   }
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(getClass())
-        .add("xRes", xResolution)
-        .add("yRes", yResolution)
-        .add("format", imageFormat).toString();
+    return Objects.toStringHelper(this.getClass())
+        .add("xRes", this.xResolution)
+        .add("yRes", this.yResolution)
+        .add("format", this.imageFormat).toString();
   }
 
   public static enum ImageFormat {

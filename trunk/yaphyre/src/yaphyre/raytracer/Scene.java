@@ -6,7 +6,6 @@ import java.util.List;
 
 import yaphyre.core.Camera;
 import yaphyre.core.CollisionInformation;
-import yaphyre.core.Film;
 import yaphyre.core.Lightsource;
 import yaphyre.core.Shape;
 import yaphyre.geometry.Ray;
@@ -22,7 +21,7 @@ public class Scene implements Serializable {
 
   private final List<Lightsource> lightsources;
 
-  private final List<Camera<? extends Film>> cameras;
+  private final List<Camera> cameras;
 
   public Scene() {
     this.shapes = Lists.newArrayList();
@@ -30,11 +29,11 @@ public class Scene implements Serializable {
     this.cameras = Lists.newArrayList();
   }
 
-  public void addCamera(Camera<? extends Film> camera) {
+  public void addCamera(Camera camera) {
     this.cameras.add(camera);
   }
 
-  public List<Camera<? extends Film>> getCameras() {
+  public List<Camera> getCameras() {
     return Collections.unmodifiableList(this.cameras);
   }
 
@@ -66,7 +65,7 @@ public class Scene implements Serializable {
     double nearestCollitionDistance = maxDistance;
     Shape nearestCollitionShape = null;
 
-    for (Shape shape : getShapes()) {
+    for (Shape shape : this.getShapes()) {
       if (onlyShadowShapes && shape.throwsShadow() == false) {
         continue;
       }

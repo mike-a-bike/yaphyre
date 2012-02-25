@@ -15,31 +15,28 @@
  */
 package yaphyre.cameras;
 
-import java.text.MessageFormat;
-
 import yaphyre.core.Camera;
 import yaphyre.core.Film;
+import yaphyre.core.Sampler;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Vector3D;
+import yaphyre.samplers.JitteredSampler;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
 /**
- * Emulate an optimal pin hole camera. This means, that the hole is
- * infinitesimal small and has no physical size whatsoever. So no effect like
- * depth of field and/or aperture size, and forms are modeled here.
- * 
- * @param <F>
- *          The type of {@link Film} which is used by this instance.
+ * This perspective camera is based on a simple pin hole camera model.
+ * Nonetheless, it emulates effects like depth of field
  * 
  * @version $Revision: 42 $
  * 
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
-public class PerspectiveCamera<F extends Film> extends AbstractCamera<F> implements Camera<F> {
+public class PerspectiveCamera extends AbstractCamera implements Camera {
 
   private final PerspectiveCameraSettings cameraSettings;
 
@@ -47,11 +44,18 @@ public class PerspectiveCamera<F extends Film> extends AbstractCamera<F> impleme
 
   private final double aspectRatioInv;
 
-  public PerspectiveCamera(BaseCameraSettings<F> baseSettings, PerspectiveCameraSettings perspectiveSettings) {
-    super(baseSettings);
+  private final Sampler lensSampler;
+
+  public PerspectiveCamera(BaseCameraSettings baseSettings, PerspectiveCameraSettings perspectiveSettings, Film film) {
+    super(baseSettings, film);
     this.cameraSettings = perspectiveSettings;
     this.focalPoint = new Point3D(0, 0, -this.cameraSettings.getFocalLength());
     this.aspectRatioInv = 1d / this.cameraSettings.getAspectRatio();
+    if (this.cameraSettings.getLensRadius() > 0d) {
+      this.lensSampler = new JitteredSampler(4);
+    } else {
+      this.lensSampler = null;
+    }
   }
 
   @Override
@@ -59,8 +63,18 @@ public class PerspectiveCamera<F extends Film> extends AbstractCamera<F> impleme
     Preconditions.checkArgument(viewPlanePoint.getU() >= 0d && viewPlanePoint.getU() <= 1d);
     Preconditions.checkArgument(viewPlanePoint.getV() >= 0d && viewPlanePoint.getV() <= 1d);
 
-    Point3D mappedPoint = mapViewPlanePoint(viewPlanePoint);
+    Point3D mappedPoint = this.mapViewPlanePoint(viewPlanePoint);
     Vector3D direction = new Vector3D(this.focalPoint, mappedPoint).normalize();
+
+    if (this.cameraSettings.getLensRadius() > 0d) {
+      // UGLY, better implementation for random sampling needed...
+      Point2D lensPoint = this.lensSampler.getUnitCircleSamples().iterator().next().mul(this.cameraSettings.getLensRadius());
+
+      Point3D focusPoint = mappedPoint.add(direction.scale(this.cameraSettings.getFocalDistance()));
+      mappedPoint = mappedPoint.add(lensPoint);
+      direction = new Vector3D(focusPoint, mappedPoint).normalize();
+    }
+
     Ray result = new Ray(mappedPoint, direction);
 
     result = super.getCamera2World().transform(result);
@@ -76,13 +90,15 @@ public class PerspectiveCamera<F extends Film> extends AbstractCamera<F> impleme
 
   @Override
   public String toString() {
-    return MessageFormat.format("{0} [pos:{1}, lookAt:{2}, apect ratio:{3,number,0.000}, focal length:{4,number,0.###}, film:{5}]",
-                                this.getClass().getSimpleName(),
-                                super.getPosition(),
-                                super.getLookAt(),
-                                this.cameraSettings.getAspectRatio(),
-                                this.cameraSettings.getFocalLength(),
-                                super.getFilm());
+    return Objects.toStringHelper(this)
+        .add("pos", this.getPosition())
+        .add("lookAt", this.getLookAt())
+        .add("apsect ratio", this.cameraSettings.getAspectRatio())
+        .add("focal length", this.cameraSettings.getFocalLength())
+        .add("focal distance", this.cameraSettings.getFocalDistance())
+        .add("lens radius", this.cameraSettings.getLensRadius())
+        .add("film", this.getFilm())
+        .toString();
   }
 
   /**
@@ -98,13 +114,28 @@ public class PerspectiveCamera<F extends Film> extends AbstractCamera<F> impleme
 
     private final double focalLength;
 
+    private final double focalDistance;
+
+    private final double lensRadius;
+
     public static PerspectiveCameraSettings create(double aspectRatio, double focalLength) {
-      return new PerspectiveCameraSettings(aspectRatio, focalLength);
+      return new PerspectiveCameraSettings(aspectRatio, focalLength, Double.MAX_VALUE, 0d);
     }
 
-    private PerspectiveCameraSettings(double aspectRatio, double focalLength) {
+    public static PerspectiveCameraSettings create(double aspectRatio, double focalLength, double focalDistance, double lensRadius) {
+      return new PerspectiveCameraSettings(aspectRatio, focalLength, focalDistance, lensRadius);
+    }
+
+    private PerspectiveCameraSettings(double aspectRatio, double focalLength, double focalDistance, double lensRadius) {
       this.aspectRatio = aspectRatio;
       this.focalLength = focalLength;
+      this.focalDistance = focalDistance;
+      this.lensRadius = lensRadius;
+    }
+
+    @Override
+    public String toString() {
+      return Objects.toStringHelper(this.getClass()).add("aspectRatio", this.aspectRatio).add("focalLength", this.focalLength).add("focalDistance", this.focalDistance).add("lensRadius", this.lensRadius).toString();
     }
 
     public double getAspectRatio() {
@@ -113,6 +144,14 @@ public class PerspectiveCamera<F extends Film> extends AbstractCamera<F> impleme
 
     public double getFocalLength() {
       return this.focalLength;
+    }
+
+    public double getFocalDistance() {
+      return this.focalDistance;
+    }
+
+    public double getLensRadius() {
+      return this.lensRadius;
     }
   }
 

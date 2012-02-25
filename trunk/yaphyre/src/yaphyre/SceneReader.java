@@ -1,5 +1,9 @@
 package yaphyre;
 
+import yaphyre.cameras.AbstractCamera.BaseCameraSettings;
+import yaphyre.cameras.PerspectiveCamera;
+import yaphyre.cameras.PerspectiveCamera.PerspectiveCameraSettings;
+import yaphyre.core.Camera;
 import yaphyre.core.Lightsource;
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
@@ -19,13 +23,13 @@ import yaphyre.util.Color;
  * Read a very simple file format in order to make the development and testing
  * simpler.<br/>
  * TODO: IMPLEMENT THIS...
- *
+ * 
  * @author Michael Bieri
- *
+ * 
  */
 public class SceneReader {
 
-  public static final Scene createSceneWithSpheres() {
+  public static final SceneReaderResult createSceneWithSpheres() {
 
     double ambientLight = 0.1;
 
@@ -69,10 +73,10 @@ public class SceneReader {
     simpleScene.addLightsource(new Pointlight(pointlight2Transformation, pointlight2Color, pointlight2Intensity));
     simpleScene.addLightsource(new Pointlight(pointlight3Transformation, pointlight3Color, pointlight3Intensity));
 
-    return simpleScene;
+    return new SceneReaderResult(simpleScene, createDefaultCamera());
   }
 
-  public static final Scene createSimpleScene() {
+  public static final SceneReaderResult createSimpleScene() {
 
     double ambientLight = 0.075d;
 
@@ -108,10 +112,10 @@ public class SceneReader {
     scene.addShape(sphere);
     scene.addShape(distantSphere);
 
-    return scene;
+    return new SceneReaderResult(scene, createDefaultCamera());
   }
 
-  public static final Scene createDOFScene() {
+  public static final SceneReaderResult createDOFScene() {
 
     final double ambientLight = 0.25d;
 
@@ -138,17 +142,16 @@ public class SceneReader {
 
     scene.addLightsource(pointLight);
 
-    return scene;
-
+    return new SceneReaderResult(scene, createDefaultCamera());
   }
 
   /**
    * 'Historic' scene: The first scene ever rendered with <em>yaphyre</em>.
-   *
+   * 
    * @return A very simple {@link Scene} containing one light, one plane and one
    *         sphere.
    */
-  public static final Scene createFirstLight() {
+  public static final SceneReaderResult createFirstLight() {
     double ambientLight = 0.075d;
 
     Material diffuseMaterial = MaterialBuilder.start().ambient(ambientLight).diffuse(0.8d).build();
@@ -166,6 +169,41 @@ public class SceneReader {
     scene.addShape(plane);
     scene.addShape(sphere);
 
-    return scene;
+    return new SceneReaderResult(scene, createDefaultCamera());
+  }
+
+  private static Camera createDefaultCamera() {
+    Point3D cameraPosition = new Point3D(0, 25, -100);
+    Point3D lookAt = new Point3D(0, 1, 0);
+    double aspectRatio = 4d / 3d;
+    double focalLength = 25d;
+    return createCamera(cameraPosition, lookAt, aspectRatio, focalLength, Double.MAX_VALUE, 0d);
+  }
+
+  private static Camera createCamera(Point3D position, Point3D lookAt, double aspectRatio, double focalLength, double focalDistance, double lensRadius) {
+    BaseCameraSettings baseSettings = BaseCameraSettings.create(position, lookAt);
+    PerspectiveCameraSettings perspectiveSettings = PerspectiveCameraSettings.create(aspectRatio, focalLength, focalDistance, lensRadius);
+    return new PerspectiveCamera(baseSettings, perspectiveSettings, null);
+  }
+
+  static class SceneReaderResult {
+    private final Scene scene;
+
+    private final Camera camera;
+
+    public SceneReaderResult(Scene scene, Camera camera) {
+      super();
+      this.scene = scene;
+      this.camera = camera;
+    }
+
+    public Scene getScene() {
+      return this.scene;
+    }
+
+    public Camera getCamera() {
+      return this.camera;
+    }
+
   }
 }

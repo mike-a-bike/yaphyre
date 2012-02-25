@@ -16,12 +16,8 @@
 package yaphyre;
 
 import java.awt.Desktop;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -33,11 +29,12 @@ import org.apache.commons.cli.PosixParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import yaphyre.SceneReader.SceneReaderResult;
+import yaphyre.core.Film;
 import yaphyre.core.Sampler;
-import yaphyre.geometry.Point3D;
-import yaphyre.geometry.Vector3D;
+import yaphyre.films.ImageFile;
+import yaphyre.films.ImageFile.ImageFormat;
 import yaphyre.raytracer.RayTracer;
-import yaphyre.raytracer.Scene;
 import yaphyre.samplers.JitteredSampler;
 import yaphyre.samplers.RandomSampler;
 import yaphyre.samplers.RegularSampler;
@@ -46,9 +43,9 @@ import yaphyre.samplers.SinglePointSampler;
 /**
  * The main class starting the application. This class parses the command line,
  * prepares the environment and calls the renderer.
- *
+ * 
  * @version $Revision$
- *
+ * 
  * @author Michael Bieri
  * @author $LastChangedBy$
  */
@@ -88,39 +85,36 @@ public class YaPhyRe {
     }
 
     LOGGER.debug("Setup camera");
-    Point3D cameraPosition = new Point3D(0, 25, -100);
-    Point3D lookAt = new Point3D(0, 1, 0);
-    Vector3D cameraDirection = new Vector3D(cameraPosition, lookAt);
-
-    double frameWidth = 6d;
-    double frameHeight = 4.5d;
 
     int imageWidth = Integer.parseInt(commandLine.getOptionValue('w', DEFAULT_WIDTH));
     int imageHeight = Integer.parseInt(commandLine.getOptionValue('h', DEFAULT_HEIGHT));
+    String imageFormat = commandLine.getOptionValue('f', DEFAULT_FILE_FORMAT);
+
+    Film film = new ImageFile(imageWidth, imageHeight, ImageFormat.valueOf(imageFormat));
 
     LOGGER.debug("Read scene");
-    Scene scene = readScene(commandLine);
+    SceneReaderResult readScene = readScene(commandLine);
+    readScene.getCamera().setFilm(film);
 
     LOGGER.debug("Initialize sampler");
     Sampler sampler = parseSampler(commandLine);
 
     LOGGER.debug("Initializing RayTracer");
     RayTracer rayTracer = new RayTracer();
-    rayTracer.setScene(scene);
+    rayTracer.setScene(readScene.getScene());
+    rayTracer.setCamera(readScene.getCamera());
     rayTracer.setSampler(sampler);
     if (commandLine.hasOption("single")) {
       rayTracer.useSingleThreadedRenderer();
     }
 
     LOGGER.info("Render image");
-    BufferedImage renderedImage = rayTracer.render(imageWidth, imageHeight, frameWidth, frameHeight, cameraPosition, cameraDirection);
+    film = rayTracer.render();
 
     LOGGER.debug("Write image file");
-    String imageFormat = commandLine.getOptionValue('f', DEFAULT_FILE_FORMAT);
-    File imageFile = new File(commandLine.getOptionValue('o', DEFAULT_OUTPUT_FILE));
-    FileOutputStream imageFileStream = new FileOutputStream(imageFile);
-    ImageIO.write(renderedImage, imageFormat, imageFileStream);
-    imageFileStream.close();
+    String fileName = commandLine.getOptionValue('o', DEFAULT_OUTPUT_FILE);
+    File imageFile = new File(fileName);
+    film.writeImageFile(imageWidth, imageHeight, imageFile.getAbsolutePath());
 
     LOGGER.info("Output written to: {}", imageFile.getAbsolutePath());
 
@@ -137,27 +131,27 @@ public class YaPhyRe {
 
   }
 
-  private static Scene readScene(CommandLine commandLine) {
-    Scene scene = null;
+  private static SceneReaderResult readScene(CommandLine commandLine) {
+    SceneReaderResult result = null;
     String sceneName = commandLine.getOptionValue('s').trim().toLowerCase();
     LOGGER.info("Trying to load scene <{}>", sceneName);
     if (sceneName.equals("first")) {
-      scene = SceneReader.createFirstLight();
+      result = SceneReader.createFirstLight();
     } else if (sceneName.equals("spheres")) {
-      scene = SceneReader.createSceneWithSpheres();
+      result = SceneReader.createSceneWithSpheres();
     } else if (sceneName.equals("simple")) {
-      scene = SceneReader.createSimpleScene();
+      result = SceneReader.createSimpleScene();
     } else if (sceneName.equals("dof")) {
-      scene = SceneReader.createDOFScene();
+      result = SceneReader.createDOFScene();
     } else if (sceneName.equals("area")) {
       LOGGER.warn("This scene cannot be created any more.");
-      scene = SceneReader.createFirstLight();
+      result = SceneReader.createFirstLight();
     }
     else {
       LOGGER.warn("Scene not found! Using fallback scene (first)");
-      scene = SceneReader.createFirstLight();
+      result = SceneReader.createFirstLight();
     }
-    return scene;
+    return result;
   }
 
   private static Sampler parseSampler(CommandLine commandLine) {
