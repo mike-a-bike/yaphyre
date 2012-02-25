@@ -124,7 +124,7 @@ public class ImageFile implements Film {
 
     for (int y = 0; y < this.yResolution; y++) {
       for (int x = 0; x < this.xResolution; x++) {
-        Color pixelColor = this.getColor(x, this.yResolution - y).clip();
+        Color pixelColor = this.getColor(x, (this.yResolution - 1) - y).clip();
         int red = (int) (pixelColor.getRed() * 255);
         int green = (int) (pixelColor.getGreen() * 255);
         int blue = (int) (pixelColor.getBlue() * 255);
