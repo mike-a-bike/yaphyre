@@ -29,7 +29,7 @@ import yaphyre.util.Color;
  */
 public class SceneReader {
 
-  public static final SceneReaderResult createSceneWithSpheres() {
+  public static final Scene createSceneWithSpheres() {
 
     double ambientLight = 0.1;
 
@@ -73,10 +73,12 @@ public class SceneReader {
     simpleScene.addLightsource(new Pointlight(pointlight2Transformation, pointlight2Color, pointlight2Intensity));
     simpleScene.addLightsource(new Pointlight(pointlight3Transformation, pointlight3Color, pointlight3Intensity));
 
-    return new SceneReaderResult(simpleScene, createDefaultCamera());
+    simpleScene.addCamera(createDefaultCamera());
+
+    return simpleScene;
   }
 
-  public static final SceneReaderResult createSimpleScene() {
+  public static final Scene createSimpleScene() {
 
     double ambientLight = 0.075d;
 
@@ -112,10 +114,12 @@ public class SceneReader {
     scene.addShape(sphere);
     scene.addShape(distantSphere);
 
-    return new SceneReaderResult(scene, createDefaultCamera());
+    scene.addCamera(createDefaultCamera());
+
+    return scene;
   }
 
-  public static final SceneReaderResult createDOFScene() {
+  public static final Scene createDOFScene() {
 
     final double ambientLight = 0.25d;
 
@@ -142,7 +146,9 @@ public class SceneReader {
 
     scene.addLightsource(pointLight);
 
-    return new SceneReaderResult(scene, createDefaultCamera());
+    scene.addCamera(createDefaultCamera());
+
+    return scene;
   }
 
   /**
@@ -151,7 +157,7 @@ public class SceneReader {
    * @return A very simple {@link Scene} containing one light, one plane and one
    *         sphere.
    */
-  public static final SceneReaderResult createFirstLight() {
+  public static final Scene createFirstLight() {
     double ambientLight = 0.075d;
 
     Material diffuseMaterial = MaterialBuilder.start().ambient(ambientLight).diffuse(0.8d).build();
@@ -169,7 +175,9 @@ public class SceneReader {
     scene.addShape(plane);
     scene.addShape(sphere);
 
-    return new SceneReaderResult(scene, createDefaultCamera());
+    scene.addCamera(createDefaultCamera());
+
+    return scene;
   }
 
   private static Camera createDefaultCamera() {
@@ -186,24 +194,4 @@ public class SceneReader {
     return new PerspectiveCamera(baseSettings, perspectiveSettings, null);
   }
 
-  static class SceneReaderResult {
-    private final Scene scene;
-
-    private final Camera camera;
-
-    public SceneReaderResult(Scene scene, Camera camera) {
-      super();
-      this.scene = scene;
-      this.camera = camera;
-    }
-
-    public Scene getScene() {
-      return this.scene;
-    }
-
-    public Camera getCamera() {
-      return this.camera;
-    }
-
-  }
 }

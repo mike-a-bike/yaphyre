@@ -15,9 +15,9 @@
  */
 package yaphyre;
 
-import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -29,12 +29,13 @@ import org.apache.commons.cli.PosixParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import yaphyre.SceneReader.SceneReaderResult;
+import yaphyre.core.Camera;
 import yaphyre.core.Film;
 import yaphyre.core.Sampler;
 import yaphyre.films.ImageFile;
 import yaphyre.films.ImageFile.ImageFormat;
 import yaphyre.raytracer.RayTracer;
+import yaphyre.raytracer.Scene;
 import yaphyre.samplers.JitteredSampler;
 import yaphyre.samplers.RandomSampler;
 import yaphyre.samplers.RegularSampler;
@@ -57,7 +58,7 @@ public class YaPhyRe {
 
   private static final String DEFAULT_WIDTH = "1280";
 
-  private static final String DEFAULT_OUTPUT_FILE = "color.png";
+  private static final String DEFAULT_OUTPUT_FILE = "color";
 
   private static final String DEFAULT_FILE_FORMAT = "PNG";
 
@@ -90,49 +91,44 @@ public class YaPhyRe {
     int imageHeight = Integer.parseInt(commandLine.getOptionValue('h', DEFAULT_HEIGHT));
     String imageFormat = commandLine.getOptionValue('f', DEFAULT_FILE_FORMAT);
 
-    Film film = new ImageFile(imageWidth, imageHeight, ImageFormat.valueOf(imageFormat));
-
     LOGGER.debug("Read scene");
-    SceneReaderResult readScene = readScene(commandLine);
-    readScene.getCamera().setFilm(film);
+    Scene readScene = readScene(commandLine);
+    for (Camera camera : readScene.getCameras()) {
+      Film film = new ImageFile(imageWidth, imageHeight, ImageFormat.valueOf(imageFormat));
+      camera.setFilm(film);
+    }
 
     LOGGER.debug("Initialize sampler");
     Sampler sampler = parseSampler(commandLine);
 
     LOGGER.debug("Initializing RayTracer");
     RayTracer rayTracer = new RayTracer();
-    rayTracer.setScene(readScene.getScene());
-    rayTracer.setCamera(readScene.getCamera());
+    rayTracer.setScene(readScene);
     rayTracer.setSampler(sampler);
     if (commandLine.hasOption("single")) {
       rayTracer.useSingleThreadedRenderer();
     }
 
     LOGGER.info("Render image");
-    film = rayTracer.render();
+    rayTracer.render();
 
-    LOGGER.debug("Write image file");
+    LOGGER.debug("Write image file(s)");
     String fileName = commandLine.getOptionValue('o', DEFAULT_OUTPUT_FILE);
-    File imageFile = new File(fileName);
-    film.writeImageFile(imageWidth, imageHeight, imageFile.getAbsolutePath());
+    int imageIndex = 0;
+    for (Camera camera : readScene.getCameras()) {
+      Film film = camera.getFilm();
+      File imageFile = new File(MessageFormat.format("{0}_{1,number,000}.{2}", fileName, imageIndex++, imageFormat));
+      film.writeImageFile(imageWidth, imageHeight, imageFile.getAbsolutePath());
 
-    LOGGER.info("Output written to: {}", imageFile.getAbsolutePath());
-
-    if (commandLine.hasOption("show")) {
-      if (Desktop.isDesktopSupported()) {
-        LOGGER.info("Opening file: {}", imageFile.getAbsolutePath());
-        Desktop.getDesktop().open(imageFile);
-      } else {
-        LOGGER.warn("Your desktop environment does not support the opening of the image");
-      }
+      LOGGER.info("Output written to: {}", imageFile.getAbsolutePath());
     }
 
     LOGGER.info("Renderer finished");
 
   }
 
-  private static SceneReaderResult readScene(CommandLine commandLine) {
-    SceneReaderResult result = null;
+  private static Scene readScene(CommandLine commandLine) {
+    Scene result = null;
     String sceneName = commandLine.getOptionValue('s').trim().toLowerCase();
     LOGGER.info("Trying to load scene <{}>", sceneName);
     if (sceneName.equals("first")) {
@@ -194,7 +190,6 @@ public class YaPhyRe {
     commandLineOptions.addOption(OptionBuilder.withArgName("pixel").hasArg().withLongOpt("height").withDescription("Height of the rendered image").create('h'));
     commandLineOptions.addOption(OptionBuilder.withArgName("strategy [samples]").hasArgs(2).withLongOpt("sampling").isRequired().withDescription("Type and number of samples for anti aliasing").create('a'));
     commandLineOptions.addOption(OptionBuilder.withLongOpt("single").withDescription("Perform rendering with in a single task").create());
-    commandLineOptions.addOption(OptionBuilder.withLongOpt("show").withDescription("Shows the created image when finished").create());
     commandLineOptions.addOption(OptionBuilder.withLongOpt("help").withDescription("Shows this help").create());
     return parser.parse(commandLineOptions, args);
   }
