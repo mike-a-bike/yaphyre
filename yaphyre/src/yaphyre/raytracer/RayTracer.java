@@ -17,7 +17,6 @@ package yaphyre.raytracer;
 
 import static yaphyre.geometry.MathUtils.EPSILON;
 
-import java.awt.image.BufferedImage;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +28,7 @@ import java.util.concurrent.Future;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import yaphyre.cameras.AbstractCamera.BaseCameraSettings;
-import yaphyre.cameras.PerspectiveCamera;
-import yaphyre.cameras.PerspectiveCamera.PerspectiveCameraSettings;
+import yaphyre.core.Camera;
 import yaphyre.core.CameraSample;
 import yaphyre.core.CollisionInformation;
 import yaphyre.core.Film;
@@ -40,9 +37,6 @@ import yaphyre.core.Lightsource;
 import yaphyre.core.RenderWindow;
 import yaphyre.core.Sampler;
 import yaphyre.core.Shape;
-import yaphyre.core.VisibilityTester;
-import yaphyre.films.ImageFile;
-import yaphyre.films.ImageFile.ImageFormat;
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
@@ -53,7 +47,7 @@ import yaphyre.samplers.SinglePointSampler;
 import yaphyre.util.Color;
 import yaphyre.util.RenderStatistics;
 
-import com.google.common.annotations.Beta;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Stopwatch;
 
 /**
@@ -64,7 +58,7 @@ import com.google.common.base.Stopwatch;
  * system. The parallelization can be prevented (for debugging purposes for
  * example) by calling the {@link #useSingleThreadedRenderer()} method to
  * enforce single threaded rendering.
- *
+ * 
  * @author Michael Bieri
  */
 public class RayTracer {
@@ -88,7 +82,6 @@ public class RayTracer {
 
   private Scene scene;
 
-  @Beta
   private Camera camera;
 
   private Sampler sampler;
@@ -101,6 +94,14 @@ public class RayTracer {
 
   public Scene getScene() {
     return this.scene;
+  }
+
+  public void setCamera(Camera camera) {
+    this.camera = camera;
+  }
+
+  public Camera getCamera() {
+    return this.camera;
   }
 
   public void setSampler(Sampler sampler) {
@@ -119,7 +120,7 @@ public class RayTracer {
 
   /**
    * Get the number of CPUs in the system.
-   *
+   * 
    * @return The number of available CPUs.
    */
   private int getNumberOfCPUs() {
@@ -135,37 +136,17 @@ public class RayTracer {
    * {@link RenderWindow}.<br/>
    * This method is responsible for preparing the rendering and managing the
    * multi-threaded execution of the rendering process.
-   *
-   * @param imageWidth
-   *          The number of pixels the image is wide.
-   * @param imageHeight
-   *          The number of pixels the image is high.
-   * @param frameWidth
-   *          The virtual frame width (used for orthographic projection)
-   * @param frameHeight
-   *          The virtual frame height (used for orthographic projection)
-   * @param cameraPosition
-   *          The position of the camera in 3D space.
-   * @param cameraDirection
-   *          The direction in which the camera is oriented.
-   *
-   * @return A {@link BufferedImage} which contains the rendered image. This can
-   *         be saved or used for further transformation.
+   * 
+   * @return A {@link Film} instance containing the recorded image information
+   *         (like a real film...)
    */
-  public BufferedImage render(int imageWidth, int imageHeight, double frameWidth, double frameHeight, Point3D cameraPosition, Vector3D cameraDirection) {
+  public Film render() {
 
-    ImageFile imageFile = new ImageFile(imageWidth, imageHeight, ImageFormat.PNG);
-    BaseCameraSettings<ImageFile> baseSettings = BaseCameraSettings.create(cameraPosition, cameraPosition.add(cameraDirection), imageFile);
-    PerspectiveCameraSettings perspSetings = PerspectiveCameraSettings.create(((double) imageWidth) / ((double) imageHeight), 25d);
-    yaphyre.core.Camera<ImageFile> camera = new PerspectiveCamera<ImageFile>(baseSettings, perspSetings);
-    // OrthographicCameraSettings orthoSettings =
-    // OrthographicCameraSettings.create(frameWidth, frameHeight);
-    // yaphyre.core.Camera<ImageFile> camera = new
-    // OrthographicCamera<ImageFile>(baseSettings, orthoSettings);
+    Preconditions.checkState(this.scene != null, "'scene' must be initialized before calling 'render'");
+    Preconditions.checkState(this.camera != null, "'camera' must be initialized before calling 'render'");
 
-    LOGGER.debug("Camera initialized: ".concat(camera.toString()));
-
-    this.camera = this.setupCamera(imageWidth, imageHeight, frameWidth, frameHeight, cameraPosition, cameraDirection);
+    int imageWidth = this.camera.getFilm().getXResolution();
+    int imageHeight = this.camera.getFilm().getYResolution();
 
     LOGGER.info("{}", this.scene);
 
@@ -187,7 +168,7 @@ public class RayTracer {
       RenderWindow renderWindow = new RenderWindow(0, imageWidth, 0, imageHeight);
 
       overallTime.start();
-      this.renderWindow(camera, this.sampler, renderWindow, rasterToCamera);
+      this.renderWindow(this.sampler, renderWindow, rasterToCamera);
       overallTime.stop();
       cpuTime = overallTime.elapsedMillis();
 
@@ -210,7 +191,7 @@ public class RayTracer {
         LOGGER.debug("Preparing slice {} [{}, {}]", new Object[] { sliceId, sliceStart, sliceEnd });
 
         RenderWindow window = new RenderWindow(sliceStart, sliceEnd, 0, imageHeight);
-        slices.add(new RenderCallable(sliceId, camera, this.sampler, window, rasterToCamera));
+        slices.add(new RenderCallable(sliceId, this.sampler, window, rasterToCamera));
       }
 
       ExecutorService renderingExecutor = Executors.newFixedThreadPool(numberOfCores);
@@ -250,7 +231,7 @@ public class RayTracer {
 
     this.printRenderStatistics(overallTime.elapsedMillis(), cpuTime);
 
-    return this.camera.createColorImage();
+    return this.camera.getFilm();
 
   }
 
@@ -258,10 +239,7 @@ public class RayTracer {
    * This contains the actual render loop. Use this method for creating the
    * color informations. The results are recorded by the {@link Film} which is
    * in the camera (just like in real life...).
-   *
-   * @param camera
-   *          The {@link yaphyre.core.Camera} containing the {@link Film} which
-   *          records all the information.
+   * 
    * @param sampler
    *          The {@link Sampler} to use. This allows for sub pixel rendering
    *          used for a very simple anti aliasing.
@@ -272,7 +250,7 @@ public class RayTracer {
    *          The transformation from the raster space into the camera space.
    *          THis is here for optimization.
    */
-  private void renderWindow(yaphyre.core.Camera<?> camera, Sampler sampler, RenderWindow window, Transformation rasterToCamera) {
+  private void renderWindow(Sampler sampler, RenderWindow window, Transformation rasterToCamera) {
 
     for (int v = window.getYMin(); v < window.getYMax(); v++) {
       for (int u = window.getXMin(); u < window.getXMax(); u++) {
@@ -287,15 +265,13 @@ public class RayTracer {
         for (Point2D samplePoint : sampler.getUnitSquareSamples()) {
           sampleCount++;
           Point2D cameraCoordinates = rasterToCamera.transform(rasterPoint.add(samplePoint));
-          Ray eyeRay = camera.getCameraRay(cameraCoordinates);
+          Ray eyeRay = this.camera.getCameraRay(cameraCoordinates);
           RenderStatistics.incEyeRays();
           color = color.add(this.traceRay(eyeRay, 1));
         }
         color = color.multiply(1d / sampleCount);
 
-        camera.getFilm().addCameraSample(sample, color);
-
-        this.camera.setColor(u, v, color.clip());
+        this.camera.getFilm().addCameraSample(sample, color);
       }
     }
 
@@ -306,13 +282,13 @@ public class RayTracer {
    * through the scene. If it hits an object secondary rays may be generated
    * which in turn are traced again by this method. It calls itself recursively
    * in order to calculate effects like reflection and refraction.
-   *
+   * 
    * @param ray
    *          The {@link Ray} to follow trough the scene.
    * @param iteration
    *          The iteration depth. Prevents the algorithm from being stuck in an
    *          endless loop.
-   *
+   * 
    * @return The {@link Color} the origin of the {@link Ray} "sees" in the
    *         scene.
    */
@@ -342,7 +318,7 @@ public class RayTracer {
   /**
    * For a given point, calculate the hue and brightness contributed by the
    * lights in the scene.
-   *
+   * 
    * @param shapeCollisionInfo
    *          The {@link CollisionInformation} describing where the point lies
    *          and of which {@link Shape} it is a part of.
@@ -350,7 +326,7 @@ public class RayTracer {
    *          The u/v coordinates on the shape.
    * @param objectColor
    *          The {@link Color} of the shape.
-   *
+   * 
    * @return The Color of the light which depends on the distance and the angle
    *         under which the light is 'seen'.
    */
@@ -379,7 +355,7 @@ public class RayTracer {
    * The origin of that ray is the point of collision (with a small correction
    * to prevent self-shadowing). It the calls {@link #traceRay(Ray, int)} to
    * determine the {@link Color} information at that point.
-   *
+   * 
    * @param ray
    *          The incoming ray.
    * @param iteration
@@ -389,7 +365,7 @@ public class RayTracer {
    *          The {@link Shape} for which the reflection is calculated.
    * @param uvCoordinates
    *          The u/v coordinates on the {@link Shape}.
-   *
+   * 
    * @return The {@link Color} for what the reflected ray 'sees' in the scene.
    */
   private Color calculateReflectedColor(Ray ray, int iteration, CollisionInformation shapeCollisionInfo, Point2D uvCoordinates) {
@@ -411,7 +387,7 @@ public class RayTracer {
    * Print some statistics, like number of rays, rendering time, total CPU time
    * and some more. The two parameter are used to calculate the factor by which
    * the rendering was speed up by using multiple CPUs.
-   *
+   * 
    * @param duration
    *          The duration of the rendering (the time the caller had to wait)
    * @param cpuTime
@@ -437,42 +413,14 @@ public class RayTracer {
   }
 
   /**
-   * This is only temporary. Setup a {@link Camera}. This will be needed no
-   * longer as soon as the {@link yaphyre.core.Camera} implementation is
-   * finished.
-   */
-  @Beta
-  private Camera setupCamera(int width, int height, double frameWidth, double frameHeight, Point3D cameraPosition, Vector3D cameraDirection) {
-
-    int imageArraySize = width * height;
-    Camera camera = new Camera();
-    camera.position = cameraPosition;
-    camera.direction = cameraDirection.normalize();
-    camera.width = width;
-    camera.height = height;
-    camera.minX = cameraPosition.getX() - frameWidth / 2;
-    camera.maxX = camera.minX + frameWidth;
-    camera.minY = cameraPosition.getY() - frameHeight / 2;
-    camera.maxY = camera.minY + frameHeight;
-    camera.stepX = frameWidth / (width);
-    camera.stepY = frameHeight / (height);
-    camera.depthChannel = new short[imageArraySize];
-    camera.colorChannel = new double[imageArraySize][4];
-
-    return camera;
-  }
-
-  /**
    * Implementation of the {@link Callable} interface in order to parallelize
    * the rendering process.
-   *
+   * 
    * @author Michael Bieri
    */
   private class RenderCallable implements Callable<Long> {
 
     private final int sliceId;
-
-    private final yaphyre.core.Camera<?> camera;
 
     private final Sampler sampler;
 
@@ -480,9 +428,8 @@ public class RayTracer {
 
     private final Transformation rasterToCamera;
 
-    public RenderCallable(int sliceId, yaphyre.core.Camera<?> camera, Sampler sampler, RenderWindow window, Transformation rasterToCamera) {
+    public RenderCallable(int sliceId, Sampler sampler, RenderWindow window, Transformation rasterToCamera) {
       this.sliceId = sliceId;
-      this.camera = camera;
       this.sampler = sampler;
       this.window = window;
       this.rasterToCamera = rasterToCamera;
@@ -493,7 +440,7 @@ public class RayTracer {
      * does is calling the
      * {@link RayTracer#renderWindow(yaphyre.core.Camera, Sampler, RenderWindow, Transformation)}
      * method in order to render the content of its allocated raster area.
-     *
+     * 
      * @return The duration in milliseconds
      */
     @Override
@@ -501,7 +448,7 @@ public class RayTracer {
       LOGGER.debug("Starting slice {}", this.sliceId);
       Stopwatch renderingStopwatch = new Stopwatch();
       renderingStopwatch.start();
-      RayTracer.this.renderWindow(this.camera, this.sampler, this.window, this.rasterToCamera);
+      RayTracer.this.renderWindow(this.sampler, this.window, this.rasterToCamera);
       renderingStopwatch.stop();
       LOGGER.debug("Slice {} done in {}ms", new Object[] { this.sliceId, renderingStopwatch.elapsedMillis() });
       return renderingStopwatch.elapsedMillis();

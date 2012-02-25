@@ -29,34 +29,39 @@ import com.google.common.base.Preconditions;
  * A common super class for all implemented {@link Camera}. This handles some
  * common stuff like transformations and the film instances.
  * 
- * @param <F>
- *          The type of film used by the instance.
- * 
  * @version $Revision: 42 $
  * 
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
-public abstract class AbstractCamera<F extends Film> implements Camera<F> {
+public abstract class AbstractCamera implements Camera {
 
   private final Transformation world2Camera;
 
   private final Transformation camera2World;
 
-  private final BaseCameraSettings<F> cameraSettings;
+  private final BaseCameraSettings cameraSettings;
 
-  public AbstractCamera(BaseCameraSettings<F> baseSettings) {
+  private Film film;
+
+  public AbstractCamera(BaseCameraSettings baseSettings, Film film) {
     this.cameraSettings = baseSettings;
     this.world2Camera = Transformation.lookAt(baseSettings.getPosition(), baseSettings.getLookAt(), baseSettings.getUp());
     this.camera2World = this.world2Camera.inverse();
+    this.film = film;
   }
 
   @Override
   public abstract Ray getCameraRay(Point2D viewPlanePoint);
 
   @Override
-  public F getFilm() {
-    return this.cameraSettings.getFilm();
+  public Film getFilm() {
+    return this.film;
+  }
+
+  @Override
+  public void setFilm(Film film) {
+    this.film = film;
   }
 
   protected double getNearClip() {
@@ -96,12 +101,10 @@ public abstract class AbstractCamera<F extends Film> implements Camera<F> {
    * @author Michael Bieri
    * @author $LastChangedBy: mike0041@gmail.com $
    */
-  public static class BaseCameraSettings<F extends Film> {
+  public static class BaseCameraSettings {
     private final double nearClip;
 
     private final double farClip;
-
-    private final F film;
 
     private final Point3D position;
 
@@ -109,25 +112,24 @@ public abstract class AbstractCamera<F extends Film> implements Camera<F> {
 
     private final Vector3D up;
 
-    public static <T extends Film> BaseCameraSettings<T> create(Point3D position, Point3D lookAt, T film) {
-      return create(0d, Double.MAX_VALUE, position, lookAt, Vector3D.Y, film);
+    public static BaseCameraSettings create(Point3D position, Point3D lookAt) {
+      return create(0d, Double.MAX_VALUE, position, lookAt, Vector3D.Y);
     }
 
-    public static <T extends Film> BaseCameraSettings<T> create(Point3D position, Point3D lookAt, Vector3D up, T film) {
-      return create(0d, Double.MAX_VALUE, position, lookAt, up, film);
+    public static BaseCameraSettings create(Point3D position, Point3D lookAt, Vector3D up) {
+      return create(0d, Double.MAX_VALUE, position, lookAt, up);
     }
 
-    public static <T extends Film> BaseCameraSettings<T> create(double nearClip, double farClip, Point3D position, Point3D lookAt, Vector3D up, T film) {
-      return new BaseCameraSettings<T>(nearClip, farClip, position, lookAt, up, film);
+    public static BaseCameraSettings create(double nearClip, double farClip, Point3D position, Point3D lookAt, Vector3D up) {
+      return new BaseCameraSettings(nearClip, farClip, position, lookAt, up);
     }
 
-    private BaseCameraSettings(double nearClip, double farClip, Point3D position, Point3D lookAt, Vector3D up, F film) {
+    private BaseCameraSettings(double nearClip, double farClip, Point3D position, Point3D lookAt, Vector3D up) {
       Preconditions.checkArgument(!position.equals(lookAt), "the position and look at point must not be equal");
       this.nearClip = nearClip;
       this.farClip = farClip;
       this.position = position;
       this.lookAt = lookAt;
-      this.film = film;
       this.up = up;
     }
 
@@ -151,9 +153,6 @@ public abstract class AbstractCamera<F extends Film> implements Camera<F> {
       return this.up;
     }
 
-    public F getFilm() {
-      return this.film;
-    }
   }
 
 }

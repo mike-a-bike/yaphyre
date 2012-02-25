@@ -34,7 +34,7 @@ import com.google.common.base.Preconditions;
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
-public class OrthographicCamera<F extends Film> extends AbstractCamera<F> implements Camera<F> {
+public class OrthographicCamera extends AbstractCamera implements Camera {
 
   private final OrthographicCameraSettings cameraSettings;
 
@@ -42,8 +42,8 @@ public class OrthographicCamera<F extends Film> extends AbstractCamera<F> implem
 
   private final double viewPlaneHeightStart;
 
-  public OrthographicCamera(BaseCameraSettings<F> baseSettings, OrthographicCameraSettings orthographicSettings) {
-    super(baseSettings);
+  public OrthographicCamera(BaseCameraSettings baseSettings, OrthographicCameraSettings orthographicSettings, Film film) {
+    super(baseSettings, film);
     this.cameraSettings = orthographicSettings;
     this.viewPlaneWidthStart = -(this.cameraSettings.getViewPlaneWidth() / 2d);
     this.viewPlaneHeightStart = -(this.cameraSettings.getViewPlaneHeight() / 2d);
@@ -54,7 +54,7 @@ public class OrthographicCamera<F extends Film> extends AbstractCamera<F> implem
     Preconditions.checkArgument(viewPlanePoint.getU() >= 0d && viewPlanePoint.getU() <= 1d);
     Preconditions.checkArgument(viewPlanePoint.getV() >= 0d && viewPlanePoint.getV() <= 1d);
 
-    Point2D mappedPoint = mapViewPlanePoint(viewPlanePoint);
+    Point2D mappedPoint = this.mapViewPlanePoint(viewPlanePoint);
     Ray result = new Ray(new Point3D(mappedPoint.getU(), mappedPoint.getV(), 0), Vector3D.Z);
     result = super.getCamera2World().transform(result);
 

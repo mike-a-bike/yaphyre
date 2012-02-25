@@ -21,19 +21,19 @@ import yaphyre.geometry.Ray;
 /**
  * This is the common interface all cameras must implement.
  * 
- * @param <F>
- *          The type of film used by a concrete instance.
- * 
  * @version $Revision: 42 $
  * 
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
-public interface Camera<F extends Film> {
+public interface Camera {
 
   /**
    * Create a ray for the given u/v coordinates. Where <em>u</em> &isin; [0, 1]
-   * and <em>v</em> &isin; [0, 1].
+   * and <em>v</em> &isin; [0, 1]. It is possible, that a camera returns
+   * different samples for a given view plane point. This is used to simulate
+   * depth of field effects by sampling the same view plane point using a non
+   * zero lens size.
    * 
    * @param viewPlanePoint
    *          The {@link Point2D} to create the camera ray for.
@@ -44,14 +44,6 @@ public interface Camera<F extends Film> {
   public Ray getCameraRay(Point2D viewPlanePoint);
 
   /**
-   * Gets an {@link Iterable} instance to loop over all camera samples.
-   * 
-   * @return An instance of {@link Iterable} usable to loop over the camera
-   *         samples
-   */
-  // public Iterable<CameraSample> getCameraSamples();
-
-  /**
    * Get the {@link Film} instance that is associated with the camera. This is
    * usually an image file, but can be something else as well.
    * 
@@ -59,6 +51,14 @@ public interface Camera<F extends Film> {
    * 
    * @see yaphyre.films.ImageFile
    */
-  public F getFilm();
+  public Film getFilm();
+
+  /**
+   * Sets the {@link Film} instance for this camera.
+   * 
+   * @param film
+   *          An instance of {@link Film}.
+   */
+  public void setFilm(Film film);
 
 }
