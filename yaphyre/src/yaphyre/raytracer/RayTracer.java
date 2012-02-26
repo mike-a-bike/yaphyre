@@ -180,21 +180,32 @@ public class RayTracer {
       // Slicing up the work
       int numberOfCores = this.getNumberOfCPUs();
       int numberOfRenderingTasks = numberOfCores * SLICES_PER_CORE;
-      int sliceWidth = (imageWidth + (numberOfRenderingTasks - 1)) / numberOfRenderingTasks;
+      int sliceWidth = (imageWidth + (numberOfCores - 1)) / numberOfCores;
+      int sliceHeight = (imageHeight + (SLICES_PER_CORE - 1)) / SLICES_PER_CORE;
+
       List<RenderCallable> slices = new ArrayList<RayTracer.RenderCallable>();
 
       LOGGER.info("Using mutli threaded renderer with {} cores", numberOfCores);
       LOGGER.info("Splitting rendering into {} slices", numberOfRenderingTasks);
 
-      for (int i = 0; i < numberOfRenderingTasks; i++) {
-        int sliceId = i + 1;
-        int sliceStart = i * sliceWidth;
-        int sliceEnd = Math.min(imageWidth, (i + 1) * sliceWidth);
+      for (int verticalSliceIndex = 0; verticalSliceIndex < SLICES_PER_CORE; verticalSliceIndex++) {
 
-        LOGGER.debug("Preparing slice {} [{}, {}]", new Object[] { sliceId, sliceStart, sliceEnd });
+        int sliceStartY = verticalSliceIndex * sliceHeight;
+        int sliceEndY = Math.min(imageHeight, (verticalSliceIndex + 1) * sliceHeight);
 
-        RenderWindow window = new RenderWindow(sliceStart, sliceEnd, 0, imageHeight);
-        slices.add(new RenderCallable(sliceId, this.sampler, window, rasterToCamera));
+        for (int horizontalSliceIndex = 0; horizontalSliceIndex < numberOfCores; horizontalSliceIndex++) {
+
+          int sliceId = verticalSliceIndex * numberOfCores + horizontalSliceIndex;
+          int sliceStartX = horizontalSliceIndex * sliceWidth;
+          int sliceEndX = Math.min(imageWidth, (horizontalSliceIndex + 1) * sliceWidth);
+
+          LOGGER.debug("Preparing slice {} [{}/{} {}/{}]", new Object[] { sliceId, sliceStartX, sliceStartY, sliceEndX, sliceEndY });
+
+          RenderWindow window = new RenderWindow(sliceStartX, sliceEndX, sliceStartY, sliceEndY);
+
+          slices.add(new RenderCallable(sliceId, this.sampler, window, rasterToCamera));
+
+        }
       }
 
       ExecutorService renderingExecutor = Executors.newFixedThreadPool(numberOfCores);
