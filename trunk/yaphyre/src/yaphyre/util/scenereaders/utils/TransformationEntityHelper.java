@@ -93,11 +93,16 @@ class TransformationEntityHelper implements EntityHelper<Transformation> {
   private Transformation decodeLookAt(Match transformationMatch) {
     Point3D eye = Point3DEntityHelper.INSTANCE.decodeEntity(transformationMatch.child("eye"));
     Point3D lookAt = Point3DEntityHelper.INSTANCE.decodeEntity(transformationMatch.child("lookAt"));
+    Vector3D up = decodeUp(transformationMatch);
+    return Transformation.lookAt(eye, lookAt, up);
+  }
+
+  private Vector3D decodeUp(Match transformationMatch) {
     Match upMatch = transformationMatch.child("up");
     Vector3D up = Vector3D.Y;
     if (!upMatch.isEmpty()) {
       up = Vector3DEntityHelper.INSTANCE.decodeEntity(upMatch);
     }
-    return Transformation.lookAt(eye, lookAt, up);
+    return up;
   }
 }

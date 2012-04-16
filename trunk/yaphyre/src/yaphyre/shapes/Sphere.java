@@ -26,6 +26,7 @@ import static yaphyre.geometry.MathUtils.INV_TWO_PI;
 
 import java.text.MessageFormat;
 
+import yaphyre.core.BoundingBox;
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
 import yaphyre.geometry.Normal3D;
@@ -45,7 +46,7 @@ import yaphyre.geometry.Vector3D;
  * <li>p: point on the sphere</li>
  * <li>r: radius</li>
  * </ul>
- *
+ * 
  * @author Michael Bieri
  */
 public class Sphere extends AbstractShape {
@@ -58,6 +59,8 @@ public class Sphere extends AbstractShape {
   /** The squared radius of the unit sphere is 1: 1^2 = 1 */
   private static final int RADIUS_SQUARED = 1;
 
+  private final BoundingBox boundingBox;
+
   /**
    * Helper method for creating a sphere where the center and its radius are
    * known. This creates a transformation which scales the unit sphere by the
@@ -65,7 +68,7 @@ public class Sphere extends AbstractShape {
    * the resulting matrix looks like this: <br/>
    * [[r 0 0 c<sub>x</sub>] [0 r 0 c<sub>y</sub>] [0 0 r c<sub>z</sub>] [0 0 0
    * 1]]
-   *
+   * 
    * @param center
    *          The center of the sphere (c<sub>x, y, z</sub>)
    * @param radius
@@ -74,9 +77,9 @@ public class Sphere extends AbstractShape {
    *          The {@link Shader} to use for rendering
    * @param throwsShadow
    *          Flag whether this {@link Shape} throws a shadow or not
-   *
+   * 
    * @return A new instance of {@link Sphere}.
-   *
+   * 
    * @throws NullPointerException
    *           If either <code>center</code> or <code>shader</code> are
    *           <code>null</code>, a {@link NullPointerException} is thrown.
@@ -103,7 +106,7 @@ public class Sphere extends AbstractShape {
    * <li>Change the center -> Use a translation transformation.</li>
    * <li>Make an ellipsoid -> Use a non uniform scaling transformation</li>
    * </ul>
-   *
+   * 
    * @param objectToWorld
    *          The {@link Transformation} to translate from object space into
    *          world space.
@@ -111,13 +114,14 @@ public class Sphere extends AbstractShape {
    *          The {@link Shader} to use for this instance.
    * @param throwsShadow
    *          Flag whether this shape throws a shadow or not.
-   *
+   * 
    * @throws NullPointerException
    *           If either <code>objectToWorld</code> or <code>shader</code> is
    *           <code>null</code>, a {@link NullPointerException} is thrown.
    */
   public Sphere(Transformation objectToWorld, Shader shader, boolean throwsShadow) throws NullPointerException {
     super(objectToWorld, shader, throwsShadow);
+    this.boundingBox = new BoundingBox(super.getObjectToWorld().transform(new Point3D(-1, -1, -1)), super.getObjectToWorld().transform(new Point3D(1, 1, 1)));
   }
 
   @Override
@@ -145,6 +149,14 @@ public class Sphere extends AbstractShape {
   }
 
   /**
+   * {@inheritDoc}
+   */
+  @Override
+  public BoundingBox getBoundingBox() {
+    return this.boundingBox;
+  }
+
+  /**
    * Determine the distance on a half line where this line intersects with the
    * sphere. To do this, we use the parametric form of a line which is:<br/>
    * p(<em>t</em>) = p<sub>0</sub> + <em>t</em> * d<br/>
@@ -162,10 +174,10 @@ public class Sphere extends AbstractShape {
    * - 4c<sub>2</sub>c<sub>0</sub>)) / 2c<sub>2</sub><br/>
    * <em>t</em><sub>1</sub> = (-c<sub>1</sub> + SQRT( c<sub>1</sub><sup>2</sup>
    * - 4c<sub>2</sub>c<sub>0</sub>)) / 2c<sub>2</sub><br/>
-   *
+   * 
    * @param ray
    *          The {@link Ray} to intersect with this sphere.
-   *
+   * 
    * @return The distance in which the ray intersects this sphere, or if they do
    *         not intersect {@link Shape#NO_INTERSECTION}.
    */
@@ -222,11 +234,11 @@ public class Sphere extends AbstractShape {
    * <li><em>tan</em>(&phi;) = <em>y</em> / <em>x</em></li>
    * </ul>
    * With &theta; &isin; [0, &pi;) and &phi; &isin; [0, 2&pi;)
-   *
+   * 
    * @throws NullPointerException
    *           If <code>surfacePoint</code> is <code>null</code> a
    *           {@link NullPointerException} is thrown.
-   *
+   * 
    * @throws IllegalArgumentException
    *           If <code>surfacePoint</code> does not lie on the surface of the
    *           sphere an {@link IllegalArgumentException} is thrown.

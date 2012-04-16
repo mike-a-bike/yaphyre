@@ -491,6 +491,8 @@ public class Transformation implements Serializable {
     return new Ray(newOrigin, newDirection, r.getMint(), r.getMaxt());
   }
 
+  // TODO implement a transformation of BoundingBoxes
+
   public Matrix getMatrix() {
     return this.matrix;
   }
