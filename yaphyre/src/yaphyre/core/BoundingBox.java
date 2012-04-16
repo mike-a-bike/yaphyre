@@ -15,15 +15,14 @@
  */
 package yaphyre.core;
 
-import static java.lang.Double.POSITIVE_INFINITY;
 import static java.lang.Double.NEGATIVE_INFINITY;
-import static java.lang.Math.min;
+import static java.lang.Double.POSITIVE_INFINITY;
 import static java.lang.Math.max;
-
-import com.google.common.base.Objects;
-
+import static java.lang.Math.min;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
+
+import com.google.common.base.Objects;
 
 /**
  * Bounding boxes are used to speed up the rendering process. Complex
@@ -32,13 +31,35 @@ import yaphyre.geometry.Ray;
  * If the {@link Ray} intersects the bounding box, the more expensive check must
  * be performed to check if the {@link Ray} also intersects with the wrapped
  * {@link Shape}.
- *
+ * 
  * @version $Revision: 91 $
- *
+ * 
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
 public class BoundingBox {
+
+  public static final BoundingBox INFINITE_BOUNDING_BOX = new BoundingBox(new Point3D(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY), new Point3D(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY)) {
+    @Override
+    public boolean isHitBy(Ray ray) {
+      return true;
+    }
+
+    @Override
+    public boolean isInside(Point3D p) {
+      return true;
+    }
+
+    @Override
+    public boolean overlaps(BoundingBox box) {
+      return true;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      return obj == this;
+    }
+  };
 
   protected Point3D pointMin;
   protected Point3D pointMax;
@@ -86,12 +107,12 @@ public class BoundingBox {
 
   @Override
   public String toString() {
-    return Objects.toStringHelper(this.getClass()).add("pMin", pointMin).add("pMax", pointMax).toString();
+    return Objects.toStringHelper(this.getClass()).add("pMin", this.pointMin).add("pMax", this.pointMax).toString();
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(this.getClass(), pointMin, pointMax);
+    return Objects.hashCode(this.getClass(), this.pointMin, this.pointMax);
   }
 
   @Override
@@ -110,15 +131,15 @@ public class BoundingBox {
   }
 
   public boolean isInside(Point3D p) {
-    return pointMin.getX() <= p.getX() && pointMax.getX() >= p.getX()
-        && pointMin.getY() <= p.getY() && pointMax.getY() >= p.getY()
-        && pointMin.getZ() <= p.getZ() && pointMax.getZ() >= p.getZ();
+    return this.pointMin.getX() <= p.getX() && this.pointMax.getX() >= p.getX()
+        && this.pointMin.getY() <= p.getY() && this.pointMax.getY() >= p.getY()
+        && this.pointMin.getZ() <= p.getZ() && this.pointMax.getZ() >= p.getZ();
   }
 
   public boolean overlaps(BoundingBox box) {
-    return pointMin.getX() <= box.pointMin.getX() && pointMax.getX() >= box.pointMax.getX()
-        && pointMin.getY() <= box.pointMin.getY() && pointMax.getY() >= box.pointMax.getY()
-        && pointMin.getZ() <= box.pointMin.getZ() && pointMax.getZ() >= box.pointMax.getZ();
+    return this.pointMin.getX() <= box.pointMin.getX() && this.pointMax.getX() >= box.pointMax.getX()
+        && this.pointMin.getY() <= box.pointMin.getY() && this.pointMax.getY() >= box.pointMax.getY()
+        && this.pointMin.getZ() <= box.pointMin.getZ() && this.pointMax.getZ() >= box.pointMax.getZ();
   }
 
   public boolean isHitBy(Ray ray) {

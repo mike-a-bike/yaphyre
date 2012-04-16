@@ -16,6 +16,7 @@
 package yaphyre.shapes;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import yaphyre.core.BoundingBox;
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
 import yaphyre.geometry.Normal3D;
@@ -32,9 +33,9 @@ import yaphyre.geometry.Transformation;
  * All methods just transform the {@link Point3D}, {@link Ray} or
  * {@link Normal3D} instances using the given transformation in order to
  * calculate the required informations.
- *
+ * 
  * @version $Revision: 66 $
- *
+ * 
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  */
@@ -46,12 +47,21 @@ public class Instance extends AbstractShape implements Shape {
 
   private final Transformation instanceTransformation;
 
+  private final BoundingBox boundingBox;
+
   public Instance(Shape baseShape, Transformation instanceTransformation, Shader shader, boolean throwsShadow) {
     super(Transformation.IDENTITY, shader, throwsShadow);
     checkNotNull(baseShape);
     checkNotNull(instanceTransformation);
     this.baseShape = baseShape;
     this.instanceTransformation = instanceTransformation;
+    // TODO implement transformation for base shape bounding box.
+    this.boundingBox = BoundingBox.INFINITE_BOUNDING_BOX;
+  }
+
+  @Override
+  public BoundingBox getBoundingBox() {
+    return this.boundingBox;
   }
 
   @Override
