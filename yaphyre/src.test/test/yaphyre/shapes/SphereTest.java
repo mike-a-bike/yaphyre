@@ -1,8 +1,10 @@
 package test.yaphyre.shapes;
 
+import static org.mockito.Mockito.mock;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 
@@ -23,7 +25,8 @@ import yaphyre.util.Color;
 public class SphereTest {
 
   private Shape createTestSphere() {
-    return Sphere.createSphere(new Point3D(2d, 0d, 0d), 1d, new TestShader(), true);
+    Shader testShader = mock(Shader.class);
+    return Sphere.createSphere(new Point3D(2d, 0d, 0d), 1d, testShader, true);
   }
 
   /**
@@ -32,12 +35,18 @@ public class SphereTest {
    * @return The unit sphere.
    */
   private Shape createUnitSphere() {
-    return Sphere.createSphere(Point3D.ORIGIN, 1d, new TestShader(), true);
+    Shader shader = mock(Shader.class);
+    return Sphere.createSphere(Point3D.ORIGIN, 1d, shader, true);
   }
 
   @Test
   public void testSphere() {
-    Sphere s = Sphere.createSphere(new Point3D(1d, 1d, 1d), 1d, new TestShader(), true);
+    Shader shader = mock(Shader.class);
+    Point3D origin = mock(Point3D.class);
+    when(origin.getX()).thenReturn(1d);
+    when(origin.getY()).thenReturn(1d);
+    when(origin.getZ()).thenReturn(1d);
+    Sphere s = Sphere.createSphere(origin, 1d, shader, true);
     System.out.println("New sphere created: " + s);
     assertNotNull(s);
   }
@@ -224,13 +233,7 @@ public class SphereTest {
 
     @Override
     public boolean equals(Object obj) {
-      if (this == obj) {
-        return true;
-      }
-      if (obj instanceof TestShader) {
-        return true;
-      }
-      return false;
+        return (this == obj) || (obj instanceof TestShader);
     }
 
   }
