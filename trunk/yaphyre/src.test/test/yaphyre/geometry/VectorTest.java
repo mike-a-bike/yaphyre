@@ -24,6 +24,7 @@ public class VectorTest {
     assertEquals(2d, v.getZ(), 0);
   }
 
+  @Test
   public void testVectorWithPoints() {
     Point3D startPoint = new Point3D(1d, 1d, 1d);
     Point3D endPoint = new Point3D(2d, 2d, 2d);
@@ -41,7 +42,7 @@ public class VectorTest {
     assertFalse(v1.equals("Hello, World"));
     assertTrue(v1.equals(Vector3D.NULL));
     assertFalse(v1.equals(v2));
-    assertFalse(v2.equals(Normal3D.NORMAL_X.asVector()));
+    assertFalse(v2.equals(Vector3D.X));
   }
 
   @Test
@@ -68,7 +69,7 @@ public class VectorTest {
     assertEquals(3d, result.getY(), 0);
     assertEquals(3d, result.getZ(), 0);
 
-    result = Normal3D.NORMAL_X.asVector().add(Normal3D.NORMAL_Y.asVector()).add(Normal3D.NORMAL_Z.asVector());
+    result = Vector3D.X.add(Vector3D.Y).add(Vector3D.Z);
     assertEquals(1d, result.getX(), 0);
     assertEquals(1d, result.getY(), 0);
     assertEquals(1d, result.getZ(), 0);
@@ -103,16 +104,16 @@ public class VectorTest {
     System.out.println("Length of " + Vector3D.NULL + " is: " + length);
     assertEquals(0d, length, 0);
 
-    length = Normal3D.NORMAL_X.asVector().length();
-    System.out.println("Length of " + Normal3D.NORMAL_X.asVector() + " is: " + length);
+    length = Vector3D.X.length();
+    System.out.println("Length of " + Vector3D.X + " is: " + length);
     assertEquals(1d, length, 0);
 
-    length = Normal3D.NORMAL_Y.asVector().length();
-    System.out.println("Length of " + Normal3D.NORMAL_Y.asVector() + " is: " + length);
+    length = Vector3D.Y.length();
+    System.out.println("Length of " + Vector3D.Y + " is: " + length);
     assertEquals(1d, length, 0);
 
-    length = Normal3D.NORMAL_Z.asVector().length();
-    System.out.println("Length of " + Normal3D.NORMAL_Z.asVector() + " is: " + length);
+    length = Vector3D.Z.length();
+    System.out.println("Length of " + Vector3D.Z + " is: " + length);
     assertEquals(1d, length, 0);
 
     v = new Vector3D(1d, 1d, 1d);
@@ -230,29 +231,29 @@ public class VectorTest {
 
     // result is the z axis normal since the cross product of the x-y plane lies
     // on the z-axis.
-    v1 = Normal3D.NORMAL_X.asVector();
-    v2 = Normal3D.NORMAL_Y.asVector();
+    v1 = Vector3D.X;
+    v2 = Vector3D.Y;
     result = v1.cross(v2);
     System.out.println(v1 + " x " + v2 + " = " + result);
-    assertEquals(Normal3D.NORMAL_Z.asVector(), result);
+    assertEquals(Vector3D.Z, result);
 
-    v1 = Normal3D.NORMAL_Y.asVector();
-    v2 = Normal3D.NORMAL_X.asVector();
+    v1 = Vector3D.Y;
+    v2 = Vector3D.X;
     result = v1.cross(v2);
     System.out.println(v1 + " x " + v2 + " = " + result);
-    assertEquals(Normal3D.NORMAL_Z.asVector().neg(), result);
+    assertEquals(Vector3D.Z.neg(), result);
 
-    v1 = Normal3D.NORMAL_Y.asVector();
-    v2 = Normal3D.NORMAL_Z.asVector();
+    v1 = Vector3D.Y;
+    v2 = Vector3D.Z;
     result = v1.cross(v2);
     System.out.println(v1 + " x " + v2 + " = " + result);
-    assertEquals(Normal3D.NORMAL_X.asVector(), result);
+    assertEquals(Vector3D.X, result);
 
-    v1 = Normal3D.NORMAL_X.asVector();
-    v2 = Normal3D.NORMAL_Z.asVector();
+    v1 = Vector3D.X;
+    v2 = Vector3D.Z;
     result = v1.cross(v2);
     System.out.println(v1 + " x " + v2 + " = " + result);
-    assertEquals(Normal3D.NORMAL_Y.asVector().neg(), result);
+    assertEquals(Vector3D.Y.neg(), result);
 
     v1 = new Vector3D(2, 0, 0);
     v2 = new Vector3D(0, 10, 0);
@@ -261,7 +262,7 @@ public class VectorTest {
     // The new vector should have a length of 2 * 10
     // and a direction along the z-axis
     assertEquals(20d, result.length(), 0);
-    assertEquals(Normal3D.NORMAL_Z.asVector(), result.normalize());
+    assertEquals(Vector3D.Z, result.normalize());
 
   }
 
@@ -271,7 +272,7 @@ public class VectorTest {
 
     stringRep = Vector3D.NULL.toString();
 
-    assertEquals("<0.000, 0.000, 0.000>", stringRep);
+    assertEquals("Vector3D{x=0.0, y=0.0, z=0.0}", stringRep);
   }
 
   @Test
