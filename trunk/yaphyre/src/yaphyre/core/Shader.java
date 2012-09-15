@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 Michael Bieri
+ * Copyright 2012 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -13,28 +13,28 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package yaphyre.core;
 
-import java.io.Serializable;
+package yaphyre.core;
 
 import yaphyre.geometry.Point2D;
 import yaphyre.shaders.Material;
 import yaphyre.util.Color;
+
+import java.io.Serializable;
 
 /**
  * The common interface for all shading activities. It provides two method. One
  * for accessing the material at the given u- v- coordinates. And another for
  * accessing the material properties at the given coordinates.
  *
- * @version $Revision$
- *
  * @author Michael Bieri
  * @author $LastChangedBy$
+ * @version $Revision$
  */
 public interface Shader extends Serializable {
 
-  public Color getColor(Point2D uvCoordinate);
+	public Color getColor(Point2D uvCoordinate);
 
-  public Material getMaterial(Point2D uvCoordinate);
+	public Material getMaterial(Point2D uvCoordinate);
 
 }

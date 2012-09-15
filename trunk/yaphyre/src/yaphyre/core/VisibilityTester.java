@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 Michael Bieri
+ * Copyright 2012 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -13,6 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package yaphyre.core;
 
 import yaphyre.geometry.MathUtils;
@@ -27,27 +28,25 @@ import yaphyre.raytracer.Scene;
  * that this calculation and using this construct may be postponed until is is
  * necessary.
  *
- * @version $Revision: 96 $
- *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
- *
+ * @version $Revision: 96 $
  */
 public class VisibilityTester {
 
-  private final Ray ray;
+	private final Ray ray;
 
-  public VisibilityTester(Point3D p1, Point3D p2) {
-    Vector3D connectingVector = p2.sub(p1);
-    this.ray = new Ray(p1, connectingVector.normalize(), MathUtils.EPSILON, connectingVector.length() - MathUtils.EPSILON);
-  }
+	public VisibilityTester(Point3D p1, Point3D p2) {
+		Vector3D connectingVector = p2.sub(p1);
+		this.ray = new Ray(p1, connectingVector.normalize(), MathUtils.EPSILON, connectingVector.length() - MathUtils.EPSILON);
+	}
 
-  public VisibilityTester(Point3D p, Vector3D w) {
-    this.ray = new Ray(p, w.normalize());
-  }
+	public VisibilityTester(Point3D p, Vector3D w) {
+		this.ray = new Ray(p, w.normalize());
+	}
 
-  public boolean isUnobstructed(Scene scene) {
-    return scene.getCollidingShape(ray, ray.getMaxt(), true) == null;
-  }
+	public boolean isUnobstructed(Scene scene) {
+		return scene.getCollidingShape(ray, ray.getMaxt(), true) == null;
+	}
 
 }

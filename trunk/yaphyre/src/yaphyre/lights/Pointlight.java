@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 Michael Bieri
+ * Copyright 2012 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -30,47 +30,45 @@ import yaphyre.util.Color;
  * means, that the energy distribution is a delta function. It cannot be sampled
  * by using a purely random approach, since it cannot be hit by any ray.
  *
- * @version $Revision$
- *
  * @author Michael Bieri
  * @author $LastChangedBy$
- *
+ * @version $Revision$
  */
 public class Pointlight extends Lightsource {
 
-  private static final long serialVersionUID = -1976888619913693137L;
+	private static final long serialVersionUID = -1976888619913693137L;
 
-  /**
-   * The position of the point light. This is pre-calculated for convenience
-   * reasons.
-   */
-  private final Point3D position;
+	/**
+	 * The position of the point light. This is pre-calculated for convenience
+	 * reasons.
+	 */
+	private final Point3D position;
 
-  public Pointlight(Transformation l2w, Color color, double intensity) {
-    super(l2w, color, intensity, 1);
-    position = super.getLight2World().transform(Point3D.ORIGIN);
-  }
+	public Pointlight(Transformation l2w, Color color, double intensity) {
+		super(l2w, color, intensity, 1);
+		position = super.getLight2World().transform(Point3D.ORIGIN);
+	}
 
-  @Override
-  public LightSample sample(Point3D point) {
-    double distanceSquared = point.sub(this.position).lengthSquared();
-    Color energy = this.getColor().multiply(this.getIntensity() / distanceSquared);
-    Vector3D wi = this.position.sub(point).normalize();
-    VisibilityTester visibilityTester = new VisibilityTester(point, this.position);
-    return new LightSample(energy, wi, visibilityTester);
-  }
+	@Override
+	public LightSample sample(Point3D point) {
+		double distanceSquared = point.sub(this.position).lengthSquared();
+		Color energy = this.getColor().multiply(this.getIntensity() / distanceSquared);
+		Vector3D wi = this.position.sub(point).normalize();
+		VisibilityTester visibilityTester = new VisibilityTester(point, this.position);
+		return new LightSample(energy, wi, visibilityTester);
+	}
 
-  /**
-   * The pointlight emits the same amount of energy in all directions. So the
-   * total energy is integrated over a spheres surface.
-   */
-  @Override
-  public Color getTotalEnergy() {
-    return super.getColor().multiply(super.getIntensity() * 4d * Math.PI);
-  }
+	/**
+	 * The pointlight emits the same amount of energy in all directions. So the
+	 * total energy is integrated over a spheres surface.
+	 */
+	@Override
+	public Color getTotalEnergy() {
+		return super.getColor().multiply(super.getIntensity() * 4d * Math.PI);
+	}
 
-  @Override
-  public boolean isDeltaLight() {
-    return true;
-  }
+	@Override
+	public boolean isDeltaLight() {
+		return true;
+	}
 }

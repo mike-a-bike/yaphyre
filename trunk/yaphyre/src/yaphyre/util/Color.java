@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 Michael Bieri
+ * Copyright 2012 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,12 +15,12 @@
  */
 package yaphyre.util;
 
-import static com.google.common.primitives.Doubles.max;
-import static com.google.common.primitives.Doubles.min;
+import com.google.common.base.Objects;
 
 import java.io.Serializable;
 
-import com.google.common.base.Objects;
+import static com.google.common.primitives.Doubles.max;
+import static com.google.common.primitives.Doubles.min;
 
 /**
  * Represents a color by its three components of red, green and blue with a
@@ -37,167 +37,164 @@ import com.google.common.base.Objects;
  */
 public class Color implements Serializable {
 
-  private static final long serialVersionUID = 6104986207165257901L;
+	private static final long serialVersionUID = 6104986207165257901L;
 
-  /** Represent the value of black. */
-  public static final Color BLACK = new Color(0d, 0d, 0d);
+	/**
+	 * Represent the value of black.
+	 */
+	public static final Color BLACK = new Color(0d, 0d, 0d);
 
-  /** White */
-  public static final Color WHITE = new Color(1d, 1d, 1d);
+	/**
+	 * White
+	 */
+	public static final Color WHITE = new Color(1d, 1d, 1d);
 
-  private final double red;
+	private final double red;
 
-  private final double green;
+	private final double green;
 
-  private final double blue;
+	private final double blue;
 
-  public static double fromByteValue(int byteValue) {
-    return byteValue / 255d;
-  }
+	public static double fromByteValue(int byteValue) {
+		return byteValue / 255d;
+	}
 
-  public static int toByteValue(double doubleValue) {
-    return (int) (doubleValue * 255d);
-  }
+	public static int toByteValue(double doubleValue) {
+		return (int) (doubleValue * 255d);
+	}
 
-  public Color(java.awt.Color awtColor) throws NullPointerException {
-    this(fromByteValue(awtColor.getRed()), fromByteValue(awtColor.getGreen()), fromByteValue(awtColor.getBlue()));
-  }
+	public Color(java.awt.Color awtColor) throws NullPointerException {
+		this(fromByteValue(awtColor.getRed()), fromByteValue(awtColor.getGreen()), fromByteValue(awtColor.getBlue()));
+	}
 
-  public Color(double r, double g, double b) {
-    this.red = r;
-    this.green = g;
-    this.blue = b;
-  }
+	public Color(double r, double g, double b) {
+		this.red = r;
+		this.green = g;
+		this.blue = b;
+	}
 
-  @Override
-  public String toString() {
-    return Objects.toStringHelper(this).add("r", this.red).add("g", this.green).add("b", this.blue).toString();
-  }
+	@Override
+	public String toString() {
+		return Objects.toStringHelper(this).add("r", this.red).add("g", this.green).add("b", this.blue).toString();
+	}
 
-  /**
-   * Compares two instances. If the instance to compare to is a {@link Color},
-   * non-null and each its three color components has the same value as this
-   * instance, the two {@link Color}s are equal.
-   *
-   * @return <code>true</code> if both {@link Color} instances represent the
-   *         same red, green and blue values.
-   */
-  @Override
-  public boolean equals(Object obj) {
-    if (obj == this) {
-      return true;
-    }
-    if (obj instanceof Color) {
-      final Color color = (Color) obj;
-      return color.red == this.red && color.green == this.green && color.blue == this.blue;
-    }
-    return false;
-  }
+	/**
+	 * Compares two instances. If the instance to compare to is a {@link Color},
+	 * non-null and each its three color components has the same value as this
+	 * instance, the two {@link Color}s are equal.
+	 *
+	 * @return <code>true</code> if both {@link Color} instances represent the
+	 *         same red, green and blue values.
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+		if (obj instanceof Color) {
+			final Color color = (Color) obj;
+			return color.red == this.red && color.green == this.green && color.blue == this.blue;
+		}
+		return false;
+	}
 
-  @Override
-  public int hashCode() {
-    return Objects.hashCode(this.red, this.green, this.blue);
-  }
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(this.red, this.green, this.blue);
+	}
 
-  public double getRed() {
-    return this.red;
-  }
+	public double getRed() {
+		return this.red;
+	}
 
-  public double getGreen() {
-    return this.green;
-  }
+	public double getGreen() {
+		return this.green;
+	}
 
-  public double getBlue() {
-    return this.blue;
-  }
+	public double getBlue() {
+		return this.blue;
+	}
 
-  /**
-   * Multiply this color with another color. It does this by multiplying the
-   * separate components with each other.
-   *
-   * @param other
-   *          The {@link Color} to multiply the values with.
-   *
-   * @return A new instance with the multiplied values.
-   */
-  public Color multiply(Color other) {
-    return new Color(this.red * other.getRed(), this.green * other.getGreen(), this.blue * other.getBlue());
-  }
+	/**
+	 * Multiply this color with another color. It does this by multiplying the
+	 * separate components with each other.
+	 *
+	 * @param other The {@link Color} to multiply the values with.
+	 * @return A new instance with the multiplied values.
+	 */
+	public Color multiply(Color other) {
+		return new Color(this.red * other.getRed(), this.green * other.getGreen(), this.blue * other.getBlue());
+	}
 
-  /**
-   * Multiply the values of this color with a scalar. Thus 'scaling' the color
-   * value.
-   *
-   * @param factor
-   *          The value to multiply each color value with.
-   *
-   * @return A new instance with the multiplied values.
-   */
-  public Color multiply(double factor) {
-    return new Color(this.red * factor, this.green * factor, this.blue * factor);
-  }
+	/**
+	 * Multiply the values of this color with a scalar. Thus 'scaling' the color
+	 * value.
+	 *
+	 * @param factor The value to multiply each color value with.
+	 * @return A new instance with the multiplied values.
+	 */
+	public Color multiply(double factor) {
+		return new Color(this.red * factor, this.green * factor, this.blue * factor);
+	}
 
-  /**
-   * Add another {@link Color} to this {@link Color}. Adds each component
-   * separately and creates a new color with these values.
-   *
-   * @param other
-   *          The {@link Color} to add to this instance.
-   *
-   * @return A new instance of {@link Color} with the added values.
-   */
-  public Color add(Color other) {
-    return new Color(this.red + other.red, this.green + other.green, this.blue + other.blue);
-  }
+	/**
+	 * Add another {@link Color} to this {@link Color}. Adds each component
+	 * separately and creates a new color with these values.
+	 *
+	 * @param other The {@link Color} to add to this instance.
+	 * @return A new instance of {@link Color} with the added values.
+	 */
+	public Color add(Color other) {
+		return new Color(this.red + other.red, this.green + other.green, this.blue + other.blue);
+	}
 
-  /**
-   * When doing calculations with a color it can happen that the range between
-   * zero and one is exceeded. To use such a color in another context it is
-   * necessary to make sure that the value for the color components are within
-   * the allowed boundaries. Otherwise clipping can occur.<br/>
-   * By clipping the color values it ensures that values smaller than zero are
-   * set to zero and values bigger than one are set to one. Any other values are
-   * left as they are.
-   *
-   * @return A new instance of {@link Color} with each component value between
-   *         zero and one.
-   */
-  public Color clip() {
-    double r = Color.clipValue(this.red);
-    double g = Color.clipValue(this.green);
-    double b = Color.clipValue(this.blue);
-    return new Color(r, g, b);
-  }
+	/**
+	 * When doing calculations with a color it can happen that the range between
+	 * zero and one is exceeded. To use such a color in another context it is
+	 * necessary to make sure that the value for the color components are within
+	 * the allowed boundaries. Otherwise clipping can occur.<br/>
+	 * By clipping the color values it ensures that values smaller than zero are
+	 * set to zero and values bigger than one are set to one. Any other values are
+	 * left as they are.
+	 *
+	 * @return A new instance of {@link Color} with each component value between
+	 *         zero and one.
+	 */
+	public Color clip() {
+		double r = Color.clipValue(this.red);
+		double g = Color.clipValue(this.green);
+		double b = Color.clipValue(this.blue);
+		return new Color(r, g, b);
+	}
 
-  /**
-   * If a value for one of the three color components exceeds the range of zero
-   * to one all the components are scaled so that the biggest value is one and
-   * all the others are scaled accordingly.
-   *
-   * @return A new instance of {@link Color} with the scaled values.
-   */
-  public Color rescale() {
-    double maxValue = max(this.red, this.green, this.blue);
-    if (maxValue > Double.MIN_VALUE) {
-      return this.multiply(1 / maxValue);
-    }
-    return this;
-  }
+	/**
+	 * If a value for one of the three color components exceeds the range of zero
+	 * to one all the components are scaled so that the biggest value is one and
+	 * all the others are scaled accordingly.
+	 *
+	 * @return A new instance of {@link Color} with the scaled values.
+	 */
+	public Color rescale() {
+		double maxValue = max(this.red, this.green, this.blue);
+		if (maxValue > Double.MIN_VALUE) {
+			return this.multiply(1 / maxValue);
+		}
+		return this;
+	}
 
-  private static double clipValue(double value) {
-    return max(0d, min(1d, value));
-  }
+	private static double clipValue(double value) {
+		return max(0d, min(1d, value));
+	}
 
-  /**
-   * Creates a new color instance with each component raised to the power of
-   * <code>pow</code>. This can be used for gamma correction.
-   *
-   * @param pow
-   *          The power to which each component is raised.
-   * @return A new {@link Color} with the scaled values.
-   */
-  public Color powc(double pow) {
-    return new Color(Math.pow(this.red, pow), Math.pow(this.green, pow), Math.pow(this.blue, pow));
-  }
+	/**
+	 * Creates a new color instance with each component raised to the power of
+	 * <code>pow</code>. This can be used for gamma correction.
+	 *
+	 * @param pow The power to which each component is raised.
+	 * @return A new {@link Color} with the scaled values.
+	 */
+	public Color powc(double pow) {
+		return new Color(Math.pow(this.red, pow), Math.pow(this.green, pow), Math.pow(this.blue, pow));
+	}
 
 }

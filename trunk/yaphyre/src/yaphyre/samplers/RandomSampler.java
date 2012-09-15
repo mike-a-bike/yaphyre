@@ -1,12 +1,12 @@
 /*
- * Copyright 2011 Michael Bieri
- * 
+ * Copyright 2012 Michael Bieri
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,39 +15,38 @@
  */
 package yaphyre.samplers;
 
+import yaphyre.geometry.Point2D;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import yaphyre.geometry.Point2D;
-
 /**
  * A pure random sampler. Each time the sampler is called, some new samples are
  * created. This prevents the re-use of the same samplers over and over again.
- * 
- * @version $Revision: 46 $
- * 
+ *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
+ * @version $Revision: 46 $
  */
 public class RandomSampler extends AbstractSampler {
 
-  private static final Random random = new Random(new Date().getTime());
+	private static final Random random = new Random(new Date().getTime());
 
-  public RandomSampler(int numberOfSamples) {
-    super(numberOfSamples);
-  }
+	public RandomSampler(int numberOfSamples) {
+		super(numberOfSamples);
+	}
 
-  @Override
-  protected List<Point2D> createSamples(int numberOfSamples) {
-    List<Point2D> samples = new ArrayList<Point2D>(numberOfSamples);
+	@Override
+	protected List<Point2D> createSamples(int numberOfSamples) {
+		List<Point2D> samples = new ArrayList<Point2D>(numberOfSamples);
 
-    while (samples.size() < numberOfSamples) {
-      samples.add(new Point2D(random.nextDouble(), random.nextDouble()));
-    }
+		while (samples.size() < numberOfSamples) {
+			samples.add(new Point2D(random.nextDouble(), random.nextDouble()));
+		}
 
-    return samples;
-  }
+		return samples;
+	}
 
 }

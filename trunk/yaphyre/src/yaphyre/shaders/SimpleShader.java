@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 Michael Bieri
+ * Copyright 2012 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -23,69 +23,68 @@ import yaphyre.util.Color;
  * This class implements a very simple {@link Shader}. It contains a single
  * material which is returned independent from the object coordinates.
  *
- * @version $Revision$
- *
  * @author Michael Bieri
  * @author $LastChangedBy$
+ * @version $Revision$
  */
 public class SimpleShader extends AbstractShader implements Shader {
 
-  private static final long serialVersionUID = 5072616518896339854L;
+	private static final long serialVersionUID = 5072616518896339854L;
 
-  private final Color color;
+	private final Color color;
 
-  private final Material material;
+	private final Material material;
 
-  public SimpleShader(Material material, java.awt.Color awtColor) {
-    this(material, new Color(awtColor));
-  }
+	public SimpleShader(Material material, java.awt.Color awtColor) {
+		this(material, new Color(awtColor));
+	}
 
-  public SimpleShader(Material material, double red, double green, double blue) {
-    this(material, new Color(red, green, blue));
-  }
+	public SimpleShader(Material material, double red, double green, double blue) {
+		this(material, new Color(red, green, blue));
+	}
 
-  public SimpleShader(Material material, Color color) {
-    super(null);
-    this.material = material;
-    this.color = color;
-  }
+	public SimpleShader(Material material, Color color) {
+		super(null);
+		this.material = material;
+		this.color = color;
+	}
 
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + super.hashCode();
-    result = prime * result + color.hashCode();
-    result = prime * result + material.hashCode();
-    return result;
-  }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + super.hashCode();
+		result = prime * result + color.hashCode();
+		result = prime * result + material.hashCode();
+		return result;
+	}
 
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    SimpleShader other = (SimpleShader)obj;
-    if (!super.equals(obj))
-      return false;
-    if (!color.equals(other.color))
-      return false;
-    if (!material.equals(other.material))
-      return false;
-    return true;
-  }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SimpleShader other = (SimpleShader) obj;
+		if (!super.equals(obj))
+			return false;
+		if (!color.equals(other.color))
+			return false;
+		if (!material.equals(other.material))
+			return false;
+		return true;
+	}
 
-  @Override
-  public Color getColor(Point2D uvCoordinate) {
-    return this.color;
-  }
+	@Override
+	public Color getColor(Point2D uvCoordinate) {
+		return this.color;
+	}
 
-  @Override
-  public Material getMaterial(Point2D uvCoordinate) {
-    return this.material;
-  }
+	@Override
+	public Material getMaterial(Point2D uvCoordinate) {
+		return this.material;
+	}
 
 }
