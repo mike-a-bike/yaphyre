@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 Michael Bieri
+ * Copyright 2012 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,12 +15,10 @@
  */
 package yaphyre.util.scenereaders.entityhandlers;
 
-import java.util.Map;
-
+import com.google.common.base.Preconditions;
 import org.joox.Match;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import yaphyre.core.Lightsource;
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
@@ -30,46 +28,44 @@ import yaphyre.shaders.Material;
 import yaphyre.util.Color;
 import yaphyre.util.scenereaders.utils.HelperFactory;
 
-import com.google.common.base.Preconditions;
+import java.util.Map;
 
 /**
  * This handler reads a point light source from the given match.
- * 
- * @version $Revision: 37 $
- * 
+ *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
- * 
+ * @version $Revision: 37 $
  */
 public class PointlightEntityHandler extends EntityHandler<IdentifiableObject<Lightsource>> {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(PointlightEntityHandler.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PointlightEntityHandler.class);
 
-  @Override
-  public IdentifiableObject<Lightsource> decodeEntity(Match entityMatch, Map<String, IdentifiableObject<Material>> knownMaterials, Map<String, IdentifiableObject<Shader>> knownShaders, Map<String, IdentifiableObject<Shape>> knownShapes) {
+	@Override
+	public IdentifiableObject<Lightsource> decodeEntity(Match entityMatch, Map<String, IdentifiableObject<Material>> knownMaterials, Map<String, IdentifiableObject<Shader>> knownShaders, Map<String, IdentifiableObject<Shape>> knownShapes) {
 
-    LOGGER.trace("enter decodeEntity: {}", entityMatch);
+		LOGGER.trace("enter decodeEntity: {}", entityMatch);
 
-    Preconditions.checkArgument(entityMatch.tag().equals("light"));
-    Preconditions.checkArgument(entityMatch.attr("type").equals("point"));
+		Preconditions.checkArgument(entityMatch.tag().equals("light"));
+		Preconditions.checkArgument(entityMatch.attr("type").equals("point"));
 
-    String id = entityMatch.id();
-    Color lightColor = HelperFactory.getColorHelper().decodeEntity(entityMatch.child("color"));
-    double intensity = super.readNumericAttribute(entityMatch.child("intensity"), "value", 0d, Double.class);
-    Transformation transformation = super.decodeTransform(entityMatch);
+		String id = entityMatch.id();
+		Color lightColor = HelperFactory.getColorHelper().decodeEntity(entityMatch.child("color"));
+		double intensity = super.readNumericAttribute(entityMatch.child("intensity"), "value", 0d, Double.class);
+		Transformation transformation = super.decodeTransform(entityMatch);
 
-    transformation.getClass();
+		transformation.getClass();
 
-    IdentifiableObject<Lightsource> result = new IdentifiableObject<Lightsource>(id, new Pointlight(transformation, lightColor, intensity));
+		IdentifiableObject<Lightsource> result = new IdentifiableObject<Lightsource>(id, new Pointlight(transformation, lightColor, intensity));
 
-    LOGGER.trace("exit decodeEntity: {}", result);
+		LOGGER.trace("exit decodeEntity: {}", result);
 
-    return result;
-  }
+		return result;
+	}
 
-  @Override
-  public String getXPath() {
-    return "/scene/light[@type = \"point\"]";
-  }
+	@Override
+	public String getXPath() {
+		return "/scene/light[@type = \"point\"]";
+	}
 
 }

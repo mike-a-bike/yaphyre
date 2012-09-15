@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 Michael Bieri
+ * Copyright 2012 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,15 +15,12 @@
  */
 package yaphyre.shapes;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import yaphyre.core.BoundingBox;
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
-import yaphyre.geometry.Normal3D;
-import yaphyre.geometry.Point2D;
-import yaphyre.geometry.Point3D;
-import yaphyre.geometry.Ray;
-import yaphyre.geometry.Transformation;
+import yaphyre.geometry.*;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * This shape is special since it does not represent a shape itself. It is a
@@ -33,54 +30,53 @@ import yaphyre.geometry.Transformation;
  * All methods just transform the {@link Point3D}, {@link Ray} or
  * {@link Normal3D} instances using the given transformation in order to
  * calculate the required informations.
- * 
- * @version $Revision: 66 $
- * 
+ *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
+ * @version $Revision: 66 $
  */
 public class Instance extends AbstractShape implements Shape {
 
-  private static final long serialVersionUID = -8356972729048615712L;
+	private static final long serialVersionUID = -8356972729048615712L;
 
-  private final Shape baseShape;
+	private final Shape baseShape;
 
-  private final Transformation instanceTransformation;
+	private final Transformation instanceTransformation;
 
-  private final BoundingBox boundingBox;
+	private final BoundingBox boundingBox;
 
-  public Instance(Shape baseShape, Transformation instanceTransformation, Shader shader, boolean throwsShadow) {
-    super(Transformation.IDENTITY, shader, throwsShadow);
-    checkNotNull(baseShape);
-    checkNotNull(instanceTransformation);
-    this.baseShape = baseShape;
-    this.instanceTransformation = instanceTransformation;
-    // TODO implement transformation for base shape bounding box.
-    this.boundingBox = BoundingBox.INFINITE_BOUNDING_BOX;
-  }
+	public Instance(Shape baseShape, Transformation instanceTransformation, Shader shader, boolean throwsShadow) {
+		super(Transformation.IDENTITY, shader, throwsShadow);
+		checkNotNull(baseShape);
+		checkNotNull(instanceTransformation);
+		this.baseShape = baseShape;
+		this.instanceTransformation = instanceTransformation;
+		// TODO implement transformation for base shape bounding box.
+		this.boundingBox = BoundingBox.INFINITE_BOUNDING_BOX;
+	}
 
-  @Override
-  public BoundingBox getBoundingBox() {
-    return this.boundingBox;
-  }
+	@Override
+	public BoundingBox getBoundingBox() {
+		return this.boundingBox;
+	}
 
-  @Override
-  public double getIntersectDistance(Ray ray) {
-    Ray transformedRay = this.instanceTransformation.inverse().transform(ray);
-    return this.baseShape.getIntersectDistance(transformedRay);
-  }
+	@Override
+	public double getIntersectDistance(Ray ray) {
+		Ray transformedRay = this.instanceTransformation.inverse().transform(ray);
+		return this.baseShape.getIntersectDistance(transformedRay);
+	}
 
-  @Override
-  public Point2D getMappedSurfacePoint(Point3D surfacePoint) {
-    Point3D transformedSurfacePoint = this.instanceTransformation.inverse().transform(surfacePoint);
-    return this.baseShape.getMappedSurfacePoint(transformedSurfacePoint);
-  }
+	@Override
+	public Point2D getMappedSurfacePoint(Point3D surfacePoint) {
+		Point3D transformedSurfacePoint = this.instanceTransformation.inverse().transform(surfacePoint);
+		return this.baseShape.getMappedSurfacePoint(transformedSurfacePoint);
+	}
 
-  @Override
-  public Normal3D getNormal(Point3D surfacePoint) {
-    Point3D transformedSurfacePoint = this.instanceTransformation.inverse().transform(surfacePoint);
-    Normal3D transformedNormal = this.baseShape.getNormal(transformedSurfacePoint);
-    return this.instanceTransformation.transform(transformedNormal);
-  }
+	@Override
+	public Normal3D getNormal(Point3D surfacePoint) {
+		Point3D transformedSurfacePoint = this.instanceTransformation.inverse().transform(surfacePoint);
+		Normal3D transformedNormal = this.baseShape.getNormal(transformedSurfacePoint);
+		return this.instanceTransformation.transform(transformedNormal);
+	}
 
 }

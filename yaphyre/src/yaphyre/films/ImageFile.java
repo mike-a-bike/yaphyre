@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 Michael Bieri
+ * Copyright 2012 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,152 +15,148 @@
  */
 package yaphyre.films;
 
-import java.awt.image.BufferedImage;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import yaphyre.core.CameraSample;
 import yaphyre.core.Film;
 import yaphyre.util.Color;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * Film implementation which records the camera samples as colored pixels in an
  * image file.
- * 
- * @version $Revision: 42 $
- * 
+ *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
+ * @version $Revision: 42 $
  */
 public class ImageFile implements Film {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(ImageFile.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ImageFile.class);
 
-  private static final ImageFormat DEFAULT_IMAGE_FORMAT = ImageFormat.PNG;
+	private static final ImageFormat DEFAULT_IMAGE_FORMAT = ImageFormat.PNG;
 
-  private final int xResolution;
+	private final int xResolution;
 
-  private final int yResolution;
+	private final int yResolution;
 
-  private final ImageFormat imageFormat;
+	private final ImageFormat imageFormat;
 
-  private final Color[] pixelColors;
+	private final Color[] pixelColors;
 
-  public ImageFile(int xResolution, int yResolution) {
-    this(xResolution, yResolution, DEFAULT_IMAGE_FORMAT);
-  }
+	public ImageFile(int xResolution, int yResolution) {
+		this(xResolution, yResolution, DEFAULT_IMAGE_FORMAT);
+	}
 
-  public ImageFile(int xResolution, int yResolution, ImageFormat imageFormat) {
+	public ImageFile(int xResolution, int yResolution, ImageFormat imageFormat) {
 
-    Preconditions.checkArgument(imageFormat == ImageFormat.JPEG || imageFormat == ImageFormat.PNG, "unsupoorted image format: %s", imageFormat);
+		Preconditions.checkArgument(imageFormat == ImageFormat.JPEG || imageFormat == ImageFormat.PNG, "unsupoorted image format: %s", imageFormat);
 
-    this.xResolution = xResolution;
-    this.yResolution = yResolution;
-    this.imageFormat = imageFormat;
-    this.pixelColors = new Color[xResolution * yResolution];
-  }
+		this.xResolution = xResolution;
+		this.yResolution = yResolution;
+		this.imageFormat = imageFormat;
+		this.pixelColors = new Color[xResolution * yResolution];
+	}
 
-  @Override
-  public int getXResolution() {
-    return this.xResolution;
-  }
+	@Override
+	public int getXResolution() {
+		return this.xResolution;
+	}
 
-  @Override
-  public int getYResolution() {
-    return this.yResolution;
-  }
+	@Override
+	public int getYResolution() {
+		return this.yResolution;
+	}
 
-  @Override
-  public void addCameraSample(CameraSample sample, Color color) {
-    int uCoordinate = (int) sample.getRasterPoint().getU();
-    int vCoordinate = (int) sample.getRasterPoint().getV();
+	@Override
+	public void addCameraSample(CameraSample sample, Color color) {
+		int uCoordinate = (int) sample.getRasterPoint().getU();
+		int vCoordinate = (int) sample.getRasterPoint().getV();
 
-    this.setColor(uCoordinate, vCoordinate, color);
+		this.setColor(uCoordinate, vCoordinate, color);
 
-  }
+	}
 
-  private void setColor(int x, int y, Color color) {
+	private void setColor(int x, int y, Color color) {
 
-    Preconditions.checkPositionIndex(x, this.xResolution);
-    Preconditions.checkPositionIndex(y, this.yResolution);
+		Preconditions.checkPositionIndex(x, this.xResolution);
+		Preconditions.checkPositionIndex(y, this.yResolution);
 
-    this.pixelColors[y * this.xResolution + x] = color;
-  }
+		this.pixelColors[y * this.xResolution + x] = color;
+	}
 
-  private Color getColor(int x, int y) {
+	private Color getColor(int x, int y) {
 
-    Preconditions.checkPositionIndex(x, this.xResolution);
-    Preconditions.checkPositionIndex(y, this.yResolution);
+		Preconditions.checkPositionIndex(x, this.xResolution);
+		Preconditions.checkPositionIndex(y, this.yResolution);
 
-    return this.pixelColors[y * this.xResolution + x];
-  }
+		return this.pixelColors[y * this.xResolution + x];
+	}
 
-  @Override
-  public void writeImageFile(int xSize, int ySize, String fileName) {
-    Preconditions.checkArgument(xSize == this.xResolution && ySize == this.yResolution, "scaling is not yet supported");
+	@Override
+	public void writeImageFile(int xSize, int ySize, String fileName) {
+		Preconditions.checkArgument(xSize == this.xResolution && ySize == this.yResolution, "scaling is not yet supported");
 
-    BufferedImage image = this.createImageFromData();
+		BufferedImage image = this.createImageFromData();
 
-    try {
-      FileOutputStream imageFileStream = new FileOutputStream(fileName);
-      ImageIO.write(image, this.imageFormat.toString(), imageFileStream);
-      imageFileStream.close();
-    } catch (IOException ioe) {
-      LOGGER.error("Could not write image file: '" + fileName + "'", ioe);
-    }
+		try {
+			FileOutputStream imageFileStream = new FileOutputStream(fileName);
+			ImageIO.write(image, this.imageFormat.toString(), imageFileStream);
+			imageFileStream.close();
+		} catch (IOException ioe) {
+			LOGGER.error("Could not write image file: '" + fileName + "'", ioe);
+		}
 
-  }
+	}
 
-  private BufferedImage createImageFromData() {
-    BufferedImage result = new BufferedImage(this.xResolution, this.yResolution, BufferedImage.TYPE_INT_RGB);
+	private BufferedImage createImageFromData() {
+		BufferedImage result = new BufferedImage(this.xResolution, this.yResolution, BufferedImage.TYPE_INT_RGB);
 
-    for (int y = 0; y < this.yResolution; y++) {
-      for (int x = 0; x < this.xResolution; x++) {
-        Color pixelColor = this.getColor(x, (this.yResolution - 1) - y).clip();
-        int red = (int) (pixelColor.getRed() * 255);
-        int green = (int) (pixelColor.getGreen() * 255);
-        int blue = (int) (pixelColor.getBlue() * 255);
-        int alpha = 0xff;
-        int argb = ((alpha << 24) | (red << 16) | (green << 8) | blue);
-        result.setRGB(x, y, argb);
-      }
-    }
+		for (int y = 0; y < this.yResolution; y++) {
+			for (int x = 0; x < this.xResolution; x++) {
+				Color pixelColor = this.getColor(x, (this.yResolution - 1) - y).clip();
+				int red = (int) (pixelColor.getRed() * 255);
+				int green = (int) (pixelColor.getGreen() * 255);
+				int blue = (int) (pixelColor.getBlue() * 255);
+				int alpha = 0xff;
+				int argb = ((alpha << 24) | (red << 16) | (green << 8) | blue);
+				result.setRGB(x, y, argb);
+			}
+		}
 
-    return result;
-  }
+		return result;
+	}
 
-  @Override
-  public String toString() {
-    return Objects.toStringHelper(this.getClass())
-        .add("xRes", this.xResolution)
-        .add("yRes", this.yResolution)
-        .add("format", this.imageFormat).toString();
-  }
+	@Override
+	public String toString() {
+		return Objects.toStringHelper(this.getClass())
+				.add("xRes", this.xResolution)
+				.add("yRes", this.yResolution)
+				.add("format", this.imageFormat).toString();
+	}
 
-  public static enum ImageFormat {
-    GIF("gif"),
-    JPEG("jpg"),
-    PNG("png"),
-    OpenEXR("exr");
+	public static enum ImageFormat {
+		GIF("gif"),
+		JPEG("jpg"),
+		PNG("png"),
+		OpenEXR("exr");
 
-    private final String defaultFileExtention;
+		private final String defaultFileExtention;
 
-    private ImageFormat(String defaultFileExtention) {
-      this.defaultFileExtention = defaultFileExtention;
-    }
+		private ImageFormat(String defaultFileExtention) {
+			this.defaultFileExtention = defaultFileExtention;
+		}
 
-    public String getDefaultFileExtention() {
-      return this.defaultFileExtention;
-    }
+		public String getDefaultFileExtention() {
+			return this.defaultFileExtention;
+		}
 
-  }
+	}
 
 }

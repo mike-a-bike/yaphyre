@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 Michael Bieri
+ * Copyright 2012 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -13,64 +13,60 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package yaphyre.core;
 
-import java.io.Serializable;
-
 import com.google.common.base.Objects;
-
 import yaphyre.geometry.Point3D;
+
+import java.io.Serializable;
 
 /**
  * A record which contains all the informations relevant for a collision.
  *
- * @version $Revision$
- *
  * @author Michael Bieri
  * @author $LastChangedBy$
+ * @version $Revision$
  */
 public class CollisionInformation implements Serializable {
 
-  private static final long serialVersionUID = 9132420627811920135L;
+	private static final long serialVersionUID = 9132420627811920135L;
 
-  private final Shape collisionShape;
+	private final Shape collisionShape;
 
-  private final double collisionDistance;
+	private final double collisionDistance;
 
-  private final Point3D collisionPoint;
+	private final Point3D collisionPoint;
 
-  /**
-   * Creates a new instance for the collision informations.
-   *
-   * @param collisionShape
-   *          The {@link Shape} instance which is hit.
-   * @param collisionDistance
-   *          The value of the <code>t</code> parameter in which the collision
-   *          happens.
-   * @param collisionPoint
-   *          The {@link Point3D} of the collision.
-   */
-  public CollisionInformation(Shape collisionShape, double collisionDistance, Point3D collisionPoint) {
-    this.collisionShape = collisionShape;
-    this.collisionDistance = collisionDistance;
-    this.collisionPoint = collisionPoint;
-  }
+	/**
+	 * Creates a new instance for the collision informations.
+	 *
+	 * @param collisionShape    The {@link Shape} instance which is hit.
+	 * @param collisionDistance The value of the <code>t</code> parameter in which the collision
+	 *                          happens.
+	 * @param collisionPoint    The {@link Point3D} of the collision.
+	 */
+	public CollisionInformation(Shape collisionShape, double collisionDistance, Point3D collisionPoint) {
+		this.collisionShape = collisionShape;
+		this.collisionDistance = collisionDistance;
+		this.collisionPoint = collisionPoint;
+	}
 
-  @Override
-  public String toString() {
-    return Objects.toStringHelper(this.getClass()).add("shape", collisionShape).add("distance", collisionDistance).add("point", collisionPoint).toString();
-  }
+	@Override
+	public String toString() {
+		return Objects.toStringHelper(this.getClass()).add("shape", collisionShape).add("distance", collisionDistance).add("point", collisionPoint).toString();
+	}
 
-  public Shape getCollisionShape() {
-    return this.collisionShape;
-  }
+	public Shape getCollisionShape() {
+		return this.collisionShape;
+	}
 
-  public double getCollisionDistance() {
-    return this.collisionDistance;
-  }
+	public double getCollisionDistance() {
+		return this.collisionDistance;
+	}
 
-  public Point3D getCollisionPoint() {
-    return this.collisionPoint;
-  }
+	public Point3D getCollisionPoint() {
+		return this.collisionPoint;
+	}
 
 }

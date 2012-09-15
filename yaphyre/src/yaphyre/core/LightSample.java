@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 Michael Bieri
+ * Copyright 2012 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -13,6 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package yaphyre.core;
 
 import yaphyre.geometry.Vector3D;
@@ -24,54 +25,52 @@ import yaphyre.util.Color;
  * and a closure used to calculate whether the light is unobscured seen from the
  * associated point or not.
  *
- * @version $Revision: 96 $
- *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
- *
+ * @version $Revision: 96 $
  */
 public class LightSample {
 
-  private final Color energy;
+	private final Color energy;
 
-  private final Vector3D wi;
+	private final Vector3D wi;
 
-  private final VisibilityTester visibilityTester;
+	private final VisibilityTester visibilityTester;
 
-  public LightSample(Color energy, Vector3D wi, VisibilityTester visibilityTester) {
-    this.energy = energy;
-    this.wi = wi;
-    this.visibilityTester = visibilityTester;
-  }
+	public LightSample(Color energy, Vector3D wi, VisibilityTester visibilityTester) {
+		this.energy = energy;
+		this.wi = wi;
+		this.visibilityTester = visibilityTester;
+	}
 
-  /**
-   * Gets the energy of the light arriving at the sampling point.
-   *
-   * @return The light color scaled by the arriving intensity.
-   */
-  public Color getEnergy() {
-    return energy;
-  }
+	/**
+	 * Gets the energy of the light arriving at the sampling point.
+	 *
+	 * @return The light color scaled by the arriving intensity.
+	 */
+	public Color getEnergy() {
+		return energy;
+	}
 
-  /**
-   * The direction of the incident ray from where the light arrives.
-   *
-   * @return A {@link Vector3D} indicating the direction from where the light
-   *         arrives.
-   */
-  public Vector3D getIncidentDirection() {
-    return wi;
-  }
+	/**
+	 * The direction of the incident ray from where the light arrives.
+	 *
+	 * @return A {@link Vector3D} indicating the direction from where the light
+	 *         arrives.
+	 */
+	public Vector3D getIncidentDirection() {
+		return wi;
+	}
 
-  /**
-   * A Clojure containing the yet to be evaluated information about whether or
-   * not the sampling point is visible from the lightsource or not.
-   *
-   * @return A {@link VisibilityTester} instance which can evaluate whether the
-   *         light is obstructed from the sampling point or not.
-   */
-  public VisibilityTester getVisibilityTester() {
-    return visibilityTester;
-  }
+	/**
+	 * A Clojure containing the yet to be evaluated information about whether or
+	 * not the sampling point is visible from the lightsource or not.
+	 *
+	 * @return A {@link VisibilityTester} instance which can evaluate whether the
+	 *         light is obstructed from the sampling point or not.
+	 */
+	public VisibilityTester getVisibilityTester() {
+		return visibilityTester;
+	}
 
 }
