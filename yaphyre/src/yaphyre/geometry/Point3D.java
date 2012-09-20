@@ -15,13 +15,12 @@
  */
 package yaphyre.geometry;
 
-import com.google.common.base.Objects;
-
-import java.io.Serializable;
-
 import static yaphyre.geometry.MathUtils.calcLength;
 import static yaphyre.geometry.MathUtils.calculateLengthSquared;
 
+import java.io.Serializable;
+
+import com.google.common.base.Objects;
 
 /**
  * Abstraction of a point in a 3d Cartesian coordinate system.
@@ -46,52 +45,52 @@ public class Point3D implements Serializable {
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(this.getClass()).add("x", x).add("y", y).add("z", z).toString();
+		return Objects.toStringHelper(getClass()).add("x", x).add("y", y).add("z", z).toString();
 	}
 
 	public Vector3D asVector() {
-		return new Vector3D(this.x, this.y, this.z);
+		return new Vector3D(x, y, z);
 	}
 
 	public Normal3D asNormal() {
-		return new Normal3D(this.x, this.y, this.z);
+		return new Normal3D(x, y, z);
 	}
 
 	public Point3D add(Point3D p) {
-		return new Point3D(this.x + p.x, this.y + p.y, this.z + p.z);
+		return new Point3D(x + p.x, y + p.y, z + p.z);
 	}
 
 	public Point3D add(Point2D p) {
-		return new Point3D(this.x + p.u, this.y + p.v, this.z);
+		return new Point3D(x + p.u, y + p.v, z);
 	}
 
 	public Point3D add(Vector3D v) {
-		return new Point3D(this.x + v.x, this.y + v.y, this.z + v.z);
+		return new Point3D(x + v.x, y + v.y, z + v.z);
 	}
 
 	public Point3D sub(Vector3D v) {
-		return new Point3D(this.x - v.x, this.y - v.y, this.z - v.z);
+		return new Point3D(x - v.x, y - v.y, z - v.z);
 	}
 
 	public Vector3D sub(Point3D p) {
-		return new Vector3D(this.x - p.x, this.y - p.y, this.z - p.z);
+		return new Vector3D(x - p.x, y - p.y, z - p.z);
 	}
 
 	public double length() {
-		return calcLength(this.x, this.y, this.z);
+		return calcLength(x, y, z);
 	}
 
 	public double lengthSquared() {
-		return calculateLengthSquared(this.x, this.y, this.z);
+		return calculateLengthSquared(x, y, z);
 	}
 
 	public Point3D scale(double s) {
-		return new Point3D(this.x * s, this.y * s, this.z * s);
+		return new Point3D(x * s, y * s, z * s);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(this.getClass(), this.x, this.y, this.z);
+		return Objects.hashCode(getClass(), x, y, z);
 	}
 
 	@Override
@@ -119,16 +118,15 @@ public class Point3D implements Serializable {
 	}
 
 	public double getX() {
-		return this.x;
+		return x;
 	}
 
 	public double getY() {
-		return this.y;
+		return y;
 	}
 
 	public double getZ() {
-		return this.z;
+		return z;
 	}
-
 
 }

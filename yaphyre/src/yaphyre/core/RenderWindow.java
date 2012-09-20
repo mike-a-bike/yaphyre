@@ -19,8 +19,7 @@ package yaphyre.core;
 import com.google.common.base.Objects;
 
 /**
- * A simple abstraction holding four coordinates which describe a window on the
- * raster.
+ * A simple abstraction holding four coordinates which describe a window on the raster.
  *
  * @author Michael Bieri
  */
@@ -38,11 +37,8 @@ public class RenderWindow {
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(getClass())
-				.add("xMin", xMin)
-				.add("yMin", yMin)
-				.add("xMax", xMax)
-				.add("yMax", yMax).toString();
+		return Objects.toStringHelper(getClass()).add("xMin", xMin).add("yMin", yMin).add("xMax", xMax).add("yMax",
+				yMax).toString();
 	}
 
 	public int getXMin() {

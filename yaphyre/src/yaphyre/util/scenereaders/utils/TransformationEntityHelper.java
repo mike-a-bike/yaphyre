@@ -16,16 +16,18 @@
 
 package yaphyre.util.scenereaders.utils;
 
-import com.google.common.base.Throwables;
-import com.google.common.collect.Lists;
-import org.joox.Match;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Deque;
+
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Transformation;
 import yaphyre.geometry.Vector3D;
 
-import java.util.Deque;
+import org.joox.Match;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Throwables;
+import com.google.common.collect.Lists;
 
 class TransformationEntityHelper implements EntityHelper<Transformation> {
 

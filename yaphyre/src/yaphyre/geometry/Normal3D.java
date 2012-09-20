@@ -18,7 +18,6 @@ package yaphyre.geometry;
 import java.io.Serializable;
 import java.text.MessageFormat;
 
-
 /**
  * Represents a normal in the 3d Cartesian coordinate system.
  *

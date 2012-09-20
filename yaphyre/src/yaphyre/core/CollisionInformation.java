@@ -16,13 +16,14 @@
 
 package yaphyre.core;
 
-import com.google.common.base.Objects;
-import yaphyre.geometry.Point3D;
-
 import java.io.Serializable;
 
+import yaphyre.geometry.Point3D;
+
+import com.google.common.base.Objects;
+
 /**
- * A record which contains all the informations relevant for a collision.
+ * A record which contains all the information relevant for a collision.
  *
  * @author Michael Bieri
  * @author $LastChangedBy$
@@ -41,10 +42,12 @@ public class CollisionInformation implements Serializable {
 	/**
 	 * Creates a new instance for the collision informations.
 	 *
-	 * @param collisionShape    The {@link Shape} instance which is hit.
-	 * @param collisionDistance The value of the <code>t</code> parameter in which the collision
-	 *                          happens.
-	 * @param collisionPoint    The {@link Point3D} of the collision.
+	 * @param collisionShape
+	 * 		The {@link Shape} instance which is hit.
+	 * @param collisionDistance
+	 * 		The value of the <code>t</code> parameter in which the collision happens.
+	 * @param collisionPoint
+	 * 		The {@link Point3D} of the collision.
 	 */
 	public CollisionInformation(Shape collisionShape, double collisionDistance, Point3D collisionPoint) {
 		this.collisionShape = collisionShape;
@@ -54,19 +57,20 @@ public class CollisionInformation implements Serializable {
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(this.getClass()).add("shape", collisionShape).add("distance", collisionDistance).add("point", collisionPoint).toString();
+		return Objects.toStringHelper(getClass()).add("shape", collisionShape).add("distance", collisionDistance).add(
+				"point", collisionPoint).toString();
 	}
 
 	public Shape getCollisionShape() {
-		return this.collisionShape;
+		return collisionShape;
 	}
 
 	public double getCollisionDistance() {
-		return this.collisionDistance;
+		return collisionDistance;
 	}
 
 	public Point3D getCollisionPoint() {
-		return this.collisionPoint;
+		return collisionPoint;
 	}
 
 }

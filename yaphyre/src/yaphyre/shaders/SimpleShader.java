@@ -20,14 +20,14 @@ import yaphyre.geometry.Point2D;
 import yaphyre.util.Color;
 
 /**
- * This class implements a very simple {@link Shader}. It contains a single
- * material which is returned independent from the object coordinates.
+ * This class implements a very simple {@link Shader}. It contains a single material which is returned independent from
+ * the object coordinates.
  *
  * @author Michael Bieri
  * @author $LastChangedBy$
  * @version $Revision$
  */
-public class SimpleShader extends AbstractShader implements Shader {
+public class SimpleShader extends AbstractShader {
 
 	private static final long serialVersionUID = 5072616518896339854L;
 
@@ -61,30 +61,33 @@ public class SimpleShader extends AbstractShader implements Shader {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (!(obj instanceof  SimpleShader)) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		}
 		SimpleShader other = (SimpleShader) obj;
-		if (!super.equals(obj))
+		if (!super.equals(obj)) {
 			return false;
-		if (!color.equals(other.color))
+		}
+		if (!color.equals(other.color)) {
 			return false;
-		if (!material.equals(other.material))
+		}
+		if (!material.equals(other.material)) {
 			return false;
+		}
 		return true;
 	}
 
 	@Override
 	public Color getColor(Point2D uvCoordinate) {
-		return this.color;
+		return color;
 	}
 
 	@Override
 	public Material getMaterial(Point2D uvCoordinate) {
-		return this.material;
+		return material;
 	}
 
 }

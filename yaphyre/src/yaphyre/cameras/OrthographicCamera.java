@@ -15,7 +15,8 @@
  */
 package yaphyre.cameras;
 
-import com.google.common.base.Preconditions;
+import java.text.MessageFormat;
+
 import yaphyre.core.Camera;
 import yaphyre.core.Film;
 import yaphyre.geometry.Point2D;
@@ -23,7 +24,7 @@ import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Vector3D;
 
-import java.text.MessageFormat;
+import com.google.common.base.Preconditions;
 
 /**
  * A very simple camera showing an orthographic view of the scene to render.
@@ -40,11 +41,12 @@ public class OrthographicCamera extends AbstractCamera implements Camera {
 
 	private final double viewPlaneHeightStart;
 
-	public OrthographicCamera(BaseCameraSettings baseSettings, OrthographicCameraSettings orthographicSettings, Film film) {
+	public OrthographicCamera(BaseCameraSettings baseSettings, OrthographicCameraSettings orthographicSettings,
+			Film film) {
 		super(baseSettings, film);
-		this.cameraSettings = orthographicSettings;
-		this.viewPlaneWidthStart = -(this.cameraSettings.getViewPlaneWidth() / 2d);
-		this.viewPlaneHeightStart = -(this.cameraSettings.getViewPlaneHeight() / 2d);
+		cameraSettings = orthographicSettings;
+		viewPlaneWidthStart = -(cameraSettings.getViewPlaneWidth() / 2d);
+		viewPlaneHeightStart = -(cameraSettings.getViewPlaneHeight() / 2d);
 	}
 
 	@Override
@@ -52,7 +54,7 @@ public class OrthographicCamera extends AbstractCamera implements Camera {
 		Preconditions.checkArgument(viewPlanePoint.getU() >= 0d && viewPlanePoint.getU() <= 1d);
 		Preconditions.checkArgument(viewPlanePoint.getV() >= 0d && viewPlanePoint.getV() <= 1d);
 
-		Point2D mappedPoint = this.mapViewPlanePoint(viewPlanePoint);
+		Point2D mappedPoint = mapViewPlanePoint(viewPlanePoint);
 		Ray result = new Ray(new Point3D(mappedPoint.getU(), mappedPoint.getV(), 0), Vector3D.Z);
 		result = super.getCamera2World().transform(result);
 
@@ -62,25 +64,23 @@ public class OrthographicCamera extends AbstractCamera implements Camera {
 	@Override
 	public String toString() {
 		return MessageFormat.format("{0} [pos:{1}, lookat:{2}, width:{3}, height:{4}, film:{5}]",
-				this.getClass().getSimpleName(),
-				super.getPosition(),
-				super.getLookAt(),
-				String.valueOf(this.cameraSettings.getViewPlaneWidth()),
-				String.valueOf(this.cameraSettings.getViewPlaneHeight()),
+				getClass().getSimpleName(), super.getPosition(), super.getLookAt(), String.valueOf(
+				cameraSettings.getViewPlaneWidth()), String.valueOf(cameraSettings.getViewPlaneHeight()),
 				super.getFilm());
 	}
 
 	/**
-	 * Map the view plane point onto a concrete coordinate on this cameras width
-	 * and height rectangle.
+	 * Map the view plane point onto a concrete coordinate on this cameras width and height rectangle.
 	 *
-	 * @param viewPlanePoint The point to map (u, v &isin; [0, 1])
-	 * @return A point which lies on the view plane rectangle (u &isin; [-width/2,
-	 *         +width/2] and v &isin; [-height/2, height/2])
+	 * @param viewPlanePoint
+	 * 		The point to map (u, v &isin; [0, 1])
+	 *
+	 * @return A point which lies on the view plane rectangle (u &isin; [-width/2, +width/2] and v &isin; [-height/2,
+	 *         height/2])
 	 */
 	private Point2D mapViewPlanePoint(Point2D viewPlanePoint) {
-		double mappedU = this.viewPlaneWidthStart + this.cameraSettings.getViewPlaneWidth() * viewPlanePoint.getU();
-		double mappedV = this.viewPlaneHeightStart + this.cameraSettings.getViewPlaneHeight() * viewPlanePoint.getV();
+		double mappedU = viewPlaneWidthStart + cameraSettings.getViewPlaneWidth() * viewPlanePoint.getU();
+		double mappedV = viewPlaneHeightStart + cameraSettings.getViewPlaneHeight() * viewPlanePoint.getV();
 		return new Point2D(mappedU, mappedV);
 	}
 
@@ -107,11 +107,11 @@ public class OrthographicCamera extends AbstractCamera implements Camera {
 		}
 
 		public double getViewPlaneWidth() {
-			return this.viewPlaneWidth;
+			return viewPlaneWidth;
 		}
 
 		public double getViewPlaneHeight() {
-			return this.viewPlaneHeight;
+			return viewPlaneHeight;
 		}
 	}
 }

@@ -15,20 +15,16 @@
  */
 package yaphyre.geometry;
 
-import com.google.common.base.Objects;
+import static yaphyre.geometry.MathUtils.EPSILON;
 
 import java.io.Serializable;
 
-import static yaphyre.geometry.MathUtils.EPSILON;
+import com.google.common.base.Objects;
 
 /**
- * Simple implementation of a ray. These are used as seeing rays and shadow
- * rays.<br/>
- * <p/>
- * It is defined by an origin ({@link Point3D}) and a direction (
- * {@link Vector3D}). A point on the ray are represented in a parametric way so
- * that:
- * <p/>
+ * Simple implementation of a ray. These are used as seeing rays and shadow rays.<br/> <p/> It is defined by an origin
+ * ({@link Point3D}) and a direction ( {@link Vector3D}). A point on the ray are represented in a parametric way so
+ * that: <p/>
  * <pre>
  * p(distance) = origin + distance * direction
  * </pre>
@@ -62,19 +58,18 @@ public class Ray implements Serializable {
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(this.getClass()).add("origin", this.origin).add("direction", this.direction).toString();
+		return Objects.toStringHelper(getClass()).add("origin", origin).add("direction", direction).toString();
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + this.direction.hashCode();
-		result = prime * result + this.origin.hashCode();
-		long temp;
-		temp = Double.doubleToLongBits(this.maxt);
+		result = prime * result + direction.hashCode();
+		result = prime * result + origin.hashCode();
+		long temp = Double.doubleToLongBits(maxt);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(this.mint);
+		temp = Double.doubleToLongBits(mint);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
@@ -84,46 +79,43 @@ public class Ray implements Serializable {
 		if (this == obj) {
 			return true;
 		}
-		if (obj == null) {
-			return false;
-		}
 		if (!(obj instanceof Ray)) {
 			return false;
 		}
 		Ray other = (Ray) obj;
-		if (!this.direction.equals(other.direction)) {
+		if (!direction.equals(other.direction)) {
 			return false;
 		}
-		if (!this.origin.equals(other.origin)) {
+		if (!origin.equals(other.origin)) {
 			return false;
 		}
-		if (!MathUtils.equalsWithTolerance(this.maxt, other.maxt)) {
+		if (!MathUtils.equalsWithTolerance(maxt, other.maxt)) {
 			return false;
 		}
-		if (!MathUtils.equalsWithTolerance(this.mint, other.mint)) {
+		if (!MathUtils.equalsWithTolerance(mint, other.mint)) {
 			return false;
 		}
 		return true;
 	}
 
 	public Point3D getPoint(double distance) {
-		return this.origin.add(this.direction.scale(distance));
+		return origin.add(direction.scale(distance));
 	}
 
 	public Point3D getOrigin() {
-		return this.origin;
+		return origin;
 	}
 
 	public Vector3D getDirection() {
-		return this.direction;
+		return direction;
 	}
 
 	public double getMint() {
-		return this.mint;
+		return mint;
 	}
 
 	public double getMaxt() {
-		return this.maxt;
+		return maxt;
 	}
 
 }

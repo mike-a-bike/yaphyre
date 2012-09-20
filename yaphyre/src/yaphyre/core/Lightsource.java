@@ -16,12 +16,13 @@
 
 package yaphyre.core;
 
-import com.google.common.base.Objects;
+import java.io.Serializable;
+
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Transformation;
 import yaphyre.util.Color;
 
-import java.io.Serializable;
+import com.google.common.base.Objects;
 
 /**
  * Common interface for all light sources in the rendering system.
@@ -44,7 +45,7 @@ public abstract class Lightsource implements Serializable {
 
 	public Lightsource(Transformation l2w, Color color, double intensity, int numberOfSamples) {
 		this.l2w = l2w;
-		this.w2l = l2w.inverse();
+		w2l = l2w.inverse();
 		this.color = color;
 		this.intensity = intensity;
 		this.numberOfSamples = numberOfSamples;
@@ -52,43 +53,44 @@ public abstract class Lightsource implements Serializable {
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(this.getClass()).add("intensity", color.multiply(intensity)).add("l2w", l2w).add("samples", numberOfSamples).add("delta light", isDeltaLight()).toString();
+		return Objects.toStringHelper(getClass()).add("intensity", color.multiply(intensity)).add("l2w", l2w).add(
+				"samples", numberOfSamples).add("delta light", isDeltaLight()).toString();
 	}
 
 	/**
-	 * Samples the light properties for the given {@link Point3D}. The resulting
-	 * {@link LightSample} contains the information about the incident light ray
-	 * direction, the intensity of the light and the yet to solve visibility of
+	 * Samples the light properties for the given {@link Point3D}. The resulting {@link LightSample} contains the
+	 * information about the incident light ray direction, the intensity of the light and the yet to solve visibility of
 	 * the lightsource from the given points view.
 	 *
-	 * @param point The {@link Point3D} to sample the light from.
-	 * @return A {@link LightSample} instance containing all the necessary
-	 *         information about this light seen from the given point.
+	 * @param point
+	 * 		The {@link Point3D} to sample the light from.
+	 *
+	 * @return A {@link LightSample} instance containing all the necessary information about this light seen from the
+	 *         given point.
 	 */
 	public abstract LightSample sample(Point3D point);
 
 	/**
 	 * Gets the total emitted light energy.
 	 *
-	 * @return A {@link Color} instance scaled to the extent of the lights
-	 *         intensity.
+	 * @return A {@link Color} instance scaled to the extent of the lights intensity.
 	 */
 	public abstract Color getTotalEnergy();
 
 	protected Transformation getLight2World() {
-		return this.l2w;
+		return l2w;
 	}
 
 	protected Transformation getWorld2Light() {
-		return this.w2l;
+		return w2l;
 	}
 
 	protected double getIntensity() {
-		return this.intensity;
+		return intensity;
 	}
 
 	public Color getColor() {
-		return this.color;
+		return color;
 	}
 
 	public boolean isDeltaLight() {
@@ -96,7 +98,7 @@ public abstract class Lightsource implements Serializable {
 	}
 
 	public int getNumberOfSamples() {
-		return this.numberOfSamples;
+		return numberOfSamples;
 	}
 
 }

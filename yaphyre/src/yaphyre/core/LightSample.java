@@ -20,10 +20,9 @@ import yaphyre.geometry.Vector3D;
 import yaphyre.util.Color;
 
 /**
- * Collects all the information needed for a specific point in space concerning
- * a lightsource. Like the incident direction of the light, its arriving energy
- * and a closure used to calculate whether the light is unobscured seen from the
- * associated point or not.
+ * Collects all the information needed for a specific point in space concerning a lightsource. Like the incident
+ * direction of the light, its arriving energy and a closure used to calculate whether the light is unobstructed seen
+ * from the associated point or not.
  *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
@@ -55,19 +54,18 @@ public class LightSample {
 	/**
 	 * The direction of the incident ray from where the light arrives.
 	 *
-	 * @return A {@link Vector3D} indicating the direction from where the light
-	 *         arrives.
+	 * @return A {@link Vector3D} indicating the direction from where the light arrives.
 	 */
 	public Vector3D getIncidentDirection() {
 		return wi;
 	}
 
 	/**
-	 * A Clojure containing the yet to be evaluated information about whether or
-	 * not the sampling point is visible from the lightsource or not.
+	 * A Clojure containing the yet to be evaluated information about whether or not the sampling point is visible from
+	 * the lightsource or not.
 	 *
-	 * @return A {@link VisibilityTester} instance which can evaluate whether the
-	 *         light is obstructed from the sampling point or not.
+	 * @return A {@link VisibilityTester} instance which can evaluate whether the light is obstructed from the sampling
+	 *         point or not.
 	 */
 	public VisibilityTester getVisibilityTester() {
 		return visibilityTester;

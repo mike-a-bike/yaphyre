@@ -16,17 +16,19 @@
 
 package yaphyre.util.scenereaders.entityhandlers;
 
-import com.google.common.base.Preconditions;
-import org.joox.Match;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Map;
+
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
 import yaphyre.geometry.Transformation;
 import yaphyre.shaders.Material;
 import yaphyre.shapes.Sphere;
 
-import java.util.Map;
+import org.joox.Match;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Preconditions;
 
 public class SphereEntityHandler extends EntityHandler<IdentifiableObject<Shape>> {
 

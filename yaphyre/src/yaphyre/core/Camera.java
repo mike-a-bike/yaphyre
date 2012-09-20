@@ -29,23 +29,23 @@ import yaphyre.geometry.Ray;
 public interface Camera {
 
 	/**
-	 * Create a ray for the given u/v coordinates. Where <em>u</em> &isin; [0, 1]
-	 * and <em>v</em> &isin; [0, 1]. It is possible, that a camera returns
-	 * different samples for a given view plane point. This is used to simulate
-	 * depth of field effects by sampling the same view plane point using a non
-	 * zero lens size.
+	 * Create a ray for the given u/v coordinates. Where <em>u</em> &isin; [0, 1] and <em>v</em> &isin; [0, 1]. It is
+	 * possible, that a camera returns different samples for a given view plane point. This is used to simulate depth of
+	 * field effects by sampling the same view plane point using a non zero lens size.
 	 *
-	 * @param viewPlanePoint The {@link Point2D} to create the camera ray for.
-	 * @return An instance of {@link Ray} which corresponds with the given u/v
-	 *         position in the world space.
+	 * @param viewPlanePoint
+	 * 		The {@link Point2D} to create the camera ray for.
+	 *
+	 * @return An instance of {@link Ray} which corresponds with the given u/v position in the world space.
 	 */
 	public Ray getCameraRay(Point2D viewPlanePoint);
 
 	/**
-	 * Get the {@link Film} instance that is associated with the camera. This is
-	 * usually an image file, but can be something else as well.
+	 * Get the {@link Film} instance that is associated with the camera. This is usually an image file, but can be
+	 * something else as well.
 	 *
 	 * @return The {@link Film} instance for the camera.
+	 *
 	 * @see yaphyre.films.ImageFile
 	 */
 	public Film getFilm();
@@ -53,7 +53,8 @@ public interface Camera {
 	/**
 	 * Sets the {@link Film} instance for this camera.
 	 *
-	 * @param film An instance of {@link Film}.
+	 * @param film
+	 * 		An instance of {@link Film}.
 	 */
 	public void setFilm(Film film);
 

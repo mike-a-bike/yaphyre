@@ -23,9 +23,8 @@ import yaphyre.geometry.Vector3D;
 import yaphyre.raytracer.Scene;
 
 /**
- * If Java had closures, this would be one. It contains the check whether a
- * sampling point is visible from a given second point in space. The idea is
- * that this calculation and using this construct may be postponed until is is
+ * If Java had closures, this would be one. It contains the check whether a sampling point is visible from a given
+ * second point in space. The idea is that this calculation and using this construct may be postponed until is is
  * necessary.
  *
  * @author Michael Bieri
@@ -38,11 +37,12 @@ public class VisibilityTester {
 
 	public VisibilityTester(Point3D p1, Point3D p2) {
 		Vector3D connectingVector = p2.sub(p1);
-		this.ray = new Ray(p1, connectingVector.normalize(), MathUtils.EPSILON, connectingVector.length() - MathUtils.EPSILON);
+		ray = new Ray(p1, connectingVector.normalize(), MathUtils.EPSILON,
+				connectingVector.length() - MathUtils.EPSILON);
 	}
 
 	public VisibilityTester(Point3D p, Vector3D w) {
-		this.ray = new Ray(p, w.normalize());
+		ray = new Ray(p, w.normalize());
 	}
 
 	public boolean isUnobstructed(Scene scene) {

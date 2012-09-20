@@ -36,9 +36,7 @@ import yaphyre.shapes.Sphere;
 import yaphyre.util.Color;
 
 /**
- * Read a very simple file format in order to make the development and testing
- * simpler.<br/>
- * TODO: IMPLEMENT THIS...
+ * Read a very simple file format in order to make the development and testing simpler.<br/> TODO: IMPLEMENT THIS...
  *
  * @author Michael Bieri
  */
@@ -67,7 +65,11 @@ public class SceneReader {
 		double pointlight3Intensity = 10d;
 
 		Material diffuseMaterial = MaterialBuilder.start().ambient(ambientLight).diffuse(0.8).build();
-		Material mirrorMaterial = MaterialBuilder.start().ambient(ambientLight / 2d).diffuse(0.1d).reflection(0.9).build();
+		Material mirrorMaterial = MaterialBuilder.start()
+				.ambient(ambientLight / 2d)
+				.diffuse(0.1d)
+				.reflection(0.9)
+				.build();
 
 		// SimpleShader redShader = new SimpleShader(diffuseMaterial, new Color(1d,
 		// 0d, 0d));
@@ -98,7 +100,11 @@ public class SceneReader {
 		double ambientLight = 0.075d;
 
 		Material diffuseMaterial = MaterialBuilder.start().ambient(ambientLight).diffuse(0.8).build();
-		Material mirrorMaterial = MaterialBuilder.start().ambient(ambientLight / 2d).diffuse(0.1d).reflection(0.9).build();
+		Material mirrorMaterial = MaterialBuilder.start()
+				.ambient(ambientLight / 2d)
+				.diffuse(0.1d)
+				.reflection(0.9)
+				.build();
 
 		Shader whiteDiffuse = new SimpleShader(diffuseMaterial, 1d, 1d, 1d);
 		Shader redDiffuse = new SimpleShader(diffuseMaterial, 1d, 0d, 0d);
@@ -113,9 +119,12 @@ public class SceneReader {
 
 		Lightsource pointLight = new Pointlight(Transformation.translate(-2, 5, -2), new Color(1, 1, 1), 15);
 
-		Transformation sphereTransformation = Transformation.translate(0, 1.5, 0).mul(Transformation.rotateY(30).mul(Transformation.rotateX(60)));
-		Transformation distantTransformation = Transformation.translate(-2, 10, -5).mul(Transformation.scale(2, 2, 2).mul(Transformation.rotateX(90)));
-		Transformation planeTransformation = Transformation.rotateX(-10).mul(Transformation.translate(0, -1, 0).mul(Transformation.rotateY(30)));
+		Transformation sphereTransformation = Transformation.translate(0, 1.5, 0).mul(Transformation.rotateY(30).mul(
+				Transformation.rotateX(60)));
+		Transformation distantTransformation = Transformation.translate(-2, 10, -5).mul(Transformation.scale(2, 2, 2)
+				.mul(Transformation.rotateX(90)));
+		Transformation planeTransformation = Transformation.rotateX(-10).mul(Transformation.translate(0, -1, 0).mul(
+				Transformation.rotateY(30)));
 
 		Shape plane = new Plane(planeTransformation, planeCeckerShader, true);
 		Shape sphere = new Sphere(sphereTransformation, sphereCheckerShader, true);
@@ -169,8 +178,7 @@ public class SceneReader {
 	/**
 	 * 'Historic' scene: The first scene ever rendered with <em>yaphyre</em>.
 	 *
-	 * @return A very simple {@link Scene} containing one light, one plane and one
-	 *         sphere.
+	 * @return A very simple {@link Scene} containing one light, one plane and one sphere.
 	 */
 	public static final Scene createFirstLight() {
 		double ambientLight = 0.075d;
@@ -203,9 +211,11 @@ public class SceneReader {
 		return createCamera(cameraPosition, lookAt, aspectRatio, focalLength, Double.MAX_VALUE, 0d);
 	}
 
-	private static Camera createCamera(Point3D position, Point3D lookAt, double aspectRatio, double focalLength, double focalDistance, double lensRadius) {
+	private static Camera createCamera(Point3D position, Point3D lookAt, double aspectRatio, double focalLength,
+			double focalDistance, double lensRadius) {
 		BaseCameraSettings baseSettings = BaseCameraSettings.create(position, lookAt);
-		PerspectiveCameraSettings perspectiveSettings = PerspectiveCameraSettings.create(aspectRatio, focalLength, focalDistance, lensRadius);
+		PerspectiveCameraSettings perspectiveSettings = PerspectiveCameraSettings.create(aspectRatio, focalLength,
+				focalDistance, lensRadius);
 		return new PerspectiveCamera(baseSettings, perspectiveSettings, null);
 	}
 

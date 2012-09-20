@@ -18,10 +18,11 @@ package yaphyre.util.scenereaders.entityhandlers;
 import com.google.common.base.Objects;
 
 /**
- * Simple wrapper class holding an instance with its associated id. The id may
- * be null.
+ * Simple wrapper class holding an instance with its associated id. The id may be null.
  *
- * @param <T> The type of the object held by a concrete instance.
+ * @param <T>
+ * 		The type of the object held by a concrete instance.
+ *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  * @version $Revision: 37 $

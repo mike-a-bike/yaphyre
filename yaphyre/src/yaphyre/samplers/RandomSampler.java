@@ -15,16 +15,16 @@
  */
 package yaphyre.samplers;
 
-import yaphyre.geometry.Point2D;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import yaphyre.geometry.Point2D;
+
 /**
- * A pure random sampler. Each time the sampler is called, some new samples are
- * created. This prevents the re-use of the same samplers over and over again.
+ * A pure random sampler. Each time the sampler is called, some new samples are created. This prevents the re-use of
+ * the same samplers over and over again.
  *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
@@ -32,7 +32,7 @@ import java.util.Random;
  */
 public class RandomSampler extends AbstractSampler {
 
-	private static final Random random = new Random(new Date().getTime());
+	private static final Random RANDOM = new Random(new Date().getTime());
 
 	public RandomSampler(int numberOfSamples) {
 		super(numberOfSamples);
@@ -43,7 +43,7 @@ public class RandomSampler extends AbstractSampler {
 		List<Point2D> samples = new ArrayList<Point2D>(numberOfSamples);
 
 		while (samples.size() < numberOfSamples) {
-			samples.add(new Point2D(random.nextDouble(), random.nextDouble()));
+			samples.add(new Point2D(RANDOM.nextDouble(), RANDOM.nextDouble()));
 		}
 
 		return samples;

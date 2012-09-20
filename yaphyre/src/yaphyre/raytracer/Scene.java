@@ -16,17 +16,18 @@
 
 package yaphyre.raytracer;
 
-import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
+
 import yaphyre.core.Camera;
 import yaphyre.core.CollisionInformation;
 import yaphyre.core.Lightsource;
 import yaphyre.core.Shape;
 import yaphyre.geometry.Ray;
 
-import java.io.Serializable;
-import java.util.Collections;
-import java.util.List;
+import com.google.common.base.Objects;
+import com.google.common.collect.Lists;
 
 public class Scene implements Serializable {
 
@@ -70,7 +71,8 @@ public class Scene implements Serializable {
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(this.getClass()).add("cameras", this.cameras.size()).add("shapes", this.shapes.size()).add("lightsources", this.lightsources.size()).toString();
+		return Objects.toStringHelper(this.getClass()).add("cameras", this.cameras.size()).add("shapes",
+				this.shapes.size()).add("lightsources", this.lightsources.size()).toString();
 	}
 
 	public CollisionInformation getCollidingShape(Ray ray, double maxDistance, boolean onlyShadowShapes) {
@@ -92,7 +94,8 @@ public class Scene implements Serializable {
 		}
 
 		if (nearestCollisionDistance < maxDistance) {
-			result = new CollisionInformation(nearestCollisionShape, nearestCollisionDistance, ray.getPoint(nearestCollisionDistance));
+			result = new CollisionInformation(nearestCollisionShape, nearestCollisionDistance, ray.getPoint(
+					nearestCollisionDistance));
 		}
 
 		return result;

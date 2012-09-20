@@ -16,22 +16,21 @@
 
 package yaphyre.core;
 
-import com.google.common.base.Objects;
-import yaphyre.geometry.Point3D;
-import yaphyre.geometry.Ray;
-
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
+import yaphyre.geometry.Point3D;
+import yaphyre.geometry.Ray;
+
+import com.google.common.base.Objects;
+
 /**
- * Bounding boxes are used to speed up the rendering process. Complex
- * {@link Shape}s are wrapped by such a {@link BoundingBox} to which simplifies
- * the task of determining if a {@link Ray} potentially intersects with a shape.
- * If the {@link Ray} intersects the bounding box, the more expensive check must
- * be performed to check if the {@link Ray} also intersects with the wrapped
- * {@link Shape}.
+ * Bounding boxes are used to speed up the rendering process. Complex {@link Shape}s are wrapped by such a {@link
+ * BoundingBox} to which simplifies the task of determining if a {@link Ray} potentially intersects with a shape. If
+ * the {@link Ray} intersects the bounding box, the more expensive check must be performed to check if the {@link Ray}
+ * also intersects with the wrapped {@link Shape}.
  *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
@@ -39,7 +38,9 @@ import static java.lang.Math.min;
  */
 public class BoundingBox {
 
-	public static final BoundingBox INFINITE_BOUNDING_BOX = new BoundingBox(new Point3D(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY), new Point3D(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY)) {
+	public static final BoundingBox INFINITE_BOUNDING_BOX = new BoundingBox(new Point3D(Double.NEGATIVE_INFINITY,
+			Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY), new Point3D(Double.POSITIVE_INFINITY,
+			Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY)) {
 		@Override
 		public boolean isHitBy(Ray ray) {
 			return true;
@@ -66,23 +67,19 @@ public class BoundingBox {
 
 	public static BoundingBox union(BoundingBox box, Point3D p) {
 		BoundingBox result = new BoundingBox();
-		result.pointMin = new Point3D(min(box.pointMin.getX(), p.getX()),
-				min(box.pointMin.getY(), p.getY()),
-				min(box.pointMin.getZ(), p.getZ()));
-		result.pointMax = new Point3D(max(box.pointMax.getX(), p.getX()),
-				max(box.pointMax.getY(), p.getY()),
-				max(box.pointMax.getZ(), p.getZ()));
+		result.pointMin = new Point3D(min(box.pointMin.getX(), p.getX()), min(box.pointMin.getY(), p.getY()), min(
+				box.pointMin.getZ(), p.getZ()));
+		result.pointMax = new Point3D(max(box.pointMax.getX(), p.getX()), max(box.pointMax.getY(), p.getY()), max(
+				box.pointMax.getZ(), p.getZ()));
 		return result;
 	}
 
 	public static BoundingBox union(BoundingBox box1, BoundingBox box2) {
 		BoundingBox result = new BoundingBox();
-		result.pointMin = new Point3D(min(box1.pointMin.getX(), box2.pointMin.getX()),
-				min(box1.pointMin.getY(), box2.pointMin.getY()),
-				min(box1.pointMin.getZ(), box2.pointMin.getZ()));
-		result.pointMax = new Point3D(max(box1.pointMax.getX(), box2.pointMax.getX()),
-				max(box1.pointMax.getY(), box2.pointMax.getY()),
-				max(box1.pointMax.getZ(), box2.pointMax.getZ()));
+		result.pointMin = new Point3D(min(box1.pointMin.getX(), box2.pointMin.getX()), min(box1.pointMin.getY(),
+				box2.pointMin.getY()), min(box1.pointMin.getZ(), box2.pointMin.getZ()));
+		result.pointMax = new Point3D(max(box1.pointMax.getX(), box2.pointMax.getX()), max(box1.pointMax.getY(),
+				box2.pointMax.getY()), max(box1.pointMax.getZ(), box2.pointMax.getZ()));
 		return result;
 	}
 
@@ -97,17 +94,16 @@ public class BoundingBox {
 	}
 
 	public BoundingBox(Point3D p1, Point3D p2) {
-		this.pointMin = new Point3D(min(p1.getX(), p2.getX()),
-				min(p1.getY(), p2.getY()),
-				min(p1.getZ(), p2.getZ()));
-		this.pointMax = new Point3D(max(p1.getX(), p2.getX()),
-				max(p1.getY(), p2.getY()),
-				max(p1.getZ(), p2.getZ()));
+		this.pointMin = new Point3D(min(p1.getX(), p2.getX()), min(p1.getY(), p2.getY()), min(p1.getZ(), p2.getZ()));
+		this.pointMax = new Point3D(max(p1.getX(), p2.getX()), max(p1.getY(), p2.getY()), max(p1.getZ(), p2.getZ()));
 	}
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(this.getClass()).add("pMin", this.pointMin).add("pMax", this.pointMax).toString();
+		return Objects.toStringHelper(this.getClass())
+				.add("pMin", this.pointMin)
+				.add("pMax", this.pointMax)
+				.toString();
 	}
 
 	@Override
@@ -131,9 +127,9 @@ public class BoundingBox {
 	}
 
 	public boolean isInside(Point3D p) {
-		return this.pointMin.getX() <= p.getX() && this.pointMax.getX() >= p.getX()
-				&& this.pointMin.getY() <= p.getY() && this.pointMax.getY() >= p.getY()
-				&& this.pointMin.getZ() <= p.getZ() && this.pointMax.getZ() >= p.getZ();
+		return this.pointMin.getX() <= p.getX() && this.pointMax.getX() >= p.getX() && this.pointMin.getY() <= p.getY()
+				&& this.pointMax.getY() >= p.getY() && this.pointMin.getZ() <= p.getZ()
+				&& this.pointMax.getZ() >= p.getZ();
 	}
 
 	public boolean overlaps(BoundingBox box) {

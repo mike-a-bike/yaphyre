@@ -16,8 +16,9 @@
 
 package yaphyre.util.scenereaders.utils;
 
-import org.joox.Match;
 import yaphyre.util.Color;
+
+import org.joox.Match;
 
 final class ColorEntityHelper implements EntityHelper<Color> {
 

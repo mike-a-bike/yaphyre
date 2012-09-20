@@ -15,26 +15,28 @@
  */
 package yaphyre.shapes;
 
-import yaphyre.core.BoundingBox;
-import yaphyre.core.Shader;
-import yaphyre.core.Shape;
-import yaphyre.geometry.*;
+import static java.lang.Math.signum;
 
 import java.text.MessageFormat;
 
-import static java.lang.Math.signum;
+import yaphyre.core.BoundingBox;
+import yaphyre.core.Shader;
+import yaphyre.core.Shape;
+import yaphyre.geometry.Normal3D;
+import yaphyre.geometry.Point2D;
+import yaphyre.geometry.Point3D;
+import yaphyre.geometry.Ray;
+import yaphyre.geometry.Transformation;
+import yaphyre.geometry.Vector3D;
 
 /**
- * Plane represented by a point on the plane and the normal. Since on a plane
- * the normal does not change, it does not matter where on the plane the origin
- * lies.<br/>
- * The mathematical representation of a point on the plane is:<br/>
- * (p - p<sub>0</sub>) &sdot; n = 0<br/>
- * with
+ * Plane represented by a point on the plane and the normal. Since on a plane the normal does not change, it does not
+ * matter where on the plane the origin lies.<br/> The mathematical representation of a point on the plane is:<br/>
+ * (p - p<sub>0</sub>) &sdot; n = 0<br/> with
  * <ul>
- * <li>p: the point on the plane</li>
- * <li>p<sub>0</sub>: the origin</li>
- * <li>n: the normal of the plane</li>
+ *     <li>p: the point on the plane</li>
+ *     <li>p<sub>0</sub>: the origin</li>
+ *     <li>n: the normal of the plane</li>
  * </ul>
  *
  * @author Michael Bieri
@@ -53,9 +55,9 @@ public class Plane extends AbstractShape {
 
 	public Plane(Transformation planeToWorld, Shader shader, boolean throwsShadow) {
 		super(planeToWorld, shader, throwsShadow);
-		this.origin = Point3D.ORIGIN;
-		this.normal = Normal3D.NORMAL_Y;
-		this.boundingBox = BoundingBox.INFINITE_BOUNDING_BOX;
+		origin = Point3D.ORIGIN;
+		normal = Normal3D.NORMAL_Y;
+		boundingBox = BoundingBox.INFINITE_BOUNDING_BOX;
 	}
 
 	@Override
@@ -82,38 +84,38 @@ public class Plane extends AbstractShape {
 		return super.hashCode();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public BoundingBox getBoundingBox() {
-		return this.boundingBox;
+		return boundingBox;
 	}
 
 	/**
-	 * Intersect the plane with a ray. We use the parametric form of the line
-	 * equation to determine the distance in which the line intersects this plane.<br/>
+	 * Intersect the plane with a ray. We use the parametric form of the line equation to determine the distance in which
+	 * the line intersects this plane.<br/>
 	 * Using the two equations:<br/>
 	 * Plane: (p - p<sub>0</sub>) &sdot; n = 0<br/>
 	 * Line: p(t) = l<sub>0</sub> + (t * d)<br/>
 	 * we get:<br/>
 	 * t = ((p<sub>0</sub> - l<sub>0</sub>) &sdot; n) / (d &sdot; n)<br/>
-	 * If the line starts outside the plane and is parallel to it there is no
-	 * intersection, then the denominator is zero and the numerator is non-zero.<br/>
-	 * If the line starts on the plane and is parallel to it so every point on the
-	 * line intersects with the plane, the denominator and the numerator are zero<br/>
-	 * If the result is negative, the line intersects with the plane behind the
-	 * origin of the ray, so there is no visible intersection.
+	 * If the line starts outside the plane and is parallel to it there is no intersection, then the denominator
+	 * is zero and the numerator is non-zero.<br/>
+	 * If the line starts on the plane and is parallel to it so every point on the line intersects with the plane, the
+	 * denominator and the numerator are zero<br/>
+	 * If the result is negative, the line intersects with the plane behind the origin of the ray, so there is no
+	 * visible intersection.
 	 *
-	 * @param ray The {@link Ray} to intersect with this plane.
-	 * @return The distance in which the ray intersects this plane or
-	 *         {@link Shape#NO_INTERSECTION} if there is no intersection.
+	 * @param ray
+	 * 		The {@link Ray} to intersect with this plane.
+	 *
+	 * @return The distance in which the ray intersects this plane or {@link Shape#NO_INTERSECTION} if there is no
+	 *         intersection.
 	 */
 	@Override
 	public double getIntersectDistance(Ray ray) {
 		ray = super.transformToObjectSpace(ray);
-		double numerator = this.origin.sub(ray.getOrigin()).dot(this.normal);
-		double denominator = ray.getDirection().dot(this.normal);
+		double numerator = origin.sub(ray.getOrigin()).dot(normal);
+		double denominator = ray.getDirection().dot(normal);
 
 		if (numerator == 0 && denominator == 0) {
 			// The ray starts on the plane and is parallel to the plane, so it
@@ -134,8 +136,8 @@ public class Plane extends AbstractShape {
 	@Override
 	public boolean isHitBy(Ray ray) {
 		ray = super.transformToObjectSpace(ray);
-		double numerator = this.origin.sub(ray.getOrigin()).dot(this.normal);
-		double denominator = ray.getDirection().dot(this.normal);
+		double numerator = origin.sub(ray.getOrigin()).dot(normal);
+		double denominator = ray.getDirection().dot(normal);
 
 		if (numerator == 0 && denominator == 0) {
 			return true;
@@ -147,22 +149,21 @@ public class Plane extends AbstractShape {
 	}
 
 	/**
-	 * The normal of a plane is independent from the position on the plane, so
-	 * always the defining normal is returned.
+	 * The normal of a plane is independent from the position on the plane, so always the defining normal is returned.
 	 *
-	 * @param surfacePoint The surface point (as {@link Vector3D}) for which the normal is
-	 *                     asked.
+	 * @param surfacePoint
+	 * 		The surface point (as {@link Vector3D}) for which the normal is asked.
+	 *
 	 * @return The normal of the plane (position independent)
 	 */
 	@Override
 	public Normal3D getNormal(Point3D surfacePoint) {
-		return super.getObjectToWorld().transform(this.normal);
+		return super.getObjectToWorld().transform(normal);
 	}
 
 	/**
-	 * Maps the given point to the planes u/v coordinates. Since each surface
-	 * point lies on the x/z plane, the y component can be ignored. So [u, v] =
-	 * [x, z].
+	 * Maps the given point to the planes u/v coordinates. Since each surface point lies on the x/z plane, the y component
+	 * can be ignored. So [u, v] = [x, z].
 	 */
 	@Override
 	public Point2D getMappedSurfacePoint(Point3D surfacePoint) {

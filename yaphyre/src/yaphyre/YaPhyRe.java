@@ -15,9 +15,10 @@
  */
 package yaphyre;
 
-import org.apache.commons.cli.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.File;
+import java.io.IOException;
+import java.text.MessageFormat;
+
 import yaphyre.core.Camera;
 import yaphyre.core.Film;
 import yaphyre.core.Sampler;
@@ -30,13 +31,19 @@ import yaphyre.samplers.RandomSampler;
 import yaphyre.samplers.RegularSampler;
 import yaphyre.samplers.SinglePointSampler;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.MessageFormat;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.OptionBuilder;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.PosixParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * The main class starting the application. This class parses the command line,
- * prepares the environment and calls the renderer.
+ * The main class starting the application. This class parses the command line, prepares the environment and calls the
+ * renderer.
  *
  * @author Michael Bieri
  * @author $LastChangedBy$
@@ -57,6 +64,9 @@ public class YaPhyRe {
 	private static final int DEFAULT_SAMPLE_NUMBER = 4;
 
 	private static Options commandLineOptions = null;
+
+	private YaPhyRe() {
+	}
 
 	public static void main(String... args) throws IOException {
 
@@ -109,7 +119,9 @@ public class YaPhyRe {
 		int imageIndex = 0;
 		for (Camera camera : readScene.getCameras()) {
 			Film film = camera.getFilm();
-			File imageFile = new File(MessageFormat.format("{0}_{1,number,000}.{2}", fileName, imageIndex++, imageFormat));
+			File imageFile = new File(MessageFormat.format("{0}_{1,number,000}.{2}", fileName, imageIndex,
+					imageFormat));
+			imageIndex++;
 			film.writeImageFile(imageWidth, imageHeight, imageFile.getAbsolutePath());
 
 			LOGGER.info("Output written to: {}", imageFile.getAbsolutePath());
@@ -120,9 +132,9 @@ public class YaPhyRe {
 	}
 
 	private static Scene readScene(CommandLine commandLine) {
-		Scene result = null;
 		String sceneName = commandLine.getOptionValue('s').trim().toLowerCase();
 		LOGGER.info("Trying to load scene <{}>", sceneName);
+		Scene result;
 		if (sceneName.equals("first")) {
 			result = SceneReader.createFirstLight();
 		} else if (sceneName.equals("spheres")) {
@@ -143,11 +155,11 @@ public class YaPhyRe {
 
 	private static Sampler parseSampler(CommandLine commandLine) {
 		String[] samplerSettings = commandLine.getOptionValues('a');
-		Sampler sampler = null;
 		int sampleCount = DEFAULT_SAMPLE_NUMBER;
 		if (samplerSettings.length == 2) {
 			sampleCount = Integer.parseInt(samplerSettings[1]);
 		}
+		Sampler sampler;
 		if (samplerSettings[0].equalsIgnoreCase("single")) {
 			sampler = new SinglePointSampler();
 		} else if (samplerSettings[0].equalsIgnoreCase("regular")) {
@@ -174,13 +186,31 @@ public class YaPhyRe {
 	private static CommandLine parseCommandLine(String... args) throws ParseException {
 		CommandLineParser parser = new PosixParser();
 		commandLineOptions = new Options();
-		commandLineOptions.addOption(OptionBuilder.withArgName("first|spheres|simple|dof|area").hasArg().isRequired().withLongOpt("scene").withDescription("Scene to render").create('s'));
-		commandLineOptions.addOption(OptionBuilder.withArgName("file").hasArg().withLongOpt("out").withDescription("Output file name").create('o'));
-		commandLineOptions.addOption(OptionBuilder.withArgName("format").hasArg().withLongOpt("format").withDescription("Format of the output image file").create('f'));
-		commandLineOptions.addOption(OptionBuilder.withArgName("pixel").hasArg().withLongOpt("width").withDescription("Width of the rendered image").create('w'));
-		commandLineOptions.addOption(OptionBuilder.withArgName("pixel").hasArg().withLongOpt("height").withDescription("Height of the rendered image").create('h'));
-		commandLineOptions.addOption(OptionBuilder.withArgName("single|regular|random|jittered [samples]").hasArgs(2).withLongOpt("sampling").isRequired().withDescription("Type and number of samples for anti aliasing").create('a'));
-		commandLineOptions.addOption(OptionBuilder.withLongOpt("single").withDescription("Perform rendering with in a single task").create());
+		commandLineOptions.addOption(OptionBuilder.withArgName("first|spheres|simple|dof|area")
+				.hasArg()
+				.isRequired()
+				.withLongOpt("scene")
+				.withDescription("Scene to render")
+				.create('s'));
+		commandLineOptions.addOption(OptionBuilder.withArgName("file").hasArg().withLongOpt("out").withDescription(
+				"Output file name").create('o'));
+		commandLineOptions.addOption(OptionBuilder.withArgName("format")
+				.hasArg()
+				.withLongOpt("format")
+				.withDescription("Format of the output image file")
+				.create('f'));
+		commandLineOptions.addOption(OptionBuilder.withArgName("pixel").hasArg().withLongOpt("width").withDescription(
+				"Width of the rendered image").create('w'));
+		commandLineOptions.addOption(OptionBuilder.withArgName("pixel").hasArg().withLongOpt("height").withDescription(
+				"Height of the rendered image").create('h'));
+		commandLineOptions.addOption(OptionBuilder.withArgName("single|regular|random|jittered [samples]")
+				.hasArgs(2)
+				.withLongOpt("sampling")
+				.isRequired()
+				.withDescription("Type and number of samples for anti aliasing")
+				.create('a'));
+		commandLineOptions.addOption(OptionBuilder.withLongOpt("single").withDescription(
+				"Perform rendering with in a single task").create());
 		commandLineOptions.addOption(OptionBuilder.withLongOpt("help").withDescription("Shows this help").create());
 		return parser.parse(commandLineOptions, args);
 	}

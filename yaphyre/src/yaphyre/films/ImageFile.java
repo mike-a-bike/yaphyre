@@ -15,22 +15,24 @@
  */
 package yaphyre.films;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import yaphyre.core.CameraSample;
-import yaphyre.core.Film;
-import yaphyre.util.Color;
-
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
+
+import yaphyre.core.CameraSample;
+import yaphyre.core.Film;
+import yaphyre.util.Color;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
+
 /**
- * Film implementation which records the camera samples as colored pixels in an
- * image file.
+ * Film implementation which records the camera samples as colored pixels in an image file.
  *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
@@ -56,22 +58,23 @@ public class ImageFile implements Film {
 
 	public ImageFile(int xResolution, int yResolution, ImageFormat imageFormat) {
 
-		Preconditions.checkArgument(imageFormat == ImageFormat.JPEG || imageFormat == ImageFormat.PNG, "unsupoorted image format: %s", imageFormat);
+		Preconditions.checkArgument(imageFormat == ImageFormat.JPEG || imageFormat == ImageFormat.PNG,
+				"unsupoorted image format: %s", imageFormat);
 
 		this.xResolution = xResolution;
 		this.yResolution = yResolution;
 		this.imageFormat = imageFormat;
-		this.pixelColors = new Color[xResolution * yResolution];
+		pixelColors = new Color[xResolution * yResolution];
 	}
 
 	@Override
 	public int getXResolution() {
-		return this.xResolution;
+		return xResolution;
 	}
 
 	@Override
 	public int getYResolution() {
-		return this.yResolution;
+		return yResolution;
 	}
 
 	@Override
@@ -79,35 +82,35 @@ public class ImageFile implements Film {
 		int uCoordinate = (int) sample.getRasterPoint().getU();
 		int vCoordinate = (int) sample.getRasterPoint().getV();
 
-		this.setColor(uCoordinate, vCoordinate, color);
+		setColor(uCoordinate, vCoordinate, color);
 
 	}
 
 	private void setColor(int x, int y, Color color) {
 
-		Preconditions.checkPositionIndex(x, this.xResolution);
-		Preconditions.checkPositionIndex(y, this.yResolution);
+		Preconditions.checkPositionIndex(x, xResolution);
+		Preconditions.checkPositionIndex(y, yResolution);
 
-		this.pixelColors[y * this.xResolution + x] = color;
+		pixelColors[y * xResolution + x] = color;
 	}
 
 	private Color getColor(int x, int y) {
 
-		Preconditions.checkPositionIndex(x, this.xResolution);
-		Preconditions.checkPositionIndex(y, this.yResolution);
+		Preconditions.checkPositionIndex(x, xResolution);
+		Preconditions.checkPositionIndex(y, yResolution);
 
-		return this.pixelColors[y * this.xResolution + x];
+		return pixelColors[y * xResolution + x];
 	}
 
 	@Override
 	public void writeImageFile(int xSize, int ySize, String fileName) {
-		Preconditions.checkArgument(xSize == this.xResolution && ySize == this.yResolution, "scaling is not yet supported");
+		Preconditions.checkArgument(xSize == xResolution && ySize == yResolution, "scaling is not yet supported");
 
-		BufferedImage image = this.createImageFromData();
+		BufferedImage image = createImageFromData();
 
 		try {
 			FileOutputStream imageFileStream = new FileOutputStream(fileName);
-			ImageIO.write(image, this.imageFormat.toString(), imageFileStream);
+			ImageIO.write(image, imageFormat.toString(), imageFileStream);
 			imageFileStream.close();
 		} catch (IOException ioe) {
 			LOGGER.error("Could not write image file: '" + fileName + "'", ioe);
@@ -116,11 +119,11 @@ public class ImageFile implements Film {
 	}
 
 	private BufferedImage createImageFromData() {
-		BufferedImage result = new BufferedImage(this.xResolution, this.yResolution, BufferedImage.TYPE_INT_RGB);
+		BufferedImage result = new BufferedImage(xResolution, yResolution, BufferedImage.TYPE_INT_RGB);
 
-		for (int y = 0; y < this.yResolution; y++) {
-			for (int x = 0; x < this.xResolution; x++) {
-				Color pixelColor = this.getColor(x, (this.yResolution - 1) - y).clip();
+		for (int y = 0; y < yResolution; y++) {
+			for (int x = 0; x < xResolution; x++) {
+				Color pixelColor = getColor(x, (yResolution - 1) - y).clip();
 				int red = (int) (pixelColor.getRed() * 255);
 				int green = (int) (pixelColor.getGreen() * 255);
 				int blue = (int) (pixelColor.getBlue() * 255);
@@ -135,10 +138,8 @@ public class ImageFile implements Film {
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(this.getClass())
-				.add("xRes", this.xResolution)
-				.add("yRes", this.yResolution)
-				.add("format", this.imageFormat).toString();
+		return Objects.toStringHelper(getClass()).add("xRes", xResolution).add("yRes", yResolution).add("format",
+				imageFormat).toString();
 	}
 
 	public static enum ImageFormat {
@@ -154,7 +155,7 @@ public class ImageFile implements Film {
 		}
 
 		public String getDefaultFileExtention() {
-			return this.defaultFileExtention;
+			return defaultFileExtention;
 		}
 
 	}

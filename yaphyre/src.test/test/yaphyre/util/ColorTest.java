@@ -20,9 +20,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
-
 import yaphyre.util.Color;
+
+import org.junit.Test;
 
 public class ColorTest {
 
@@ -50,9 +50,8 @@ public class ColorTest {
 
 	@Test
 	public void testFromByteValue() {
-		double doubleValue;
 
-		doubleValue = Color.fromByteValue(0);
+		double doubleValue = Color.fromByteValue(0);
 		assertEquals(0, doubleValue, 0);
 
 		doubleValue = Color.fromByteValue(255);
@@ -65,9 +64,8 @@ public class ColorTest {
 
 	@Test
 	public void testToByteValue() {
-		int byteValue;
 
-		byteValue = Color.toByteValue(1);
+		int byteValue = Color.toByteValue(1);
 		assertEquals(255, byteValue);
 
 		byteValue = Color.toByteValue(0);
@@ -82,9 +80,8 @@ public class ColorTest {
 
 	@Test
 	public void testColor() {
-		Color color;
 
-		color = new Color(java.awt.Color.RED);
+		Color color = new Color(java.awt.Color.RED);
 		assertEquals(RED, color);
 
 		color = new Color(java.awt.Color.BLACK);
@@ -131,9 +128,8 @@ public class ColorTest {
 
 	@Test
 	public void testMultiplyScalar() {
-		Color color;
 
-		color = WHITE.multiply(0);
+		Color color = WHITE.multiply(0);
 		assertEquals(BLACK, color);
 
 		color = BLACK.multiply(1);
@@ -152,9 +148,8 @@ public class ColorTest {
 
 	@Test
 	public void testMultiplyColor() {
-		Color color;
 
-		color = WHITE.multiply(WHITE);
+		Color color = WHITE.multiply(WHITE);
 		assertEquals(WHITE, color);
 
 		color = WHITE.multiply(RED);
@@ -189,9 +184,8 @@ public class ColorTest {
 
 	@Test
 	public void testClip() {
-		Color color;
 
-		color = WHITE.clip();
+		Color color = WHITE.clip();
 		assertEquals(WHITE, color);
 
 		color = BLACK.clip();
@@ -207,9 +201,8 @@ public class ColorTest {
 
 	@Test
 	public void testRescale() {
-		Color color;
 
-		color = WHITE.rescale();
+		Color color = WHITE.rescale();
 		assertEquals(WHITE, color);
 
 		color = BLACK.rescale();

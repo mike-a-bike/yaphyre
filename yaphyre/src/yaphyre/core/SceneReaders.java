@@ -19,9 +19,8 @@ package yaphyre.core;
 import yaphyre.raytracer.Scene;
 
 /**
- * Common interface for all scene readers. It does not matter where the
- * implementing reader gets its data from. The type of the datasource is defined
- * by a generic.
+ * Common interface for all scene readers. It does not matter where the implementing reader gets its data from. The
+ * type of the datasource is defined by a generic.
  *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
@@ -32,9 +31,10 @@ public interface SceneReaders<T> {
 	/**
 	 * Read a {@link Scene} from the given source.
 	 *
-	 * @param source The source to read the data from.
-	 * @return A new instance of {@link Scene} containing the data from the
-	 *         source.
+	 * @param source
+	 * 		The source to read the data from.
+	 *
+	 * @return A new instance of {@link Scene} containing the data from the source.
 	 */
 	public Scene readScene(T source);
 

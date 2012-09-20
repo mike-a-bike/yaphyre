@@ -16,35 +16,65 @@
 
 package yaphyre.core;
 
-import com.google.common.base.Objects;
 import yaphyre.geometry.Point2D;
+
+import com.google.common.base.Objects;
 
 public class CameraSample {
 
-	private Point2D rasterPoint;
+	private final Point2D rasterPoint;
 
-	private Point2D lensCoordinates;
+	private final Point2D lensCoordinates;
+
+	public CameraSample(Point2D rasterPoint) {
+		this(rasterPoint, Point2D.ZERO);
+	}
+
+	public CameraSample(final Point2D rasterPoint, final Point2D lensCoordinates) {
+		this.rasterPoint = rasterPoint;
+		this.lensCoordinates = lensCoordinates;
+	}
+
+	@Override
+	public boolean equals(final Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		final CameraSample that = (CameraSample) o;
+
+		if (lensCoordinates != null ? !lensCoordinates.equals(that.lensCoordinates) : that.lensCoordinates != null) {
+			return false;
+		}
+		if (rasterPoint != null ? !rasterPoint.equals(that.rasterPoint) : that.rasterPoint != null) {
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = rasterPoint != null ? rasterPoint.hashCode() : 0;
+		result = 31 * result + (lensCoordinates != null ? lensCoordinates.hashCode() : 0);
+		return result;
+	}
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(getClass()).add("rasterPoint", rasterPoint).add("lensCoordinates", lensCoordinates).toString();
+		return Objects.toStringHelper(getClass()).add("rasterPoint", rasterPoint).add("lensCoordinates",
+				lensCoordinates).toString();
 	}
 
 	public Point2D getRasterPoint() {
 		return this.rasterPoint;
 	}
 
-	public void setRasterPoint(Point2D rasterPoint) {
-		this.rasterPoint = rasterPoint;
-	}
-
 	public Point2D getLensCoordinates() {
 		return this.lensCoordinates;
 	}
-
-	public void setLensCoordinates(Point2D lensCoordinates) {
-		this.lensCoordinates = lensCoordinates;
-	}
-
 
 }

@@ -16,9 +16,8 @@
 
 package yaphyre.util.scenereaders.entityhandlers;
 
-import org.joox.Match;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Map;
+
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
 import yaphyre.shaders.Material;
@@ -26,7 +25,9 @@ import yaphyre.shaders.SimpleShader;
 import yaphyre.util.Color;
 import yaphyre.util.scenereaders.utils.HelperFactory;
 
-import java.util.Map;
+import org.joox.Match;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SimpleShaderEnityHandler extends EntityHandler<IdentifiableObject<Shader>> {
 
@@ -42,7 +43,8 @@ public class SimpleShaderEnityHandler extends EntityHandler<IdentifiableObject<S
 		String materialRef = entityMatch.child("material").attr("ref");
 		Material material = knownMaterials.get(materialRef).getObject();
 
-		IdentifiableObject<Shader> result = new IdentifiableObject<Shader>(id, new SimpleShader(material, shaderColor));
+		IdentifiableObject<Shader> result = new IdentifiableObject<Shader>(id, new SimpleShader(material,
+				shaderColor));
 
 		LOGGER.trace("exit decodeEntity: {}", result);
 

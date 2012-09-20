@@ -16,15 +16,17 @@
 
 package yaphyre.util.scenereaders.entityhandlers;
 
-import com.google.common.base.Preconditions;
-import org.joox.Match;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Map;
+
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
 import yaphyre.shaders.Material;
 
-import java.util.Map;
+import org.joox.Match;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Preconditions;
 
 public class MaterialEntityHandler extends EntityHandler<IdentifiableObject<Material>> {
 
@@ -37,13 +39,14 @@ public class MaterialEntityHandler extends EntityHandler<IdentifiableObject<Mate
 		Preconditions.checkArgument(entityMatch.tag().equals("material"));
 
 		String id = entityMatch.id();
-		double ambient = this.readNumericAttribute(entityMatch, "ambient", 0d, Double.class);
-		double diffuse = this.readNumericAttribute(entityMatch, "diffuse", 0d, Double.class);
-		double specular = this.readNumericAttribute(entityMatch, "specular", 0d, Double.class);
-		double reflection = this.readNumericAttribute(entityMatch, "reflection", 0d, Double.class);
-		double refraction = this.readNumericAttribute(entityMatch, "refraction", 0d, Double.class);
+		double ambient = readNumericAttribute(entityMatch, "ambient", 0d, Double.class);
+		double diffuse = readNumericAttribute(entityMatch, "diffuse", 0d, Double.class);
+		double specular = readNumericAttribute(entityMatch, "specular", 0d, Double.class);
+		double reflection = readNumericAttribute(entityMatch, "reflection", 0d, Double.class);
+		double refraction = readNumericAttribute(entityMatch, "refraction", 0d, Double.class);
 
-		IdentifiableObject<Material> result = new IdentifiableObject<Material>(id, new Material(ambient, diffuse, specular, reflection, refraction));
+		IdentifiableObject<Material> result = new IdentifiableObject<Material>(id, new Material(ambient, diffuse,
+				specular, reflection, refraction));
 
 		LOGGER.trace("exit decodeEntity: {}", result);
 

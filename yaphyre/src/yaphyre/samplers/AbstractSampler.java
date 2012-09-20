@@ -15,11 +15,12 @@
  */
 package yaphyre.samplers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import yaphyre.core.Sampler;
-import yaphyre.geometry.Point2D;
-import yaphyre.geometry.Point3D;
+import static java.lang.Math.PI;
+import static java.lang.Math.cos;
+import static java.lang.Math.pow;
+import static java.lang.Math.sin;
+import static java.lang.Math.sqrt;
+import static yaphyre.geometry.MathUtils.TWO_PI;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -27,12 +28,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import static java.lang.Math.*;
-import static yaphyre.geometry.MathUtils.TWO_PI;
+import yaphyre.core.Sampler;
+import yaphyre.geometry.Point2D;
+import yaphyre.geometry.Point3D;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * An abstract implementation of the interface {@link Sampler}. This is used to
- * ensure that all samplers provide a similar constructor.
+ * An abstract implementation of the interface {@link Sampler}. This is used to ensure that all samplers provide a
+ * similar constructor.
  *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
@@ -42,14 +47,10 @@ public abstract class AbstractSampler implements Sampler {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSampler.class);
 
-	/**
-	 * random generator for choosing a set of samples.
-	 */
+	/** random generator for choosing a set of samples. */
 	private static final Random random = new Random(System.nanoTime());
 
-	/**
-	 * nice prime number... a very arbitrary chosen number
-	 */
+	/** nice prime number... a very arbitrary chosen number */
 	private static final int NUMBER_OF_SAMPLE_SETS = 97;
 
 	private List<List<Point2D>> sampleSets;
@@ -57,22 +58,21 @@ public abstract class AbstractSampler implements Sampler {
 	private final int numberOfSamples;
 
 	/**
-	 * Protected empty constructor. This can only be called from subclasses, since
-	 * there is no initialization whatsoever. Derived classes calling this
-	 * constructor must override the {@link #getUnitSquareSamples()} method or
-	 * call the {@link #createSamples(int)} method.
+	 * Protected empty constructor. This can only be called from subclasses, since there is no initialization whatsoever.
+	 * Derived classes calling this constructor must override the {@link #getUnitSquareSamples()} method or call the
+	 * {@link #createSamples(int)} method.
 	 */
 	protected AbstractSampler() {
-		this.numberOfSamples = 0;
+		numberOfSamples = 0;
 	}
 
 	/**
-	 * Default constructor used by most of the derived classes. It takes a number
-	 * of samples to create. The derived {@link #createSamples(int)} method
-	 * handles the actual creation of the samples.
+	 * Default constructor used by most of the derived classes. It takes a number of samples to create. The derived {@link
+	 * #createSamples(int)} method handles the actual creation of the samples.
 	 *
-	 * @param numberOfSamples The number of samples requested. Please notice, the number of
-	 *                        effective samples may vary according to the implemented algorithm.
+	 * @param numberOfSamples
+	 * 		The number of samples requested. Please notice, the number of effective samples may vary according to the
+	 * 		implemented algorithm.
 	 */
 	public AbstractSampler(int numberOfSamples) {
 		this.numberOfSamples = numberOfSamples;
@@ -82,50 +82,45 @@ public abstract class AbstractSampler implements Sampler {
 	/**
 	 * Initializes the internal list of different sample sets.
 	 *
-	 * @param numberOfSamples The number of sets to create.
+	 * @param numberOfSamples
+	 * 		The number of sets to create.
 	 */
 	protected void createSampleSets(int numberOfSamples) {
-		LOGGER.debug("Start creation of samples for {}", this.getClass().getSimpleName());
-		this.sampleSets = new ArrayList<List<Point2D>>(NUMBER_OF_SAMPLE_SETS);
+		LOGGER.debug("Start creation of samples for {}", getClass().getSimpleName());
+		sampleSets = new ArrayList<List<Point2D>>(NUMBER_OF_SAMPLE_SETS);
 		for (int set = 0; set < NUMBER_OF_SAMPLE_SETS; set++) {
-			this.sampleSets.add(createSamples(numberOfSamples));
+			sampleSets.add(createSamples(numberOfSamples));
 		}
 		LOGGER.debug("Sample creation finished");
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public void shuffle() {
-		Collections.shuffle(this.sampleSets, random);
+		Collections.shuffle(sampleSets, random);
 	}
 
 	/**
-	 * Gets a set of samples within a unit square. This implementation chooses a
-	 * random set from the available sets in order to avoid aliasing artifacts
-	 * created by returning the same set over and over again.<br/> {@inheritDoc}
+	 * Gets a set of samples within a unit square. This implementation chooses a random set from the available sets in
+	 * order to avoid aliasing artifacts created by returning the same set over and over again.<br/> {@inheritDoc}
 	 */
 	@Override
 	public Iterable<Point2D> getUnitSquareSamples() {
 		int setIndex = (int) random.nextFloat() * NUMBER_OF_SAMPLE_SETS;
-		return this.sampleSets.get(setIndex);
+		return sampleSets.get(setIndex);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public Iterable<Point2D> getUnitCircleSamples() {
-
-		double r, phi;
-		Point2D sp;
 
 		List<Point2D> result = new ArrayList<Point2D>();
 
 		for (Point2D p : getUnitSquareSamples()) {
-			sp = new Point2D(p.getU() * 2d - 1d, p.getV() * 2d - 2d);
+			Point2D sp = new Point2D(p.getU() * 2d - 1d, p.getV() * 2d - 2d);
 
+			double r;
+			double phi;
 			if (sp.getU() > -sp.getV()) {
 				if (sp.getU() > sp.getV()) {
 					r = sp.getU();
@@ -153,9 +148,7 @@ public abstract class AbstractSampler implements Sampler {
 		return result;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public Iterable<Point3D> getHemisphereSamples(double exp) {
 		List<Point3D> result = new ArrayList<Point3D>();
@@ -172,25 +165,20 @@ public abstract class AbstractSampler implements Sampler {
 		return result;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public Iterable<Point3D> getSphereSamples() {
-		double r1, r2;
-		double x, y, z;
-		double r, phi;
 
 		List<Point3D> result = new ArrayList<Point3D>();
 
 		for (Point2D p : getUnitSquareSamples()) {
-			r1 = p.getU();
-			r2 = p.getV();
-			z = 1d - 2d - r1;
-			r = sqrt(1d - z * z);
-			phi = TWO_PI * r2;
-			x = r * cos(phi);
-			y = r * sin(phi);
+			double r1 = p.getU();
+			double r2 = p.getV();
+			double phi = TWO_PI * r2;
+			double z = 1d - 2d - r1;
+			double r = sqrt(1d - z * z);
+			double x = r * cos(phi);
+			double y = r * sin(phi);
 			result.add(new Point3D(x, y, z));
 		}
 
@@ -198,17 +186,17 @@ public abstract class AbstractSampler implements Sampler {
 	}
 
 	/**
-	 * This is where each algorithm creates its samples. This method must be
-	 * implemented for each sampler strategy.
+	 * This is where each algorithm creates its samples. This method must be implemented for each sampler strategy.
 	 *
-	 * @param numberOfSamples The number of samples which are requested.
-	 * @return The list of created samples. Each {@link Point2D} represents a
-	 *         sample on a unit square.
+	 * @param numberOfSamples
+	 * 		The number of samples which are requested.
+	 *
+	 * @return The list of created samples. Each {@link Point2D} represents a sample on a unit square.
 	 */
 	protected abstract List<Point2D> createSamples(int numberOfSamples);
 
 	@Override
 	public String toString() {
-		return MessageFormat.format("{0}({1})", this.getClass().getSimpleName(), String.valueOf(this.numberOfSamples));
+		return MessageFormat.format("{0}({1})", getClass().getSimpleName(), String.valueOf(numberOfSamples));
 	}
 }

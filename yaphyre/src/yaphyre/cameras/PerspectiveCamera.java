@@ -15,8 +15,6 @@
  */
 package yaphyre.cameras;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 import yaphyre.core.Camera;
 import yaphyre.core.Film;
 import yaphyre.core.Sampler;
@@ -26,9 +24,12 @@ import yaphyre.geometry.Ray;
 import yaphyre.geometry.Vector3D;
 import yaphyre.samplers.JitteredSampler;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
+
 /**
- * This perspective camera is based on a simple pin hole camera model.
- * Nonetheless, it emulates effects like depth of field
+ * This perspective camera is based on a simple pin hole camera model. Nonetheless, it emulates effects like depth of
+ * field
  *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
@@ -44,15 +45,16 @@ public class PerspectiveCamera extends AbstractCamera implements Camera {
 
 	private final Sampler lensSampler;
 
-	public PerspectiveCamera(BaseCameraSettings baseSettings, PerspectiveCameraSettings perspectiveSettings, Film film) {
+	public PerspectiveCamera(BaseCameraSettings baseSettings, PerspectiveCameraSettings perspectiveSettings,
+			Film film) {
 		super(baseSettings, film);
-		this.cameraSettings = perspectiveSettings;
-		this.focalPoint = new Point3D(0, 0, -this.cameraSettings.getFocalLength());
-		this.aspectRatioInv = 1d / this.cameraSettings.getAspectRatio();
-		if (this.cameraSettings.getLensRadius() > 0d) {
-			this.lensSampler = new JitteredSampler(4);
+		cameraSettings = perspectiveSettings;
+		focalPoint = new Point3D(0, 0, -cameraSettings.getFocalLength());
+		aspectRatioInv = 1d / cameraSettings.getAspectRatio();
+		if (cameraSettings.getLensRadius() > 0d) {
+			lensSampler = new JitteredSampler(4);
 		} else {
-			this.lensSampler = null;
+			lensSampler = null;
 		}
 	}
 
@@ -61,14 +63,15 @@ public class PerspectiveCamera extends AbstractCamera implements Camera {
 		Preconditions.checkArgument(viewPlanePoint.getU() >= 0d && viewPlanePoint.getU() <= 1d);
 		Preconditions.checkArgument(viewPlanePoint.getV() >= 0d && viewPlanePoint.getV() <= 1d);
 
-		Point3D mappedPoint = this.mapViewPlanePoint(viewPlanePoint);
-		Vector3D direction = new Vector3D(this.focalPoint, mappedPoint).normalize();
+		Point3D mappedPoint = mapViewPlanePoint(viewPlanePoint);
+		Vector3D direction = new Vector3D(focalPoint, mappedPoint).normalize();
 
-		if (this.cameraSettings.getLensRadius() > 0d) {
+		if (cameraSettings.getLensRadius() > 0d) {
 			// UGLY, better implementation for random sampling needed...
-			Point2D lensPoint = this.lensSampler.getUnitCircleSamples().iterator().next().mul(this.cameraSettings.getLensRadius());
+			Point2D lensPoint = lensSampler.getUnitCircleSamples().iterator().next().mul(
+					cameraSettings.getLensRadius());
 
-			Point3D focusPoint = mappedPoint.add(direction.scale(this.cameraSettings.getFocalDistance()));
+			Point3D focusPoint = mappedPoint.add(direction.scale(cameraSettings.getFocalDistance()));
 			mappedPoint = mappedPoint.add(lensPoint);
 			direction = new Vector3D(focusPoint, mappedPoint).normalize();
 		}
@@ -82,20 +85,20 @@ public class PerspectiveCamera extends AbstractCamera implements Camera {
 
 	private Point3D mapViewPlanePoint(Point2D viewPlanePoint) {
 		double u = viewPlanePoint.getU() - 0.5d;
-		double v = (viewPlanePoint.getV() - 0.5d) * this.aspectRatioInv;
+		double v = (viewPlanePoint.getV() - 0.5d) * aspectRatioInv;
 		return new Point3D(u, v, 0d);
 	}
 
 	@Override
 	public String toString() {
 		return Objects.toStringHelper(this)
-				.add("pos", this.getPosition())
-				.add("lookAt", this.getLookAt())
-				.add("apsect ratio", this.cameraSettings.getAspectRatio())
-				.add("focal length", this.cameraSettings.getFocalLength())
-				.add("focal distance", this.cameraSettings.getFocalDistance())
-				.add("lens radius", this.cameraSettings.getLensRadius())
-				.add("film", this.getFilm())
+				.add("pos", getPosition())
+				.add("lookAt", getLookAt())
+				.add("apsect ratio", cameraSettings.getAspectRatio())
+				.add("focal length", cameraSettings.getFocalLength())
+				.add("focal distance", cameraSettings.getFocalDistance())
+				.add("lens radius", cameraSettings.getLensRadius())
+				.add("film", getFilm())
 				.toString();
 	}
 
@@ -119,11 +122,13 @@ public class PerspectiveCamera extends AbstractCamera implements Camera {
 			return new PerspectiveCameraSettings(aspectRatio, focalLength, Double.MAX_VALUE, 0d);
 		}
 
-		public static PerspectiveCameraSettings create(double aspectRatio, double focalLength, double focalDistance, double lensRadius) {
+		public static PerspectiveCameraSettings create(double aspectRatio, double focalLength, double focalDistance,
+				double lensRadius) {
 			return new PerspectiveCameraSettings(aspectRatio, focalLength, focalDistance, lensRadius);
 		}
 
-		private PerspectiveCameraSettings(double aspectRatio, double focalLength, double focalDistance, double lensRadius) {
+		private PerspectiveCameraSettings(double aspectRatio, double focalLength, double focalDistance,
+				double lensRadius) {
 			this.aspectRatio = aspectRatio;
 			this.focalLength = focalLength;
 			this.focalDistance = focalDistance;
@@ -132,23 +137,28 @@ public class PerspectiveCamera extends AbstractCamera implements Camera {
 
 		@Override
 		public String toString() {
-			return Objects.toStringHelper(this.getClass()).add("aspectRatio", this.aspectRatio).add("focalLength", this.focalLength).add("focalDistance", this.focalDistance).add("lensRadius", this.lensRadius).toString();
+			return Objects.toStringHelper(getClass())
+					.add("aspectRatio", aspectRatio)
+					.add("focalLength", focalLength)
+					.add("focalDistance", focalDistance)
+					.add("lensRadius", lensRadius)
+					.toString();
 		}
 
 		public double getAspectRatio() {
-			return this.aspectRatio;
+			return aspectRatio;
 		}
 
 		public double getFocalLength() {
-			return this.focalLength;
+			return focalLength;
 		}
 
 		public double getFocalDistance() {
-			return this.focalDistance;
+			return focalDistance;
 		}
 
 		public double getLensRadius() {
-			return this.lensRadius;
+			return lensRadius;
 		}
 	}
 
