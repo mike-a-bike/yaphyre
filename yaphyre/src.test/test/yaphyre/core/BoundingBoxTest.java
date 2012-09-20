@@ -19,12 +19,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
-
 import yaphyre.core.BoundingBox;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Vector3D;
+
+import org.junit.Test;
 
 /**
  * Tests for the {@link BoundingBox} class.

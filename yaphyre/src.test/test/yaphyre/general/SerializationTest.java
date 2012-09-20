@@ -22,9 +22,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import org.junit.Assert;
-import org.junit.Test;
-
 import yaphyre.core.Shape;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Transformation;
@@ -33,6 +30,9 @@ import yaphyre.shaders.SimpleShader;
 import yaphyre.shapes.Plane;
 import yaphyre.shapes.Sphere;
 import yaphyre.util.Color;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 public class SerializationTest {
 
@@ -59,10 +59,10 @@ public class SerializationTest {
 			Assert.assertEquals(plane, shapePlane);
 
 		} catch (IOException exception) {
-			Assert.fail("Unexpected exceptino: " + exception.toString());
+			Assert.fail("Unexpected exception: " + exception.toString());
 			exception.printStackTrace();
 		} catch (ClassNotFoundException exception) {
-			Assert.fail("Unexpected exceptino: " + exception.toString());
+			Assert.fail("Unexpected exception: " + exception.toString());
 			exception.printStackTrace();
 		}
 
