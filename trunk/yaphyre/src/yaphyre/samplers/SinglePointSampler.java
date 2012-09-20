@@ -15,15 +15,14 @@
  */
 package yaphyre.samplers;
 
-import yaphyre.geometry.Point2D;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import yaphyre.geometry.Point2D;
+
 /**
- * This is the simplest sampler possible. It creates just one sample which lies
- * in the middle of the unit square.
+ * This is the simplest sampler possible. It creates just one sample which lies in the middle of the unit square.
  *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
@@ -37,18 +36,15 @@ public class SinglePointSampler extends AbstractSampler {
 		super();
 	}
 
-	/**
-	 * Since there is only one set, there is no need to shuffle the sets prior to
-	 * returning one.
-	 */
+	/** Since there is only one set, there is no need to shuffle the sets prior to returning one. */
 	@Override
 	public Iterable<Point2D> getUnitSquareSamples() {
 		return createSamples(1);
 	}
 
 	/**
-	 * This implementation creates just one sample which lies in the middle of the
-	 * unit square. It ignores the number of samples requested by the user.
+	 * This implementation creates just one sample which lies in the middle of the unit square. It ignores the number of
+	 * samples requested by the user.
 	 */
 	@Override
 	protected List<Point2D> createSamples(int numberOfSamples) {
@@ -57,7 +53,7 @@ public class SinglePointSampler extends AbstractSampler {
 
 	@Override
 	public String toString() {
-		return this.getClass().getSimpleName();
+		return getClass().getSimpleName();
 	}
 
 }

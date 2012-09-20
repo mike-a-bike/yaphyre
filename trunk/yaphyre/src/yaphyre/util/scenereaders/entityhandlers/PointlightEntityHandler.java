@@ -15,10 +15,8 @@
  */
 package yaphyre.util.scenereaders.entityhandlers;
 
-import com.google.common.base.Preconditions;
-import org.joox.Match;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Map;
+
 import yaphyre.core.Lightsource;
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
@@ -28,7 +26,11 @@ import yaphyre.shaders.Material;
 import yaphyre.util.Color;
 import yaphyre.util.scenereaders.utils.HelperFactory;
 
-import java.util.Map;
+import org.joox.Match;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Preconditions;
 
 /**
  * This handler reads a point light source from the given match.
@@ -56,7 +58,8 @@ public class PointlightEntityHandler extends EntityHandler<IdentifiableObject<Li
 
 		transformation.getClass();
 
-		IdentifiableObject<Lightsource> result = new IdentifiableObject<Lightsource>(id, new Pointlight(transformation, lightColor, intensity));
+		IdentifiableObject<Lightsource> result = new IdentifiableObject<Lightsource>(id, new Pointlight(transformation,
+				lightColor, intensity));
 
 		LOGGER.trace("exit decodeEntity: {}", result);
 

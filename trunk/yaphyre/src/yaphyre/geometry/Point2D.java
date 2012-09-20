@@ -15,18 +15,14 @@
  */
 package yaphyre.geometry;
 
-import com.google.common.base.Objects;
-
 import java.io.Serializable;
 
+import com.google.common.base.Objects;
 
 /**
- * Abstraction of a point in a 2 dimensional space. This uses u and v as
- * coordinates since its major usage will be the mapping of shader and texture
- * informations.
- * <p/>
- * TODO implement the camera, so that it uses the 2d coordinates in order to
- * create the seeing rays.
+ * Abstraction of a point in a 2 dimensional space. This uses u and v as coordinates since its major usage will be the
+ * mapping of shader and texture informations. <p/> TODO implement the camera, so that it uses the 2d coordinates in
+ * order to create the seeing rays.
  *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
@@ -39,6 +35,8 @@ public class Point2D implements Serializable {
 	private static final int INT_SIZE = 32;
 
 	protected final double u, v;
+
+	public static final Point2D ZERO = new Point2D(0d, 0d);
 
 	public Point2D(double u, double v) {
 		this.u = u;

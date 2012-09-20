@@ -21,8 +21,8 @@ import yaphyre.geometry.Transformation;
 import yaphyre.util.Color;
 
 /**
- * An abstract super class which contains an optional {@link Transformation}
- * used to transform the shader u/v coordinates onto the object u/v coordinates.
+ * An abstract super class which contains an optional {@link Transformation} used to transform the shader u/v
+ * coordinates onto the object u/v coordinates.
  *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
@@ -69,21 +69,21 @@ public abstract class AbstractShader implements Shader {
 	}
 
 	protected Transformation getShaderToOjbect() {
-		return this.shaderToObject;
+		return shaderToObject;
 	}
 
 	protected Point2D toShaderCoordinate(Point2D point) {
-		if (this.shaderToObject == null || this.shaderToObject.equals(Transformation.IDENTITY)) {
+		if (shaderToObject == null || shaderToObject.equals(Transformation.IDENTITY)) {
 			return point;
 		}
-		return this.shaderToObject.inverse().transform(point);
+		return shaderToObject.inverse().transform(point);
 	}
 
 	protected Point2D toObjectCoordinate(Point2D point) {
-		if (this.shaderToObject == null || this.shaderToObject.equals(Transformation.IDENTITY)) {
+		if (shaderToObject == null || shaderToObject.equals(Transformation.IDENTITY)) {
 			return point;
 		}
-		return this.shaderToObject.transform(point);
+		return shaderToObject.transform(point);
 	}
 
 	@Override

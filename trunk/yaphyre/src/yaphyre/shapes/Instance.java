@@ -15,27 +15,28 @@
  */
 package yaphyre.shapes;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import yaphyre.core.BoundingBox;
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
-import yaphyre.geometry.*;
-
-import static com.google.common.base.Preconditions.checkNotNull;
+import yaphyre.geometry.Normal3D;
+import yaphyre.geometry.Point2D;
+import yaphyre.geometry.Point3D;
+import yaphyre.geometry.Ray;
+import yaphyre.geometry.Transformation;
 
 /**
- * This shape is special since it does not represent a shape itself. It is a
- * wrapper around another shape which is transformed by a defined
- * transformation. This is used when complicated objects which use a lot of
- * memory should be used multiple times in a scene.<br/>
- * All methods just transform the {@link Point3D}, {@link Ray} or
- * {@link Normal3D} instances using the given transformation in order to
- * calculate the required informations.
+ * This shape is special since it does not represent a shape itself. It is a wrapper around another shape which is
+ * transformed by a defined transformation. This is used when complicated objects which use a lot of memory should be
+ * used multiple times in a scene.<br/> All methods just transform the {@link Point3D}, {@link Ray} or {@link Normal3D}
+ * instances using the given transformation in order to calculate the required informations.
  *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  * @version $Revision: 66 $
  */
-public class Instance extends AbstractShape implements Shape {
+public class Instance extends AbstractShape {
 
 	private static final long serialVersionUID = -8356972729048615712L;
 
@@ -52,31 +53,31 @@ public class Instance extends AbstractShape implements Shape {
 		this.baseShape = baseShape;
 		this.instanceTransformation = instanceTransformation;
 		// TODO implement transformation for base shape bounding box.
-		this.boundingBox = BoundingBox.INFINITE_BOUNDING_BOX;
+		boundingBox = BoundingBox.INFINITE_BOUNDING_BOX;
 	}
 
 	@Override
 	public BoundingBox getBoundingBox() {
-		return this.boundingBox;
+		return boundingBox;
 	}
 
 	@Override
 	public double getIntersectDistance(Ray ray) {
-		Ray transformedRay = this.instanceTransformation.inverse().transform(ray);
-		return this.baseShape.getIntersectDistance(transformedRay);
+		Ray transformedRay = instanceTransformation.inverse().transform(ray);
+		return baseShape.getIntersectDistance(transformedRay);
 	}
 
 	@Override
 	public Point2D getMappedSurfacePoint(Point3D surfacePoint) {
-		Point3D transformedSurfacePoint = this.instanceTransformation.inverse().transform(surfacePoint);
-		return this.baseShape.getMappedSurfacePoint(transformedSurfacePoint);
+		Point3D transformedSurfacePoint = instanceTransformation.inverse().transform(surfacePoint);
+		return baseShape.getMappedSurfacePoint(transformedSurfacePoint);
 	}
 
 	@Override
 	public Normal3D getNormal(Point3D surfacePoint) {
-		Point3D transformedSurfacePoint = this.instanceTransformation.inverse().transform(surfacePoint);
-		Normal3D transformedNormal = this.baseShape.getNormal(transformedSurfacePoint);
-		return this.instanceTransformation.transform(transformedNormal);
+		Point3D transformedSurfacePoint = instanceTransformation.inverse().transform(surfacePoint);
+		Normal3D transformedNormal = baseShape.getNormal(transformedSurfacePoint);
+		return instanceTransformation.transform(transformedNormal);
 	}
 
 }

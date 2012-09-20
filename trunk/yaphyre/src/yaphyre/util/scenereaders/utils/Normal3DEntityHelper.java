@@ -16,8 +16,9 @@
 
 package yaphyre.util.scenereaders.utils;
 
-import org.joox.Match;
 import yaphyre.geometry.Normal3D;
+
+import org.joox.Match;
 
 public class Normal3DEntityHelper implements EntityHelper<Normal3D> {
 

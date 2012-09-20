@@ -19,8 +19,8 @@ package yaphyre.core;
 import yaphyre.util.Color;
 
 /**
- * Interface for all film instances. This is for recording rendered samples and
- * process them in an appropriate way. The most common form is an image file.
+ * Interface for all film instances. This is for recording rendered samples and process them in an appropriate way. The
+ * most common form is an image file.
  *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
@@ -35,9 +35,10 @@ public interface Film {
 	/**
 	 * Adds a new sample for this film to record.
 	 *
-	 * @param sample The {@link CameraSample} instance which contains all the necessary
-	 *               meta information.
-	 * @param color  The {@link Color} to record.
+	 * @param sample
+	 * 		The {@link CameraSample} instance which contains all the necessary meta information.
+	 * @param color
+	 * 		The {@link Color} to record.
 	 */
 	public void addCameraSample(CameraSample sample, Color color);
 

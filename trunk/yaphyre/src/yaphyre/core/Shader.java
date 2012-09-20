@@ -16,16 +16,15 @@
 
 package yaphyre.core;
 
+import java.io.Serializable;
+
 import yaphyre.geometry.Point2D;
 import yaphyre.shaders.Material;
 import yaphyre.util.Color;
 
-import java.io.Serializable;
-
 /**
- * The common interface for all shading activities. It provides two method. One
- * for accessing the material at the given u- v- coordinates. And another for
- * accessing the material properties at the given coordinates.
+ * The common interface for all shading activities. It provides two method. One for accessing the material at the given
+ * u- v- coordinates. And another for accessing the material properties at the given coordinates.
  *
  * @author Michael Bieri
  * @author $LastChangedBy$

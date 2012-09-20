@@ -42,10 +42,9 @@ public class Material implements Serializable {
 
 	@Override
 	public int hashCode() {
+		long temp = Double.doubleToLongBits(ambient);
 		final int prime = 31;
 		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(ambient);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(diffuse);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -60,44 +59,52 @@ public class Material implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		Material other = (Material) obj;
-		if (Double.doubleToLongBits(ambient) != Double.doubleToLongBits(other.ambient))
+		if (Double.doubleToLongBits(ambient) != Double.doubleToLongBits(other.ambient)) {
 			return false;
-		if (Double.doubleToLongBits(diffuse) != Double.doubleToLongBits(other.diffuse))
+		}
+		if (Double.doubleToLongBits(diffuse) != Double.doubleToLongBits(other.diffuse)) {
 			return false;
-		if (Double.doubleToLongBits(reflection) != Double.doubleToLongBits(other.reflection))
+		}
+		if (Double.doubleToLongBits(reflection) != Double.doubleToLongBits(other.reflection)) {
 			return false;
-		if (Double.doubleToLongBits(refraction) != Double.doubleToLongBits(other.refraction))
+		}
+		if (Double.doubleToLongBits(refraction) != Double.doubleToLongBits(other.refraction)) {
 			return false;
-		if (Double.doubleToLongBits(specular) != Double.doubleToLongBits(other.specular))
+		}
+		if (Double.doubleToLongBits(specular) != Double.doubleToLongBits(other.specular)) {
 			return false;
+		}
 		return true;
 	}
 
 	public double getAmbient() {
-		return this.ambient;
+		return ambient;
 	}
 
 	public double getDiffuse() {
-		return this.diffuse;
+		return diffuse;
 	}
 
 	public double getSpecular() {
-		return this.specular;
+		return specular;
 	}
 
 	public double getReflection() {
-		return this.reflection;
+		return reflection;
 	}
 
 	public double getRefraction() {
-		return this.refraction;
+		return refraction;
 	}
 
 }

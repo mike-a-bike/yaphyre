@@ -15,13 +15,17 @@
  */
 package yaphyre.geometry;
 
-import org.apache.commons.math.linear.*;
+import static com.google.common.base.Preconditions.checkArgument;
+import static yaphyre.geometry.MathUtils.equalsWithTolerance;
 
 import java.io.Serializable;
 import java.util.Arrays;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static yaphyre.geometry.MathUtils.equalsWithTolerance;
+import org.apache.commons.math.linear.InvalidMatrixException;
+import org.apache.commons.math.linear.LUDecomposition;
+import org.apache.commons.math.linear.LUDecompositionImpl;
+import org.apache.commons.math.linear.MatrixUtils;
+import org.apache.commons.math.linear.RealMatrix;
 
 /**
  * Rudimentary implementation of some essential matrix operations.
@@ -53,19 +57,19 @@ public class Matrix implements Serializable {
 		for (double[] row : values) {
 			checkArgument(DIMENSION == row.length);
 		}
-		this.m = values;
+		m = values;
 	}
 
 	public Matrix(double... values) {
 		checkArgument(DIMENSION * DIMENSION == values.length);
-		this.m = new double[DIMENSION][DIMENSION];
+		m = new double[DIMENSION][DIMENSION];
 		for (int row = 0; row < DIMENSION; row++) {
-			System.arraycopy(values, row * DIMENSION, this.m[row], 0, DIMENSION);
+			System.arraycopy(values, row * DIMENSION, m[row], 0, DIMENSION);
 		}
 	}
 
 	private Matrix() {
-		this.m = new double[DIMENSION][DIMENSION];
+		m = new double[DIMENSION][DIMENSION];
 	}
 
 	@Override
@@ -143,7 +147,8 @@ public class Matrix implements Serializable {
 
 		for (int i = 0; i < DIMENSION; i++) {
 			for (int j = 0; j < DIMENSION; j++) {
-				result.m[i][j] = this.m[i][0] * M.m[0][j] + this.m[i][1] * M.m[1][j] + this.m[i][2] * M.m[2][j] + this.m[i][3] * M.m[3][j];
+				result.m[i][j] = this.m[i][0] * M.m[0][j] + this.m[i][1] * M.m[1][j] + this.m[i][2] * M.m[2][j]
+						+ this.m[i][3] * M.m[3][j];
 			}
 		}
 

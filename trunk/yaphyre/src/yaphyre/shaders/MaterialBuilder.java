@@ -17,8 +17,7 @@
 package yaphyre.shaders;
 
 /**
- * Helper class for building materials. Use it like this:<br/>
- * <p/>
+ * Helper class for building materials. Use it like this:<br/> <p/>
  * <pre>
  * Material mirror = MaterialBuilder.init().ambient(0.05).diffuse(0.2).reflection(0.8).build();
  * </pre>
@@ -75,14 +74,13 @@ public class MaterialBuilder {
 	}
 
 	/**
-	 * Factory method. This builds the actual {@link Material} instance. Please
-	 * notice, this method can be called multiple times.
+	 * Factory method. This builds the actual {@link Material} instance. Please notice, this method can be called multiple
+	 * times.
 	 *
-	 * @return A new {@link Material} instance with all the values from the
-	 *         factory set.
+	 * @return A new {@link Material} instance with all the values from the factory set.
 	 */
 	public Material build() {
-		return new Material(this.ambient, this.diffuse, this.specular, this.reflection, this.refraction);
+		return new Material(ambient, diffuse, specular, reflection, refraction);
 	}
 
 }

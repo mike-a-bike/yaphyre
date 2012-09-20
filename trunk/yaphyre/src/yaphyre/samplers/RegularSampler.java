@@ -15,10 +15,10 @@
  */
 package yaphyre.samplers;
 
-import yaphyre.geometry.Point2D;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import yaphyre.geometry.Point2D;
 
 /**
  * This is the common interface for different sampling methods.
@@ -33,10 +33,7 @@ public class RegularSampler extends AbstractSampler {
 		super(numberOfSamples);
 	}
 
-	/**
-	 * This implementation creates a regular grid with a sample in the middle of
-	 * each square.
-	 */
+	/** This implementation creates a regular grid with a sample in the middle of each square. */
 	@Override
 	protected List<Point2D> createSamples(int numberOfSamples) {
 		int samplesPerSide = (int) Math.sqrt(numberOfSamples);

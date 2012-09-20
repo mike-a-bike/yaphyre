@@ -15,14 +15,19 @@
  */
 package yaphyre.cameras;
 
-import com.google.common.base.Preconditions;
 import yaphyre.core.Camera;
 import yaphyre.core.Film;
-import yaphyre.geometry.*;
+import yaphyre.geometry.Point2D;
+import yaphyre.geometry.Point3D;
+import yaphyre.geometry.Ray;
+import yaphyre.geometry.Transformation;
+import yaphyre.geometry.Vector3D;
+
+import com.google.common.base.Preconditions;
 
 /**
- * A common super class for all implemented {@link Camera}. This handles some
- * common stuff like transformations and the film instances.
+ * A common super class for all implemented {@link Camera}. This handles some common stuff like transformations and the
+ * film instances.
  *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
@@ -39,9 +44,10 @@ public abstract class AbstractCamera implements Camera {
 	private Film film;
 
 	public AbstractCamera(BaseCameraSettings baseSettings, Film film) {
-		this.cameraSettings = baseSettings;
-		this.world2Camera = Transformation.lookAt(baseSettings.getPosition(), baseSettings.getLookAt(), baseSettings.getUp());
-		this.camera2World = this.world2Camera.inverse();
+		cameraSettings = baseSettings;
+		world2Camera = Transformation.lookAt(baseSettings.getPosition(), baseSettings.getLookAt(),
+				baseSettings.getUp());
+		camera2World = world2Camera.inverse();
 		this.film = film;
 	}
 
@@ -50,7 +56,7 @@ public abstract class AbstractCamera implements Camera {
 
 	@Override
 	public Film getFilm() {
-		return this.film;
+		return film;
 	}
 
 	@Override
@@ -59,36 +65,35 @@ public abstract class AbstractCamera implements Camera {
 	}
 
 	protected double getNearClip() {
-		return this.cameraSettings.getNearClip();
+		return cameraSettings.getNearClip();
 	}
 
 	protected double getFarClip() {
-		return this.cameraSettings.getFarClip();
+		return cameraSettings.getFarClip();
 	}
 
 	protected Point3D getPosition() {
-		return this.cameraSettings.getPosition();
+		return cameraSettings.getPosition();
 	}
 
 	protected Point3D getLookAt() {
-		return this.cameraSettings.getLookAt();
+		return cameraSettings.getLookAt();
 	}
 
 	protected Vector3D getUp() {
-		return this.cameraSettings.getUp();
+		return cameraSettings.getUp();
 	}
 
 	protected Transformation getCamera2World() {
-		return this.camera2World;
+		return camera2World;
 	}
 
 	protected Transformation getWorld2Camera() {
-		return this.world2Camera;
+		return world2Camera;
 	}
 
 	/**
-	 * Base settings common for each camera like, near and far clipping pane and a
-	 * film instance.
+	 * Base settings common for each camera like, near and far clipping pane and a film instance.
 	 *
 	 * @author Michael Bieri
 	 * @author $LastChangedBy: mike0041@gmail.com $
@@ -113,7 +118,8 @@ public abstract class AbstractCamera implements Camera {
 			return create(0d, Double.MAX_VALUE, position, lookAt, up);
 		}
 
-		public static BaseCameraSettings create(double nearClip, double farClip, Point3D position, Point3D lookAt, Vector3D up) {
+		public static BaseCameraSettings create(double nearClip, double farClip, Point3D position, Point3D lookAt,
+				Vector3D up) {
 			return new BaseCameraSettings(nearClip, farClip, position, lookAt, up);
 		}
 
@@ -127,23 +133,23 @@ public abstract class AbstractCamera implements Camera {
 		}
 
 		public double getNearClip() {
-			return this.nearClip;
+			return nearClip;
 		}
 
 		public double getFarClip() {
-			return this.farClip;
+			return farClip;
 		}
 
 		public Point3D getPosition() {
-			return this.position;
+			return position;
 		}
 
 		public Point3D getLookAt() {
-			return this.lookAt;
+			return lookAt;
 		}
 
 		public Vector3D getUp() {
-			return this.up;
+			return up;
 		}
 
 	}

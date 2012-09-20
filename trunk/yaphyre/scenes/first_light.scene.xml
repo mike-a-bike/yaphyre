@@ -15,11 +15,11 @@
 		</transform>
 
 		<!-- Type specific settings -->
-		<!-- Aspect ratio: 4/3 (1280/960) -> Square Pixels, Lens: 50mm (fov 40), 
-			Depth of field: 50 units -->
+		<!-- Aspect ratio: 4/3 (1280/960) -> Square Pixels, Lens: 50mm (fov 40), Depth of field: 50 units, Aperture: 1 unit -->
 		<property name="aspect-ratio" value="1.333333" />
 		<property name="fov" value="40" />
 		<property name="dof" value="50" />
+        <property name="aperture" value="1" />
 
 		<!-- Film (ImageFile) -->
 		<film type="imageFile">

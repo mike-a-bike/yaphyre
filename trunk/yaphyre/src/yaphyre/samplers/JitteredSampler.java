@@ -15,17 +15,16 @@
  */
 package yaphyre.samplers;
 
-import yaphyre.geometry.Point2D;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import yaphyre.geometry.Point2D;
+
 /**
- * This sampler creates a regular pattern with nxn cells with n = sqrt(number of
- * samples). Within these cells the sampler points are generated with a random
- * generator. This sampler produces better results than the pure random sampler,
- * although not yet very well distributed samples.
+ * This sampler creates a regular pattern with nxn cells with n = sqrt(number of samples). Within these cells the
+ * sampler points are generated with a random generator. This sampler produces better results than the pure random
+ * sampler, although not yet very well distributed samples.
  *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
@@ -46,7 +45,8 @@ public class JitteredSampler extends AbstractSampler {
 		double intervall = 1d / samplesPerSide;
 		for (int row = 0; row < samplesPerSide; row++) {
 			for (int col = 0; col < samplesPerSide; col++) {
-				result.add(new Point2D((row + RANDOM.nextDouble()) * intervall, (col + RANDOM.nextDouble()) * intervall));
+				result.add(new Point2D((row + RANDOM.nextDouble()) * intervall,
+						(col + RANDOM.nextDouble()) * intervall));
 			}
 		}
 		return result;

@@ -19,8 +19,7 @@ import yaphyre.core.Renderer;
 import yaphyre.raytracer.Scene;
 
 /**
- * Simple renderer using samples to determine where the color should be
- * rendered.
+ * Simple renderer using samples to determine where the color should be rendered.
  *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $

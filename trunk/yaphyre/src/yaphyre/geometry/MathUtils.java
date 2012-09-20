@@ -15,7 +15,10 @@
  */
 package yaphyre.geometry;
 
-import static java.lang.Math.*;
+import static java.lang.Math.PI;
+import static java.lang.Math.abs;
+import static java.lang.Math.signum;
+import static java.lang.Math.sqrt;
 
 /**
  * Some useful mathematical helper functions.
@@ -26,39 +29,34 @@ import static java.lang.Math.*;
  */
 public class MathUtils {
 
-	/**
-	 * Small value. Used for tolerance calculations.
-	 */
+	/** Small value. Used for tolerance calculations. */
 	public static final double EPSILON = 1e-10;
 
-	/**
-	 * Inverse of &pi;. If division by &pi; is needed, use this and multiply.
-	 */
+	/** Inverse of &pi;. If division by &pi; is needed, use this and multiply. */
 	public static final double INV_PI = 1d / PI;
 
-	/**
-	 * The numerical value of 2&pi;.
-	 */
+	/** The numerical value of 2&pi;. */
 	public static final double TWO_PI = 2d * PI;
 
-	/**
-	 * Inverse of 2&pi;. If division by 2&pi; is needed, use this and multiply.
-	 */
+	/** Inverse of 2&pi;. If division by 2&pi; is needed, use this and multiply. */
 	public static final double INV_TWO_PI = 1d / TWO_PI;
 
-	/**
-	 * Use this (large value indeed) to handle division by zero.
-	 */
+	/** Use this (large value indeed) to handle division by zero. */
 	private static final double LARGE_VAL = Double.MAX_VALUE;
 
+	private MathUtils() {
+	}
+
 	/**
-	 * Safe division of two numerical values. If b is zero, than
-	 * {@link #LARGE_VAL} is returned. The signs are maintained. So this method
-	 * never throws an error for dividing by zero. Since this application only
-	 * solves numerical problems, this is the preferred behavior.
+	 * Safe division of two numerical values. If b is zero, than {@link #LARGE_VAL} is returned. The signs are maintained.
+	 * So this method never throws an error for dividing by zero. Since this application only solves numerical problems,
+	 * this is the preferred behavior.
 	 *
-	 * @param a The numerator.
-	 * @param b The denominator.
+	 * @param a
+	 * 		The numerator.
+	 * @param b
+	 * 		The denominator.
+	 *
 	 * @return a / b if b is not zero, {@link #LARGE_VAL} otherwise.
 	 */
 	public static double div(double a, double b) {
