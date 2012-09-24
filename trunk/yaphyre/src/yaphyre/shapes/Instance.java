@@ -57,11 +57,6 @@ public class Instance extends AbstractShape {
 	}
 
 	@Override
-	public BoundingBox getBoundingBox() {
-		return boundingBox;
-	}
-
-	@Override
 	public double getIntersectDistance(Ray ray) {
 		Ray transformedRay = instanceTransformation.inverse().transform(ray);
 		return baseShape.getIntersectDistance(transformedRay);

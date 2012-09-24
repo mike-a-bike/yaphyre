@@ -94,4 +94,26 @@ public class MathUtils {
 		return result;
 	}
 
+	public static boolean isZero(double value) {
+		return value >= -EPSILON && value <= EPSILON;
+	}
+
+	public static boolean isInRange(double minValue, double maxValue, double value) {
+		return minValue <= value && maxValue >= value;
+	}
+
+	public static boolean isInRangeWithTolerance(double minValue, double maxValue, double value) {
+		return isInRange(minValue - EPSILON, maxValue + EPSILON, value);
+	}
+
+	public static double clamp(double value, double min, double max) {
+		if (value < min) {
+			return min;
+		}
+		if (value > max) {
+			return max;
+		}
+		return value;
+	}
+
 }

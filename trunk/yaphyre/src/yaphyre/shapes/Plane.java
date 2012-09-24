@@ -84,12 +84,6 @@ public class Plane extends AbstractShape {
 		return super.hashCode();
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public BoundingBox getBoundingBox() {
-		return boundingBox;
-	}
-
 	/**
 	 * Intersect the plane with a ray. We use the parametric form of the line equation to determine the distance in which
 	 * the line intersects this plane.<br/>

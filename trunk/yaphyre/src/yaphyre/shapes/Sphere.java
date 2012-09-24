@@ -20,13 +20,16 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.lang.Math.PI;
 import static java.lang.Math.acos;
 import static java.lang.Math.atan2;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 import static yaphyre.geometry.MathUtils.EPSILON;
 import static yaphyre.geometry.MathUtils.INV_PI;
 import static yaphyre.geometry.MathUtils.INV_TWO_PI;
+import static yaphyre.geometry.MathUtils.TWO_PI;
+import static yaphyre.geometry.MathUtils.isInRangeWithTolerance;
 
 import java.text.MessageFormat;
 
-import yaphyre.core.BoundingBox;
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
 import yaphyre.geometry.Normal3D;
@@ -54,7 +57,11 @@ public class Sphere extends AbstractShape {
 	/** The squared radius of the unit sphere is 1: 1^2 = 1 */
 	private static final int RADIUS_SQUARED = 1;
 
-	private final BoundingBox boundingBox;
+	/** Range of the angle across the 'up'/'down' axis */
+	private final double thetaMin, thetaMax;
+
+	/** Range of the angle rotating around the y axis. */
+	private final double phiMin, phiMax;
 
 	/**
 	 * Helper method for creating a sphere where the center and its radius are known. This creates a transformation which
@@ -62,15 +69,16 @@ public class Sphere extends AbstractShape {
 	 * resulting matrix looks like this: <br/> [[r 0 0 c<sub>x</sub>] [0 r 0 c<sub>y</sub>] [0 0 r c<sub>z</sub>] [0 0 0
 	 * 1]]
 	 *
+	 *
 	 * @param center
 	 * 		The center of the sphere (c<sub>x, y, z</sub>)
 	 * @param radius
 	 * 		Its radius (r)
-	 * @param shader
-	 * 		The {@link Shader} to use for rendering
 	 * @param throwsShadow
-	 * 		Flag whether this {@link Shape} throws a shadow or not
+	 * 		Flag whether this {@link yaphyre.core.Shape} throws a shadow or not
 	 *
+	 * @param shader
+	 * 		The {@link yaphyre.core.Shader} to use for rendering
 	 * @return A new instance of {@link Sphere}.
 	 *
 	 * @throws NullPointerException
@@ -79,15 +87,53 @@ public class Sphere extends AbstractShape {
 	 * @throws IllegalArgumentException
 	 * 		If <code>radius</code> is too small, an {@link IllegalArgumentException} is thrown.
 	 */
-	public static Sphere createSphere(Point3D center, double radius, Shader shader, boolean throwsShadow)
-			throws NullPointerException, IllegalArgumentException {
+	public static Sphere createSphere(Point3D center, double radius, boolean throwsShadow, Shader shader) throws NullPointerException, IllegalArgumentException {
+		return createSphere(center, radius, 0d, 360d, 0d, 180d, throwsShadow, shader);
+	}
+
+	/**
+	 * Helper method for creating a sphere where the center and its radius are known. This creates a transformation which
+	 * scales the unit sphere by the size of the given radius and translates it to the given coordinates. So, the
+	 * resulting matrix looks like this: <br/> [[r 0 0 c<sub>x</sub>] [0 r 0 c<sub>y</sub>] [0 0 r c<sub>z</sub>] [0 0 0
+	 * 1]]
+	 * In addition, the angular ranges for &theta; and &phi; can be provided. Both ranges take values between 0 and 360
+	 * degree.
+	 *
+	 *
+	 * @param center
+	 * 		The center of the sphere (c<sub>x, y, z</sub>)
+	 * @param radius
+	 * 		Its radius (r)
+	 * @param phiMin
+	 *      The start angle for &phi; (&phi; &isin; [0, 360])
+	 * @param phiMax
+	 *      The end angle for &phi; (&phi; &isin; [0, 360])
+	 * @param thetaMin
+	 *      The start angle for &theta; (&theta; &isin; [0, 180])
+	 * @param thetaMax
+	 *      The start angle for &theta; (&theta; &isin; [0, 180])
+	 * @param throwsShadow
+	 * 		Flag whether this {@link yaphyre.core.Shape} throws a shadow or not
+	 *
+	 * @param shader
+	 * 		The {@link yaphyre.core.Shader} to use for rendering
+	 * @return A new instance of {@link Sphere}.
+	 *
+	 * @throws NullPointerException
+	 * 		If either <code>center</code> or <code>shader</code> are <code>null</code>, a {@link NullPointerException} is
+	 * 		thrown.
+	 * @throws IllegalArgumentException
+	 * 		If <code>radius</code> is too small, an {@link IllegalArgumentException} is thrown. Or if the specified
+	 * 	    ranges for &theta; and &phi; are out of bounds.
+	 */
+	public static Sphere createSphere(Point3D center, double radius, double phiMin, double phiMax, double thetaMin, double thetaMax, boolean throwsShadow, Shader shader) throws NullPointerException, IllegalArgumentException {
 		checkArgument(radius > EPSILON);
 		checkNotNull(center);
 		checkNotNull(shader);
 		Transformation scaling = Transformation.scale(radius, radius, radius);
 		Transformation translation = Transformation.translate(center.getX(), center.getY(), center.getZ());
 		Transformation objectToWorld = translation.mul(scaling);
-		return new Sphere(objectToWorld, shader, throwsShadow);
+		return new Sphere(objectToWorld, phiMin, phiMax, thetaMin, thetaMax, throwsShadow, shader);
 	}
 
 	/**
@@ -96,21 +142,34 @@ public class Sphere extends AbstractShape {
 	 * <li>Change the center -> Use a translation transformation.</li> <li>Make an ellipsoid -> Use a non uniform scaling
 	 * transformation</li> </ul>
 	 *
+	 *
 	 * @param objectToWorld
-	 * 		The {@link Transformation} to translate from object space into world space.
-	 * @param shader
-	 * 		The {@link Shader} to use for this instance.
+	 * 		The {@link yaphyre.geometry.Transformation} to translate from object space into world space.
+	 * @param phiMin
+	 *      The start angle for &phi; (&phi; &isin; [0, 360])
+	 * @param phiMax
+	 *      The end angle for &phi; (&phi; &isin; [0, 360])
+	 * @param thetaMin
+	 *      The start angle for &theta; (&theta; &isin; [0, 180])
+	 * @param thetaMax
+	 *      The start angle for &theta; (&theta; &isin; [0, 180])
 	 * @param throwsShadow
 	 * 		Flag whether this shape throws a shadow or not.
-	 *
-	 * @throws NullPointerException
+	 *@param shader
+	 * 		The {@link yaphyre.core.Shader} to use for this instance.   @throws NullPointerException
 	 * 		If either <code>objectToWorld</code> or <code>shader</code> is <code>null</code>, a {@link NullPointerException}
 	 * 		is thrown.
 	 */
-	public Sphere(Transformation objectToWorld, Shader shader, boolean throwsShadow) throws NullPointerException {
+	public Sphere(final Transformation objectToWorld, final double phiMin, final double phiMax, final double thetaMin, final double thetaMax, final boolean throwsShadow, final Shader shader) throws NullPointerException, IllegalArgumentException {
 		super(objectToWorld, shader, throwsShadow);
-		boundingBox = new BoundingBox(super.getObjectToWorld().transform(new Point3D(-1, -1, -1)),
-				super.getObjectToWorld().transform(new Point3D(1, 1, 1)));
+		checkArgument(0d <= phiMin && phiMin <= 360d);
+		checkArgument(0d <= phiMax && phiMax <= 360d);
+		checkArgument(0d <= thetaMin && thetaMin <= 180d);
+		checkArgument(0d <= thetaMax && thetaMax <= 180d);
+		this.phiMin = min(phiMin, phiMax) / 360d * TWO_PI;
+		this.phiMax = max(phiMin, phiMax) / 360d * TWO_PI;
+		this.thetaMin = min(thetaMin, thetaMax) / 180d * PI;
+		this.thetaMax = max(thetaMin, thetaMax) / 180d  * PI;
 	}
 
 	@Override
@@ -135,12 +194,6 @@ public class Sphere extends AbstractShape {
 	@Override
 	public int hashCode() {
 		return super.hashCode();
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public BoundingBox getBoundingBox() {
-		return boundingBox;
 	}
 
 	/**
@@ -185,7 +238,11 @@ public class Sphere extends AbstractShape {
 
 		for (double solution : solutions) {
 			if (solution < result && (solution >= ray.getMint() && solution <= ray.getMaxt())) {
-				result = solution;
+				Point3D intersectionPoint = ray.getPoint(solution);
+				Point2D uvCoordinates = calculateAngleCoordinates(intersectionPoint);
+				if(isInRangeWithTolerance(phiMin, phiMax, uvCoordinates.getU()) && isInRangeWithTolerance(thetaMin, thetaMax, uvCoordinates.getV())) {
+					result = solution;
+				}
 			}
 		}
 
@@ -227,15 +284,23 @@ public class Sphere extends AbstractShape {
 		checkNotNull(surfacePoint, "surfacePoint must not be null");
 		checkArgument(Math.abs(surfacePoint.asVector().length()) - RADIUS <= EPSILON, "the point % does not lie on the surface of %", surfacePoint, this);
 
-		// Calculate the two angles of the spherical coordinates
-		double theta = acos(surfacePoint.getZ());
-		double phi = atan2(surfacePoint.getY(), surfacePoint.getX()) + PI;
+		Point2D mappedSurfacePoint = calculateAngleCoordinates(surfacePoint);
 
 		// Map u and v to [0, 1]
-		double u = phi * INV_TWO_PI;
-		double v = theta * INV_PI;
+		double u = (mappedSurfacePoint.getU() - phiMin) / (phiMax - phiMin);
+		double v = (mappedSurfacePoint.getV() - thetaMin) / (thetaMax - thetaMin);
 
 		return new Point2D(u, v);
+
+	}
+
+	private Point2D calculateAngleCoordinates(final Point3D surfacePoint) {
+
+		// Calculate the two angles of the spherical coordinates
+		double phi = atan2(surfacePoint.getZ(), surfacePoint.getX()) + PI;
+		double theta = acos(surfacePoint.getY());
+
+		return new Point2D(phi, theta);
 	}
 
 }
