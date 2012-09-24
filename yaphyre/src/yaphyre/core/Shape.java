@@ -36,13 +36,6 @@ public interface Shape extends Serializable {
 	public static final double NO_INTERSECTION = Double.POSITIVE_INFINITY;
 
 	/**
-	 * Access the bounding volume. Used to speed up collision detection.
-	 *
-	 * @return An instance of {@link BoundingBox} which encloses the shape.
-	 */
-	public BoundingBox getBoundingBox();
-
-	/**
 	 * Gets the {@link Shader} instance associated with this shape instance.
 	 *
 	 * @return The {@link Shader} for this shape.

@@ -44,7 +44,7 @@ public class SphereEntityHandler extends EntityHandler<IdentifiableObject<Shape>
 		Transformation object2World = super.decodeTransform(entityMatch);
 		String shaderRef = entityMatch.child("shader").attr("ref");
 		Shader shader = knownShaders.get(shaderRef).getObject();
-		Shape sphere = new Sphere(object2World, shader, true);
+		Shape sphere = new Sphere(object2World, 0d, 360d, 0d, 180d, true, shader);
 
 		IdentifiableObject<Shape> result = new IdentifiableObject<Shape>(id, sphere);
 

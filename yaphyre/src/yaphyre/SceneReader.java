@@ -28,6 +28,7 @@ import yaphyre.geometry.Transformation;
 import yaphyre.lights.Pointlight;
 import yaphyre.raytracer.Scene;
 import yaphyre.shaders.CheckerShader;
+import yaphyre.shaders.GradientShader;
 import yaphyre.shaders.Material;
 import yaphyre.shaders.MaterialBuilder;
 import yaphyre.shaders.SimpleShader;
@@ -82,8 +83,8 @@ public class SceneReader {
 
 		Scene simpleScene = new Scene();
 
-		simpleScene.addShape(Sphere.createSphere(sphere1Center, sphere1Radius, whiteShader, true));
-		simpleScene.addShape(Sphere.createSphere(sphere2Center, sphere2Radius, whiteMirror, true));
+		simpleScene.addShape(Sphere.createSphere(sphere1Center, sphere1Radius, true, whiteShader));
+		simpleScene.addShape(Sphere.createSphere(sphere2Center, sphere2Radius, true, whiteMirror));
 		simpleScene.addShape(new Plane(Transformation.IDENTITY, whiteMirror, true));
 
 		simpleScene.addLightsource(new Pointlight(pointlight1Transformation, pointlight1Color, pointlight1Intensity));
@@ -127,8 +128,8 @@ public class SceneReader {
 				Transformation.rotateY(30)));
 
 		Shape plane = new Plane(planeTransformation, planeCeckerShader, true);
-		Shape sphere = new Sphere(sphereTransformation, sphereCheckerShader, true);
-		Shape distantSphere = new Sphere(distantTransformation, checkBoardShader, true);
+		Shape sphere = new Sphere(sphereTransformation, 0d, 360d, 0d, 180d, true, sphereCheckerShader);
+		Shape distantSphere = new Sphere(distantTransformation, 0d, 360d, 0d, 180d, true, checkBoardShader);
 
 		Scene scene = new Scene();
 
@@ -155,9 +156,9 @@ public class SceneReader {
 		final Shader blueDiffuse = new SimpleShader(diffuseMaterial, 0d, 0d, 1d);
 
 		final Shape floor = new Plane(Transformation.IDENTITY, whiteDiffuse, false);
-		final Shape redBall = new Sphere(Transformation.translate(-2, 1.5, -2), redDiffuse, true);
-		final Shape blueBall = new Sphere(Transformation.translate(0, 1.5, 0), blueDiffuse, true);
-		final Shape greenBall = new Sphere(Transformation.translate(2, 1.5, 2), greenDiffuse, true);
+		final Shape redBall = new Sphere(Transformation.translate(-2, 1.5, -2), 0d, 360d, 0d, 180d, true, redDiffuse);
+		final Shape blueBall = new Sphere(Transformation.translate(0, 1.5, 0), 0d, 360d, 0d, 180d, true, blueDiffuse);
+		final Shape greenBall = new Sphere(Transformation.translate(2, 1.5, 2), 0d, 360d, 0d, 180d, true, greenDiffuse);
 
 		final Lightsource pointLight = new Pointlight(Transformation.translate(2.5, 5, -5), new Color(1, 1, 1), 30);
 
@@ -181,16 +182,17 @@ public class SceneReader {
 	 * @return A very simple {@link Scene} containing one light, one plane and one sphere.
 	 */
 	public static final Scene createFirstLight() {
-		double ambientLight = 0.075d;
+		double ambientLight = 0.25d;
 
 		Material diffuseMaterial = MaterialBuilder.start().ambient(ambientLight).diffuse(0.8d).build();
 
+		Shader diffuseGradient = new GradientShader(diffuseMaterial, new Color(1d, 0d, 0d), new Color(0d, 0d, 1d), GradientShader.BlendDirection.uAxis);
 		Shader diffuseWhite = new SimpleShader(diffuseMaterial, 1, 1, 1);
 
 		Lightsource light = new Pointlight(Transformation.translate(-2, 5, -2), new Color(1, 1, 1), 10);
 
 		Shape plane = new Plane(Transformation.IDENTITY, diffuseWhite, true);
-		Shape sphere = Sphere.createSphere(new Point3D(0, 1, 0), 1, diffuseWhite, true);
+		Shape sphere = new Sphere(Transformation.translate(0d, 1d, 0d), 45d, 135d, 45d, 135d, true, diffuseGradient);
 
 		Scene scene = new Scene();
 

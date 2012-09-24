@@ -22,6 +22,7 @@ import static java.lang.Math.cbrt;
 import static java.lang.Math.cos;
 import static java.lang.Math.sqrt;
 import static yaphyre.geometry.MathUtils.div;
+import static yaphyre.geometry.MathUtils.isZero;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -76,8 +77,7 @@ public enum Solver {
 	Cubic {
 		/**
 		 * Solve a cubic equation for:<br/>
-		 * c<sub>3</sub>*x<sup>3</sup> + c<sub>2</sub>*x<sup>2</sup> +
-		 * c<sub>1</sub>*x + c<sub>0</sub> = 0 <br/>
+		 * c<sub>3</sub>*x<sup>3</sup> + c<sub>2</sub>*x<sup>2</sup> + c<sub>1</sub>*x + c<sub>0</sub> = 0 <br/>
 		 * http://en.wikipedia.org/wiki/Cubic_function under Trigonometric (and
 		 * hyperbolic) method
 		 */
@@ -139,16 +139,115 @@ public enum Solver {
 		}
 	},
 	Quartic {
+		/**
+		 * Solve a quartic equation for:<br/>
+		 * c<sub>4</sub>*x<sub>4</sub> + c<sub>3</sub>*x<sup>3</sup> + c<sub>2</sub>*x<sup>2</sup> + c<sub>1</sub>*x + c<sub>0</sub> = 0<br/>
+		 * Lodovico Ferraria (1522 - 1565): http://www.sosmath.com/algebra/factor/fac12/fac12.html
+		 */
 		@Override
 		public double[] solve(double... c) throws IllegalArgumentException {
-			throw new RuntimeException("Not implemented yet!");
+			checkArgument(c.length == 5, ORDER_ERROR_MESSAGE);
+
+			if (c[4] == 0) {
+				return Solver.Cubic.solve(c[0], c[1], c[2], c[3]);
+			}
+
+			double[] results;
+
+			// normalize to x^4 + Ax^3 + Bx^2 + Cx + D = 0
+			double A = c[3] / c[4];
+			double B = c[2] / c[4];
+			double C = c[1] / c[4];
+			double D = c[0] / c[4];
+
+			// substitute x = y - A/4 to eliminate the cubic term: y^4 + py^2 + qy + r = 0 (depressed quartic)
+			double sqA = A * A;
+			double p = -3d/8d * sqA + B;
+			double q = 1d/8d * sqA * A - 1d/2d * A * B + C;
+			double r = -3d/256d * sqA * sqA + 1d/16d * sqA * B - 1d/4d * A * C + D;
+
+			// check if the constant term is zero: if so, a further simplification can be used
+
+			if (isZero(r)) {
+
+				double[] coefficients = new double[] {q, p, 0, 1};
+				// the equation reads now: y(y^3 + py + q) = 0 --> solve the cubic equation
+				double[] cubicResults = Solver.Cubic.solve(coefficients);
+				// add zero as a solution
+				results = new double[cubicResults.length + 1];
+				System.arraycopy(cubicResults, 0, results, 0, cubicResults.length);
+				results[cubicResults.length + 1] = 0;
+
+			} else {
+
+				Set<Double> resultSet = new HashSet<Double>();
+
+				// solve the resolvent qubic
+				double[] coefficients = new double[4];
+
+				coefficients[0] = 1d/2d * r * p - 1d/8d * q * q;
+				coefficients[1] = -r;
+				coefficients[2] = -1d/2d * p;
+				coefficients[3] = 1;
+
+				double[] cubicResults = Solver.Cubic.solve(coefficients);
+
+				// take the only real solution
+				double z = cubicResults[0];
+
+				// build two quadratic equations
+				double u = z * z - r;
+				double v = 2 * z - p;
+
+				if (isZero(u)) {
+					u = 0;
+				} else if (u > 0) {
+					u = sqrt(u);
+				} else {
+					return EMPTY_RESULT;
+				}
+
+				if (isZero(v)) {
+					v = 0;
+				} else if (v > 0) {
+					v = sqrt(v);
+				} else {
+					return EMPTY_RESULT;
+				}
+
+				coefficients = new double[3];
+				coefficients[0] = z - u;
+				coefficients[1] = q < 0 ? -v : v;
+				coefficients[2] = 1;
+
+				double[] quadraticResults = Solver.Quadratic.solve(coefficients);
+				resultSet.addAll(Doubles.asList(quadraticResults));
+
+				coefficients[0] = z + u;
+				coefficients[1] = q < 0 ? v : -v;
+				coefficients[2] = 1;
+
+				quadraticResults = Solver.Quadratic.solve(coefficients);
+				resultSet.addAll(Doubles.asList(quadraticResults));
+
+				results = Doubles.toArray(resultSet);
+
+			}
+
+			// re-substitute
+			double sub = 1d/4d * A;
+
+			for(int rootIndex = 0; rootIndex < results.length; rootIndex++) {
+				results[rootIndex] -= sub;
+			}
+
+			return results;
 		}
 	};
 
 	protected static final double[] EMPTY_RESULT = new double[0];
 
-	private static final String ORDER_ERROR_MESSAGE
-			= "Number of coefficients do not match the order of the equation to solve";
+	private static final String ORDER_ERROR_MESSAGE = "Number of coefficients do not match the order of the equation to solve";
 
 	/**
 	 * Solve an equation for the given equation type.
