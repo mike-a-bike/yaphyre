@@ -297,7 +297,8 @@ public class Sphere extends AbstractShape {
 	private Point2D calculateAngleCoordinates(final Point3D surfacePoint) {
 
 		// Calculate the two angles of the spherical coordinates
-		double phi = atan2(surfacePoint.getZ(), surfacePoint.getX()) + PI;
+		double phi = atan2(surfacePoint.getZ(), surfacePoint.getX());
+		phi = phi >= 0? phi: phi + TWO_PI;
 		double theta = acos(surfacePoint.getY());
 
 		return new Point2D(phi, theta);
