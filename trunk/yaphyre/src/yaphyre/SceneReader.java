@@ -160,7 +160,7 @@ public class SceneReader {
 		final Shape blueBall = new Sphere(Transformation.translate(0, 1.5, 0), 0d, 360d, 0d, 180d, true, blueDiffuse);
 		final Shape greenBall = new Sphere(Transformation.translate(2, 1.5, 2), 0d, 360d, 0d, 180d, true, greenDiffuse);
 
-		final Lightsource pointLight = new Pointlight(Transformation.translate(2.5, 5, -5), new Color(1, 1, 1), 30);
+		final Lightsource pointLight = new Pointlight(Transformation.translate(2.5, 5, 5), new Color(1, 1, 1), 30);
 
 		final Scene scene = new Scene();
 
