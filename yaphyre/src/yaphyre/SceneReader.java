@@ -189,7 +189,7 @@ public class SceneReader {
 		Shader diffuseGradient = new GradientShader(diffuseMaterial, new Color(1d, 0d, 0d), new Color(0d, 0d, 1d), GradientShader.BlendDirection.uAxis);
 		Shader diffuseWhite = new SimpleShader(diffuseMaterial, 1, 1, 1);
 
-		Lightsource light = new Pointlight(Transformation.translate(-2, 5, -2), new Color(1, 1, 1), 10);
+		Lightsource light = new Pointlight(Transformation.translate(-2, 5, 2), new Color(1, 1, 1), 10);
 
 		Shape plane = new Plane(Transformation.IDENTITY, diffuseWhite, true);
 		Shape sphere = new Sphere(Transformation.translate(0d, 1d, 0d), 45d, 135d, 45d, 135d, true, diffuseGradient);
@@ -206,7 +206,7 @@ public class SceneReader {
 	}
 
 	private static Camera createDefaultCamera() {
-		Point3D cameraPosition = new Point3D(0, 25, -100);
+		Point3D cameraPosition = new Point3D(0, 25, 100);
 		Point3D lookAt = new Point3D(0, 1, 0);
 		double aspectRatio = 4d / 3d;
 		double focalLength = 25d;
