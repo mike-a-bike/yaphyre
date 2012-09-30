@@ -92,8 +92,9 @@ public interface Shape extends Serializable {
 	/**
 	 * Gets the {@link Normal3D} information at a given point on the surface of this shape.
 	 *
+	 *
 	 * @param surfacePoint
-	 * 		The {@link Point3D} on the surface of this shape.
+	 * 		The {@link yaphyre.geometry.Point3D} on the surface of this shape.
 	 *
 	 * @return The {@link Normal3D} information at the location of the <code>surfacePoint</code>.
 	 */

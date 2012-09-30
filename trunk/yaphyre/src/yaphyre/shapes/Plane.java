@@ -27,7 +27,6 @@ import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Transformation;
-import yaphyre.geometry.Vector3D;
 
 /**
  * Plane represented by a point on the plane and the normal. Since on a plane the normal does not change, it does not
@@ -146,7 +145,7 @@ public class Plane extends AbstractShape {
 	 * The normal of a plane is independent from the position on the plane, so always the defining normal is returned.
 	 *
 	 * @param surfacePoint
-	 * 		The surface point (as {@link Vector3D}) for which the normal is asked.
+	 * 		The surface point (as {@link yaphyre.geometry.Vector3D}) for which the normal is asked.
 	 *
 	 * @return The normal of the plane (position independent)
 	 */

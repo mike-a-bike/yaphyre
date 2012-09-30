@@ -52,7 +52,7 @@ public abstract class AbstractCamera implements Camera {
 	}
 
 	@Override
-	public abstract Ray getCameraRay(Point2D viewPlanePoint);
+	public abstract Iterable<Ray> getCameraRay(Point2D viewPlanePoint);
 
 	@Override
 	public Film getFilm() {

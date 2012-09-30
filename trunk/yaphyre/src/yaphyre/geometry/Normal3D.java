@@ -126,4 +126,7 @@ public class Normal3D implements Serializable {
 		return this.z;
 	}
 
+	public Normal3D faceForward(final Ray collisionRay) {
+		return (this.asVector().dot(collisionRay.getDirection()) >= 0)? this : this.neg();
+	}
 }

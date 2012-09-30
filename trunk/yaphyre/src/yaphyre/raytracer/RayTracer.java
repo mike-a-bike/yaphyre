@@ -307,9 +307,10 @@ public class RayTracer {
 				for (Point2D samplePoint : sampler.getUnitSquareSamples()) {
 					sampleCount++;
 					Point2D cameraCoordinates = rasterToCamera.transform(rasterPoint.add(samplePoint));
-					Ray eyeRay = this.camera.getCameraRay(cameraCoordinates);
-					RenderStatistics.incEyeRays();
-					color = color.add(this.traceRay(eyeRay, 1));
+					for (Ray eyeRay : this.camera.getCameraRay(cameraCoordinates)) {
+						RenderStatistics.incEyeRays();
+						color = color.add(this.traceRay(eyeRay, 1));
+					}
 				}
 				color = color.multiply(1d / sampleCount);
 
@@ -387,12 +388,8 @@ public class RayTracer {
 			LightSample sample = lightsource.sample(collisionPoint);
 
 			if (sample.getVisibilityTester().isUnobstructed(this.scene)) {
-				Normal3D shapeNormal = shapeCollisionInfo.getCollisionShape().getNormal(
-						shapeCollisionInfo.getCollisionPoint());
-				double diffuse = shapeCollisionInfo.getCollisionShape()
-						.getShader()
-						.getMaterial(uvCoordinates)
-						.getDiffuse();
+				Normal3D shapeNormal = shapeCollisionInfo.getCollisionShape().getNormal(shapeCollisionInfo.getCollisionPoint());
+				double diffuse = shapeCollisionInfo.getCollisionShape().getShader().getMaterial(uvCoordinates).getDiffuse();
 				diffuse *= Math.abs(sample.getIncidentDirection().dot(shapeNormal));
 				lightColor = lightColor.add(objectColor.multiply(sample.getEnergy()).multiply(diffuse));
 			}
@@ -428,6 +425,7 @@ public class RayTracer {
 		if (reflectionValue > 0) {
 			// reflected = eye - 2 * (eye . normal) * normal
 			Normal3D normal = shapeCollisionInfo.getCollisionShape().getNormal(shapeCollisionInfo.getCollisionPoint());
+			normal = normal.faceForward(shapeCollisionInfo.getCollisionRay());
 			Vector3D reflectedRayDirection = ray.getDirection()
 					.sub(normal.scale(2d * ray.getDirection().dot(normal)))
 					.normalize();
