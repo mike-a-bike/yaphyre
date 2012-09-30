@@ -34,11 +34,12 @@ public interface Camera {
 	 * field effects by sampling the same view plane point using a non zero lens size.
 	 *
 	 * @param viewPlanePoint
-	 * 		The {@link Point2D} to create the camera ray for.
+	 * 		The {@link yaphyre.geometry.Point2D} to create the camera ray for.
 	 *
-	 * @return An instance of {@link Ray} which corresponds with the given u/v position in the world space.
+	 * @return A collection of {@link Ray}s which corresponds with the given u/v position in the world space. More than
+	 *         one ray is used to simulate effects like depth of field with thin lens cameras.
 	 */
-	public Ray getCameraRay(Point2D viewPlanePoint);
+	public Iterable<Ray> getCameraRay(Point2D viewPlanePoint);
 
 	/**
 	 * Get the {@link Film} instance that is associated with the camera. This is usually an image file, but can be

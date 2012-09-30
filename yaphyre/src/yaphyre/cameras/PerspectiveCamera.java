@@ -26,6 +26,7 @@ import yaphyre.samplers.JitteredSampler;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 
 /**
  * This perspective camera is based on a simple pin hole camera model. Nonetheless, it emulates effects like depth of
@@ -51,7 +52,7 @@ public class PerspectiveCamera extends AbstractCamera implements Camera {
 		cameraSettings = perspectiveSettings;
 		focalPoint = new Point3D(0, 0, -cameraSettings.getFocalLength());
 		aspectRatioInv = 1d / cameraSettings.getAspectRatio();
-		if (cameraSettings.getLensRadius() > 0d) {
+		if (cameraSettings.getApertureSize() > 0d) {
 			lensSampler = new JitteredSampler(4);
 		} else {
 			lensSampler = null;
@@ -59,17 +60,17 @@ public class PerspectiveCamera extends AbstractCamera implements Camera {
 	}
 
 	@Override
-	public Ray getCameraRay(Point2D viewPlanePoint) {
+	public Iterable<Ray> getCameraRay(Point2D viewPlanePoint) {
 		Preconditions.checkArgument(viewPlanePoint.getU() >= 0d && viewPlanePoint.getU() <= 1d);
 		Preconditions.checkArgument(viewPlanePoint.getV() >= 0d && viewPlanePoint.getV() <= 1d);
 
 		Point3D mappedPoint = mapViewPlanePoint(viewPlanePoint);
 		Vector3D direction = new Vector3D(focalPoint, mappedPoint).normalize();
 
-		if (cameraSettings.getLensRadius() > 0d) {
+		if (cameraSettings.getApertureSize() > 0d) {
 			// UGLY, better implementation for random sampling needed...
 			Point2D lensPoint = lensSampler.getUnitCircleSamples().iterator().next().mul(
-					cameraSettings.getLensRadius());
+					cameraSettings.getApertureSize());
 
 			Point3D focusPoint = mappedPoint.add(direction.scale(cameraSettings.getFocalDistance()));
 			mappedPoint = mappedPoint.add(lensPoint);
@@ -80,7 +81,7 @@ public class PerspectiveCamera extends AbstractCamera implements Camera {
 
 		result = super.getCamera2World().transform(result);
 
-		return result;
+		return Lists.newArrayList(result);
 	}
 
 	private Point3D mapViewPlanePoint(Point2D viewPlanePoint) {
@@ -97,7 +98,7 @@ public class PerspectiveCamera extends AbstractCamera implements Camera {
 				.add("apsect ratio", cameraSettings.getAspectRatio())
 				.add("focal length", cameraSettings.getFocalLength())
 				.add("focal distance", cameraSettings.getFocalDistance())
-				.add("lens radius", cameraSettings.getLensRadius())
+				.add("lens radius", cameraSettings.getApertureSize())
 				.add("film", getFilm())
 				.toString();
 	}
@@ -116,23 +117,23 @@ public class PerspectiveCamera extends AbstractCamera implements Camera {
 
 		private final double focalDistance;
 
-		private final double lensRadius;
+		private final double apertureSize;
 
 		public static PerspectiveCameraSettings create(double aspectRatio, double focalLength) {
 			return new PerspectiveCameraSettings(aspectRatio, focalLength, Double.MAX_VALUE, 0d);
 		}
 
 		public static PerspectiveCameraSettings create(double aspectRatio, double focalLength, double focalDistance,
-				double lensRadius) {
-			return new PerspectiveCameraSettings(aspectRatio, focalLength, focalDistance, lensRadius);
+				double apertureSize) {
+			return new PerspectiveCameraSettings(aspectRatio, focalLength, focalDistance, apertureSize);
 		}
 
 		private PerspectiveCameraSettings(double aspectRatio, double focalLength, double focalDistance,
-				double lensRadius) {
+				double apertureSize) {
 			this.aspectRatio = aspectRatio;
 			this.focalLength = focalLength;
 			this.focalDistance = focalDistance;
-			this.lensRadius = lensRadius;
+			this.apertureSize = apertureSize;
 		}
 
 		@Override
@@ -141,7 +142,7 @@ public class PerspectiveCamera extends AbstractCamera implements Camera {
 					.add("aspectRatio", aspectRatio)
 					.add("focalLength", focalLength)
 					.add("focalDistance", focalDistance)
-					.add("lensRadius", lensRadius)
+					.add("apertureSize", apertureSize)
 					.toString();
 		}
 
@@ -157,8 +158,8 @@ public class PerspectiveCamera extends AbstractCamera implements Camera {
 			return focalDistance;
 		}
 
-		public double getLensRadius() {
-			return lensRadius;
+		public double getApertureSize() {
+			return apertureSize;
 		}
 	}
 

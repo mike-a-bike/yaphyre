@@ -152,6 +152,12 @@ public class SphereTest {
 	}
 
 	@Test
+	public void testGetShader() {
+		Shape s = createTestSphere();
+		assertNotNull(s.getShader());
+	}
+
+	@Test
 	public void testGetNormal() {
 		Shape testSphere = createTestSphere();
 		Shape unitSphere = createUnitSphere();
@@ -218,12 +224,6 @@ public class SphereTest {
 		assertNotNull(n);
 		// assertEquals(new Vector(0, -1, 0), n);
 
-	}
-
-	@Test
-	public void testGetShader() {
-		Shape s = createTestSphere();
-		assertNotNull(s.getShader());
 	}
 
 	@SuppressWarnings("serial")

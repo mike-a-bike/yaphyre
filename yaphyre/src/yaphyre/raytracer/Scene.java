@@ -94,8 +94,7 @@ public class Scene implements Serializable {
 		}
 
 		if (nearestCollisionDistance < maxDistance) {
-			result = new CollisionInformation(nearestCollisionShape, nearestCollisionDistance, ray.getPoint(
-					nearestCollisionDistance));
+			result = new CollisionInformation(ray, nearestCollisionShape, nearestCollisionDistance, ray.getPoint(nearestCollisionDistance));
 		}
 
 		return result;

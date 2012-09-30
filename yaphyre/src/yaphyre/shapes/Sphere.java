@@ -23,8 +23,6 @@ import static java.lang.Math.atan2;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static yaphyre.geometry.MathUtils.EPSILON;
-import static yaphyre.geometry.MathUtils.INV_PI;
-import static yaphyre.geometry.MathUtils.INV_TWO_PI;
 import static yaphyre.geometry.MathUtils.TWO_PI;
 import static yaphyre.geometry.MathUtils.isInRangeWithTolerance;
 
@@ -298,7 +296,7 @@ public class Sphere extends AbstractShape {
 
 		// Calculate the two angles of the spherical coordinates
 		double phi = atan2(surfacePoint.getZ(), surfacePoint.getX());
-		phi = phi >= 0? phi: phi + TWO_PI;
+		phi = phi >= 0? phi : phi + TWO_PI;
 		double theta = acos(surfacePoint.getY());
 
 		return new Point2D(phi, theta);

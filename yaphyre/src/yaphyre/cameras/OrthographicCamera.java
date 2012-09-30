@@ -25,6 +25,7 @@ import yaphyre.geometry.Ray;
 import yaphyre.geometry.Vector3D;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 
 /**
  * A very simple camera showing an orthographic view of the scene to render.
@@ -50,7 +51,7 @@ public class OrthographicCamera extends AbstractCamera implements Camera {
 	}
 
 	@Override
-	public Ray getCameraRay(Point2D viewPlanePoint) {
+	public Iterable<Ray> getCameraRay(Point2D viewPlanePoint) {
 		Preconditions.checkArgument(viewPlanePoint.getU() >= 0d && viewPlanePoint.getU() <= 1d);
 		Preconditions.checkArgument(viewPlanePoint.getV() >= 0d && viewPlanePoint.getV() <= 1d);
 
@@ -58,7 +59,7 @@ public class OrthographicCamera extends AbstractCamera implements Camera {
 		Ray result = new Ray(new Point3D(mappedPoint.getU(), mappedPoint.getV(), 0), Vector3D.Z);
 		result = super.getCamera2World().transform(result);
 
-		return result;
+		return Lists.newArrayList(result);
 	}
 
 	@Override
