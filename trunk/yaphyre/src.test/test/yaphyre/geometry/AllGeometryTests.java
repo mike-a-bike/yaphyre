@@ -21,7 +21,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({VectorTest.class, MatrixTest.class, TransformationTest.class, RayTest.class})
+@SuiteClasses({VectorTest.class, MatrixTest.class, TransformationTest.class, RayTest.class, FovCalculatorTest.class})
 public class AllGeometryTests {
 
 }
