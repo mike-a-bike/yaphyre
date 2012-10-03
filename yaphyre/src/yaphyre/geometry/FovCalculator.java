@@ -16,28 +16,36 @@
 
 package yaphyre.geometry;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static java.lang.Math.atan;
+import static yaphyre.geometry.MathUtils.EPSILON;
 
 public enum FovCalculator {
-	Format35mm {
-		final static double FILM_WIDTH = 36d;
-		final static double FILM_HEIGHT = 24d;
-		@Override
-		public double calculateVerticalFov(final double focalLength) {
-			return super.calculateFov(focalLength, FILM_HEIGHT);
-		}
-		@Override
-		public double calculateHorizontalFov(final double focalLength) {
-			return super.calculateFov(focalLength, FILM_WIDTH);
-		}
-	};
+	FullFrame35mm(36d, 24d), APS_H(28.7d, 19d), APS_C(23.6d, 15.7d);
 
-	public abstract double calculateVerticalFov(final double focalLength);
+	private final double width;
 
-	public abstract double calculateHorizontalFov(final double focalLength);
+	private final double height;
 
-	protected double calculateFov(final double focalLength, final double filmSize) {
-		return 2d * atan(filmSize / 2d * focalLength);
+	private FovCalculator(final double width, final double height) {
+		checkArgument(width >= EPSILON);
+		checkArgument(height >= EPSILON);
+		this.width = width;
+		this.height = height;
+	}
+
+	public double calculateVerticalFov(final double focalLength) {
+		checkArgument(focalLength >= EPSILON);
+		return calculateFov(focalLength, height);
+	}
+
+	public double calculateHorizontalFov(final double focalLength) {
+		checkArgument(focalLength >= EPSILON);
+		return calculateFov(focalLength, width);
+	}
+
+	private double calculateFov(final double focalLength, final double filmSize) {
+		return 2d * atan(filmSize / (2d * focalLength));
 	}
 
 }
