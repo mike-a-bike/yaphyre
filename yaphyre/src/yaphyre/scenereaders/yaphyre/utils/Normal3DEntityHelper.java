@@ -14,12 +14,22 @@
  * the License.
  */
 
-package yaphyre.util.scenereaders.utils;
+package yaphyre.scenereaders.yaphyre.utils;
+
+import yaphyre.geometry.Normal3D;
 
 import org.joox.Match;
 
-public interface EntityHelper<T> {
+public class Normal3DEntityHelper implements EntityHelper<Normal3D> {
 
-	public T decodeEntity(Match entityMatch);
+	public static final EntityHelper<Normal3D> INSTANCE = new Normal3DEntityHelper();
+
+	@Override
+	public Normal3D decodeEntity(Match entityMatch) {
+		double x = entityMatch.attr("x", Double.class);
+		double y = entityMatch.attr("y", Double.class);
+		double z = entityMatch.attr("z", Double.class);
+		return new Normal3D(x, y, z);
+	}
 
 }

@@ -14,7 +14,7 @@
  * the License.
  */
 
-package yaphyre.util.scenereaders.utils;
+package yaphyre.scenereaders.yaphyre.utils;
 
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;

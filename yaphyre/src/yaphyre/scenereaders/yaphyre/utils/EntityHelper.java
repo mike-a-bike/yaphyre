@@ -14,21 +14,12 @@
  * the License.
  */
 
-package yaphyre.util.scenereaders.utils;
-
-import yaphyre.util.Color;
+package yaphyre.scenereaders.yaphyre.utils;
 
 import org.joox.Match;
 
-final class ColorEntityHelper implements EntityHelper<Color> {
+public interface EntityHelper<T> {
 
-	public static final EntityHelper<Color> INSTANCE = new ColorEntityHelper();
+	public T decodeEntity(Match entityMatch);
 
-	@Override
-	public Color decodeEntity(Match entityMatch) {
-		double r = entityMatch.attr("r", Double.class);
-		double g = entityMatch.attr("g", Double.class);
-		double b = entityMatch.attr("b", Double.class);
-		return new Color(r, g, b);
-	}
 }

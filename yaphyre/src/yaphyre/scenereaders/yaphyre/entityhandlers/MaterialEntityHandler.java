@@ -14,7 +14,7 @@
  * the License.
  */
 
-package yaphyre.util.scenereaders.entityhandlers;
+package yaphyre.scenereaders.yaphyre.entityhandlers;
 
 import java.util.Map;
 
