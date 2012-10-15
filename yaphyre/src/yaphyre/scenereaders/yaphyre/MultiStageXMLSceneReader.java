@@ -18,15 +18,17 @@ package yaphyre.scenereaders.yaphyre;
 import static org.joox.JOOX.$;
 
 import java.io.InputStream;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import yaphyre.core.Lightsource;
-import yaphyre.core.SceneReaders;
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
 import yaphyre.raytracer.Scene;
-import yaphyre.shaders.Material;
+import yaphyre.scenereaders.Capabilities;
+import yaphyre.scenereaders.SceneReaders;
 import yaphyre.scenereaders.yaphyre.entityhandlers.EntityHandler;
 import yaphyre.scenereaders.yaphyre.entityhandlers.IdentifiableObject;
 import yaphyre.scenereaders.yaphyre.entityhandlers.MaterialEntityHandler;
@@ -34,6 +36,7 @@ import yaphyre.scenereaders.yaphyre.entityhandlers.PlaneEntityHandler;
 import yaphyre.scenereaders.yaphyre.entityhandlers.PointlightEntityHandler;
 import yaphyre.scenereaders.yaphyre.entityhandlers.SimpleShaderEnityHandler;
 import yaphyre.scenereaders.yaphyre.entityhandlers.SphereEntityHandler;
+import yaphyre.shaders.Material;
 
 import org.joox.Match;
 import org.slf4j.Logger;
@@ -52,7 +55,7 @@ import com.google.common.collect.Maps;
  * @author $LastChangedBy: mike0041@gmail.com $
  * @version $Revision: 37 $
  */
-public class MultiStageXMLSceneReader implements SceneReaders<InputStream> {
+public class MultiStageXMLSceneReader implements SceneReaders {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(MultiStageXMLSceneReader.class);
 
@@ -84,6 +87,11 @@ public class MultiStageXMLSceneReader implements SceneReaders<InputStream> {
 
 		LOGGER.info("Scene read. Result = {}", result);
 		return result;
+	}
+
+	@Override
+	public Set<Capabilities> getCapabilities() {
+		return EnumSet.allOf(Capabilities.class);
 	}
 
 	private static enum ReaderStage {
