@@ -24,6 +24,6 @@ import java.util.Set;
  */
 public interface PartialSceneReaders {
 
-	public Set<Capabilities> getCapabilitieses();
+	public Set<Capabilities> getCapabilities();
 
 }
