@@ -14,22 +14,21 @@
  * the License.
  */
 
-package yaphyre.util.scenereaders.utils;
+package yaphyre.scenereaders.yaphyre.utils;
 
-import yaphyre.geometry.Normal3D;
+import yaphyre.geometry.Point2D;
 
 import org.joox.Match;
 
-public class Normal3DEntityHelper implements EntityHelper<Normal3D> {
+public class Point2DEntityHelper implements EntityHelper<Point2D> {
 
-	public static final EntityHelper<Normal3D> INSTANCE = new Normal3DEntityHelper();
+	public static final EntityHelper<Point2D> INSTANCE = new Point2DEntityHelper();
 
 	@Override
-	public Normal3D decodeEntity(Match entityMatch) {
-		double x = entityMatch.attr("x", Double.class);
-		double y = entityMatch.attr("y", Double.class);
-		double z = entityMatch.attr("z", Double.class);
-		return new Normal3D(x, y, z);
+	public Point2D decodeEntity(Match entityMatch) {
+		double u = entityMatch.attr("u", Double.class);
+		double v = entityMatch.attr("v", Double.class);
+		return new Point2D(u, v);
 	}
 
 }

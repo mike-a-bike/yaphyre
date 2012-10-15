@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package yaphyre.util.scenereaders.entityhandlers;
+package yaphyre.scenereaders.yaphyre.entityhandlers;
 
 import java.util.Map;
 
@@ -24,7 +24,7 @@ import yaphyre.geometry.Transformation;
 import yaphyre.lights.Pointlight;
 import yaphyre.shaders.Material;
 import yaphyre.util.Color;
-import yaphyre.util.scenereaders.utils.HelperFactory;
+import yaphyre.scenereaders.yaphyre.utils.HelperFactory;
 
 import org.joox.Match;
 import org.slf4j.Logger;

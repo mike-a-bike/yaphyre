@@ -14,7 +14,7 @@
  * the License.
  */
 
-package yaphyre.util.scenereaders.entityhandlers;
+package yaphyre.scenereaders.yaphyre.entityhandlers;
 
 import java.util.Map;
 
@@ -23,7 +23,7 @@ import yaphyre.core.Shape;
 import yaphyre.shaders.Material;
 import yaphyre.shaders.SimpleShader;
 import yaphyre.util.Color;
-import yaphyre.util.scenereaders.utils.HelperFactory;
+import yaphyre.scenereaders.yaphyre.utils.HelperFactory;
 
 import org.joox.Match;
 import org.slf4j.Logger;

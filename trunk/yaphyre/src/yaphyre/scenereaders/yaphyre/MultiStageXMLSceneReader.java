@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package yaphyre.util.scenereaders;
+package yaphyre.scenereaders.yaphyre;
 
 import static org.joox.JOOX.$;
 
@@ -27,13 +27,13 @@ import yaphyre.core.Shader;
 import yaphyre.core.Shape;
 import yaphyre.raytracer.Scene;
 import yaphyre.shaders.Material;
-import yaphyre.util.scenereaders.entityhandlers.EntityHandler;
-import yaphyre.util.scenereaders.entityhandlers.IdentifiableObject;
-import yaphyre.util.scenereaders.entityhandlers.MaterialEntityHandler;
-import yaphyre.util.scenereaders.entityhandlers.PlaneEntityHandler;
-import yaphyre.util.scenereaders.entityhandlers.PointlightEntityHandler;
-import yaphyre.util.scenereaders.entityhandlers.SimpleShaderEnityHandler;
-import yaphyre.util.scenereaders.entityhandlers.SphereEntityHandler;
+import yaphyre.scenereaders.yaphyre.entityhandlers.EntityHandler;
+import yaphyre.scenereaders.yaphyre.entityhandlers.IdentifiableObject;
+import yaphyre.scenereaders.yaphyre.entityhandlers.MaterialEntityHandler;
+import yaphyre.scenereaders.yaphyre.entityhandlers.PlaneEntityHandler;
+import yaphyre.scenereaders.yaphyre.entityhandlers.PointlightEntityHandler;
+import yaphyre.scenereaders.yaphyre.entityhandlers.SimpleShaderEnityHandler;
+import yaphyre.scenereaders.yaphyre.entityhandlers.SphereEntityHandler;
 
 import org.joox.Match;
 import org.slf4j.Logger;

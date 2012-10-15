@@ -14,21 +14,21 @@
  * the License.
  */
 
-package yaphyre.util.scenereaders.utils;
+package yaphyre.scenereaders.yaphyre.utils;
 
-import yaphyre.geometry.Point2D;
+import yaphyre.util.Color;
 
 import org.joox.Match;
 
-public class Point2DEntityHelper implements EntityHelper<Point2D> {
+final class ColorEntityHelper implements EntityHelper<Color> {
 
-	public static final EntityHelper<Point2D> INSTANCE = new Point2DEntityHelper();
+	public static final EntityHelper<Color> INSTANCE = new ColorEntityHelper();
 
 	@Override
-	public Point2D decodeEntity(Match entityMatch) {
-		double u = entityMatch.attr("u", Double.class);
-		double v = entityMatch.attr("v", Double.class);
-		return new Point2D(u, v);
+	public Color decodeEntity(Match entityMatch) {
+		double r = entityMatch.attr("r", Double.class);
+		double g = entityMatch.attr("g", Double.class);
+		double b = entityMatch.attr("b", Double.class);
+		return new Color(r, g, b);
 	}
-
 }
