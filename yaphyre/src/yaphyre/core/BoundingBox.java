@@ -20,9 +20,11 @@ import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
+import static yaphyre.geometry.MathUtils.EPSILON;
 
 import java.io.Serializable;
 
+import yaphyre.geometry.MathUtils;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 
@@ -69,8 +71,8 @@ public class BoundingBox implements Serializable {
 		}
 	};
 
-	protected Point3D pointMin;
-	protected Point3D pointMax;
+	private Point3D pointMin;
+	private Point3D pointMax;
 
 	public static BoundingBox union(BoundingBox box, Point3D p) {
 		BoundingBox result = new BoundingBox();
@@ -86,7 +88,7 @@ public class BoundingBox implements Serializable {
 		return result;
 	}
 
-	protected BoundingBox() {
+	private BoundingBox() {
 		pointMin = new Point3D(POSITIVE_INFINITY, POSITIVE_INFINITY, POSITIVE_INFINITY);
 		pointMax = new Point3D(NEGATIVE_INFINITY, NEGATIVE_INFINITY, NEGATIVE_INFINITY);
 	}
@@ -139,6 +141,52 @@ public class BoundingBox implements Serializable {
 	}
 
 	public boolean isHitBy(Ray ray) {
-		throw new RuntimeException("Not implemented yet");
+
+		final double ox = ray.getOrigin().getX(); final double oy = ray.getOrigin().getY(); final double oz = ray.getOrigin().getZ();
+		final double dx = ray.getDirection().getX(); final double dy = ray.getDirection().getY(); final double dz = ray.getDirection().getZ();
+
+		double tx_min;
+		double tx_max;
+
+		double a = 1d / dx;
+
+		if (a >= 0) {
+			tx_min = (pointMin.getX() - ox) * a;
+			tx_max = (pointMax.getX() - ox) * a;
+		} else {
+			tx_min = (pointMax.getX() - ox) * a;
+			tx_max = (pointMin.getX() - ox) * a;
+		}
+
+		double ty_min;
+		double ty_max;
+
+		double b = 1d / dy;
+
+		if (b >= 0) {
+			ty_min = (pointMin.getY() - oy) * b;
+			ty_max = (pointMax.getY() - oy) * b;
+		} else {
+			ty_min = (pointMax.getY() - oy) * b;
+			ty_max = (pointMin.getY() - oy) * b;
+		}
+
+		double tz_min;
+		double tz_max;
+
+		double c = 1d / dz;
+
+		if (c >= 0) {
+			tz_min = (pointMin.getZ() - oz) * c;
+			tz_max = (pointMax.getZ() - oz) * c;
+		} else {
+			tz_min = (pointMax.getZ() - oz) * c;
+			tz_max = (pointMin.getZ() - oz) * c;
+		}
+
+		double t0 = MathUtils.max(tx_min, ty_min, tz_min);
+		double t1 = MathUtils.min(tx_max, ty_max, tz_max);
+
+		return (t0 < t1 && t1 > EPSILON);
 	}
 }
