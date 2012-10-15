@@ -106,6 +106,14 @@ public class MathUtils {
 		return isInRange(minValue - EPSILON, maxValue + EPSILON, value);
 	}
 
+	public static double min(final double a, final double b, final double c) {
+		return Math.min(Math.min(a, b), c);
+	}
+
+	public static double max(final double a, final double b, final double c) {
+		return Math.max(Math.max(a, b), c);
+	}
+
 	public static double clamp(double value, double min, double max) {
 		if (value < min) {
 			return min;
