@@ -14,7 +14,7 @@
  * the License.
  */
 
-package test.yaphyre.geometry;
+package yaphyre.geometry;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

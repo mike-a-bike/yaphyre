@@ -14,7 +14,7 @@
  * the License.
  */
 
-package test.yaphyre.shapes;
+package yaphyre.shapes;
 
 import static org.mockito.Mockito.mock;
 import static org.junit.Assert.assertEquals;
@@ -35,7 +35,6 @@ import yaphyre.geometry.Transformation;
 import yaphyre.geometry.Vector3D;
 import yaphyre.shaders.Material;
 import yaphyre.shaders.MaterialBuilder;
-import yaphyre.shapes.Sphere;
 import yaphyre.util.Color;
 
 public class SphereTest {

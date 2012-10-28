@@ -14,17 +14,12 @@
  * the License.
  */
 
-package test.yaphyre.geometry;
+package yaphyre.geometry;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
-
-import yaphyre.geometry.Normal3D;
-import yaphyre.geometry.Point3D;
-import yaphyre.geometry.Ray;
-import yaphyre.geometry.Vector3D;
 
 public class RayTest {
 

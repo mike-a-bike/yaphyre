@@ -27,6 +27,8 @@ import yaphyre.core.Lightsource;
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
 import yaphyre.raytracer.Scene;
+
+
 import yaphyre.scenereaders.Capabilities;
 import yaphyre.scenereaders.SceneReaders;
 import yaphyre.scenereaders.yaphyre.entityhandlers.EntityHandler;

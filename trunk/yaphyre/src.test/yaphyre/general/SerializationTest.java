@@ -14,7 +14,7 @@
  * the License.
  */
 
-package test.yaphyre.general;
+package yaphyre.general;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

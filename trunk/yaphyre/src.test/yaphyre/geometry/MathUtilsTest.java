@@ -14,7 +14,7 @@
  * the License.
  */
 
-package test.yaphyre.geometry;
+package yaphyre.geometry;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;

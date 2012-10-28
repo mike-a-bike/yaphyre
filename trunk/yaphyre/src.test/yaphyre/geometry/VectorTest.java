@@ -14,7 +14,7 @@
  * the License.
  */
 
-package test.yaphyre.geometry;
+package yaphyre.geometry;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -24,10 +24,6 @@ import static org.junit.Assert.assertTrue;
 import java.text.MessageFormat;
 
 import org.junit.Test;
-
-import yaphyre.geometry.Normal3D;
-import yaphyre.geometry.Point3D;
-import yaphyre.geometry.Vector3D;
 
 public class VectorTest {
 
