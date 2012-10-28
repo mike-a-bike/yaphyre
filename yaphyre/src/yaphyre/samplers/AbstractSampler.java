@@ -159,8 +159,7 @@ public abstract class AbstractSampler implements Sampler {
 			double sin_theta = sqrt(1d - cos_theta * cos_theta);
 			double pu = sin_theta * cos_phi;
 			double pv = sin_theta * sin_phi;
-			double pw = cos_theta;
-			result.add(new Point3D(pu, pv, pw));
+			result.add(new Point3D(pu, pv, cos_theta));
 		}
 		return result;
 	}
