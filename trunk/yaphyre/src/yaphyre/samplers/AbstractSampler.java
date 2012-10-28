@@ -35,6 +35,8 @@ import yaphyre.geometry.Point3D;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.Lists;
+
 /**
  * An abstract implementation of the interface {@link Sampler}. This is used to ensure that all samplers provide a
  * similar constructor.
@@ -87,7 +89,7 @@ public abstract class AbstractSampler implements Sampler {
 	 */
 	protected void createSampleSets(int numberOfSamples) {
 		LOGGER.debug("Start creation of samples for {}", getClass().getSimpleName());
-		sampleSets = new ArrayList<List<Point2D>>(NUMBER_OF_SAMPLE_SETS);
+		sampleSets = Lists.newArrayList();
 		for (int set = 0; set < NUMBER_OF_SAMPLE_SETS; set++) {
 			sampleSets.add(createSamples(numberOfSamples));
 		}
@@ -114,7 +116,7 @@ public abstract class AbstractSampler implements Sampler {
 	@Override
 	public Iterable<Point2D> getUnitCircleSamples() {
 
-		List<Point2D> result = new ArrayList<Point2D>();
+		List<Point2D> result = Lists.newArrayList();
 
 		for (Point2D p : getUnitSquareSamples()) {
 			Point2D sp = new Point2D(p.getU() * 2d - 1d, p.getV() * 2d - 2d);
