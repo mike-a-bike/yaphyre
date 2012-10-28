@@ -15,11 +15,12 @@
  */
 package yaphyre.samplers;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import yaphyre.geometry.Point2D;
+
+import com.google.common.collect.Lists;
 
 /**
  * This sampler creates a regular pattern with nxn cells with n = sqrt(number of samples). Within these cells the
@@ -41,12 +42,11 @@ public class JitteredSampler extends AbstractSampler {
 	@Override
 	protected List<Point2D> createSamples(int numberOfSamples) {
 		int samplesPerSide = (int) Math.sqrt(numberOfSamples);
-		List<Point2D> result = new ArrayList<Point2D>(samplesPerSide * samplesPerSide);
-		double intervall = 1d / samplesPerSide;
+		List<Point2D> result = Lists.newArrayList();
+		double interval = 1d / samplesPerSide;
 		for (int row = 0; row < samplesPerSide; row++) {
 			for (int col = 0; col < samplesPerSide; col++) {
-				result.add(new Point2D((row + RANDOM.nextDouble()) * intervall,
-						(col + RANDOM.nextDouble()) * intervall));
+				result.add(new Point2D((row + RANDOM.nextDouble()) * interval, (col + RANDOM.nextDouble()) * interval));
 			}
 		}
 		return result;
