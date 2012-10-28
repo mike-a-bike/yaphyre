@@ -14,7 +14,7 @@
  * the License.
  */
 
-package test.yaphyre.cameras;
+package yaphyre.cameras;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
@@ -22,7 +22,6 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 import yaphyre.cameras.AbstractCamera.BaseCameraSettings;
-import yaphyre.cameras.PerspectiveCamera;
 import yaphyre.cameras.PerspectiveCamera.PerspectiveCameraSettings;
 import yaphyre.films.ImageFile;
 import yaphyre.geometry.Point3D;

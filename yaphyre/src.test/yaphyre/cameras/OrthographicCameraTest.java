@@ -14,14 +14,13 @@
  * the License.
  */
 
-package test.yaphyre.cameras;
+package yaphyre.cameras;
 
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
 import yaphyre.cameras.AbstractCamera.BaseCameraSettings;
-import yaphyre.cameras.OrthographicCamera;
 import yaphyre.cameras.OrthographicCamera.OrthographicCameraSettings;
 import yaphyre.core.Camera;
 import yaphyre.films.ImageFile;

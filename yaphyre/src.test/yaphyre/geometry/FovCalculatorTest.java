@@ -14,13 +14,11 @@
  * the License.
  */
 
-package test.yaphyre.geometry;
+package yaphyre.geometry;
 
 import static java.lang.Math.toDegrees;
 import static java.lang.Math.toRadians;
 import static org.junit.Assert.assertTrue;
-
-import yaphyre.geometry.FovCalculator;
 
 import org.junit.Test;
 
