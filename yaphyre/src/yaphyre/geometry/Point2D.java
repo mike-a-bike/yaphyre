@@ -45,12 +45,11 @@ public class Point2D implements Serializable {
 
 	@Override
 	public int hashCode() {
+		long temp = Double.doubleToLongBits(u);
 		final int prime = 31;
 		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(this.u);
 		result = prime * result + (int) (temp ^ (temp >>> INT_SIZE));
-		temp = Double.doubleToLongBits(this.v);
+		temp = Double.doubleToLongBits(v);
 		result = prime * result + (int) (temp ^ (temp >>> INT_SIZE));
 		return result;
 	}
@@ -67,10 +66,10 @@ public class Point2D implements Serializable {
 			return false;
 		}
 		Point2D other = (Point2D) obj;
-		if (!MathUtils.equalsWithTolerance(this.u, other.u)) {
+		if (!MathUtils.equalsWithTolerance(u, other.u)) {
 			return false;
 		}
-		if (!MathUtils.equalsWithTolerance(this.v, other.v)) {
+		if (!MathUtils.equalsWithTolerance(v, other.v)) {
 			return false;
 		}
 		return true;
@@ -78,34 +77,38 @@ public class Point2D implements Serializable {
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(this.getClass()).add("u", u).add("v", v).toString();
+		return Objects.toStringHelper(getClass()).add("u", u).add("v", v).toString();
 	}
 
 	public Point2D add(Point2D p) {
-		return new Point2D(this.u + p.u, this.v + p.v);
+		return new Point2D(u + p.u, v + p.v);
+	}
+
+	public Point2D add(double dU, double dV) {
+		return new Point2D(u + dU,  v + dV);
 	}
 
 	public Point3D add(Point3D p) {
-		return new Point3D(this.u + p.x, this.v + p.y, p.z);
+		return new Point3D(u + p.x, v + p.y, p.z);
 	}
 
 	public Point2D mul(double s) {
-		return new Point2D(this.u * s, this.v * s);
+		return new Point2D(u * s, v * s);
 	}
 
 	public Point2D mul(double su, double sv) {
-		return new Point2D(this.u * su, this.v * sv);
+		return new Point2D(u * su, v * sv);
 	}
 
 	public double dist(Point2D p) {
-		return MathUtils.calcLength(p.u - this.u, p.v - this.v);
+		return MathUtils.calcLength(p.u - u, p.v - v);
 	}
 
 	public double getU() {
-		return this.u;
+		return u;
 	}
 
 	public double getV() {
-		return this.v;
+		return v;
 	}
 }
