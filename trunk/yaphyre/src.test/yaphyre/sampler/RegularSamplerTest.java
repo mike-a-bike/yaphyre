@@ -28,7 +28,7 @@ import org.junit.Test;
  * Created with IntelliJ IDEA. User: michael Date: 28.10.12 Time: 20:54 To change this template use File | Settings |
  * File Templates.
  */
-public class RegularSamplerTest extends AbstractSamplerTest {
+public class RegularSamplerTest extends SamplerTest {
 
 	private AbstractSampler sampler;
 
@@ -40,18 +40,23 @@ public class RegularSamplerTest extends AbstractSamplerTest {
 	@Test
 	public void testGetUnitSquareSamples() {
 		for(Point2D point : sampler.getUnitSquareSamples()) {
-			super.addMark(point.getU(), point.getV());
+			super.addMark(point);
 		}
 		super.setImageName("RegularSamper_UnitSquareSample.png");
 	}
 
 	@Test
-	@Ignore
 	public void testGetUnitCircleSamples() {
-		for(Point2D point : sampler.getUnitCircleSamples()) {
-			super.addMark(point.getU(), point.getV());
+		for(Point2D sampledPoint : sampler.getUnitCircleSamples()) {
+			Point2D point = sampledPoint.mul(.5d).add(.5d, .5d);
+			super.addMark(point);
 		}
 		super.setImageName("RegularSamper_UnitCircleSample.png");
+	}
+
+	@Test
+	@Ignore
+	public void testUnitSphereSamples() {
 	}
 
 }
