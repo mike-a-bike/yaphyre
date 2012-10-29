@@ -16,7 +16,6 @@
 package yaphyre.samplers;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -32,7 +31,7 @@ import yaphyre.geometry.Point2D;
  */
 public class RandomSampler extends AbstractSampler {
 
-	private static final Random RANDOM = new Random(new Date().getTime());
+	private static final Random RANDOM = new Random(System.nanoTime());
 
 	public RandomSampler(int numberOfSamples) {
 		super(numberOfSamples);
