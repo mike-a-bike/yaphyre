@@ -25,19 +25,22 @@ import java.io.FileOutputStream;
 
 import javax.imageio.ImageIO;
 
+import yaphyre.geometry.Point2D;
+
 import org.junit.After;
 import org.junit.Before;
 
 /**
- * Created with IntelliJ IDEA. User: michael Date: 28.10.12 Time: 21:05 To change this template use File | Settings |
- * File Templates.
+ * Base class for all test cases producing images for different sampling strategies.
+ * This class prepares a BufferedImage instance to paint on and provides convenience methods to work with it (like
+ * marking a certain point with a cross and saving the resulting image after the test has completed).
  */
-public class AbstractSamplerTest {
+public class SamplerTest {
 
 	private static final int IMAGE_WIDTH = 640;
 	private static final int IMAGE_HEIGHT = 640;
 	private static final int MARK_SIZE = 3;
-	private static final int MARK_COLOR = 0xffff0000; // ARGB: Red
+	private static final int MARK_COLOR = 0xffffffff; // ARGB: White
 
 	private BufferedImage image;
 
@@ -45,7 +48,7 @@ public class AbstractSamplerTest {
 
 	@Before
 	public void prepareImage() {
-		image = new BufferedImage(IMAGE_WIDTH, IMAGE_HEIGHT, BufferedImage.TYPE_INT_RGB);
+		image = new BufferedImage(IMAGE_WIDTH, IMAGE_HEIGHT, BufferedImage.TYPE_BYTE_BINARY);
 	}
 
 	@After
@@ -63,21 +66,28 @@ public class AbstractSamplerTest {
 
 	}
 
-	protected void addMark(final double u, final double v) {
-		int centerU = (int) (IMAGE_WIDTH * u);
-		int centerV = (int) (IMAGE_HEIGHT * v);
+	protected void addMark(final Point2D point) {
+		int centerU = (int) (IMAGE_WIDTH * point.getU());
+		int centerV = (int) (IMAGE_HEIGHT * point.getV());
 
 		int startU = centerU - MARK_SIZE / 2;
 		int startV = centerV - MARK_SIZE / 2;
 
-		for(int x = startU; x < startU + MARK_SIZE; x++) {
-			image.setRGB(min(max(0, x), IMAGE_WIDTH), centerV, MARK_COLOR);
+		final int maxHeight = IMAGE_HEIGHT - 1;
+		final int maxWidth = IMAGE_WIDTH - 1;
+
+		for(int u = startU; u < startU + MARK_SIZE; u++) {
+			image.setRGB(clipImageCoordinate(0, maxWidth, u), clipImageCoordinate(0, maxHeight, centerV), MARK_COLOR);
 		}
 
-		for(int y = startV; y < startV + MARK_SIZE; y++) {
-			image.setRGB(centerU, min(max(0, y), IMAGE_HEIGHT), MARK_COLOR);
+		for(int v = startV; v < startV + MARK_SIZE; v++) {
+			image.setRGB(clipImageCoordinate(0, maxWidth, centerU), clipImageCoordinate(0, maxHeight, v), MARK_COLOR);
 		}
 
+	}
+
+	private int clipImageCoordinate(int min, int max, int coordinate) {
+		return min(max(min, coordinate), max);
 	}
 
 	public BufferedImage getImage() {

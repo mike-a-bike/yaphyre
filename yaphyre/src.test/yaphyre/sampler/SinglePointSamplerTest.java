@@ -27,7 +27,7 @@ import org.junit.Test;
  * Created with IntelliJ IDEA. User: michael Date: 28.10.12 Time: 20:54 To change this template use File | Settings |
  * File Templates.
  */
-public class SinglePointSamplerTest extends AbstractSamplerTest {
+public class SinglePointSamplerTest extends SamplerTest {
 
 	private AbstractSampler sampler;
 
@@ -39,9 +39,18 @@ public class SinglePointSamplerTest extends AbstractSamplerTest {
 	@Test
 	public void testGetUnitSquareSamples() {
 		for(Point2D point : sampler.getUnitSquareSamples()) {
-			super.addMark(point.getU(), point.getV());
+			super.addMark(point);
 		}
 		super.setImageName("SingePointSamper_UnitSquareSample.png");
+	}
+
+	@Test
+	public void testGetUnitCircleSamples() {
+		for(Point2D sampledPoint : sampler.getUnitCircleSamples()) {
+			Point2D point = sampledPoint.mul(.5d).add(.5d, .5d);
+			super.addMark(point);
+		}
+		super.setImageName("SingePointSamper_UnitCircleSample.png");
 	}
 
 }

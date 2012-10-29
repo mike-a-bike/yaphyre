@@ -27,7 +27,7 @@ import org.junit.Test;
  * Created with IntelliJ IDEA. User: michael Date: 28.10.12 Time: 20:54 To change this template use File | Settings |
  * File Templates.
  */
-public class JitteredSamplerTest extends AbstractSamplerTest {
+public class JitteredSamplerTest extends SamplerTest {
 
 	private AbstractSampler sampler;
 
@@ -40,10 +40,22 @@ public class JitteredSamplerTest extends AbstractSamplerTest {
 	public void testGetUnitSquareSamples() {
 		for(int run = 0; run < 100; run++) {
 			for(Point2D point : sampler.getUnitSquareSamples()) {
-				super.addMark(point.getU(), point.getV());
+				super.addMark(point);
 			}
 		}
 		super.setImageName("JitteredSamper_UnitSquareSample.png");
+	}
+
+
+	@Test
+	public void testGetUnitCircleSamples() {
+		for(int run = 0; run < 100; run++) {
+			for(Point2D sampledPoint : sampler.getUnitCircleSamples()) {
+				Point2D point = sampledPoint.mul(.5d).add(.5d, .5d);
+				super.addMark(point);
+			}
+		}
+		super.setImageName("JitteredSamper_UnitCircleSample.png");
 	}
 
 }
