@@ -108,7 +108,7 @@ public abstract class AbstractSampler implements Sampler {
 	 */
 	@Override
 	public Iterable<Point2D> getUnitSquareSamples() {
-		int setIndex = (int) random.nextFloat() * NUMBER_OF_SAMPLE_SETS;
+		int setIndex = random.nextInt(NUMBER_OF_SAMPLE_SETS);
 		return sampleSets.get(setIndex);
 	}
 
@@ -119,8 +119,11 @@ public abstract class AbstractSampler implements Sampler {
 		List<Point2D> result = Lists.newArrayList();
 
 		for (Point2D p : getUnitSquareSamples()) {
-			Point2D sp = new Point2D(p.getU() * 2d - 1d, p.getV() * 2d - 2d);
+			// translate the point from [0, 1] to [-1, 1] space
+			Point2D sp = new Point2D(p.getU() * 2d - 1d, p.getV() * 2d - 1d);
 
+			// translate the u/v coordinates into r/phi coordinates describing a point on a disc
+			// handle the four quadrants accordingly
 			double r;
 			double phi;
 			if (sp.getU() > -sp.getV()) {
