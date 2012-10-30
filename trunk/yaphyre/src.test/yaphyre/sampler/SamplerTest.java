@@ -26,6 +26,8 @@ import java.io.FileOutputStream;
 import javax.imageio.ImageIO;
 
 import yaphyre.geometry.Point2D;
+import yaphyre.geometry.Point3D;
+import yaphyre.samplers.AbstractSampler;
 
 import org.junit.After;
 import org.junit.Before;
@@ -66,15 +68,15 @@ public class SamplerTest {
 
 	}
 
-	protected void addMark(final Point2D point) {
-		int centerU = (int) (IMAGE_WIDTH * point.getU());
-		int centerV = (int) (IMAGE_HEIGHT * point.getV());
+	protected void addMark(final BufferedImage image, final Point2D point) {
+		int centerU = (int) (image.getWidth() * point.getU());
+		int centerV = (int) (image.getHeight() * point.getV());
 
 		int startU = centerU - MARK_SIZE / 2;
 		int startV = centerV - MARK_SIZE / 2;
 
-		final int maxHeight = IMAGE_HEIGHT - 1;
-		final int maxWidth = IMAGE_WIDTH - 1;
+		final int maxHeight = image.getHeight() - 1;
+		final int maxWidth = image.getWidth() - 1;
 
 		for(int u = startU; u < startU + MARK_SIZE; u++) {
 			image.setRGB(clipImageCoordinate(0, maxWidth, u), clipImageCoordinate(0, maxHeight, centerV), MARK_COLOR);
@@ -90,15 +92,38 @@ public class SamplerTest {
 		return min(max(min, coordinate), max);
 	}
 
-	public BufferedImage getImage() {
+	protected BufferedImage getImage() {
 		return image;
 	}
 
-	public String getImageName() {
-		return imageName;
-	}
-
-	public void setImageName(final String imageName) {
+	protected void setImageName(final String imageName) {
 		this.imageName = imageName;
 	}
+
+	protected void createUnitSquareImage(final BufferedImage image, final AbstractSampler sampler, final int numberOfSets) {
+		for(int run = 0; run < numberOfSets; run++) {
+			for(Point2D point : sampler.getUnitSquareSamples()) {
+				addMark(image, point);
+			}
+		}
+	}
+
+	protected void createUnitCircleImage(final BufferedImage image, final AbstractSampler sampler, final int numberOfSets) {
+		for(int run = 0; run < numberOfSets; run++) {
+			for(Point2D sampledPoint : sampler.getUnitCircleSamples()) {
+				Point2D point = sampledPoint.mul(.5d).add(.5d, .5d);
+				addMark(image, point);
+			}
+		}
+	}
+
+	protected void createUnitSphereImageXY(final BufferedImage image, final AbstractSampler sampler, final int numberOfSets) {
+		for(int run = 0; run < numberOfSets; run++) {
+			for(Point3D sampledPoint : sampler.getSphereSamples()) {
+				Point2D point = new Point2D(sampledPoint.getX(), sampledPoint.getY()).mul(.5d).add(.5d, .5d);
+				addMark(image, point);
+			}
+		}
+	}
+
 }
