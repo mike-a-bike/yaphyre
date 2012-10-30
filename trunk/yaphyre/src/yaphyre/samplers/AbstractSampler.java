@@ -179,7 +179,7 @@ public abstract class AbstractSampler implements Sampler {
 			double r1 = p.getU();
 			double r2 = p.getV();
 			double phi = TWO_PI * r2;
-			double z = 1d - 2d - r1;
+			double z = 1d - 2d * r1;
 			double r = sqrt(1d - z * z);
 			double x = r * cos(phi);
 			double y = r * sin(phi);
