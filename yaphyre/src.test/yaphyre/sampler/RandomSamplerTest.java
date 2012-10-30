@@ -16,7 +16,6 @@
 
 package yaphyre.sampler;
 
-import yaphyre.geometry.Point2D;
 import yaphyre.samplers.AbstractSampler;
 import yaphyre.samplers.RandomSampler;
 
@@ -38,23 +37,20 @@ public class RandomSamplerTest extends SamplerTest {
 
 	@Test
 	public void testGetUnitSquareSamples() {
-		for(int run = 0; run < 1000; run++) {
-			for(Point2D point : sampler.getUnitSquareSamples()) {
-				super.addMark(point);
-			}
-		}
-		super.setImageName("RandomSamper_UnitSquareSample.png");
+		createUnitSquareImage(getImage(), sampler, 1000);
+		super.setImageName("RandomSampler_UnitSquareSample.png");
 	}
 
 	@Test
 	public void testGetUnitCircleSamples() {
-		for(int run = 0; run < 1000; run++) {
-			for(Point2D sampledPoint : sampler.getUnitCircleSamples()) {
-				Point2D point = sampledPoint.mul(.5d).add(.5d, .5d);
-				super.addMark(point);
-			}
-		}
-		super.setImageName("RandomSamper_UnitCircleSample.png");
+		createUnitCircleImage(getImage(), sampler, 1000);
+		super.setImageName("RandomSampler_UnitCircleSample.png");
+	}
+
+	@Test
+	public void testUnitSphereSamples() {
+		createUnitSphereImageXY(getImage(), sampler, 1000);
+		super.setImageName("RandomSampler_UnitSphereSample.png");
 	}
 
 }

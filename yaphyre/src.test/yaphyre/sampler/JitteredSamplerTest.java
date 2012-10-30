@@ -16,7 +16,6 @@
 
 package yaphyre.sampler;
 
-import yaphyre.geometry.Point2D;
 import yaphyre.samplers.AbstractSampler;
 import yaphyre.samplers.JitteredSampler;
 
@@ -38,24 +37,15 @@ public class JitteredSamplerTest extends SamplerTest {
 
 	@Test
 	public void testGetUnitSquareSamples() {
-		for(int run = 0; run < 100; run++) {
-			for(Point2D point : sampler.getUnitSquareSamples()) {
-				super.addMark(point);
-			}
-		}
-		super.setImageName("JitteredSamper_UnitSquareSample.png");
+		createUnitSquareImage(getImage(), sampler, 100);
+		setImageName("JitteredSampler_UnitSquareSample.png");
 	}
 
 
 	@Test
 	public void testGetUnitCircleSamples() {
-		for(int run = 0; run < 100; run++) {
-			for(Point2D sampledPoint : sampler.getUnitCircleSamples()) {
-				Point2D point = sampledPoint.mul(.5d).add(.5d, .5d);
-				super.addMark(point);
-			}
-		}
-		super.setImageName("JitteredSamper_UnitCircleSample.png");
+		createUnitCircleImage(getImage(), sampler, 100);
+		setImageName("JitteredSampler_UnitCircleSample.png");
 	}
 
 }

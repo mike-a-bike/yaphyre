@@ -16,7 +16,6 @@
 
 package yaphyre.sampler;
 
-import yaphyre.geometry.Point2D;
 import yaphyre.samplers.AbstractSampler;
 import yaphyre.samplers.SinglePointSampler;
 
@@ -38,19 +37,14 @@ public class SinglePointSamplerTest extends SamplerTest {
 
 	@Test
 	public void testGetUnitSquareSamples() {
-		for(Point2D point : sampler.getUnitSquareSamples()) {
-			super.addMark(point);
-		}
-		super.setImageName("SingePointSamper_UnitSquareSample.png");
+		createUnitSquareImage(getImage(), sampler, 1);
+		super.setImageName("SingePointSampler_UnitSquareSample.png");
 	}
 
 	@Test
 	public void testGetUnitCircleSamples() {
-		for(Point2D sampledPoint : sampler.getUnitCircleSamples()) {
-			Point2D point = sampledPoint.mul(.5d).add(.5d, .5d);
-			super.addMark(point);
-		}
-		super.setImageName("SingePointSamper_UnitCircleSample.png");
+		createUnitCircleImage(getImage(), sampler, 1);
+		super.setImageName("SingePointSampler_UnitCircleSample.png");
 	}
 
 }

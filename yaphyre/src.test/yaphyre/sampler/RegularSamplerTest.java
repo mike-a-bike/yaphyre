@@ -17,11 +17,11 @@
 package yaphyre.sampler;
 
 import yaphyre.geometry.Point2D;
+import yaphyre.geometry.Point3D;
 import yaphyre.samplers.AbstractSampler;
 import yaphyre.samplers.RegularSampler;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -34,29 +34,51 @@ public class RegularSamplerTest extends SamplerTest {
 
 	@Before
 	public void setupSampler() {
-		sampler = new RegularSampler(64);
+		sampler = new RegularSampler(4096);
 	}
 
 	@Test
 	public void testGetUnitSquareSamples() {
 		for(Point2D point : sampler.getUnitSquareSamples()) {
-			super.addMark(point);
+			super.addMark(getImage(), point);
 		}
-		super.setImageName("RegularSamper_UnitSquareSample.png");
+		super.setImageName("RegularSampler_UnitSquareSample.png");
 	}
 
 	@Test
 	public void testGetUnitCircleSamples() {
 		for(Point2D sampledPoint : sampler.getUnitCircleSamples()) {
 			Point2D point = sampledPoint.mul(.5d).add(.5d, .5d);
-			super.addMark(point);
+			super.addMark(getImage(), point);
 		}
-		super.setImageName("RegularSamper_UnitCircleSample.png");
+		super.setImageName("RegularSampler_UnitCircleSample.png");
 	}
 
 	@Test
-	@Ignore
+	public void testHemisphereZeroSamples() {
+		for(Point3D sampledPoint : sampler.getHemisphereSamples(0d)) {
+			Point2D point = new Point2D(sampledPoint.getX(), sampledPoint.getZ()).mul(.5d).add(.5d, .5d);
+			super.addMark(getImage(), point);
+		}
+		super.setImageName("RegularSampler_HemisphereZeroSample.png");
+	}
+
+	@Test
+	public void testHemisphereOneSamples() {
+		for(Point3D sampledPoint : sampler.getHemisphereSamples(1d)) {
+			Point2D point = new Point2D(sampledPoint.getX(), sampledPoint.getZ()).mul(.5d).add(.5d, .5d);
+			super.addMark(getImage(), point);
+		}
+		super.setImageName("RegularSampler_HemisphereOneSample.png");
+	}
+
+	@Test
 	public void testUnitSphereSamples() {
+		for(Point3D sampledPoint : sampler.getSphereSamples()) {
+			Point2D point = new Point2D(sampledPoint.getX(), sampledPoint.getY()).mul(.5d).add(.5d, .5d);
+			super.addMark(getImage(), point);
+		}
+		super.setImageName("RegularSampler_UnitSphereSample.png");
 	}
 
 }
