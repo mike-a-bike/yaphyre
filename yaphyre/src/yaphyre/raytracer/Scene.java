@@ -40,50 +40,48 @@ public class Scene implements Serializable {
 	private final List<Camera> cameras;
 
 	public Scene() {
-		this.shapes = Lists.newArrayList();
-		this.lightsources = Lists.newArrayList();
-		this.cameras = Lists.newArrayList();
+		shapes = Lists.newArrayList();
+		lightsources = Lists.newArrayList();
+		cameras = Lists.newArrayList();
 	}
 
 	public void addCamera(Camera camera) {
-		this.cameras.add(camera);
+		cameras.add(camera);
 	}
 
 	public List<Camera> getCameras() {
-		return Collections.unmodifiableList(this.cameras);
+		return Collections.unmodifiableList(cameras);
 	}
 
 	public void addShape(Shape shape) {
-		this.shapes.add(shape);
+		shapes.add(shape);
 	}
 
 	public List<Shape> getShapes() {
-		return Collections.unmodifiableList(this.shapes);
+		return Collections.unmodifiableList(shapes);
 	}
 
 	public void addLightsource(Lightsource lightsource) {
-		this.lightsources.add(lightsource);
+		lightsources.add(lightsource);
 	}
 
 	public List<Lightsource> getLightsources() {
-		return Collections.unmodifiableList(this.lightsources);
+		return Collections.unmodifiableList(lightsources);
 	}
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(this.getClass()).add("cameras", this.cameras.size()).add("shapes",
-				this.shapes.size()).add("lightsources", this.lightsources.size()).toString();
+		return Objects.toStringHelper(getClass()).add("cameras", cameras.size()).add("shapes", shapes.size()).add("lightsources", lightsources
+				.size()).toString();
 	}
 
 	public CollisionInformation getCollidingShape(Ray ray, double maxDistance, boolean onlyShadowShapes) {
 
-		CollisionInformation result = null;
-
 		double nearestCollisionDistance = maxDistance;
 		Shape nearestCollisionShape = null;
 
-		for (Shape shape : this.getShapes()) {
-			if (onlyShadowShapes && shape.throwsShadow() == false) {
+		for (Shape shape : getShapes()) {
+			if (onlyShadowShapes && !shape.throwsShadow()) {
 				continue;
 			}
 			double distance = shape.getIntersectDistance(ray);
@@ -93,6 +91,7 @@ public class Scene implements Serializable {
 			}
 		}
 
+		CollisionInformation result = null;
 		if (nearestCollisionDistance < maxDistance) {
 			result = new CollisionInformation(ray, nearestCollisionShape, nearestCollisionDistance, ray.getPoint(nearestCollisionDistance));
 		}

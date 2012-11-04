@@ -107,6 +107,7 @@ public class BoundingBoxTest {
 		assertTrue(new BoundingBox(new Point3D(-1, -1, -1), new Point3D(1, 1, 1)).equals(box));
 	}
 
+	@SuppressWarnings("ObjectEqualsNull")
 	@Test
 	public void testEquals() {
 		System.out.println("testEquals");

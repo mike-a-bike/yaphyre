@@ -28,6 +28,7 @@ import com.google.common.base.Objects;
  * @author $LastChangedBy: mike0041@gmail.com $
  * @version $Revision: 47 $
  */
+@SuppressWarnings("ProtectedField")
 public class Point2D implements Serializable {
 
 	private static final long serialVersionUID = 3894290074952334962L;

@@ -110,9 +110,7 @@ public class SphereTest {
 		Ray crookedRay = new Ray(Point3D.ORIGIN, new Vector3D(1, 0.25, 0.25).normalize());
 		Shape testSphere = createTestSphere();
 
-		double distance;
-
-		distance = testSphere.getIntersectDistance(nonIntersectingRay);
+		double distance = testSphere.getIntersectDistance(nonIntersectingRay);
 		System.out.println(testSphere + " intersects with " + nonIntersectingRay + " at a distance of " + distance);
 		assertEquals(Shape.NO_INTERSECTION, distance, 0);
 
@@ -133,9 +131,7 @@ public class SphereTest {
 
 		Shape testSphere = createTestSphere();
 
-		Point3D intersectionPoint;
-
-		intersectionPoint = testSphere.getIntersectionPoint(nonIntersectingRay);
+		Point3D intersectionPoint = testSphere.getIntersectionPoint(nonIntersectingRay);
 		System.out.println(testSphere + " intersects with " + nonIntersectingRay + " at " + intersectionPoint);
 		assertNull(intersectionPoint);
 
@@ -164,10 +160,8 @@ public class SphereTest {
 		Point3D p1 = new Point3D(1, 0, 0);
 		Point3D p2 = new Point3D(3, 0, 0);
 		Point3D p3 = new Point3D(1, 2, 3);
-		Point3D p;
-		Normal3D n;
 
-		n = testSphere.getNormal(p1);
+		Normal3D n = testSphere.getNormal(p1);
 		System.out.println("Normal of " + testSphere + " at " + p1 + " = " + n);
 		assertNotNull(n);
 		assertEquals(new Normal3D(-1, 0, 0), n);
@@ -181,7 +175,7 @@ public class SphereTest {
 		System.out.println("Normal of " + testSphere + " at " + p3 + " = " + n);
 		assertNotNull(n);
 
-		p = new Point3D(0, 0, -1);
+		Point3D p = new Point3D(0, 0, -1);
 		n = unitSphere.getNormal(p);
 		System.out.println("Normal of " + unitSphere + " at " + p + " = " + n);
 		assertNotNull(n);
@@ -243,7 +237,7 @@ public class SphereTest {
 
 		@Override
 		public int hashCode() {
-			return this.getClass().hashCode();
+			return getClass().hashCode();
 		}
 
 		@Override

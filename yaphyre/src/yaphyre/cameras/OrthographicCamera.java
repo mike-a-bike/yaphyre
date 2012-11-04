@@ -34,7 +34,7 @@ import com.google.common.collect.Lists;
  * @author $LastChangedBy: mike0041@gmail.com $
  * @version $Revision: 42 $
  */
-public class OrthographicCamera extends AbstractCamera implements Camera {
+public class OrthographicCamera extends AbstractCamera {
 
 	private final OrthographicCameraSettings cameraSettings;
 

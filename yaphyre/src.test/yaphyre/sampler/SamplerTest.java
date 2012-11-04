@@ -57,9 +57,8 @@ public class SamplerTest {
 	public void saveImage() {
 		checkState(imageName != null && !imageName.isEmpty());
 
-		FileOutputStream outputStream = null;
 		try {
-			outputStream = new FileOutputStream(imageName);
+			FileOutputStream outputStream = new FileOutputStream(imageName);
 			ImageIO.write(image, "png", outputStream);
 			outputStream.close();
 		} catch (Exception e) {

@@ -34,6 +34,7 @@ import org.apache.commons.math.linear.RealMatrix;
  * @author $LastChangedBy$
  * @version $Revision$
  */
+@SuppressWarnings("ProtectedField")
 public class Matrix implements Serializable {
 
 	private static final long serialVersionUID = 1125712454842709925L;
@@ -74,14 +75,14 @@ public class Matrix implements Serializable {
 
 	@Override
 	public String toString() {
-		return Arrays.deepToString(this.m);
+		return Arrays.deepToString(m);
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Arrays.hashCode(this.m);
+		result = prime * result + Arrays.hashCode(m);
 		return result;
 	}
 
@@ -93,20 +94,20 @@ public class Matrix implements Serializable {
 		if (obj == null) {
 			return false;
 		}
-		if (this.getClass() != obj.getClass()) {
+		if (getClass() != obj.getClass()) {
 			return false;
 		}
 		Matrix other = (Matrix) obj;
-		if (this.m.length != other.m.length) {
+		if (m.length != other.m.length) {
 			return false;
 		}
 		for (int row = 0; row < DIMENSION; row++) {
-			if (this.m[row].length != other.m[row].length) {
+			if (m[row].length != other.m[row].length) {
 				return false;
 			}
 			for (int col = 0; col < DIMENSION; col++) {
 				// compare with tolerance of 1e-10...
-				if (!equalsWithTolerance(this.m[row][col], other.m[row][col])) {
+				if (!equalsWithTolerance(m[row][col], other.m[row][col])) {
 					return false;
 				}
 			}
@@ -115,14 +116,14 @@ public class Matrix implements Serializable {
 	}
 
 	public double get(int row, int col) {
-		return this.m[row][col];
+		return m[row][col];
 	}
 
 	public Matrix add(Matrix other) {
 		Matrix result = new Matrix();
 		for (int row = 0; row < DIMENSION; row++) {
 			for (int col = 0; col < DIMENSION; col++) {
-				result.m[row][col] = this.m[row][col] + other.m[row][col];
+				result.m[row][col] = m[row][col] + other.m[row][col];
 			}
 		}
 		return result;
@@ -132,7 +133,7 @@ public class Matrix implements Serializable {
 		Matrix result = new Matrix();
 		for (int row = 0; row < DIMENSION; row++) {
 			for (int col = 0; col < DIMENSION; col++) {
-				result.m[row][col] = this.m[row][col] * s;
+				result.m[row][col] = m[row][col] * s;
 			}
 		}
 		return result;
@@ -147,8 +148,8 @@ public class Matrix implements Serializable {
 
 		for (int i = 0; i < DIMENSION; i++) {
 			for (int j = 0; j < DIMENSION; j++) {
-				result.m[i][j] = this.m[i][0] * M.m[0][j] + this.m[i][1] * M.m[1][j] + this.m[i][2] * M.m[2][j]
-						+ this.m[i][3] * M.m[3][j];
+				result.m[i][j] = m[i][0] * M.m[0][j] + m[i][1] * M.m[1][j] + m[i][2] * M.m[2][j]
+						+ m[i][3] * M.m[3][j];
 			}
 		}
 
@@ -158,57 +159,57 @@ public class Matrix implements Serializable {
 	double[] mul(double[] vect) {
 		double[] result = new double[DIMENSION];
 
-		result[0] = this.m[0][0] * vect[0] + this.m[0][1] * vect[1] + this.m[0][2] * vect[2] + this.m[0][3] * vect[3];
-		result[1] = this.m[1][0] * vect[0] + this.m[1][1] * vect[1] + this.m[1][2] * vect[2] + this.m[1][3] * vect[3];
-		result[2] = this.m[2][0] * vect[0] + this.m[2][1] * vect[1] + this.m[2][2] * vect[2] + this.m[2][3] * vect[3];
-		result[3] = this.m[3][0] * vect[0] + this.m[3][1] * vect[1] + this.m[3][2] * vect[2] + this.m[3][3] * vect[3];
+		result[0] = m[0][0] * vect[0] + m[0][1] * vect[1] + m[0][2] * vect[2] + m[0][3] * vect[3];
+		result[1] = m[1][0] * vect[0] + m[1][1] * vect[1] + m[1][2] * vect[2] + m[1][3] * vect[3];
+		result[2] = m[2][0] * vect[0] + m[2][1] * vect[1] + m[2][2] * vect[2] + m[2][3] * vect[3];
+		result[3] = m[3][0] * vect[0] + m[3][1] * vect[1] + m[3][2] * vect[2] + m[3][3] * vect[3];
 
 		return result;
 	}
 
 	public Matrix transpose() {
-		if (this.transposed == null) {
-			this.transposed = new Matrix();
+		if (transposed == null) {
+			transposed = new Matrix();
 			for (int row = 0; row < DIMENSION; row++) {
 				for (int col = 0; col < DIMENSION; col++) {
-					this.transposed.m[row][col] = this.m[col][row];
+					transposed.m[row][col] = m[col][row];
 				}
 			}
 		}
-		return this.transposed;
+		return transposed;
 	}
 
 	public double getDeterminat() {
-		if (this.inverse == null && this.invertible) {
-			this.calculateInternals();
+		if (inverse == null && invertible) {
+			calculateInternals();
 		}
-		return this.determinant;
+		return determinant;
 	}
 
 	public Matrix inverse() {
-		if (this.inverse == null && this.invertible) {
-			this.calculateInternals();
+		if (inverse == null && invertible) {
+			calculateInternals();
 		}
-		return this.inverse;
+		return inverse;
 	}
 
 	public boolean isInvertible() {
-		if (this.inverse == null && this.invertible) {
-			this.calculateInternals();
+		if (inverse == null && invertible) {
+			calculateInternals();
 		}
-		return this.invertible;
+		return invertible;
 	}
 
 	private void calculateInternals() {
 		try {
-			RealMatrix rm = MatrixUtils.createRealMatrix(this.m);
+			RealMatrix rm = MatrixUtils.createRealMatrix(m);
 			LUDecomposition decomp = new LUDecompositionImpl(rm);
-			this.determinant = decomp.getDeterminant();
-			this.inverse = new Matrix(decomp.getSolver().getInverse().getData());
-			this.invertible = true;
+			determinant = decomp.getDeterminant();
+			inverse = new Matrix(decomp.getSolver().getInverse().getData());
+			invertible = true;
 		} catch (InvalidMatrixException e) {
-			this.inverse = null;
-			this.invertible = false;
+			inverse = null;
+			invertible = false;
 		}
 	}
 

@@ -25,6 +25,9 @@ public class RenderStatistics {
 
 	private static int cancelledRays = 0;
 
+	private RenderStatistics() {
+	}
+
 	public static int getEyeRays() {
 		return eyeRays;
 	}

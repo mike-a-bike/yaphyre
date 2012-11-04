@@ -28,9 +28,7 @@ public class RayTest {
 		Point3D origin = new Point3D(1, 1, 1);
 		Vector3D direction = Normal3D.NORMAL_X.asVector();
 
-		Ray r;
-
-		r = new Ray(origin, direction);
+		Ray r = new Ray(origin, direction);
 		assertNotNull(r);
 		assertNotNull(r.getOrigin());
 		assertNotNull(r.getDirection());
@@ -54,9 +52,8 @@ public class RayTest {
 	public void testGetDirection() {
 		Point3D origin = new Point3D(1, 1, 1);
 		Vector3D direction = Normal3D.NORMAL_X.asVector();
-		Ray r;
 
-		r = new Ray(origin, direction);
+		Ray r = new Ray(origin, direction);
 		assertNotNull(r);
 		assertNotNull(r.getDirection());
 		assertEquals(Normal3D.NORMAL_X.asVector(), r.getDirection());

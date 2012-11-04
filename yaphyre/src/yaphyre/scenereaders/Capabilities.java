@@ -21,5 +21,5 @@ package yaphyre.scenereaders;
  * File Templates.
  */
 public enum Capabilities {
-	Shape, Light, Camera, Material,  Shader, Film;
+	Shape, Light, Camera, Material,  Shader, Film
 }

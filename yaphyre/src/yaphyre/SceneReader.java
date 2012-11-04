@@ -43,7 +43,10 @@ import yaphyre.util.Color;
  */
 public class SceneReader {
 
-	public static final Scene createSceneWithSpheres() {
+	private SceneReader() {
+	}
+
+	public static Scene createSceneWithSpheres() {
 
 		double ambientLight = 0.1;
 
@@ -51,19 +54,15 @@ public class SceneReader {
 		double sphere1Radius = 1d;
 
 		Point3D sphere2Center = new Point3D(2.5, 1.5, 1.5);
-		double sphere2Radius = 0.5;
 
 		Transformation pointlight1Transformation = Transformation.translate(-1, 5, 0);
 		Color pointlight1Color = new Color(java.awt.Color.RED);
-		double pointlight1Intensity = 10d;
 
 		Transformation pointlight2Transformation = Transformation.translate(1, 5, 2);
 		Color pointlight2Color = new Color(java.awt.Color.GREEN);
-		double pointlight2Intensity = 10d;
 
 		Transformation pointlight3Transformation = Transformation.translate(1, 5, -2);
 		Color pointlight3Color = new Color(java.awt.Color.BLUE);
-		double pointlight3Intensity = 10d;
 
 		Material diffuseMaterial = MaterialBuilder.start().ambient(ambientLight).diffuse(0.8).build();
 		Material mirrorMaterial = MaterialBuilder.start()
@@ -84,11 +83,15 @@ public class SceneReader {
 		Scene simpleScene = new Scene();
 
 		simpleScene.addShape(Sphere.createSphere(sphere1Center, sphere1Radius, true, whiteShader));
+		double sphere2Radius = 0.5;
 		simpleScene.addShape(Sphere.createSphere(sphere2Center, sphere2Radius, true, whiteMirror));
 		simpleScene.addShape(new Plane(Transformation.IDENTITY, whiteMirror, true));
 
+		double pointlight1Intensity = 10d;
 		simpleScene.addLightsource(new Pointlight(pointlight1Transformation, pointlight1Color, pointlight1Intensity));
+		double pointlight2Intensity = 10d;
 		simpleScene.addLightsource(new Pointlight(pointlight2Transformation, pointlight2Color, pointlight2Intensity));
+		double pointlight3Intensity = 10d;
 		simpleScene.addLightsource(new Pointlight(pointlight3Transformation, pointlight3Color, pointlight3Intensity));
 
 		simpleScene.addCamera(createDefaultCamera());
@@ -96,7 +99,7 @@ public class SceneReader {
 		return simpleScene;
 	}
 
-	public static final Scene createSimpleScene() {
+	public static Scene createSimpleScene() {
 
 		double ambientLight = 0.075d;
 
@@ -144,7 +147,7 @@ public class SceneReader {
 		return scene;
 	}
 
-	public static final Scene createDOFScene() {
+	public static Scene createDOFScene() {
 
 		final double ambientLight = 0.25d;
 
@@ -181,7 +184,7 @@ public class SceneReader {
 	 *
 	 * @return A very simple {@link Scene} containing one light, one plane and one sphere.
 	 */
-	public static final Scene createFirstLight() {
+	public static Scene createFirstLight() {
 		double ambientLight = 0.1d;
 
 		Material diffuseMaterial = MaterialBuilder.start().ambient(ambientLight).diffuse(0.8d).build();

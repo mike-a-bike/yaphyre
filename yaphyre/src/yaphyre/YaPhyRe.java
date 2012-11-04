@@ -73,7 +73,7 @@ public class YaPhyRe {
 		LOGGER.info("Starting renderer");
 
 		LOGGER.info("Parsing command line");
-		CommandLine commandLine = null;
+		CommandLine commandLine;
 		try {
 			commandLine = YaPhyRe.parseCommandLine(args);
 		} catch (ParseException e) {

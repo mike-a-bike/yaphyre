@@ -282,23 +282,23 @@ public class Transformation implements Serializable {
 	 */
 	public Transformation(Matrix matrix, Matrix inverse) {
 		this.matrix = matrix;
-		this.matrixInv = inverse;
+		matrixInv = inverse;
 		this.inverse = null;
-		this.transposed = null;
+		transposed = null;
 	}
 
 	/** Simple implementation representing the main transformation matrix. */
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(this.getClass()).add("matrix", this.matrix).toString();
+		return Objects.toStringHelper(getClass()).add("matrix", matrix).toString();
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((this.matrix == null) ? 0 : this.matrix.hashCode());
-		result = prime * result + ((this.matrixInv == null) ? 0 : this.matrixInv.hashCode());
+		result = prime * result + ((matrix == null) ? 0 : matrix.hashCode());
+		result = prime * result + ((matrixInv == null) ? 0 : matrixInv.hashCode());
 		return result;
 	}
 
@@ -314,10 +314,10 @@ public class Transformation implements Serializable {
 			return false;
 		}
 		Transformation other = (Transformation) obj;
-		if (!this.matrix.equals(other.matrix)) {
+		if (!matrix.equals(other.matrix)) {
 			return false;
 		}
-		if (!this.matrixInv.equals(other.matrixInv)) {
+		if (!matrixInv.equals(other.matrixInv)) {
 			return false;
 		}
 		return true;
@@ -329,10 +329,10 @@ public class Transformation implements Serializable {
 	 * @return A new instance representing the inverse operation.
 	 */
 	public Transformation inverse() {
-		if (this.inverse == null) {
-			this.inverse = new Transformation(this.matrixInv, this.matrix);
+		if (inverse == null) {
+			inverse = new Transformation(matrixInv, matrix);
 		}
-		return this.inverse;
+		return inverse;
 	}
 
 	/**
@@ -341,10 +341,10 @@ public class Transformation implements Serializable {
 	 * @return A new instance representing the transposed operation.
 	 */
 	public Transformation transpose() {
-		if (this.transposed == null) {
-			this.transposed = new Transformation(this.matrix.transpose(), this.matrixInv.transpose());
+		if (transposed == null) {
+			transposed = new Transformation(matrix.transpose(), matrixInv.transpose());
 		}
-		return this.transposed;
+		return transposed;
 	}
 
 	/**
@@ -371,7 +371,7 @@ public class Transformation implements Serializable {
 	 */
 	public Point3D transform(Point3D p) {
 		double[] homogenousPoint = new double[] { p.x, p.y, p.z, 1 };
-		double[] result = this.matrix.mul(homogenousPoint);
+		double[] result = matrix.mul(homogenousPoint);
 		return new Point3D(div(result[0], result[3]), div(result[1], result[3]), div(result[2], result[3]));
 	}
 
@@ -386,7 +386,7 @@ public class Transformation implements Serializable {
 	 */
 	public Point2D transform(Point2D p) {
 		double[] homogenousPoint = new double[] { p.u, p.v, 0, 1 };
-		double[] result = this.matrix.mul(homogenousPoint);
+		double[] result = matrix.mul(homogenousPoint);
 		return new Point2D(div(result[0], result[3]), div(result[1], result[3]));
 	}
 
@@ -401,7 +401,7 @@ public class Transformation implements Serializable {
 	 */
 	public Vector3D transform(Vector3D v) {
 		double[] homogenousVector = new double[] { v.x, v.y, v.z, 0 };
-		double[] result = this.matrix.mul(homogenousVector);
+		double[] result = matrix.mul(homogenousVector);
 		return new Vector3D(result[0], result[1], result[2]);
 	}
 
@@ -421,7 +421,7 @@ public class Transformation implements Serializable {
 	 */
 	public Normal3D transform(Normal3D n) {
 		double[] homogenousNormal = new double[] { n.x, n.y, n.z, 0 };
-		double[] result = this.matrixInv.transpose().mul(homogenousNormal);
+		double[] result = matrixInv.transpose().mul(homogenousNormal);
 		return new Normal3D(result[0], result[1], result[2]);
 	}
 
@@ -437,18 +437,18 @@ public class Transformation implements Serializable {
 	 */
 
 	public Ray transform(Ray r) {
-		Point3D newOrigin = this.transform(r.getOrigin());
-		Vector3D newDirection = this.transform(r.getDirection());
+		Point3D newOrigin = transform(r.getOrigin());
+		Vector3D newDirection = transform(r.getDirection());
 		return new Ray(newOrigin, newDirection, r.getMint(), r.getMaxt());
 	}
 
 	// TODO implement a transformation of BoundingBoxes
 
 	public Matrix getMatrix() {
-		return this.matrix;
+		return matrix;
 	}
 
 	public Matrix getInverseMatrix() {
-		return this.matrixInv;
+		return matrixInv;
 	}
 }

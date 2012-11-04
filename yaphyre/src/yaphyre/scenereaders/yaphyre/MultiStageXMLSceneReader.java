@@ -241,8 +241,7 @@ public class MultiStageXMLSceneReader implements SceneReaders {
 		}
 
 		private static List<EntityHandler<IdentifiableObject<Shape>>> initComplexShapesHandlers() {
-			List<EntityHandler<IdentifiableObject<Shape>>> result = Lists.newArrayList();
-			return result;
+			return Lists.newArrayList();
 		}
 
 		private static List<EntityHandler<IdentifiableObject<Lightsource>>> initLightHandlers() {
