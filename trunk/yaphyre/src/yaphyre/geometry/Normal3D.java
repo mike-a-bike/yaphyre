@@ -25,6 +25,7 @@ import java.text.MessageFormat;
  * @author $LastChangedBy: mike0041@gmail.com $
  * @version $Revision: 37 $
  */
+@SuppressWarnings("PackageVisibleField")
 public class Normal3D implements Serializable {
 
 	private static final long serialVersionUID = 5210137820413107110L;
@@ -45,19 +46,18 @@ public class Normal3D implements Serializable {
 
 	@Override
 	public String toString() {
-		return MessageFormat.format("|{0,number,0.000}, {1,number,0.000}, {2,number,0.000}|", this.x, this.y, this.z);
+		return MessageFormat.format("|{0,number,0.000}, {1,number,0.000}, {2,number,0.000}|", x, y, z);
 	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
+		long temp = Double.doubleToLongBits(x);
 		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(this.x);
+		final int prime = 31;
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(this.y);
+		temp = Double.doubleToLongBits(y);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(this.z);
+		temp = Double.doubleToLongBits(z);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
@@ -87,46 +87,46 @@ public class Normal3D implements Serializable {
 	}
 
 	public Vector3D asVector() {
-		return new Vector3D(this.x, this.y, this.z);
+		return new Vector3D(x, y, z);
 	}
 
 	public Point3D asPoint() {
-		return new Point3D(this.x, this.y, this.z);
+		return new Point3D(x, y, z);
 	}
 
 	public Normal3D neg() {
-		return new Normal3D(-this.x, -this.y, -this.z);
+		return new Normal3D(-x, -y, -z);
 	}
 
 	public Normal3D add(Normal3D n) {
-		return new Normal3D(this.x + n.x, this.y + n.y, this.z + n.z);
+		return new Normal3D(x + n.x, y + n.y, z + n.z);
 	}
 
 	public double dot(Vector3D v) {
-		return this.x * v.x + this.y * v.y + this.z * v.z;
+		return x * v.x + y * v.y + z * v.z;
 	}
 
 	public Normal3D scale(double s) {
-		return new Normal3D(this.x * s, this.y * s, this.z * s);
+		return new Normal3D(x * s, y * s, z * s);
 	}
 
 	public Vector3D add(Vector3D v) {
-		return new Vector3D(this.x + v.x, this.y + v.y, this.z + v.z);
+		return new Vector3D(x + v.x, y + v.y, z + v.z);
 	}
 
 	public double getX() {
-		return this.x;
+		return x;
 	}
 
 	public double getY() {
-		return this.y;
+		return y;
 	}
 
 	public double getZ() {
-		return this.z;
+		return z;
 	}
 
 	public Normal3D faceForward(final Ray collisionRay) {
-		return (this.asVector().dot(collisionRay.getDirection()) >= 0)? this : this.neg();
+		return (asVector().dot(collisionRay.getDirection()) >= 0)? this : neg();
 	}
 }

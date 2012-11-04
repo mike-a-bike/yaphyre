@@ -119,9 +119,8 @@ public class MatrixTest {
 
 	@Test
 	public void testIsInvertible() {
-		Matrix M;
 
-		M = new Matrix(1, 7, 4, 2, 0, 9, 2, 5, 2, 2, 3, 2, 9, 9, 9, 9);
+		Matrix M = new Matrix(1, 7, 4, 2, 0, 9, 2, 5, 2, 2, 3, 2, 9, 9, 9, 9);
 		assertTrue(M.isInvertible());
 		assertNotNull(M.inverse());
 		assertFalse(Math.abs(M.getDeterminat()) < MathUtils.EPSILON);

@@ -25,31 +25,24 @@ public class TransformationTest {
 
 	@Test
 	public void testLookAtTransformation() {
-		Point3D eye;
-		Point3D lookAt;
-		Vector3D up;
 
-		eye = Point3D.ORIGIN;
-		lookAt = new Point3D(0, 0, 1);
-		up = Vector3D.Y;
-		Transformation result;
+		Point3D eye = Point3D.ORIGIN;
+		Point3D lookAt = new Point3D(0, 0, 1);
+		Vector3D up = Vector3D.Y;
 
-		result = Transformation.lookAt(eye, lookAt, up);
+		Transformation result = Transformation.lookAt(eye, lookAt, up);
 
 		assertEquals(Matrix.IDENTITY, result.getMatrix());
 	}
 
 	@Test
 	public void testRasterTransformation() {
-		Transformation rasterTransformation;
-		Point2D p;
-		Point2D pt;
 
-		rasterTransformation = Transformation.rasterToUnitSquare(640, 480);
+		Transformation rasterTransformation = Transformation.rasterToUnitSquare(640, 480);
 		assertNotNull(rasterTransformation);
 
-		p = new Point2D(0d, 0d);
-		pt = rasterTransformation.transform(p);
+		Point2D p = new Point2D(0d, 0d);
+		Point2D pt = rasterTransformation.transform(p);
 
 		assertEquals(new Point2D(0d, 0d), pt);
 
@@ -87,13 +80,9 @@ public class TransformationTest {
 		Transformation trans2 = Transformation.translate(-0.5d, -0.5d, 0);
 		Transformation transCombined = trans2.mul(trans1);
 
-		Point2D p;
-		Point2D pt1;
-		Point2D pt2;
-
-		p = new Point2D(0d, 0d);
-		pt1 = transCombined.transform(p);
-		pt2 = trans2.transform(trans1.transform(p));
+		Point2D p = new Point2D(0d, 0d);
+		Point2D pt1 = transCombined.transform(p);
+		Point2D pt2 = trans2.transform(trans1.transform(p));
 
 		assertEquals(pt1, pt2);
 
@@ -112,13 +101,10 @@ public class TransformationTest {
 
 	@Test
 	public void testTransformVector() {
-		Vector3D v;
-		Vector3D r;
-		Transformation t;
 
-		v = Vector3D.X;
-		t = Transformation.rotateZ(90);
-		r = t.transform(v);
+		Vector3D v = Vector3D.X;
+		Transformation t = Transformation.rotateZ(90);
+		Vector3D r = t.transform(v);
 		assertEquals(Vector3D.Y, r);
 		r = t.inverse().transform(r);
 		assertEquals(v, r);
@@ -139,13 +125,10 @@ public class TransformationTest {
 
 	@Test
 	public void testTransfromPoint() {
-		Point3D p1;
-		Point3D p2;
-		Transformation t;
 
-		p1 = new Point3D(1, 0, 0);
-		p2 = new Point3D(10, 1, 1);
-		t = Transformation.translate(9, 1, 1);
+		Point3D p1 = new Point3D(1, 0, 0);
+		Point3D p2 = new Point3D(10, 1, 1);
+		Transformation t = Transformation.translate(9, 1, 1);
 		assertEquals(p2, t.transform(p1));
 
 		p1 = new Point3D(1, 1, 0);
@@ -157,13 +140,10 @@ public class TransformationTest {
 
 	@Test
 	public void testTransformNormal() {
-		Normal3D n1;
-		Normal3D n2;
-		Transformation t;
 
-		n1 = new Normal3D(0.5, 0.5, 0);
-		n2 = new Normal3D(0.25, 0.5, 0);
-		t = Transformation.scale(2, 1, 1);
+		Normal3D n1 = new Normal3D(0.5, 0.5, 0);
+		Normal3D n2 = new Normal3D(0.25, 0.5, 0);
+		Transformation t = Transformation.scale(2, 1, 1);
 		assertEquals(n2, t.transform(n1));
 
 		n1 = new Normal3D(1, 1, 0);
@@ -180,14 +160,10 @@ public class TransformationTest {
 	@Test
 	public void testRotate() {
 
-		Vector3D v;
-		Vector3D r;
-		Transformation t;
+		Transformation t = Transformation.rotate(120, new Vector3D(1, 1, 1));
 
-		t = Transformation.rotate(120, new Vector3D(1, 1, 1));
-
-		v = Vector3D.X;
-		r = t.transform(v);
+		Vector3D v = Vector3D.X;
+		Vector3D r = t.transform(v);
 		assertEquals(Vector3D.Y, r);
 
 		r = t.transform(r);

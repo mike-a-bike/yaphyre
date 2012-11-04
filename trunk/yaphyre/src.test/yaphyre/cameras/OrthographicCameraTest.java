@@ -31,17 +31,8 @@ public class OrthographicCameraTest {
 
 	@Test
 	public void testGetCameraRay() {
-		Camera camera;
 
-		camera = this.getOriginCamera();
-
-		System.out.println(camera.getCameraRay(new Point2D(0, 0)));
-		System.out.println(camera.getCameraRay(new Point2D(1, 0)));
-		System.out.println(camera.getCameraRay(new Point2D(0, 1)));
-		System.out.println(camera.getCameraRay(new Point2D(1, 1)));
-		System.out.println(camera.getCameraRay(new Point2D(0.5, 0.5)));
-
-		camera = this.getZCamera();
+		Camera camera = getOriginCamera();
 
 		System.out.println(camera.getCameraRay(new Point2D(0, 0)));
 		System.out.println(camera.getCameraRay(new Point2D(1, 0)));
@@ -49,7 +40,7 @@ public class OrthographicCameraTest {
 		System.out.println(camera.getCameraRay(new Point2D(1, 1)));
 		System.out.println(camera.getCameraRay(new Point2D(0.5, 0.5)));
 
-		camera = this.getOffsettedOriginCamera();
+		camera = getZCamera();
 
 		System.out.println(camera.getCameraRay(new Point2D(0, 0)));
 		System.out.println(camera.getCameraRay(new Point2D(1, 0)));
@@ -57,7 +48,15 @@ public class OrthographicCameraTest {
 		System.out.println(camera.getCameraRay(new Point2D(1, 1)));
 		System.out.println(camera.getCameraRay(new Point2D(0.5, 0.5)));
 
-		camera = this.getTiltedCamera();
+		camera = getOffsettedOriginCamera();
+
+		System.out.println(camera.getCameraRay(new Point2D(0, 0)));
+		System.out.println(camera.getCameraRay(new Point2D(1, 0)));
+		System.out.println(camera.getCameraRay(new Point2D(0, 1)));
+		System.out.println(camera.getCameraRay(new Point2D(1, 1)));
+		System.out.println(camera.getCameraRay(new Point2D(0.5, 0.5)));
+
+		camera = getTiltedCamera();
 
 		System.out.println(camera.getCameraRay(new Point2D(0, 0)));
 		System.out.println(camera.getCameraRay(new Point2D(1, 0)));

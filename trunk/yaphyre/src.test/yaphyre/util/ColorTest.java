@@ -101,13 +101,12 @@ public class ColorTest {
 		new Color(null);
 	}
 
+	@SuppressWarnings("EqualsBetweenInconvertibleTypes")
 	@Test
 	public void testEquals() {
-		Color c1;
-		Color c2;
 
-		c1 = BLACK;
-		c2 = null;
+		Color c1 = BLACK;
+		Color c2 = null;
 		assertFalse(c1.equals(c2));
 		assertFalse(c1.equals("Hello, World"));
 		assertTrue(c1.equals(c1));

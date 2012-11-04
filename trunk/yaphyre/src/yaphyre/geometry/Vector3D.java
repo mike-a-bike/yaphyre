@@ -29,6 +29,7 @@ import com.google.common.base.Objects;
  * @author $LastChangedBy$
  * @version $Revision$
  */
+@SuppressWarnings("PackageVisibleField")
 public class Vector3D implements Serializable {
 
 	private static final long serialVersionUID = 6313172979195055223L;
@@ -72,68 +73,68 @@ public class Vector3D implements Serializable {
 	}
 
 	public Normal3D asNormal() {
-		Vector3D unitVector = this.normalize();
+		Vector3D unitVector = normalize();
 		return new Normal3D(unitVector.x, unitVector.y, unitVector.z);
 	}
 
 	public Point3D asPoint() {
-		return new Point3D(this.x, this.y, this.z);
+		return new Point3D(x, y, z);
 	}
 
 	public Vector3D neg() {
-		return new Vector3D(-this.x, -this.y, -this.z);
+		return new Vector3D(-x, -y, -z);
 	}
 
 	public Vector3D add(Vector3D v) {
-		return new Vector3D(this.x + v.x, this.y + v.y, this.z + v.z);
+		return new Vector3D(x + v.x, y + v.y, z + v.z);
 	}
 
 	public Vector3D add(Normal3D n) {
-		return new Vector3D(this.x + n.x, this.y + n.y, this.z + n.z);
+		return new Vector3D(x + n.x, y + n.y, z + n.z);
 	}
 
 	public Vector3D sub(Vector3D v) {
-		return new Vector3D(this.x - v.x, this.y - v.y, this.z - v.z);
+		return new Vector3D(x - v.x, y - v.y, z - v.z);
 	}
 
 	public Vector3D sub(Normal3D n) {
-		return new Vector3D(this.x - n.x, this.y - n.y, this.z - n.z);
+		return new Vector3D(x - n.x, y - n.y, z - n.z);
 	}
 
 	public double length() {
-		return MathUtils.calcLength(this.x, this.y, this.z);
+		return MathUtils.calcLength(x, y, z);
 	}
 
 	public double lengthSquared() {
-		return MathUtils.calculateLengthSquared(this.x, this.y, this.z);
+		return MathUtils.calculateLengthSquared(x, y, z);
 	}
 
 	public Vector3D normalize() throws ArithmeticException {
-		double length = this.length();
+		double length = length();
 		if (length == 0d) {
 			throw new ArithmeticException("Cannot create unit vector from zero length vector");
 		} else if (length == 1d) {
 			return this;
 		}
-		return this.scale(1 / length);
+		return scale(1 / length);
 	}
 
 	public Vector3D scale(double s) {
-		return new Vector3D(this.x * s, this.y * s, this.z * s);
+		return new Vector3D(x * s, y * s, z * s);
 	}
 
 	public double dot(Vector3D v) {
-		return this.x * v.x + this.y * v.y + this.z * v.z;
+		return x * v.x + y * v.y + z * v.z;
 	}
 
 	public double dot(Normal3D n) {
-		return this.x * n.x + this.y * n.y + this.z * n.z;
+		return x * n.x + y * n.y + z * n.z;
 	}
 
 	public Vector3D cross(Vector3D v) {
-		double cx = this.y * v.z - this.z * v.y;
-		double cy = this.z * v.x - this.x * v.z;
-		double cz = this.x * v.y - this.y * v.x;
+		double cx = y * v.z - z * v.y;
+		double cy = z * v.x - x * v.z;
+		double cz = x * v.y - y * v.x;
 		return new Vector3D(cx, cy, cz);
 	}
 
@@ -146,19 +147,18 @@ public class Vector3D implements Serializable {
 			return false;
 		}
 		Vector3D other = (Vector3D) o;
-		return this.equals(other, MathUtils.EPSILON);
+		return equals(other, MathUtils.EPSILON);
 	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
+		long temp = Double.doubleToLongBits(x);
 		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(this.x);
+		final int prime = 31;
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(this.y);
+		temp = Double.doubleToLongBits(y);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(this.z);
+		temp = Double.doubleToLongBits(z);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
@@ -170,25 +170,25 @@ public class Vector3D implements Serializable {
 		if (vector == null) {
 			return false;
 		}
-		double difference = abs(this.x - vector.getX()) + abs(this.y - vector.getY()) + abs(this.z - vector.getZ());
+		double difference = abs(x - vector.getX()) + abs(y - vector.getY()) + abs(z - vector.getZ());
 		return difference <= tolerance;
 	}
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(this.getClass()).add("x", this.x).add("y", this.y).add("z", this.z).toString();
+		return Objects.toStringHelper(getClass()).add("x", x).add("y", y).add("z", z).toString();
 	}
 
 	public double getX() {
-		return this.x;
+		return x;
 	}
 
 	public double getY() {
-		return this.y;
+		return y;
 	}
 
 	public double getZ() {
-		return this.z;
+		return z;
 	}
 
 }

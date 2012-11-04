@@ -29,6 +29,7 @@ import com.google.common.base.Objects;
  * @author $LastChangedBy: mike0041@gmail.com $
  * @version $Revision: 37 $
  */
+@SuppressWarnings("PackageVisibleField")
 public class Point3D implements Serializable {
 
 	private static final long serialVersionUID = -5727406094615817485L;

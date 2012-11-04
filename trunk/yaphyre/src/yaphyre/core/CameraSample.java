@@ -70,11 +70,11 @@ public class CameraSample {
 	}
 
 	public Point2D getRasterPoint() {
-		return this.rasterPoint;
+		return rasterPoint;
 	}
 
 	public Point2D getLensCoordinates() {
-		return this.lensCoordinates;
+		return lensCoordinates;
 	}
 
 }

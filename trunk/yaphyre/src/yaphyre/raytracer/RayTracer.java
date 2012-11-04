@@ -88,7 +88,7 @@ public class RayTracer {
 	}
 
 	public Scene getScene() {
-		return this.scene;
+		return scene;
 	}
 
 	public void setSampler(Sampler sampler) {
@@ -101,7 +101,7 @@ public class RayTracer {
 	 * process down significantly.
 	 */
 	public void useSingleThreadedRenderer() {
-		this.useSingleTreadedRendering = true;
+		useSingleTreadedRendering = true;
 	}
 
 	/**
@@ -115,9 +115,9 @@ public class RayTracer {
 
 	/** This method is the public entry point to start the rendering. */
 	public void render() {
-		Preconditions.checkState(this.scene != null, "'scene' must be initialized before calling 'render'");
-		for (Camera camera : this.scene.getCameras()) {
-			this.render(camera);
+		Preconditions.checkState(scene != null, "'scene' must be initialized before calling 'render'");
+		for (Camera camera : scene.getCameras()) {
+			render(camera);
 		}
 	}
 
@@ -138,21 +138,21 @@ public class RayTracer {
 		int imageWidth = this.camera.getFilm().getXResolution();
 		int imageHeight = this.camera.getFilm().getYResolution();
 
-		LOGGER.info("{}", this.scene);
+		LOGGER.info("{}", scene);
 
-		if (this.sampler == null) {
+		if (sampler == null) {
 			LOGGER.warn("No sampler set -> initializing default sampler: {}",
 					SinglePointSampler.class.getSimpleName());
-			this.sampler = new SinglePointSampler();
+			sampler = new SinglePointSampler();
 		}
 
 		// TODO move this transformation into the camera
 		Transformation rasterToCamera = Transformation.rasterToUnitSquare(imageWidth, imageHeight);
 
 		Stopwatch overallTime = new Stopwatch();
-		long cpuTime = 0l;
+		long cpuTime;
 
-		if (this.useSingleTreadedRendering) {
+		if (useSingleTreadedRendering) {
 
 			cpuTime = renderSingleThreaded(imageWidth, imageHeight, rasterToCamera, overallTime);
 
@@ -162,7 +162,7 @@ public class RayTracer {
 
 		}
 
-		this.printRenderStatistics(overallTime.elapsedMillis(), cpuTime);
+		printRenderStatistics(overallTime.elapsedMillis(), cpuTime);
 
 	}
 
@@ -185,10 +185,8 @@ public class RayTracer {
 	private long renderMultiThreaded(final int imageWidth, final int imageHeight, final Transformation rasterToCamera,
 			final Stopwatch overallTime) {
 
-		long cpuTime = 0l;
-
 		// Slicing up the work
-		int numberOfCores = this.getNumberOfCPUs();
+		int numberOfCores = getNumberOfCPUs();
 		int numberOfRenderingTasks = numberOfCores * SLICES_PER_CORE;
 		int sliceWidth = (imageWidth + (numberOfCores - 1)) / numberOfCores;
 		int sliceHeight = (imageHeight + (SLICES_PER_CORE - 1)) / SLICES_PER_CORE;
@@ -214,13 +212,14 @@ public class RayTracer {
 
 				RenderWindow window = new RenderWindow(sliceStartX, sliceEndX, sliceStartY, sliceEndY);
 
-				slices.add(new RenderCallable(sliceId, this.sampler, window, rasterToCamera));
+				slices.add(new RenderCallable(sliceId, sampler, window, rasterToCamera));
 
 			}
 		}
 
 		ExecutorService renderingExecutor = Executors.newFixedThreadPool(numberOfCores);
 
+		long cpuTime = 0l;
 		try {
 			LOGGER.info("Start rendering");
 
@@ -271,15 +270,14 @@ public class RayTracer {
 	 */
 	private long renderSingleThreaded(final int imageWidth, final int imageHeight, final Transformation rasterToCamera,
 			final Stopwatch overallTime) {
-		long cpuTime;
 		LOGGER.info("Using single threaded rendering");
 
 		RenderWindow renderWindow = new RenderWindow(0, imageWidth, 0, imageHeight);
 
 		overallTime.start();
-		this.renderWindow(this.sampler, renderWindow, rasterToCamera);
+		renderWindow(sampler, renderWindow, rasterToCamera);
 		overallTime.stop();
-		cpuTime = overallTime.elapsedMillis();
+		long cpuTime = overallTime.elapsedMillis();
 		return cpuTime;
 	}
 
@@ -307,14 +305,14 @@ public class RayTracer {
 				for (Point2D samplePoint : sampler.getUnitSquareSamples()) {
 					sampleCount++;
 					Point2D cameraCoordinates = rasterToCamera.transform(rasterPoint.add(samplePoint));
-					for (Ray eyeRay : this.camera.getCameraRay(cameraCoordinates)) {
+					for (Ray eyeRay : camera.getCameraRay(cameraCoordinates)) {
 						RenderStatistics.incEyeRays();
-						color = color.add(this.traceRay(eyeRay, 1));
+						color = color.add(traceRay(eyeRay, 1));
 					}
 				}
 				color = color.multiply(1d / sampleCount);
 
-				this.camera.getFilm().addCameraSample(new CameraSample(rasterPoint), color);
+				camera.getFilm().addCameraSample(new CameraSample(rasterPoint), color);
 			}
 		}
 
@@ -339,7 +337,7 @@ public class RayTracer {
 			return Color.BLACK;
 		}
 
-		CollisionInformation shapeCollisionInfo = this.scene.getCollidingShape(ray, Shape.NO_INTERSECTION, false);
+		CollisionInformation shapeCollisionInfo = scene.getCollidingShape(ray, Shape.NO_INTERSECTION, false);
 
 		if (shapeCollisionInfo != null) {
 			Point2D uvCoordinates = shapeCollisionInfo.getCollisionShape().getMappedSurfacePoint(
@@ -348,8 +346,8 @@ public class RayTracer {
 			Color ambientColor = (iteration == 1) ? objectColor.multiply(
 					shapeCollisionInfo.getCollisionShape().getShader().getMaterial(uvCoordinates).getAmbient()) :
 					Color.BLACK;
-			Color lightColor = this.calculateLightColor(shapeCollisionInfo, uvCoordinates, objectColor);
-			Color reflectedColor = this.calculateReflectedColor(ray, iteration + 1, shapeCollisionInfo, uvCoordinates);
+			Color lightColor = calculateLightColor(shapeCollisionInfo, uvCoordinates, objectColor);
+			Color reflectedColor = calculateReflectedColor(ray, iteration + 1, shapeCollisionInfo, uvCoordinates);
 			Color refractedColor = Color.BLACK;
 
 			return ambientColor.add(lightColor).add(reflectedColor).add(refractedColor);
@@ -376,7 +374,7 @@ public class RayTracer {
 			return objectColor;
 		}
 		Color lightColor = Color.BLACK;
-		for (Lightsource lightsource : this.scene.getLightsources()) {
+		for (Lightsource lightsource : scene.getLightsources()) {
 
 			if (lightsource.isDeltaLight()) {
 				// Simplified rendering for delta light sources
@@ -387,7 +385,7 @@ public class RayTracer {
 			Point3D collisionPoint = shapeCollisionInfo.getCollisionPoint();
 			LightSample sample = lightsource.sample(collisionPoint);
 
-			if (sample.getVisibilityTester().isUnobstructed(this.scene)) {
+			if (sample.getVisibilityTester().isUnobstructed(scene)) {
 				Normal3D shapeNormal = shapeCollisionInfo.getCollisionShape().getNormal(shapeCollisionInfo.getCollisionPoint());
 				double diffuse = shapeCollisionInfo.getCollisionShape().getShader().getMaterial(uvCoordinates).getDiffuse();
 				diffuse *= Math.abs(sample.getIncidentDirection().dot(shapeNormal));
@@ -433,7 +431,7 @@ public class RayTracer {
 					EPSILON));
 			Ray reflectedRay = new Ray(reflectedRayStartPoint, reflectedRayDirection);
 			RenderStatistics.incSecondaryRays();
-			reflectedColor = this.traceRay(reflectedRay, iteration).multiply(reflectionValue);
+			reflectedColor = traceRay(reflectedRay, iteration).multiply(reflectionValue);
 		}
 		return reflectedColor;
 	}
@@ -451,10 +449,10 @@ public class RayTracer {
 	private void printRenderStatistics(long duration, long cpuTime) {
 		LOGGER.info("Rendering finished in: {}ms", duration);
 		if (LOGGER.isDebugEnabled()) {
-			if (this.useSingleTreadedRendering) {
+			if (useSingleTreadedRendering) {
 				LOGGER.debug("Single threaded rendering");
 			} else {
-				LOGGER.debug("Number of available CPUS: {}", this.getNumberOfCPUs());
+				LOGGER.debug("Number of available CPUS: {}", getNumberOfCPUs());
 				LOGGER.debug("Effective CPU time: {}ms", cpuTime);
 				LOGGER.debug(MessageFormat.format("Parallelization gain: {0,number,0.000}",
 						((double) cpuTime) / ((double) duration)));
@@ -497,12 +495,12 @@ public class RayTracer {
 		 */
 		@Override
 		public Long call() throws Exception {
-			LOGGER.debug("Starting slice {}", this.sliceId);
+			LOGGER.debug("Starting slice {}", sliceId);
 			Stopwatch renderingStopwatch = new Stopwatch();
 			renderingStopwatch.start();
-			RayTracer.this.renderWindow(this.sampler, this.window, this.rasterToCamera);
+			renderWindow(sampler, window, rasterToCamera);
 			renderingStopwatch.stop();
-			LOGGER.debug("Slice {} done in {}ms", new Object[] { this.sliceId, renderingStopwatch.elapsedMillis() });
+			LOGGER.debug("Slice {} done in {}ms", new Object[] { sliceId, renderingStopwatch.elapsedMillis() });
 			return renderingStopwatch.elapsedMillis();
 		}
 

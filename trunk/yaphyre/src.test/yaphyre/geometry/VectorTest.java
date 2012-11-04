@@ -45,6 +45,7 @@ public class VectorTest {
 		assertEquals(new Vector3D(1, 1, 1), v);
 	}
 
+	@SuppressWarnings({ "EqualsBetweenInconvertibleTypes", "ObjectEqualsNull" })
 	@Test
 	public void testEqualsObject() {
 		Vector3D v1 = new Vector3D(0d, 0d, 0d);
@@ -72,11 +73,10 @@ public class VectorTest {
 
 	@Test
 	public void testAdd() {
-		Vector3D result;
 		Vector3D v1 = new Vector3D(1d, 1d, 1d);
 		Vector3D v2 = new Vector3D(2d, 2d, 2d);
 
-		result = v1.add(v2);
+		Vector3D result = v1.add(v2);
 		assertEquals(3d, result.getX(), 0);
 		assertEquals(3d, result.getY(), 0);
 		assertEquals(3d, result.getZ(), 0);
@@ -89,11 +89,10 @@ public class VectorTest {
 
 	@Test
 	public void testSub() {
-		Vector3D result;
 		Vector3D v1 = new Vector3D(1d, 1d, 1d);
 		Vector3D v2 = new Vector3D(2d, 2d, 2d);
 
-		result = v1.sub(v2);
+		Vector3D result = v1.sub(v2);
 		assertEquals(-1, result.getX(), 0);
 		assertEquals(-1, result.getY(), 0);
 		assertEquals(-1, result.getZ(), 0);
@@ -109,10 +108,8 @@ public class VectorTest {
 
 	@Test
 	public void testLength() {
-		Vector3D v;
-		double length;
 
-		length = Vector3D.NULL.length();
+		double length = Vector3D.NULL.length();
 		System.out.println("Length of " + Vector3D.NULL + " is: " + length);
 		assertEquals(0d, length, 0);
 
@@ -128,7 +125,7 @@ public class VectorTest {
 		System.out.println("Length of " + Vector3D.Z + " is: " + length);
 		assertEquals(1d, length, 0);
 
-		v = new Vector3D(1d, 1d, 1d);
+		Vector3D v = new Vector3D(1d, 1d, 1d);
 		length = v.length();
 		System.out.println("Length of " + v + " is: " + length);
 		assertEquals(Math.sqrt(3), length, 0);
@@ -142,11 +139,9 @@ public class VectorTest {
 
 	@Test
 	public void testUnitVector() {
-		Vector3D v;
-		Vector3D result;
 
-		v = Normal3D.NORMAL_X.asVector();
-		result = v.normalize();
+		Vector3D v = Normal3D.NORMAL_X.asVector();
+		Vector3D result = v.normalize();
 		System.out.println("Unit vector of " + v + " is: " + result);
 		assertEquals(Normal3D.NORMAL_X.asVector(), result);
 
@@ -178,13 +173,10 @@ public class VectorTest {
 
 	@Test
 	public void testScale() {
-		Vector3D v;
-		double scalar;
-		Vector3D result;
 
-		v = Vector3D.NULL;
-		scalar = 100d;
-		result = v.scale(scalar);
+		Vector3D v = Vector3D.NULL;
+		double scalar = 100d;
+		Vector3D result = v.scale(scalar);
 		System.out.println("Scale " + v + " by " + scalar + ": " + result);
 		assertEquals(result, Vector3D.NULL);
 
@@ -203,13 +195,10 @@ public class VectorTest {
 
 	@Test
 	public void testDotProduct() {
-		Vector3D v1;
-		Vector3D v2;
-		double result;
 
-		v1 = Normal3D.NORMAL_X.asVector();
-		v2 = Normal3D.NORMAL_Y.asVector();
-		result = v1.dot(v2);
+		Vector3D v1 = Normal3D.NORMAL_X.asVector();
+		Vector3D v2 = Normal3D.NORMAL_Y.asVector();
+		double result = v1.dot(v2);
 		System.out.println(v1 + " dot " + v2 + " = " + result);
 		assertEquals(0d, result, 0);
 
@@ -237,15 +226,12 @@ public class VectorTest {
 
 	@Test
 	public void testCrossProduct() {
-		Vector3D v1;
-		Vector3D v2;
-		Vector3D result;
 
 		// result is the z axis normal since the cross product of the x-y plane lies
 		// on the z-axis.
-		v1 = Vector3D.X;
-		v2 = Vector3D.Y;
-		result = v1.cross(v2);
+		Vector3D v1 = Vector3D.X;
+		Vector3D v2 = Vector3D.Y;
+		Vector3D result = v1.cross(v2);
 		System.out.println(v1 + " x " + v2 + " = " + result);
 		assertEquals(Vector3D.Z, result);
 
@@ -280,9 +266,8 @@ public class VectorTest {
 
 	@Test
 	public void testToString() {
-		String stringRep;
 
-		stringRep = Vector3D.NULL.toString();
+		String stringRep = Vector3D.NULL.toString();
 
 		assertEquals("Vector3D{x=0.0, y=0.0, z=0.0}", stringRep);
 	}
