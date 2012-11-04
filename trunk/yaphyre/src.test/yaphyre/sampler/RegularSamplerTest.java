@@ -57,7 +57,7 @@ public class RegularSamplerTest extends SamplerTest {
 	@Test
 	public void testHemisphereZeroSamples() {
 		for(Point3D sampledPoint : sampler.getHemisphereSamples(0d)) {
-			Point2D point = new Point2D(sampledPoint.getX(), sampledPoint.getZ()).mul(.5d).add(.5d, .5d);
+			Point2D point = new Point2D(sampledPoint.getX(), sampledPoint.getY()).mul(.5d).add(.5d, .5d);
 			super.addMark(getImage(), point);
 		}
 		super.setImageName("RegularSampler_HemisphereZeroSample.png");
@@ -66,10 +66,19 @@ public class RegularSamplerTest extends SamplerTest {
 	@Test
 	public void testHemisphereOneSamples() {
 		for(Point3D sampledPoint : sampler.getHemisphereSamples(1d)) {
-			Point2D point = new Point2D(sampledPoint.getX(), sampledPoint.getZ()).mul(.5d).add(.5d, .5d);
+			Point2D point = new Point2D(sampledPoint.getX(), sampledPoint.getY()).mul(.5d).add(.5d, .5d);
 			super.addMark(getImage(), point);
 		}
 		super.setImageName("RegularSampler_HemisphereOneSample.png");
+	}
+
+	@Test
+	public void testHemisphere512Samples() {
+		for(Point3D sampledPoint : sampler.getHemisphereSamples(512d)) {
+			Point2D point = new Point2D(sampledPoint.getX(), sampledPoint.getY()).mul(.5d).add(.5d, .5d);
+			super.addMark(getImage(), point);
+		}
+		super.setImageName("RegularSampler_Hemisphere512Sample.png");
 	}
 
 	@Test
