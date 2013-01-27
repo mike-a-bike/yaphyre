@@ -114,6 +114,10 @@ public abstract class AbstractShape implements Shape {
 		return objectToWorld;
 	}
 
+	public boolean isInside(Point3D point) {
+		throw new RuntimeException("Not implemented yet");
+	}
+
 	@Override
 	public boolean isHitBy(Ray ray) {
 		return (getIntersectDistance(ray) > 0d);

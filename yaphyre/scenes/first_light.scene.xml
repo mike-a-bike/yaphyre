@@ -37,9 +37,7 @@
 	<!-- Shader material: diffuse color: white -->
 	<shader id="white" type="simple">
 		<material ref="diffuse"/>
-		<property name="color">
-			<color r="1" g="1" b="1"/>
-		</property>
+		<color r="1" g="1" b="1"/>
 	</shader>
 
 	<shader id="gradient" type="gradient">
@@ -64,7 +62,7 @@
 
 	<!-- Sphere center: 0, 1, 0; radius: 1; phi: 45-135deg theta: 45-135deg -->
 	<sphere>
-		<shader ref="gradient"/>
+		<shader ref="white"/>
 		<transform>
 			<translate dx="0" dy="1" dz="0"/>
 		</transform>
