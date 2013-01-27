@@ -185,7 +185,7 @@ public class SceneReader {
 	 * @return A very simple {@link Scene} containing one light, one plane and one sphere.
 	 */
 	public static Scene createFirstLight() {
-		double ambientLight = 0.1d;
+		double ambientLight = 0.0d;
 
 		Material diffuseMaterial = MaterialBuilder.start().ambient(ambientLight).diffuse(0.8d).build();
 		Material mirrorMaterial = MaterialBuilder.start().ambient(ambientLight).diffuse(0.1d).reflection(0.9d).build();
@@ -195,10 +195,10 @@ public class SceneReader {
 		Shader mirrorShader = new SimpleShader(mirrorMaterial, 0, 1, 0);
 		Shader checker = new CheckerShader(Transformation.IDENTITY, diffuseGradient, mirrorShader, 8d);
 
-		Lightsource light = new Pointlight(Transformation.translate(-2, 5, 2), new Color(1, 1, 1), 10);
+		Lightsource light = new Pointlight(Transformation.translate(-2, 5, 2), new Color(1, 1, 1), 20);
 
 		Shape plane = new Plane(Transformation.IDENTITY, diffuseWhite, true);
-		Shape sphere = new Sphere(Transformation.translate(0d, 1d, 0d), 45d, 135d, 45d, 135d, true, checker);
+		Shape sphere = new Sphere(Transformation.translate(0d, 1d, 0d), 225d, 315d, 45d, 135d, true, checker);
 
 		Scene scene = new Scene();
 

@@ -18,6 +18,7 @@ package yaphyre.core;
 
 import java.io.Serializable;
 
+import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 
@@ -34,52 +35,61 @@ public class CollisionInformation implements Serializable {
 
 	private static final long serialVersionUID = 9132420627811920135L;
 
-	private final Shape collisionShape;
+	private final Shape shape;
 
-	private final double collisionDistance;
+	private final double distance;
 
-	private final Point3D collisionPoint;
+	private final Point3D point;
 
-	private final Ray collisionRay;
+	private final Ray ray;
+
+	private final Normal3D normal;
 
 	/**
 	 * Creates a new instance for the collision information.
 	 *
-	 * @param collisionRay
-	 *  The {@link Ray} which is represented by this collision information instance.
-	 * @param collisionShape
-	 * 		The {@link yaphyre.core.Shape} instance which is hit.
-	 * @param collisionDistance
- * 		The value of the <code>t</code> parameter in which the collision happens.
-	 * @param collisionPoint
-* 		The {@link yaphyre.geometry.Point3D} of the collision.
+	 * @param ray
+	 * @param shape
+	 * @param distance
+	 * @param point
+	 * @param normal
 	 */
-	public CollisionInformation(final Ray collisionRay, Shape collisionShape, double collisionDistance, Point3D collisionPoint) {
-		this.collisionShape = collisionShape;
-		this.collisionDistance = collisionDistance;
-		this.collisionPoint = collisionPoint;
-		this.collisionRay = collisionRay;
+	public CollisionInformation(final Ray ray, Shape shape, double distance, Point3D point, final Normal3D normal) {
+		this.shape = shape;
+		this.distance = distance;
+		this.point = point;
+		this.ray = ray;
+		this.normal = normal;
 	}
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(getClass()).add("ray", collisionRay).add("shape", collisionShape).add("distance", collisionDistance).add("point", collisionPoint).toString();
+		return Objects.toStringHelper(
+				getClass())
+				.add("ray", ray)
+				.add("shape", shape)
+				.add("distance", distance)
+				.add("point", point)
+				.add("normal", normal).toString();
 	}
 
-	public Ray getCollisionRay() {
-		return collisionRay;
+	public Ray getRay() {
+		return ray;
 	}
 
-	public Shape getCollisionShape() {
-		return collisionShape;
+	public Shape getShape() {
+		return shape;
 	}
 
-	public double getCollisionDistance() {
-		return collisionDistance;
+	public double getDistance() {
+		return distance;
 	}
 
-	public Point3D getCollisionPoint() {
-		return collisionPoint;
+	public Point3D getPoint() {
+		return point;
 	}
 
+	public Normal3D getNormal() {
+		return normal;
+	}
 }

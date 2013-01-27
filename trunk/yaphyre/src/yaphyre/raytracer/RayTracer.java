@@ -340,11 +340,11 @@ public class RayTracer {
 		CollisionInformation shapeCollisionInfo = scene.getCollidingShape(ray, Shape.NO_INTERSECTION, false);
 
 		if (shapeCollisionInfo != null) {
-			Point2D uvCoordinates = shapeCollisionInfo.getCollisionShape().getMappedSurfacePoint(
-					shapeCollisionInfo.getCollisionPoint());
-			Color objectColor = shapeCollisionInfo.getCollisionShape().getShader().getColor(uvCoordinates);
+			Point2D uvCoordinates = shapeCollisionInfo.getShape().getMappedSurfacePoint(
+					shapeCollisionInfo.getPoint());
+			Color objectColor = shapeCollisionInfo.getShape().getShader().getColor(uvCoordinates);
 			Color ambientColor = (iteration == 1) ? objectColor.multiply(
-					shapeCollisionInfo.getCollisionShape().getShader().getMaterial(uvCoordinates).getAmbient()) :
+					shapeCollisionInfo.getShape().getShader().getMaterial(uvCoordinates).getAmbient()) :
 					Color.BLACK;
 			Color lightColor = calculateLightColor(shapeCollisionInfo, uvCoordinates, objectColor);
 			Color reflectedColor = calculateReflectedColor(ray, iteration + 1, shapeCollisionInfo, uvCoordinates);
@@ -382,12 +382,12 @@ public class RayTracer {
 				// Render more complex light sources (like area lights and stuff...)
 			}
 
-			Point3D collisionPoint = shapeCollisionInfo.getCollisionPoint();
+			Point3D collisionPoint = shapeCollisionInfo.getPoint();
 			LightSample sample = lightsource.sample(collisionPoint);
 
 			if (sample.getVisibilityTester().isUnobstructed(scene)) {
-				Normal3D shapeNormal = shapeCollisionInfo.getCollisionShape().getNormal(shapeCollisionInfo.getCollisionPoint());
-				double diffuse = shapeCollisionInfo.getCollisionShape().getShader().getMaterial(uvCoordinates).getDiffuse();
+				Normal3D shapeNormal = shapeCollisionInfo.getNormal();
+				double diffuse = shapeCollisionInfo.getShape().getShader().getMaterial(uvCoordinates).getDiffuse();
 				diffuse *= Math.abs(sample.getIncidentDirection().dot(shapeNormal));
 				lightColor = lightColor.add(objectColor.multiply(sample.getEnergy()).multiply(diffuse));
 			}
@@ -416,18 +416,17 @@ public class RayTracer {
 	private Color calculateReflectedColor(Ray ray, int iteration, CollisionInformation shapeCollisionInfo,
 			Point2D uvCoordinates) {
 		Color reflectedColor = Color.BLACK;
-		double reflectionValue = shapeCollisionInfo.getCollisionShape()
+		double reflectionValue = shapeCollisionInfo.getShape()
 				.getShader()
 				.getMaterial(uvCoordinates)
 				.getReflection();
 		if (reflectionValue > 0) {
 			// reflected = eye - 2 * (eye . normal) * normal
-			Normal3D normal = shapeCollisionInfo.getCollisionShape().getNormal(shapeCollisionInfo.getCollisionPoint());
-			normal = normal.faceForward(shapeCollisionInfo.getCollisionRay());
+			Normal3D normal = shapeCollisionInfo.getNormal();
 			Vector3D reflectedRayDirection = ray.getDirection()
 					.sub(normal.scale(2d * ray.getDirection().dot(normal)))
 					.normalize();
-			Point3D reflectedRayStartPoint = shapeCollisionInfo.getCollisionPoint().add(reflectedRayDirection.scale(
+			Point3D reflectedRayStartPoint = shapeCollisionInfo.getPoint().add(reflectedRayDirection.scale(
 					EPSILON));
 			Ray reflectedRay = new Ray(reflectedRayStartPoint, reflectedRayDirection);
 			RenderStatistics.incSecondaryRays();

@@ -54,6 +54,15 @@ public interface Shape extends Serializable {
 	public boolean isHitBy(Ray ray);
 
 	/**
+	 * Determines wheter a given {@link Point3D} is inside the shape.
+	 *
+	 * @param point The {@link Point3D} to test.
+	 *
+	 * @return <code>true</code> when the given point lies on the surface or inside the shape.
+	 */
+	public boolean isInside(Point3D point);
+
+	/**
 	 * Create the intersection informations for the given {@link Ray} and this shape. If the {@link Ray} does not
 	 * intersect this shape at all, then <code>null</code> is returned. Otherwise the collision informations are returned.
 	 * The results created by this method are as accurate as possible.

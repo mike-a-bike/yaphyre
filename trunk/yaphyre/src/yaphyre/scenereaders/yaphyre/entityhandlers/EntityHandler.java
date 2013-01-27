@@ -123,4 +123,20 @@ public abstract class EntityHandler<T extends IdentifiableObject<?>> {
 		return match.attr(attribute, valueTypeClass);
 	}
 
+	/**
+	 * Read the value for the given property.
+	 *
+	 * @param match The {@link Match} to read the property from.
+	 * @param propertyName The name of the property
+	 * @return A {@link String} value representing the value of the property. If the property is not found, an empty string is returned.
+	 */
+	protected <T> T getPropertyValue(Match match, String propertyName, T nullSubstitution, Class<T> valueTypeClass) {
+		Preconditions.checkNotNull(match);
+		Preconditions.checkArgument(propertyName != null && !propertyName.trim().isEmpty());
+		propertyName = propertyName.trim();
+		String propertySelector=String.format("property[@name=\"%s\"]", propertyName);
+		Match property = match.child(propertySelector);
+		return (property == null)? nullSubstitution : property.attr("value", valueTypeClass);
+	}
+
 }

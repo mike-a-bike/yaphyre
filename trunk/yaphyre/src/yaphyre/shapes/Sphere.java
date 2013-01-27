@@ -61,6 +61,9 @@ public class Sphere extends AbstractShape {
 	/** Range of the angle rotating around the y axis. */
 	private final double phiMin, phiMax;
 
+	/** Flag if the instance is a partial sphere or not */
+	private final boolean isPartial;
+
 	/**
 	 * Helper method for creating a sphere where the center and its radius are known. This creates a transformation which
 	 * scales the unit sphere by the size of the given radius and translates it to the given coordinates. So, the
@@ -168,6 +171,7 @@ public class Sphere extends AbstractShape {
 		this.phiMax = max(phiMin, phiMax) / 360d * TWO_PI;
 		this.thetaMin = min(thetaMin, thetaMax) / 180d * PI;
 		this.thetaMax = max(thetaMin, thetaMax) / 180d  * PI;
+		this.isPartial = phiMin == 0d && phiMax == 360d && thetaMin == 0d && thetaMax == 180d;
 	}
 
 	@Override
@@ -237,8 +241,11 @@ public class Sphere extends AbstractShape {
 		for (double solution : solutions) {
 			if (solution < result && (solution >= ray.getMint() && solution <= ray.getMaxt())) {
 				Point3D intersectionPoint = ray.getPoint(solution);
-				Point2D uvCoordinates = calculateAngleCoordinates(intersectionPoint);
-				if(isInRangeWithTolerance(phiMin, phiMax, uvCoordinates.getU()) && isInRangeWithTolerance(thetaMin, thetaMax, uvCoordinates.getV())) {
+				if (isPartial) {
+					if (isInAngularRange(intersectionPoint)) {
+						result = solution;
+					}
+				} else {
 					result = solution;
 				}
 			}
@@ -282,7 +289,7 @@ public class Sphere extends AbstractShape {
 		checkNotNull(surfacePoint, "surfacePoint must not be null");
 		checkArgument(Math.abs(surfacePoint.asVector().length()) - RADIUS <= EPSILON, "the point % does not lie on the surface of %", surfacePoint, this);
 
-		Point2D mappedSurfacePoint = calculateAngleCoordinates(surfacePoint);
+		Point2D mappedSurfacePoint = calculateAngularCoordinates(surfacePoint);
 
 		// Map u and v to [0, 1]
 		double u = (mappedSurfacePoint.getU() - phiMin) / (phiMax - phiMin);
@@ -292,7 +299,7 @@ public class Sphere extends AbstractShape {
 
 	}
 
-	private Point2D calculateAngleCoordinates(final Point3D surfacePoint) {
+	private Point2D calculateAngularCoordinates(final Point3D surfacePoint) {
 
 		// Calculate the two angles of the spherical coordinates
 		double phi = atan2(surfacePoint.getZ(), surfacePoint.getX());
@@ -300,6 +307,26 @@ public class Sphere extends AbstractShape {
 		double theta = acos(surfacePoint.getY());
 
 		return new Point2D(phi, theta);
+	}
+
+	private boolean isInAngularRange(Point3D p) {
+		Point2D uvCoordinates = calculateAngularCoordinates(p);
+		return isInRangeWithTolerance(phiMin, phiMax, uvCoordinates.getU()) && isInRangeWithTolerance(thetaMin, thetaMax, uvCoordinates.getV());
+	}
+
+	@Override
+	public boolean isInside(Point3D p) {
+
+		p = super.getWorldToObject().transform(p);
+
+		boolean isInside = p.asVector().lengthSquared() <= 1d;
+
+		if (isPartial) {
+			return isInside && isInAngularRange(p);
+		}
+
+		return isInside;
+
 	}
 
 }
