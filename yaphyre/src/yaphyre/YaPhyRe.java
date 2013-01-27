@@ -16,7 +16,9 @@
 package yaphyre;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.MessageFormat;
 
 import yaphyre.core.Camera;
@@ -30,6 +32,8 @@ import yaphyre.samplers.JitteredSampler;
 import yaphyre.samplers.RandomSampler;
 import yaphyre.samplers.RegularSampler;
 import yaphyre.samplers.SinglePointSampler;
+import yaphyre.scenereaders.SceneReaders;
+import yaphyre.scenereaders.yaphyre.MultiStageXMLSceneReader;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -87,8 +91,21 @@ public class YaPhyRe {
 			return;
 		}
 
-		LOGGER.debug("Setup camera");
+		LOGGER.debug("Testing scene reader");
+		String sceneFileName = commandLine.getOptionValue('i');
+		if (sceneFileName != null && !sceneFileName.trim().isEmpty()) {
+			try {
+				InputStream sceneFile = new FileInputStream(sceneFileName);
+				SceneReaders sceneReader = new MultiStageXMLSceneReader();
+				Scene scene = sceneReader.readScene(sceneFile);
+				System.out.println("Scene: " + scene.toString());
+				sceneFile.close();
+			} catch (Exception e) {
+				LOGGER.debug("Error debugging scene reader", e);
+			}
+		}
 
+		LOGGER.debug("Setup camera");
 		int imageWidth = Integer.parseInt(commandLine.getOptionValue('w', DEFAULT_WIDTH));
 		int imageHeight = Integer.parseInt(commandLine.getOptionValue('h', DEFAULT_HEIGHT));
 		String imageFormat = commandLine.getOptionValue('f', DEFAULT_FILE_FORMAT);
@@ -194,6 +211,8 @@ public class YaPhyRe {
 				.create('s'));
 		commandLineOptions.addOption(OptionBuilder.withArgName("file").hasArg().withLongOpt("out").withDescription(
 				"Output file name").create('o'));
+		commandLineOptions.addOption(OptionBuilder.withArgName("file").hasArg().withLongOpt("in").withDescription(
+				"Scene file name").create('i'));
 		commandLineOptions.addOption(OptionBuilder.withArgName("format")
 				.hasArg()
 				.withLongOpt("format")
