@@ -22,6 +22,9 @@ import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Transformation;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
@@ -57,14 +60,8 @@ public abstract class AbstractShape implements Shape {
 	 * 		The {@link Shader} instance to use when rendering this {@link Shape}.
 	 * @param throwsShadow
 	 * 		Flag whether this {@link Shape} throws a shadow or not.
-	 *
-	 * @throws NullPointerException
-	 * 		If either <code>objectToWorld</code> or <code>shader</code> is <code>null</code> a {@link NullPointerException}
-	 * 		is thrown
 	 */
-	protected AbstractShape(Transformation objectToWorld, Shader shader, boolean throwsShadow)
-			throws NullPointerException {
-
+	protected AbstractShape(@NotNull Transformation objectToWorld, @NotNull Shader shader, boolean throwsShadow) {
 		Preconditions.checkNotNull(objectToWorld);
 		Preconditions.checkNotNull(shader);
 
@@ -96,6 +93,7 @@ public abstract class AbstractShape implements Shape {
 				&& Objects.equal(throwsShadow, other.throwsShadow);
 	}
 
+	@NotNull
 	@Override
 	public Shader getShader() {
 		return shader;
@@ -114,22 +112,25 @@ public abstract class AbstractShape implements Shape {
 		return objectToWorld;
 	}
 
-	public boolean isInside(Point3D point) {
+	@Override
+	public boolean isInside(@NotNull Point3D point) {
 		throw new RuntimeException("Not implemented yet");
 	}
 
 	@Override
-	public boolean isHitBy(Ray ray) {
+	public boolean isHitBy(@NotNull Ray ray) {
 		return (getIntersectDistance(ray) > 0d);
 	}
 
+	@Nullable
 	@Override
-	public CollisionInformation intersect(Ray ray) {
+	public CollisionInformation intersect(@NotNull Ray ray) {
 		throw new RuntimeException("Not implemented yet");
 	}
 
+	@Nullable
 	@Override
-	public Point3D getIntersectionPoint(Ray ray) {
+	public Point3D getIntersectionPoint(@NotNull Ray ray) {
 		double intersectionDistance = getIntersectDistance(ray);
 		if (intersectionDistance == Shape.NO_INTERSECTION) {
 			return null;
@@ -138,7 +139,7 @@ public abstract class AbstractShape implements Shape {
 		return ray.getPoint(intersectionDistance);
 	}
 
-	protected Ray transformToObjectSpace(Ray ray) {
+	protected @NotNull Ray transformToObjectSpace(@NotNull Ray ray) {
 		return worldToObject.transform(ray);
 	}
 

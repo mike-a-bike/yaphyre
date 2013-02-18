@@ -26,6 +26,8 @@ import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Transformation;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * This shape is special since it does not represent a shape itself. It is a wrapper around another shape which is
  * transformed by a defined transformation. This is used when complicated objects which use a lot of memory should be
@@ -57,19 +59,21 @@ public class Instance extends AbstractShape {
 	}
 
 	@Override
-	public double getIntersectDistance(Ray ray) {
+	public double getIntersectDistance(@NotNull Ray ray) {
 		Ray transformedRay = instanceTransformation.inverse().transform(ray);
 		return baseShape.getIntersectDistance(transformedRay);
 	}
 
+	@NotNull
 	@Override
-	public Point2D getMappedSurfacePoint(Point3D surfacePoint) {
+	public Point2D getMappedSurfacePoint(@NotNull Point3D surfacePoint) {
 		Point3D transformedSurfacePoint = instanceTransformation.inverse().transform(surfacePoint);
 		return baseShape.getMappedSurfacePoint(transformedSurfacePoint);
 	}
 
+	@NotNull
 	@Override
-	public Normal3D getNormal(Point3D surfacePoint) {
+	public Normal3D getNormal(@NotNull Point3D surfacePoint) {
 		Point3D transformedSurfacePoint = instanceTransformation.inverse().transform(surfacePoint);
 		Normal3D transformedNormal = baseShape.getNormal(transformedSurfacePoint);
 		return instanceTransformation.transform(transformedNormal);

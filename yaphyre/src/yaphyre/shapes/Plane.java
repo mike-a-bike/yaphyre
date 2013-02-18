@@ -28,6 +28,8 @@ import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Transformation;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Plane represented by a point on the plane and the normal. Since on a plane the normal does not change, it does not
  * matter where on the plane the origin lies.<br/> The mathematical representation of a point on the plane is:<br/>
@@ -52,7 +54,7 @@ public class Plane extends AbstractShape {
 
 	private final BoundingBox boundingBox;
 
-	public Plane(Transformation planeToWorld, Shader shader, boolean throwsShadow) {
+	public Plane(@NotNull Transformation planeToWorld, @NotNull Shader shader, boolean throwsShadow) {
 		super(planeToWorld, shader, throwsShadow);
 		origin = Point3D.ORIGIN;
 		normal = Normal3D.NORMAL_Y;
@@ -98,14 +100,15 @@ public class Plane extends AbstractShape {
 	 * If the result is negative, the line intersects with the plane behind the origin of the ray, so there is no
 	 * visible intersection.
 	 *
+	 *
 	 * @param ray
-	 * 		The {@link Ray} to intersect with this plane.
+	 * 		The {@link yaphyre.geometry.Ray} to intersect with this plane.
 	 *
 	 * @return The distance in which the ray intersects this plane or {@link Shape#NO_INTERSECTION} if there is no
 	 *         intersection.
 	 */
 	@Override
-	public double getIntersectDistance(Ray ray) {
+	public double getIntersectDistance(@NotNull Ray ray) {
 		ray = super.transformToObjectSpace(ray);
 		double numerator = origin.sub(ray.getOrigin()).dot(normal);
 		double denominator = ray.getDirection().dot(normal);
@@ -127,7 +130,7 @@ public class Plane extends AbstractShape {
 	}
 
 	@Override
-	public boolean isHitBy(Ray ray) {
+	public boolean isHitBy(@NotNull Ray ray) {
 		ray = super.transformToObjectSpace(ray);
 		double numerator = origin.sub(ray.getOrigin()).dot(normal);
 		double denominator = ray.getDirection().dot(normal);
@@ -144,13 +147,15 @@ public class Plane extends AbstractShape {
 	/**
 	 * The normal of a plane is independent from the position on the plane, so always the defining normal is returned.
 	 *
+	 *
 	 * @param surfacePoint
 	 * 		The surface point (as {@link yaphyre.geometry.Vector3D}) for which the normal is asked.
 	 *
 	 * @return The normal of the plane (position independent)
 	 */
+	@NotNull
 	@Override
-	public Normal3D getNormal(Point3D surfacePoint) {
+	public Normal3D getNormal(@NotNull Point3D surfacePoint) {
 		return super.getObjectToWorld().transform(normal);
 	}
 
@@ -158,8 +163,9 @@ public class Plane extends AbstractShape {
 	 * Maps the given point to the planes u/v coordinates. Since each surface point lies on the x/z plane, the y component
 	 * can be ignored. So [u, v] = [x, z].
 	 */
+	@NotNull
 	@Override
-	public Point2D getMappedSurfacePoint(Point3D surfacePoint) {
+	public Point2D getMappedSurfacePoint(@NotNull Point3D surfacePoint) {
 		surfacePoint = super.getWorldToObject().transform(surfacePoint);
 		return new Point2D(surfacePoint.getX(), surfacePoint.getZ());
 	}

@@ -24,13 +24,15 @@ import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Transformation;
 
+import org.jetbrains.annotations.NotNull;
+
 public class Triangle extends AbstractShape {
 
 	private final Point3D v0, v1, v2;
 
 	private final Normal3D normal;
 
-	public static Triangle create(final Point3D v0, final Point3D v1, final Point3D v2, final Shader shader) {
+	public static Triangle create(@NotNull final Point3D v0, @NotNull final Point3D v1, @NotNull final Point3D v2, final Shader shader) {
 		return new Triangle(v0, v1, v2, shader, Transformation.IDENTITY, true);
 	}
 
@@ -51,7 +53,7 @@ public class Triangle extends AbstractShape {
 	}
 
 	@Override
-	public double getIntersectDistance(final Ray ray) {
+	public double getIntersectDistance(@NotNull final Ray ray) {
 
 		// prepare system of equations
 		final double a = v0.getX() - v1.getX(), b = v0.getX() - v2.getX(), c = ray.getDirection().getX(), d = v0.getX() - ray.getOrigin().getX();
@@ -93,18 +95,20 @@ public class Triangle extends AbstractShape {
 		return t;
 	}
 
+	@NotNull
 	@Override
-	public Normal3D getNormal(final Point3D surfacePoint) {
+	public Normal3D getNormal(@NotNull final Point3D surfacePoint) {
 		return normal;
 	}
 
+	@NotNull
 	@Override
-	public Point2D getMappedSurfacePoint(final Point3D surfacePoint) {
+	public Point2D getMappedSurfacePoint(@NotNull final Point3D surfacePoint) {
 		return null;
 	}
 
 	@Override
-	public boolean isInside(final Point3D point) {
+	public boolean isInside(@NotNull final Point3D point) {
 		return false;
 	}
 
