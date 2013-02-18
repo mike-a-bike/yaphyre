@@ -32,6 +32,7 @@ import yaphyre.core.CollisionInformation;
 import yaphyre.core.Film;
 import yaphyre.core.LightSample;
 import yaphyre.core.Lightsource;
+import yaphyre.core.Primitive;
 import yaphyre.core.RenderWindow;
 import yaphyre.core.Sampler;
 import yaphyre.core.Shape;
@@ -337,7 +338,7 @@ public class RayTracer {
 			return Color.BLACK;
 		}
 
-		CollisionInformation shapeCollisionInfo = scene.getCollidingShape(ray, Shape.NO_INTERSECTION, false);
+		CollisionInformation shapeCollisionInfo = scene.getCollidingShape(ray, Primitive.NO_INTERSECTION, false);
 
 		if (shapeCollisionInfo != null) {
 			Point2D uvCoordinates = shapeCollisionInfo.getShape().getMappedSurfacePoint(

@@ -19,6 +19,7 @@ package yaphyre.core;
 import java.io.Serializable;
 
 import yaphyre.geometry.Normal3D;
+import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 
@@ -45,6 +46,8 @@ public class CollisionInformation implements Serializable {
 
 	private final Normal3D normal;
 
+	private final Point2D uvCoordinate;
+
 	/**
 	 * Creates a new instance for the collision information.
 	 *
@@ -54,12 +57,13 @@ public class CollisionInformation implements Serializable {
 	 * @param point
 	 * @param normal
 	 */
-	public CollisionInformation(final Ray ray, Shape shape, double distance, Point3D point, final Normal3D normal) {
+	public CollisionInformation(final Ray ray, Shape shape, double distance, Point3D point, final Normal3D normal, final Point2D uvCoordinate) {
 		this.shape = shape;
 		this.distance = distance;
 		this.point = point;
 		this.ray = ray;
 		this.normal = normal;
+		this.uvCoordinate = uvCoordinate;
 	}
 
 	@Override
@@ -70,7 +74,8 @@ public class CollisionInformation implements Serializable {
 				.add("shape", shape)
 				.add("distance", distance)
 				.add("point", point)
-				.add("normal", normal).toString();
+				.add("normal", normal)
+				.add("uvCoordinate", uvCoordinate).toString();
 	}
 
 	public Ray getRay() {
@@ -91,5 +96,9 @@ public class CollisionInformation implements Serializable {
 
 	public Normal3D getNormal() {
 		return normal;
+	}
+
+	public Point2D getUVCoordinate() {
+		return uvCoordinate;
 	}
 }

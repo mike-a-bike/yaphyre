@@ -23,10 +23,8 @@ import static org.mockito.Mockito.mock;
 
 import java.util.Random;
 
-import yaphyre.core.Shader;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
-import yaphyre.geometry.Transformation;
 import yaphyre.geometry.Vector3D;
 
 import org.junit.Ignore;
@@ -36,7 +34,7 @@ import org.junit.Test;
  * Created with IntelliJ IDEA. User: michael Date: 27.01.13 Time: 11:50 To change this template use File | Settings |
  * File Templates.
  */
-public class TriangleTest {
+public class FlatMeshTriangleTest {
 
 	private final Random RAND = new Random(System.currentTimeMillis());
 
@@ -61,19 +59,8 @@ public class TriangleTest {
 	}
 
 	@Test
-	public void testIsInside() throws Exception {
-		Triangle triangle = Triangle.create(Point3D.ORIGIN, Vector3D.X.asPoint(), Vector3D.Z.asPoint(), mock(Shader.class));
-		assertFalse(triangle.isInside(Point3D.ORIGIN));
-		triangle = Triangle.create(new Point3D(RAND.nextDouble(), RAND.nextDouble(), RAND.nextDouble()),
-								   new Point3D(RAND.nextDouble(), RAND.nextDouble(), RAND.nextDouble()),
-								   new Point3D(RAND.nextDouble(), RAND.nextDouble(), RAND.nextDouble()),
-								   mock(Shader.class));
-		assertFalse(triangle.isInside(new Point3D(RAND.nextDouble(), RAND.nextDouble(), RAND.nextDouble())));
-	}
-
-	@Test
 	public void testIsHitBy() throws Exception {
-		Triangle t = Triangle.create(Point3D.ORIGIN, Point3D.ORIGIN.add(Vector3D.X), Point3D.ORIGIN.add(Vector3D.Y), mock(Shader.class));
+		FlatMeshTriangle t = FlatMeshTriangle.create(Point3D.ORIGIN, Point3D.ORIGIN.add(Vector3D.X), Point3D.ORIGIN.add(Vector3D.Y));
 		Ray r = new Ray(new Point3D(0.25d, 0.25d, 1), Vector3D.Z.neg());
 
 		assertTrue(t.isHitBy(r));

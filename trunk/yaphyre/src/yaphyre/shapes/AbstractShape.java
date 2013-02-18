@@ -132,7 +132,7 @@ public abstract class AbstractShape implements Shape {
 	@Override
 	public Point3D getIntersectionPoint(@NotNull Ray ray) {
 		double intersectionDistance = getIntersectDistance(ray);
-		if (intersectionDistance == Shape.NO_INTERSECTION) {
+		if (intersectionDistance == NO_INTERSECTION) {
 			return null;
 		}
 
