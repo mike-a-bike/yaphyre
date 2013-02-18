@@ -38,6 +38,8 @@ import yaphyre.geometry.Solver;
 import yaphyre.geometry.Transformation;
 import yaphyre.geometry.Vector3D;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * A sphere in the three dimensional space is defined as:<br/> (p - p<sub>0</sub>) &sdot; (p - p<sub>0</sub>) =
  * r<sup>2</sup><br/> with: <ul> <li>p<sub>0</sub>: center of the sphere</li> <li>p: point on the sphere</li> <li>r:
@@ -156,12 +158,8 @@ public class Sphere extends AbstractShape {
 	 *      The start angle for &theta; (&theta; &isin; [0, 180])
 	 * @param throwsShadow
 	 * 		Flag whether this shape throws a shadow or not.
-	 *@param shader
-	 * 		The {@link yaphyre.core.Shader} to use for this instance.   @throws NullPointerException
-	 * 		If either <code>objectToWorld</code> or <code>shader</code> is <code>null</code>, a {@link NullPointerException}
-	 * 		is thrown.
 	 */
-	public Sphere(final Transformation objectToWorld, final double phiMin, final double phiMax, final double thetaMin, final double thetaMax, final boolean throwsShadow, final Shader shader) throws NullPointerException, IllegalArgumentException {
+	public Sphere(final Transformation objectToWorld, final double phiMin, final double phiMax, final double thetaMin, final double thetaMax, final boolean throwsShadow, final Shader shader) {
 		super(objectToWorld, shader, throwsShadow);
 		checkArgument(0d <= phiMin && phiMin <= 360d);
 		checkArgument(0d <= phiMax && phiMax <= 360d);
@@ -171,7 +169,7 @@ public class Sphere extends AbstractShape {
 		this.phiMax = max(phiMin, phiMax) / 360d * TWO_PI;
 		this.thetaMin = min(thetaMin, thetaMax) / 180d * PI;
 		this.thetaMax = max(thetaMin, thetaMax) / 180d  * PI;
-		this.isPartial = phiMin == 0d && phiMax == 360d && thetaMin == 0d && thetaMax == 180d;
+		isPartial = phiMin == 0d && phiMax == 360d && thetaMin == 0d && thetaMax == 180d;
 	}
 
 	@Override
@@ -215,14 +213,15 @@ public class Sphere extends AbstractShape {
 	 * <em>t</em><sub>0</sub> = (-c<sub>1</sub> - SQRT( c<sub>1</sub><sup>2</sup> - 4c<sub>2</sub>c<sub>0</sub>)) / 2c<sub>2</sub><br/>
 	 * <em>t</em><sub>1</sub> = (-c<sub>1</sub> + SQRT( c<sub>1</sub><sup>2</sup> - 4c<sub>2</sub>c<sub>0</sub>)) / 2c<sub>2</sub><br/>
 	 *
+	 *
 	 * @param ray
-	 * 		The {@link Ray} to intersect with this sphere.
+	 * 		The {@link yaphyre.geometry.Ray} to intersect with this sphere.
 	 *
 	 * @return The distance in which the ray intersects this sphere, or if they do not intersect {@link
 	 *         Shape#NO_INTERSECTION}.
 	 */
 	@Override
-	public double getIntersectDistance(Ray ray) {
+	public double getIntersectDistance(@NotNull Ray ray) {
 
 		// Transform the incoming ray from the world space into the object space.
 		ray = super.getWorldToObject().transform(ray);
@@ -259,8 +258,9 @@ public class Sphere extends AbstractShape {
 	 * surface point into the object space</li> <li>Construct the vector connecting the origin of the sphere and the
 	 * surface point</li> <li>Transform the resulting normal back to world space</li> </ol>
 	 */
+	@NotNull
 	@Override
-	public Normal3D getNormal(Point3D surfacePoint) {
+	public Normal3D getNormal(@NotNull Point3D surfacePoint) {
 		surfacePoint = super.getWorldToObject().transform(surfacePoint);
 		return super.getObjectToWorld().transform(surfacePoint.asNormal());
 	}
@@ -282,8 +282,9 @@ public class Sphere extends AbstractShape {
 	 * 		If <code>surfacePoint</code> does not lie on the surface of the sphere an {@link IllegalArgumentException} is
 	 * 		thrown.
 	 */
+	@NotNull
 	@Override
-	public Point2D getMappedSurfacePoint(Point3D surfacePoint) throws NullPointerException, IllegalArgumentException {
+	public Point2D getMappedSurfacePoint(@NotNull Point3D surfacePoint) throws NullPointerException, IllegalArgumentException {
 		surfacePoint = super.getWorldToObject().transform(surfacePoint);
 		// Make sure, that the point lies on the surface.
 		checkNotNull(surfacePoint, "surfacePoint must not be null");
@@ -315,7 +316,7 @@ public class Sphere extends AbstractShape {
 	}
 
 	@Override
-	public boolean isInside(Point3D p) {
+	public boolean isInside(@NotNull Point3D p) {
 
 		p = super.getWorldToObject().transform(p);
 
