@@ -26,7 +26,7 @@
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" scope="TEST">
       <library name="junit4">
         <CLASSES>
           <root url="jar://$APPLICATION_HOME_DIR$/lib/junit-4.10.jar!/" />
@@ -116,7 +116,8 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="library" name="mockito-all-1.9.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="mockito-all-1.9.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="annotations" level="project" />
   </component>
 </module>
 
