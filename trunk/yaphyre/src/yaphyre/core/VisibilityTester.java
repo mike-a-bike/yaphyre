@@ -22,6 +22,8 @@ import yaphyre.geometry.Ray;
 import yaphyre.geometry.Vector3D;
 import yaphyre.raytracer.Scene;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * If Java had closures, this would be one. It contains the check whether a sampling point is visible from a given
  * second point in space. The idea is that this calculation and using this construct may be postponed until is is
@@ -35,17 +37,17 @@ public class VisibilityTester {
 
 	private final Ray ray;
 
-	public VisibilityTester(Point3D p1, Point3D p2) {
+	public VisibilityTester(@NotNull final Point3D p1, @NotNull final Point3D p2) {
 		Vector3D connectingVector = p2.sub(p1);
 		ray = new Ray(p1, connectingVector.normalize(), MathUtils.EPSILON,
 				connectingVector.length() - MathUtils.EPSILON);
 	}
 
-	public VisibilityTester(Point3D p, Vector3D w) {
+	public VisibilityTester(@NotNull final Point3D p, @NotNull final Vector3D w) {
 		ray = new Ray(p, w.normalize());
 	}
 
-	public boolean isUnobstructed(Scene scene) {
+	public boolean isUnobstructed(@NotNull Scene scene) {
 		return scene.getCollidingShape(ray, ray.getMaxt(), true) == null;
 	}
 

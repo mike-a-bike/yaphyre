@@ -18,6 +18,8 @@ package yaphyre.core;
 
 import yaphyre.geometry.Point2D;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.google.common.base.Objects;
 
 public class CameraSample {
@@ -26,11 +28,11 @@ public class CameraSample {
 
 	private final Point2D lensCoordinates;
 
-	public CameraSample(Point2D rasterPoint) {
+	public CameraSample(@NotNull final Point2D rasterPoint) {
 		this(rasterPoint, Point2D.ZERO);
 	}
 
-	public CameraSample(final Point2D rasterPoint, final Point2D lensCoordinates) {
+	public CameraSample(@NotNull final Point2D rasterPoint, @NotNull final Point2D lensCoordinates) {
 		this.rasterPoint = rasterPoint;
 		this.lensCoordinates = lensCoordinates;
 	}
@@ -46,10 +48,10 @@ public class CameraSample {
 
 		final CameraSample that = (CameraSample) o;
 
-		if (lensCoordinates != null ? !lensCoordinates.equals(that.lensCoordinates) : that.lensCoordinates != null) {
+		if (!lensCoordinates.equals(that.lensCoordinates)) {
 			return false;
 		}
-		if (rasterPoint != null ? !rasterPoint.equals(that.rasterPoint) : that.rasterPoint != null) {
+		if (!rasterPoint.equals(that.rasterPoint)) {
 			return false;
 		}
 
@@ -58,8 +60,8 @@ public class CameraSample {
 
 	@Override
 	public int hashCode() {
-		int result = rasterPoint != null ? rasterPoint.hashCode() : 0;
-		result = 31 * result + (lensCoordinates != null ? lensCoordinates.hashCode() : 0);
+		int result = rasterPoint.hashCode();
+		result = 31 * result + lensCoordinates.hashCode();
 		return result;
 	}
 
@@ -69,10 +71,12 @@ public class CameraSample {
 				lensCoordinates).toString();
 	}
 
+	@NotNull
 	public Point2D getRasterPoint() {
 		return rasterPoint;
 	}
 
+	@NotNull
 	public Point2D getLensCoordinates() {
 		return lensCoordinates;
 	}
