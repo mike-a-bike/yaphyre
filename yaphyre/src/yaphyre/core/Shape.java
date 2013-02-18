@@ -23,9 +23,6 @@ import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 /**
  * Interface implemented by all {@link Shape} of the rendering system.
  *
@@ -43,7 +40,7 @@ public interface Shape extends Serializable {
 	 *
 	 * @return The {@link Shader} for this shape.
 	 */
-	public @NotNull Shader getShader();
+	public Shader getShader();
 
 	/**
 	 * Simple intersection test. This does not produce exact intersection informations, but just informations about
@@ -54,7 +51,7 @@ public interface Shape extends Serializable {
 	 *
 	 * @return <code>true</code> if the {@link Ray} hits this shape, <code>false</code> otherwise.
 	 */
-	public boolean isHitBy(@NotNull Ray ray);
+	public boolean isHitBy(Ray ray);
 
 	/**
 	 * Determines wheter a given {@link Point3D} is inside the shape.
@@ -63,7 +60,7 @@ public interface Shape extends Serializable {
 	 *
 	 * @return <code>true</code> when the given point lies on the surface or inside the shape.
 	 */
-	public boolean isInside(@NotNull Point3D point);
+	public boolean isInside(Point3D point);
 
 	/**
 	 * Create the intersection informations for the given {@link Ray} and this shape. If the {@link Ray} does not
@@ -76,7 +73,7 @@ public interface Shape extends Serializable {
 	 * @return The {@link CollisionInformation} instance describing the intersection between the {@link Ray} and this
 	 *         {@link Shape} instance. <code>null</code> if no intersection happens.
 	 */
-	public @Nullable CollisionInformation intersect(@NotNull Ray ray);
+	public CollisionInformation intersect(Ray ray);
 
 	/**
 	 * Calculate the distance in which the given {@link Ray} and this shape intersect. If no intersection occurs, {@link
@@ -87,7 +84,7 @@ public interface Shape extends Serializable {
 	 *
 	 * @return The distance in which the ray intersects this shape. {@link #NO_INTERSECTION} if there is no intersection.
 	 */
-	public double getIntersectDistance(@NotNull Ray ray);
+	public double getIntersectDistance(Ray ray);
 
 	/**
 	 * Returns the {@link Point3D} at which the given {@link Ray} intersects this {@link Shape} instance. If the ray
@@ -99,7 +96,7 @@ public interface Shape extends Serializable {
 	 * @return The {@link Point3D} where the given {@link Ray} meets this shape. <code>null</code> if the ray misses the
 	 *         shape.
 	 */
-	public @Nullable Point3D getIntersectionPoint(@NotNull Ray ray);
+	public Point3D getIntersectionPoint(Ray ray);
 
 	/**
 	 * Gets the {@link Normal3D} information at a given point on the surface of this shape.
@@ -110,7 +107,7 @@ public interface Shape extends Serializable {
 	 *
 	 * @return The {@link Normal3D} information at the location of the <code>surfacePoint</code>.
 	 */
-	public @NotNull Normal3D getNormal(@NotNull Point3D surfacePoint);
+	public Normal3D getNormal(Point3D surfacePoint);
 
 	/**
 	 * Gets the mapping information of the given surface point. Each 3D object has a 2D surface with each point described
@@ -121,7 +118,7 @@ public interface Shape extends Serializable {
 	 *
 	 * @return A {@link Point2D} instance with the u- and v- coordinates.
 	 */
-	public @NotNull Point2D getMappedSurfacePoint(@NotNull Point3D surfacePoint);
+	public Point2D getMappedSurfacePoint(Point3D surfacePoint);
 
 	/**
 	 * Flag which determines whether this shape actually throws a shadow or not. This is only used when lights are places

@@ -25,6 +25,7 @@ import yaphyre.core.CollisionInformation;
 import yaphyre.core.Lightsource;
 import yaphyre.core.Shape;
 import yaphyre.geometry.Normal3D;
+import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 
@@ -97,11 +98,9 @@ public class Scene implements Serializable {
 		if (nearestCollisionDistance < maxDistance) {
 			final Point3D collisionPoint = ray.getPoint(nearestCollisionDistance);
 			final Normal3D collisionNormal = nearestCollisionShape.getNormal(collisionPoint).faceForward(ray);
+			final Point2D uvCoordinates = nearestCollisionShape.getMappedSurfacePoint(collisionPoint);
 
-			result = new CollisionInformation(ray,
-					nearestCollisionShape,
-					nearestCollisionDistance,
-					collisionPoint, collisionNormal);
+			result = new CollisionInformation(ray, nearestCollisionShape, nearestCollisionDistance, collisionPoint, collisionNormal, uvCoordinates);
 		}
 
 		return result;

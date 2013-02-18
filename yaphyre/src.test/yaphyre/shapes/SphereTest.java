@@ -24,6 +24,7 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 
+import yaphyre.core.Primitive;
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
 import yaphyre.geometry.Matrix;
@@ -112,7 +113,7 @@ public class SphereTest {
 
 		double distance = testSphere.getIntersectDistance(nonIntersectingRay);
 		System.out.println(testSphere + " intersects with " + nonIntersectingRay + " at a distance of " + distance);
-		assertEquals(Shape.NO_INTERSECTION, distance, 0);
+		assertEquals(Primitive.NO_INTERSECTION, distance, 0);
 
 		distance = testSphere.getIntersectDistance(intersectingRay);
 		System.out.println(testSphere + " intersects with " + intersectingRay + " at a distance of " + distance);

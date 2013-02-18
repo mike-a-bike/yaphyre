@@ -29,7 +29,6 @@ import static yaphyre.geometry.MathUtils.isInRangeWithTolerance;
 import java.text.MessageFormat;
 
 import yaphyre.core.Shader;
-import yaphyre.core.Shape;
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
@@ -218,7 +217,7 @@ public class Sphere extends AbstractShape {
 	 * 		The {@link yaphyre.geometry.Ray} to intersect with this sphere.
 	 *
 	 * @return The distance in which the ray intersects this sphere, or if they do not intersect {@link
-	 *         Shape#NO_INTERSECTION}.
+	 *         yaphyre.core.Primitive#NO_INTERSECTION}.
 	 */
 	@Override
 	public double getIntersectDistance(@NotNull Ray ray) {
@@ -235,7 +234,7 @@ public class Sphere extends AbstractShape {
 
 		final double[] solutions = Solver.Quadratic.solve(c0, c1, c2);
 
-		double result = Shape.NO_INTERSECTION;
+		double result = NO_INTERSECTION;
 
 		for (double solution : solutions) {
 			if (solution < result && (solution >= ray.getMint() && solution <= ray.getMaxt())) {

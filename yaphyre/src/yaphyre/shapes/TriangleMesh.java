@@ -16,8 +16,6 @@
 
 package yaphyre.shapes;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import yaphyre.core.Shader;
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
@@ -26,17 +24,10 @@ import yaphyre.geometry.Ray;
 import yaphyre.geometry.Transformation;
 
 /**
- * Created with IntelliJ IDEA. User: michael Date: 17.02.13 Time: 12:47 To change this template use File | Settings | File
+ * Created with IntelliJ IDEA. User: michael Date: 16.02.13 Time: 13:02 To change this template use File | Settings | File
  * Templates.
  */
-public class Triangle extends AbstractShape {
-
-	private final MeshTriangle trianglePrimitive;
-
-	public Triangle create(final Point3D v0, final Point3D v1, final Point3D v2, final Shader shader, final boolean throwsShadow) {
-		FlatMeshTriangle trianglePrimitive = FlatMeshTriangle.create(v0, v1, v2);
-		return new Triangle(trianglePrimitive, Transformation.IDENTITY, shader, throwsShadow);
-	}
+public class TriangleMesh extends AbstractShape {
 
 	/**
 	 * Initialize the common fields for all {@link yaphyre.core.Shape}s. Each {@link yaphyre.core.Shape} defines a point of origin for
@@ -45,8 +36,6 @@ public class Triangle extends AbstractShape {
 	 * remember, that the order of the {@link yaphyre.geometry.Transformation} matters. It is not the same if the object is rotated an
 	 * then translated or first translated and then rotated.
 	 *
-	 * @param trianglePrimitive
-	 *      The actual primitive implementing the shape within
 	 * @param objectToWorld
 	 * 		The {@link yaphyre.geometry.Transformation} used to map world coordinates to object coordinates.
 	 * @param shader
@@ -58,24 +47,23 @@ public class Triangle extends AbstractShape {
 	 * 		If either <code>objectToWorld</code> or <code>shader</code> is <code>null</code> a {@link NullPointerException} is
 	 * 		thrown
 	 */
-	protected Triangle(final MeshTriangle trianglePrimitive, final Transformation objectToWorld, final Shader shader, final boolean throwsShadow) throws NullPointerException {
+	protected TriangleMesh(final Transformation objectToWorld, final Shader shader, final boolean throwsShadow)
+			throws NullPointerException {
 		super(objectToWorld, shader, throwsShadow);
-		checkNotNull(trianglePrimitive);
-		this.trianglePrimitive = trianglePrimitive;
-	}
-
-	@Override
-	public double getIntersectDistance(final Ray ray) {
-		return trianglePrimitive.getIntersectDistance(ray);
 	}
 
 	@Override
 	public Normal3D getNormal(final Point3D surfacePoint) {
-		return trianglePrimitive.getNormal(surfacePoint);
+		return null;
 	}
 
 	@Override
 	public Point2D getMappedSurfacePoint(final Point3D surfacePoint) {
-		return trianglePrimitive.getMappedSurfacePoint(surfacePoint);
+		return null;
+	}
+
+	@Override
+	public double getIntersectDistance(final Ray ray) {
+		return 0;
 	}
 }

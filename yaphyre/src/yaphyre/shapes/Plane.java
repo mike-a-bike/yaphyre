@@ -21,7 +21,6 @@ import java.text.MessageFormat;
 
 import yaphyre.core.BoundingBox;
 import yaphyre.core.Shader;
-import yaphyre.core.Shape;
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
@@ -104,7 +103,7 @@ public class Plane extends AbstractShape {
 	 * @param ray
 	 * 		The {@link yaphyre.geometry.Ray} to intersect with this plane.
 	 *
-	 * @return The distance in which the ray intersects this plane or {@link Shape#NO_INTERSECTION} if there is no
+	 * @return The distance in which the ray intersects this plane or {@link yaphyre.core.Primitive#NO_INTERSECTION} if there is no
 	 *         intersection.
 	 */
 	@Override
@@ -120,12 +119,12 @@ public class Plane extends AbstractShape {
 		} else if (numerator != 0 && denominator == 0) {
 			// The ray starts outside the plane and is parallel to the plane, so no
 			// intersection, ever...
-			return Shape.NO_INTERSECTION;
+			return NO_INTERSECTION;
 		}
 
 		double distance = numerator / denominator;
 
-		return (distance >= ray.getMint() && distance <= ray.getMaxt()) ? distance : Shape.NO_INTERSECTION;
+		return (distance >= ray.getMint() && distance <= ray.getMaxt()) ? distance : NO_INTERSECTION;
 
 	}
 
