@@ -17,12 +17,13 @@ package yaphyre.cameras;
 
 import java.text.MessageFormat;
 
-import yaphyre.core.Camera;
 import yaphyre.core.Film;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Vector3D;
+
+import org.jetbrains.annotations.NotNull;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -51,7 +52,7 @@ public class OrthographicCamera extends AbstractCamera {
 	}
 
 	@Override
-	public Iterable<Ray> getCameraRay(Point2D viewPlanePoint) {
+	public Iterable<Ray> getCameraRay(@NotNull Point2D viewPlanePoint) {
 		Preconditions.checkArgument(viewPlanePoint.getU() >= 0d && viewPlanePoint.getU() <= 1d);
 		Preconditions.checkArgument(viewPlanePoint.getV() >= 0d && viewPlanePoint.getV() <= 1d);
 

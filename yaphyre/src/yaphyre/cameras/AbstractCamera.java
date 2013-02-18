@@ -23,6 +23,8 @@ import yaphyre.geometry.Ray;
 import yaphyre.geometry.Transformation;
 import yaphyre.geometry.Vector3D;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.google.common.base.Preconditions;
 
 /**
@@ -52,13 +54,15 @@ public abstract class AbstractCamera implements Camera {
 	}
 
 	@Override
-	public abstract Iterable<Ray> getCameraRay(Point2D viewPlanePoint);
+	public abstract Iterable<Ray> getCameraRay(@NotNull Point2D viewPlanePoint);
 
+	@NotNull
 	@Override
 	public Film getFilm() {
 		return film;
 	}
 
+	@NotNull
 	@Override
 	public void setFilm(Film film) {
 		this.film = film;
