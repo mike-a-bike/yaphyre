@@ -18,6 +18,8 @@ package yaphyre.shaders;
 import yaphyre.geometry.Point2D;
 import yaphyre.util.Color;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Basic shader which blends two colors depending on the coordinates. So, it is like a
  * procedural shader
@@ -42,13 +44,15 @@ public class GradientShader extends AbstractShader {
 		this.blendDirection = blendDirection;
 	}
 
+	@NotNull
 	@Override
-	public Color getColor(Point2D uvCoordinate) {
+	public Color getColor(@NotNull Point2D uvCoordinate) {
 		return blendDirection.getBlendedColor(fromColor, toColor, uvCoordinate);
 	}
 
+	@NotNull
 	@Override
-	public Material getMaterial(Point2D uvCoordinate) {
+	public Material getMaterial(@NotNull Point2D uvCoordinate) {
 		return material;
 	}
 

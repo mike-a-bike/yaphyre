@@ -22,6 +22,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 
 import yaphyre.core.Primitive;
@@ -224,15 +225,17 @@ public class SphereTest {
 	private static class TestShader implements Shader {
 		private static final Color TEST_COLOR = new Color(java.awt.Color.BLACK);
 
+		@NotNull
 		@Override
-		public Color getColor(Point2D uvPoint) {
+		public Color getColor(@NotNull Point2D uvPoint) {
 			return TEST_COLOR;
 		}
 
 		private static final Material TEST_MATERIAL = MaterialBuilder.start().ambient(0.1).diffuse(0.8).build();
 
+		@NotNull
 		@Override
-		public Material getMaterial(Point2D uvCoordinate) {
+		public Material getMaterial(@NotNull Point2D uvCoordinate) {
 			return TEST_MATERIAL;
 		}
 

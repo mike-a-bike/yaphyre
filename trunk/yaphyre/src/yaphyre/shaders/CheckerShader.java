@@ -23,6 +23,8 @@ import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Transformation;
 import yaphyre.util.Color;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * A simple checker pattern. No ray tracer is complete without one ;-) This implementation uses two shader to create
  * the color of the pixel to show. So it is for example possible to create a checked pattern within the checker pattern
@@ -156,13 +158,15 @@ public class CheckerShader extends AbstractShader {
 		return true;
 	}
 
+	@NotNull
 	@Override
-	public Color getColor(Point2D uvCoordinate) {
+	public Color getColor(@NotNull Point2D uvCoordinate) {
 		return getShaderAtCoordinate(uvCoordinate).getColor(uvCoordinate);
 	}
 
+	@NotNull
 	@Override
-	public Material getMaterial(Point2D uvCoordinate) {
+	public Material getMaterial(@NotNull Point2D uvCoordinate) {
 		return getShaderAtCoordinate(uvCoordinate).getMaterial(uvCoordinate);
 	}
 

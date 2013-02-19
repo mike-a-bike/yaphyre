@@ -22,6 +22,8 @@ import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 
+import org.jetbrains.annotations.NotNull;
+
 public class FlatMeshTriangle extends MeshTriangle {
 
 	private final Point3D v0, v1, v2;
@@ -30,11 +32,11 @@ public class FlatMeshTriangle extends MeshTriangle {
 
 	private final Point2D uv0, uv1, uv2;
 
-	public static FlatMeshTriangle create(final Point3D v0, final Point3D v1, final Point3D v2) {
+	public static FlatMeshTriangle create(@NotNull final Point3D v0, @NotNull final Point3D v1, @NotNull final Point3D v2) {
 		return new FlatMeshTriangle(v0, v1, v2);
 	}
 
-	public FlatMeshTriangle(final Point3D v0, final Point3D v1, final Point3D v2) {
+	public FlatMeshTriangle(@NotNull final Point3D v0, @NotNull final Point3D v1, @NotNull final Point3D v2) {
 		this.v0 = v0;
 		this.v1 = v1;
 		this.v2 = v2;
@@ -45,7 +47,7 @@ public class FlatMeshTriangle extends MeshTriangle {
 	}
 
 	@Override
-	public double getIntersectDistance(final Ray ray) {
+	public double getIntersectDistance(@NotNull final Ray ray) {
 
 		final TriangleIntersectionInformation triangleIntersectionInformation = calculateTriangleIntersection(ray);
 
@@ -54,7 +56,7 @@ public class FlatMeshTriangle extends MeshTriangle {
 
 
 	@Override
-	protected TriangleIntersectionInformation calculateTriangleIntersection(final Ray ray) {
+	protected TriangleIntersectionInformation calculateTriangleIntersection(@NotNull final Ray ray) {
 		// prepare system of equations
 		final double a = v0.getX() - v1.getX(), b = v0.getX() - v2.getX(), c = ray.getDirection().getX(), d = v0.getX() - ray.getOrigin().getX();
 		final double e = v0.getY() - v1.getY(), f = v0.getY() - v2.getY(), g = ray.getDirection().getY(), h = v0.getY() - ray.getOrigin().getY();
@@ -105,13 +107,15 @@ public class FlatMeshTriangle extends MeshTriangle {
 		return uv0.add(uv1.mul(beta)).add(uv2.mul(gamma));
 	}
 
+	@NotNull
 	@Override
-	public Normal3D getNormal(final Point3D surfacePoint) {
+	public Normal3D getNormal(@NotNull final Point3D surfacePoint) {
 		return normal;
 	}
 
+	@NotNull
 	@Override
-	public Point2D getMappedSurfacePoint(final Point3D surfacePoint) {
+	public Point2D getMappedSurfacePoint(@NotNull final Point3D surfacePoint) {
 		return null;
 	}
 

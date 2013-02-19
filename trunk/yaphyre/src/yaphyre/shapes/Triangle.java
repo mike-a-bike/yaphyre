@@ -34,7 +34,12 @@ public class Triangle extends AbstractShape {
 	private final MeshTriangle trianglePrimitive;
 
 	public Triangle create(final Point3D v0, final Point3D v1, final Point3D v2, final Shader shader, final boolean throwsShadow) {
-		FlatMeshTriangle trianglePrimitive = FlatMeshTriangle.create(v0, v1, v2);
+		MeshTriangle trianglePrimitive = FlatMeshTriangle.create(v0, v1, v2);
+		return new Triangle(trianglePrimitive, Transformation.IDENTITY, shader, throwsShadow);
+	}
+
+	public Triangle create(final Point3D v0, final Point3D v1, final Point3D v2, final Normal3D n0, final Normal3D n1, final Normal3D n2, final Shader shader, final boolean throwsShadow) {
+		MeshTriangle trianglePrimitive = SmoothMeshTriangle.create(v0, v1, v2, n0, n1, n2);
 		return new Triangle(trianglePrimitive, Transformation.IDENTITY, shader, throwsShadow);
 	}
 

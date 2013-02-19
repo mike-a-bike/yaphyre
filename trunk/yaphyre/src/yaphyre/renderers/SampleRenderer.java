@@ -18,6 +18,8 @@ package yaphyre.renderers;
 import yaphyre.core.Renderer;
 import yaphyre.raytracer.Scene;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Simple renderer using samples to determine where the color should be rendered.
  *
@@ -28,7 +30,7 @@ import yaphyre.raytracer.Scene;
 public class SampleRenderer implements Renderer {
 
 	@Override
-	public void render(Scene scene) {
+	public void render(@NotNull Scene scene) {
 		// TODO Auto-generated method stub
 
 	}

@@ -23,6 +23,8 @@ import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Created with IntelliJ IDEA. User: michael Date: 16.02.13 Time: 12:41 To change this template use File | Settings | File
  * Templates.
@@ -41,7 +43,7 @@ public interface Primitive extends Serializable {
 	 *
 	 * @return The distance in which the ray intersects this shape. {@link #NO_INTERSECTION} if there is no intersection.
 	 */
-	public double getIntersectDistance(Ray ray);
+	public double getIntersectDistance(@NotNull Ray ray);
 
 	/**
 	 * Gets the {@link yaphyre.geometry.Normal3D} information at a given point on the surface of this shape.
@@ -52,7 +54,8 @@ public interface Primitive extends Serializable {
 	 *
 	 * @return The {@link yaphyre.geometry.Normal3D} information at the location of the <code>surfacePoint</code>.
 	 */
-	public Normal3D getNormal(Point3D surfacePoint);
+	@NotNull
+	public Normal3D getNormal(@NotNull Point3D surfacePoint);
 
 	/**
 	 * Gets the mapping information of the given surface point. Each 3D object has a 2D surface with each point described
@@ -63,6 +66,7 @@ public interface Primitive extends Serializable {
 	 *
 	 * @return A {@link Point2D} instance with the u- and v- coordinates.
 	 */
-	public Point2D getMappedSurfacePoint(Point3D surfacePoint);
+	@NotNull
+	public Point2D getMappedSurfacePoint(@NotNull Point3D surfacePoint);
 
 }

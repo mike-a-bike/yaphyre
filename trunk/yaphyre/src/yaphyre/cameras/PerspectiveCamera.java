@@ -60,8 +60,9 @@ public class PerspectiveCamera extends AbstractCamera {
 		}
 	}
 
+	@NotNull
 	@Override
-	public Iterable</*@NotNull*/ Ray> getCameraRay(@NotNull Point2D viewPlanePoint) {
+	public Iterable</*@NotNull*/ Ray> createCameraRays(@NotNull Point2D viewPlanePoint) {
 		Preconditions.checkArgument(viewPlanePoint.getU() >= 0d && viewPlanePoint.getU() <= 1d);
 		Preconditions.checkArgument(viewPlanePoint.getV() >= 0d && viewPlanePoint.getV() <= 1d);
 

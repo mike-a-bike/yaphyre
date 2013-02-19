@@ -22,6 +22,8 @@ import yaphyre.geometry.Point2D;
 import yaphyre.shaders.Material;
 import yaphyre.util.Color;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * The common interface for all shading activities. It provides two method. One for accessing the material at the given
  * u- v- coordinates. And another for accessing the material properties at the given coordinates.
@@ -32,8 +34,10 @@ import yaphyre.util.Color;
  */
 public interface Shader extends Serializable {
 
-	public Color getColor(Point2D uvCoordinate);
+	@NotNull
+	public Color getColor(@NotNull final Point2D uvCoordinate);
 
-	public Material getMaterial(Point2D uvCoordinate);
+	@NotNull
+	public Material getMaterial(@NotNull final Point2D uvCoordinate);
 
 }

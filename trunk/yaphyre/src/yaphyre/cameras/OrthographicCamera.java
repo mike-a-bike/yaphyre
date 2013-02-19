@@ -51,8 +51,9 @@ public class OrthographicCamera extends AbstractCamera {
 		viewPlaneHeightStart = -(cameraSettings.getViewPlaneHeight() / 2d);
 	}
 
+	@NotNull
 	@Override
-	public Iterable<Ray> getCameraRay(@NotNull Point2D viewPlanePoint) {
+	public Iterable<Ray> createCameraRays(@NotNull Point2D viewPlanePoint) {
 		Preconditions.checkArgument(viewPlanePoint.getU() >= 0d && viewPlanePoint.getU() <= 1d);
 		Preconditions.checkArgument(viewPlanePoint.getV() >= 0d && viewPlanePoint.getV() <= 1d);
 

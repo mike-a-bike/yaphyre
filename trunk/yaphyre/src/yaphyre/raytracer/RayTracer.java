@@ -189,13 +189,21 @@ public class RayTracer {
 		// Slicing up the work
 		int numberOfCores = getNumberOfCPUs();
 		int numberOfRenderingTasks = numberOfCores * SLICES_PER_CORE;
-		int sliceWidth = (imageWidth + (numberOfCores - 1)) / numberOfCores;
-		int sliceHeight = (imageHeight + (SLICES_PER_CORE - 1)) / SLICES_PER_CORE;
-
-		List<RenderCallable> slices = new ArrayList<RenderCallable>();
 
 		LOGGER.info("Using mutli threaded renderer with {} cores", numberOfCores);
 		LOGGER.info("Splitting rendering into {} slices", numberOfRenderingTasks);
+
+		List<RenderCallable> slices = prepareRenderingTasks(imageWidth, imageHeight, rasterToCamera, numberOfCores);
+
+		return executeRenderingTasks(overallTime, numberOfCores, slices);
+	}
+
+	private List<RenderCallable> prepareRenderingTasks(final int imageWidth, final int imageHeight,
+			final Transformation rasterToCamera, final int numberOfCores) {
+
+		int sliceWidth = (imageWidth + (numberOfCores - 1)) / numberOfCores;
+		int sliceHeight = (imageHeight + (SLICES_PER_CORE - 1)) / SLICES_PER_CORE;
+		List<RenderCallable> slices = new ArrayList<RenderCallable>();
 
 		for (int verticalSliceIndex = 0; verticalSliceIndex < SLICES_PER_CORE; verticalSliceIndex++) {
 
@@ -217,6 +225,11 @@ public class RayTracer {
 
 			}
 		}
+
+		return slices;
+	}
+
+	private long executeRenderingTasks(final Stopwatch overallTime, final int numberOfCores, final List<RenderCallable> slices) {
 
 		ExecutorService renderingExecutor = Executors.newFixedThreadPool(numberOfCores);
 
@@ -278,8 +291,7 @@ public class RayTracer {
 		overallTime.start();
 		renderWindow(sampler, renderWindow, rasterToCamera);
 		overallTime.stop();
-		long cpuTime = overallTime.elapsedMillis();
-		return cpuTime;
+		return overallTime.elapsedMillis();
 	}
 
 	/**
@@ -306,7 +318,7 @@ public class RayTracer {
 				for (Point2D samplePoint : sampler.getUnitSquareSamples()) {
 					sampleCount++;
 					Point2D cameraCoordinates = rasterToCamera.transform(rasterPoint.add(samplePoint));
-					for (Ray eyeRay : camera.getCameraRay(cameraCoordinates)) {
+					for (Ray eyeRay : camera.createCameraRays(cameraCoordinates)) {
 						RenderStatistics.incEyeRays();
 						color = color.add(traceRay(eyeRay, 1));
 					}
