@@ -31,9 +31,9 @@ import org.jetbrains.annotations.NotNull;
 public interface Camera {
 
 	/**
-	 * Create a ray for the given u/v coordinates. Where <em>u</em> &isin; [0, 1] and <em>v</em> &isin; [0, 1]. It is
-	 * possible, that a camera returns different samples for a given view plane point. This is used to simulate depth of
-	 * field effects by sampling the same view plane point using a non zero lens size.
+	 * Create a list of rays for the given u/v coordinates. Where <em>u</em> &isin; [0, 1] and <em>v</em> &isin; [0, 1].
+	 * It is perfectly valid to return a list of rays, since a camera may need multiple samples to simulate different
+	 * effects, like depth of field effects by sampling the same view plane point using a non zero lens size.
 	 *
 	 * @param viewPlanePoint
 	 * 		The {@link yaphyre.geometry.Point2D} to create the camera ray for.
@@ -41,7 +41,8 @@ public interface Camera {
 	 * @return A collection of {@link Ray}s which corresponds with the given u/v position in the world space. More than
 	 *         one ray is used to simulate effects like depth of field with thin lens cameras.
 	 */
-	public Iterable</*@NotNull*/ Ray> getCameraRay(@NotNull Point2D viewPlanePoint);
+	@NotNull
+	public Iterable</*@NotNull*/ Ray> createCameraRays(@NotNull Point2D viewPlanePoint);
 
 	/**
 	 * Get the {@link Film} instance that is associated with the camera. This is usually an image file, but can be
@@ -60,7 +61,6 @@ public interface Camera {
 	 * @param film
 	 * 		An instance of {@link Film}.
 	 */
-	@NotNull
 	public void setFilm(Film film);
 
 }

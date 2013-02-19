@@ -34,35 +34,35 @@ public class OrthographicCameraTest {
 
 		Camera camera = getOriginCamera();
 
-		System.out.println(camera.getCameraRay(new Point2D(0, 0)));
-		System.out.println(camera.getCameraRay(new Point2D(1, 0)));
-		System.out.println(camera.getCameraRay(new Point2D(0, 1)));
-		System.out.println(camera.getCameraRay(new Point2D(1, 1)));
-		System.out.println(camera.getCameraRay(new Point2D(0.5, 0.5)));
+		System.out.println(camera.createCameraRays(new Point2D(0, 0)));
+		System.out.println(camera.createCameraRays(new Point2D(1, 0)));
+		System.out.println(camera.createCameraRays(new Point2D(0, 1)));
+		System.out.println(camera.createCameraRays(new Point2D(1, 1)));
+		System.out.println(camera.createCameraRays(new Point2D(0.5, 0.5)));
 
 		camera = getZCamera();
 
-		System.out.println(camera.getCameraRay(new Point2D(0, 0)));
-		System.out.println(camera.getCameraRay(new Point2D(1, 0)));
-		System.out.println(camera.getCameraRay(new Point2D(0, 1)));
-		System.out.println(camera.getCameraRay(new Point2D(1, 1)));
-		System.out.println(camera.getCameraRay(new Point2D(0.5, 0.5)));
+		System.out.println(camera.createCameraRays(new Point2D(0, 0)));
+		System.out.println(camera.createCameraRays(new Point2D(1, 0)));
+		System.out.println(camera.createCameraRays(new Point2D(0, 1)));
+		System.out.println(camera.createCameraRays(new Point2D(1, 1)));
+		System.out.println(camera.createCameraRays(new Point2D(0.5, 0.5)));
 
 		camera = getOffsettedOriginCamera();
 
-		System.out.println(camera.getCameraRay(new Point2D(0, 0)));
-		System.out.println(camera.getCameraRay(new Point2D(1, 0)));
-		System.out.println(camera.getCameraRay(new Point2D(0, 1)));
-		System.out.println(camera.getCameraRay(new Point2D(1, 1)));
-		System.out.println(camera.getCameraRay(new Point2D(0.5, 0.5)));
+		System.out.println(camera.createCameraRays(new Point2D(0, 0)));
+		System.out.println(camera.createCameraRays(new Point2D(1, 0)));
+		System.out.println(camera.createCameraRays(new Point2D(0, 1)));
+		System.out.println(camera.createCameraRays(new Point2D(1, 1)));
+		System.out.println(camera.createCameraRays(new Point2D(0.5, 0.5)));
 
 		camera = getTiltedCamera();
 
-		System.out.println(camera.getCameraRay(new Point2D(0, 0)));
-		System.out.println(camera.getCameraRay(new Point2D(1, 0)));
-		System.out.println(camera.getCameraRay(new Point2D(0, 1)));
-		System.out.println(camera.getCameraRay(new Point2D(1, 1)));
-		System.out.println(camera.getCameraRay(new Point2D(0.5, 0.5)));
+		System.out.println(camera.createCameraRays(new Point2D(0, 0)));
+		System.out.println(camera.createCameraRays(new Point2D(1, 0)));
+		System.out.println(camera.createCameraRays(new Point2D(0, 1)));
+		System.out.println(camera.createCameraRays(new Point2D(1, 1)));
+		System.out.println(camera.createCameraRays(new Point2D(0.5, 0.5)));
 	}
 
 	private Camera getZCamera() {

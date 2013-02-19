@@ -23,10 +23,12 @@ import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.google.common.base.Objects;
 
 /**
- * A record which contains all the information relevant for a collision.
+ * A record which contains all the information relevant for a ray-object collision.
  *
  * @author Michael Bieri
  * @author $LastChangedBy$
@@ -36,13 +38,13 @@ public class CollisionInformation implements Serializable {
 
 	private static final long serialVersionUID = 9132420627811920135L;
 
+	private final Ray ray;
+
 	private final Shape shape;
 
 	private final double distance;
 
 	private final Point3D point;
-
-	private final Ray ray;
 
 	private final Normal3D normal;
 
@@ -56,8 +58,11 @@ public class CollisionInformation implements Serializable {
 	 * @param distance
 	 * @param point
 	 * @param normal
+	 * @param uvCoordinate
 	 */
-	public CollisionInformation(final Ray ray, Shape shape, double distance, Point3D point, final Normal3D normal, final Point2D uvCoordinate) {
+	public CollisionInformation(@NotNull final Ray ray, @NotNull final Shape shape, final double distance,
+								@NotNull final Point3D point, @NotNull final Normal3D normal,
+								@NotNull final Point2D uvCoordinate) {
 		this.shape = shape;
 		this.distance = distance;
 		this.point = point;
@@ -76,6 +81,51 @@ public class CollisionInformation implements Serializable {
 				.add("point", point)
 				.add("normal", normal)
 				.add("uvCoordinate", uvCoordinate).toString();
+	}
+
+	@Override
+	public boolean equals(final Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		final CollisionInformation that = (CollisionInformation) o;
+
+		if (Double.compare(that.distance, distance) != 0) {
+			return false;
+		}
+		if (!normal.equals(that.normal)) {
+			return false;
+		}
+		if (!point.equals(that.point)) {
+			return false;
+		}
+		if (!ray.equals(that.ray)) {
+			return false;
+		}
+		if (!shape.equals(that.shape)) {
+			return false;
+		}
+		if (!uvCoordinate.equals(that.uvCoordinate)) {
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = shape.hashCode();
+		long temp = (distance != +0.0d) ? Double.doubleToLongBits(distance) : 0L;
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		result = 31 * result + point.hashCode();
+		result = 31 * result + ray.hashCode();
+		result = 31 * result + normal.hashCode();
+		result = 31 * result + uvCoordinate.hashCode();
+		return result;
 	}
 
 	public Ray getRay() {

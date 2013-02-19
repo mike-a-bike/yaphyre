@@ -16,13 +16,13 @@
 
 package yaphyre.shapes;
 
-import yaphyre.core.CollisionInformation;
 import yaphyre.core.Primitive;
-import yaphyre.geometry.MathUtils;
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created with IntelliJ IDEA. User: michael Date: 17.02.13 Time: 12:50 To change this template use File | Settings | File
@@ -31,15 +31,17 @@ import yaphyre.geometry.Ray;
 public abstract class MeshTriangle implements Primitive {
 
 	@Override
-	public abstract double getIntersectDistance(final Ray ray);
+	public abstract double getIntersectDistance(@NotNull final Ray ray);
 
+	@NotNull
 	@Override
-	public abstract Normal3D getNormal(final Point3D surfacePoint);
+	public abstract Normal3D getNormal(@NotNull final Point3D surfacePoint);
 
+	@NotNull
 	@Override
-	public abstract Point2D getMappedSurfacePoint(final Point3D surfacePoint);
+	public abstract Point2D getMappedSurfacePoint(@NotNull final Point3D surfacePoint);
 
-	protected abstract TriangleIntersectionInformation calculateTriangleIntersection(final Ray ray);
+	protected abstract TriangleIntersectionInformation calculateTriangleIntersection(@NotNull final Ray ray);
 
 	protected final class TriangleIntersectionInformation {
 		private final double alpha, beta, gamma;

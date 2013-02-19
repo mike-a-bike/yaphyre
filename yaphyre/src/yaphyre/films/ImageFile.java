@@ -25,6 +25,7 @@ import yaphyre.core.CameraSample;
 import yaphyre.core.Film;
 import yaphyre.util.Color;
 
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,10 +57,9 @@ public class ImageFile implements Film {
 		this(xResolution, yResolution, DEFAULT_IMAGE_FORMAT);
 	}
 
-	public ImageFile(int xResolution, int yResolution, ImageFormat imageFormat) {
+	public ImageFile(int xResolution, int yResolution, @NotNull ImageFormat imageFormat) {
 
-		Preconditions.checkArgument(imageFormat == ImageFormat.JPEG || imageFormat == ImageFormat.PNG,
-				"unsupoorted image format: %s", imageFormat);
+		Preconditions.checkArgument(imageFormat == ImageFormat.JPEG || imageFormat == ImageFormat.PNG, "unsupoorted image format: %s", imageFormat);
 
 		this.xResolution = xResolution;
 		this.yResolution = yResolution;
@@ -78,7 +78,7 @@ public class ImageFile implements Film {
 	}
 
 	@Override
-	public void addCameraSample(CameraSample sample, Color color) {
+	public void addCameraSample(@NotNull CameraSample sample, @NotNull Color color) {
 		int uCoordinate = (int) sample.getRasterPoint().getU();
 		int vCoordinate = (int) sample.getRasterPoint().getV();
 
@@ -103,7 +103,7 @@ public class ImageFile implements Film {
 	}
 
 	@Override
-	public void writeImageFile(int xSize, int ySize, String fileName) {
+	public void writeImageFile(int xSize, int ySize, @NotNull String fileName) {
 		Preconditions.checkArgument(xSize == xResolution && ySize == yResolution, "scaling is not yet supported");
 
 		BufferedImage image = createImageFromData();
@@ -150,10 +150,11 @@ public class ImageFile implements Film {
 
 		private final String defaultFileExtention;
 
-		private ImageFormat(String defaultFileExtention) {
+		private ImageFormat(@NotNull String defaultFileExtention) {
 			this.defaultFileExtention = defaultFileExtention;
 		}
 
+		@NotNull
 		public String getDefaultFileExtention() {
 			return defaultFileExtention;
 		}

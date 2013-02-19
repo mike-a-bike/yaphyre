@@ -18,6 +18,8 @@ package yaphyre.core;
 
 import yaphyre.raytracer.Scene;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Common interface of all renderer in this rendering system
  *
@@ -27,6 +29,6 @@ import yaphyre.raytracer.Scene;
  */
 public interface Renderer {
 
-	public void render(Scene scene);
+	public void render(@NotNull Scene scene);
 
 }

@@ -53,8 +53,9 @@ public abstract class AbstractCamera implements Camera {
 		this.film = film;
 	}
 
+	@NotNull
 	@Override
-	public abstract Iterable<Ray> getCameraRay(@NotNull Point2D viewPlanePoint);
+	public abstract Iterable<Ray> createCameraRays(@NotNull Point2D viewPlanePoint);
 
 	@NotNull
 	@Override
@@ -122,8 +123,7 @@ public abstract class AbstractCamera implements Camera {
 			return create(0d, Double.MAX_VALUE, position, lookAt, up);
 		}
 
-		public static BaseCameraSettings create(double nearClip, double farClip, Point3D position, Point3D lookAt,
-				Vector3D up) {
+		public static BaseCameraSettings create(double nearClip, double farClip, Point3D position, Point3D lookAt, Vector3D up) {
 			return new BaseCameraSettings(nearClip, farClip, position, lookAt, up);
 		}
 
