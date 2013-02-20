@@ -92,8 +92,12 @@ public class PerspectiveCamera extends AbstractCamera {
 	private static class CameraRaysIterator implements Iterator<Ray> {
 
 		private final Iterator<Point2D> unitCircleSamples;
+		private final double apertureSize;
+		private final Point2D viewPlanePoint;
 
-		public CameraRaysIterator(Sampler lensSampler) {
+		public CameraRaysIterator(final Point2D viewPlanePoint, final double apertureSize, final Sampler lensSampler) {
+			this.viewPlanePoint = viewPlanePoint;
+			this.apertureSize = apertureSize;
 			this.unitCircleSamples = lensSampler.getUnitCircleSamples().iterator();
 		}
 
@@ -104,6 +108,8 @@ public class PerspectiveCamera extends AbstractCamera {
 
 		@Override
 		public Ray next() {
+			Point2D lensSamplePoint = unitCircleSamples.next().mul(apertureSize);
+			Point2D newViewPlanePoint = viewPlanePoint.add(lensSamplePoint);
 			return null;
 		}
 
