@@ -40,7 +40,7 @@ public enum BezierCurve {
 
 			return p0.scale(s).add(p1.scale(t));
 
-			/* geometric implementation
+			/* geometric interpretation
 			return p0.add(p1.sub(p0).scale(t));
 			*/
 		}
@@ -61,7 +61,7 @@ public enum BezierCurve {
 					.add(p1.scale(2d * s * t))
 					.add(p2.scale(t * t));
 
-			/* geometric implementation
+			/* geometric interpretation
 			final Point3D pa = LINEAR.calculatePoint(t, p0, p1);
 			final Point3D pb = LINEAR.calculatePoint(t, p1, p2);
 
@@ -88,7 +88,7 @@ public enum BezierCurve {
 					.add(p2.scale(3d * s * t * t))
 					.add(p3.scale(t * t * t));
 
-			/* geometric implementation
+			/* geometric interpretation
 			final Point3D pa = LINEAR.calculatePoint(t, p0, p1);
 			final Point3D pb = LINEAR.calculatePoint(t, p1, p2);
 			final Point3D pc = LINEAR.calculatePoint(t, p2, p3);

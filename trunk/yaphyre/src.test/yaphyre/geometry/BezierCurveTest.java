@@ -65,8 +65,8 @@ public class BezierCurveTest {
 	public void testLinearBezier() {
 		imageName = "BezierTest_Linear.png";
 
-		final Point3D p0 = Point3D.ORIGIN;
-		final Point3D p1 = new Point3D(640, 640, 0);
+		final Point3D p0 = new Point3D(0, 320, 0);
+		final Point3D p1 = new Point3D(640, 320, 0);
 
 		for(double t = 0d; t <= 1d; t += 0.0025d) {
 			final Point3D result = BezierCurve.LINEAR.calculatePoint(t, p0, p1);
@@ -80,9 +80,9 @@ public class BezierCurveTest {
 	public void testQuadraticBezier() {
 		imageName = "BezierTest_Quadratic.png";
 
-		final Point3D p0 = Point3D.ORIGIN;
+		final Point3D p0 = new Point3D(0, 320, 0);
 		final Point3D p1 = new Point3D(320, 640, 0);
-		final Point3D p2 = new Point3D(640, 0, 0);
+		final Point3D p2 = new Point3D(640, 320, 0);
 
 		for(double t = 0d; t <= 1d; t += 0.0025d) {
 			final Point3D result = BezierCurve.QUADRATIC.calculatePoint(t, p0, p1, p2);
@@ -96,10 +96,10 @@ public class BezierCurveTest {
 	public void testCubicBezier() {
 		imageName = "BezierTest_Cubic.png";
 
-		final Point3D p0 = Point3D.ORIGIN;
+		final Point3D p0 = new Point3D(0, 320, 0);
 		final Point3D p1 = new Point3D(160, 640, 0);
 		final Point3D p2 = new Point3D(480, 0, 0);
-		final Point3D p3 = new Point3D(640, 640, 0);
+		final Point3D p3 = new Point3D(640, 320, 0);
 
 		for(double t = 0d; t <= 1d; t += 0.0025d) {
 			final Point3D result = BezierCurve.CUBIC.calculatePoint(t, p0, p1, p2, p3);
@@ -113,11 +113,11 @@ public class BezierCurveTest {
 	public void testQuarticBezier() {
 		imageName = "BezierTest_Quartic.png";
 
-		final Point3D p0 = Point3D.ORIGIN;
+		final Point3D p0 = new Point3D(0, 320, 0);
 		final Point3D p1 = new Point3D(160, 640, 0);
 		final Point3D p2 = new Point3D(320, 0, 0);
 		final Point3D p3 = new Point3D(480, 640, 0);
-		final Point3D p4 = new Point3D(640, 0, 0);
+		final Point3D p4 = new Point3D(640, 320, 0);
 
 		for(double t = 0d; t <= 1d; t += 0.0025d) {
 			final Point3D result = BezierCurve.QUARTIC.calculatePoint(t, p0, p1, p2, p3, p4);
@@ -131,12 +131,12 @@ public class BezierCurveTest {
 	public void testGenericBezier() {
 		imageName = "BezierTest_Generic.png";
 
-		final Point3D p0 = Point3D.ORIGIN;
+		final Point3D p0 = new Point3D(0, 320, 0);
 		final Point3D p1 = new Point3D(128, 640, 0);
 		final Point3D p2 = new Point3D(256, 0, 0);
 		final Point3D p3 = new Point3D(384, 640, 0);
 		final Point3D p4 = new Point3D(512, 0, 0);
-		final Point3D p5 = new Point3D(640, 640, 0);
+		final Point3D p5 = new Point3D(640, 320, 0);
 
 		for(double t = 0d; t <= 1d; t += 0.0025d) {
 			final Point3D result = BezierCurve.GENERIC.calculatePoint(t, p0, p1, p2, p3, p4, p5);
