@@ -82,10 +82,10 @@ public class SceneReader {
 
 		Scene simpleScene = new Scene();
 
-		simpleScene.addShape(Sphere.createSphere(sphere1Center, sphere1Radius, true, whiteShader));
+		simpleScene.addShape(Sphere.createSphere(sphere1Center, sphere1Radius, whiteShader));
 		double sphere2Radius = 0.5;
-		simpleScene.addShape(Sphere.createSphere(sphere2Center, sphere2Radius, true, whiteMirror));
-		simpleScene.addShape(new Plane(Transformation.IDENTITY, whiteMirror, true));
+		simpleScene.addShape(Sphere.createSphere(sphere2Center, sphere2Radius, whiteMirror));
+		simpleScene.addShape(new Plane(Transformation.IDENTITY, whiteMirror));
 
 		double pointlight1Intensity = 10d;
 		simpleScene.addLightsource(new Pointlight(pointlight1Transformation, pointlight1Color, pointlight1Intensity));
@@ -130,9 +130,9 @@ public class SceneReader {
 		Transformation planeTransformation = Transformation.rotateX(-10).mul(Transformation.translate(0, -1, 0).mul(
 				Transformation.rotateY(30)));
 
-		Shape plane = new Plane(planeTransformation, planeCeckerShader, true);
-		Shape sphere = new Sphere(sphereTransformation, 0d, 360d, 0d, 180d, true, sphereCheckerShader);
-		Shape distantSphere = new Sphere(distantTransformation, 0d, 360d, 0d, 180d, true, checkBoardShader);
+		Shape plane = new Plane(planeTransformation, planeCeckerShader);
+		Shape sphere = new Sphere(sphereTransformation, 0d, 360d, 0d, 180d, sphereCheckerShader);
+		Shape distantSphere = new Sphere(distantTransformation, 0d, 360d, 0d, 180d, checkBoardShader);
 
 		Scene scene = new Scene();
 
@@ -158,10 +158,10 @@ public class SceneReader {
 		final Shader greenDiffuse = new SimpleShader(diffuseMaterial, 0d, 1d, 0d);
 		final Shader blueDiffuse = new SimpleShader(diffuseMaterial, 0d, 0d, 1d);
 
-		final Shape floor = new Plane(Transformation.IDENTITY, whiteDiffuse, false);
-		final Shape redBall = new Sphere(Transformation.translate(-2, 1.5, -2), 0d, 360d, 0d, 180d, true, redDiffuse);
-		final Shape blueBall = new Sphere(Transformation.translate(0, 1.5, 0), 0d, 360d, 0d, 180d, true, blueDiffuse);
-		final Shape greenBall = new Sphere(Transformation.translate(2, 1.5, 2), 0d, 360d, 0d, 180d, true, greenDiffuse);
+		final Shape floor = new Plane(Transformation.IDENTITY, whiteDiffuse);
+		final Shape redBall = new Sphere(Transformation.translate(-2, 1.5, -2), 0d, 360d, 0d, 180d, redDiffuse);
+		final Shape blueBall = new Sphere(Transformation.translate(0, 1.5, 0), 0d, 360d, 0d, 180d, blueDiffuse);
+		final Shape greenBall = new Sphere(Transformation.translate(2, 1.5, 2), 0d, 360d, 0d, 180d, greenDiffuse);
 
 		final Lightsource pointLight = new Pointlight(Transformation.translate(2.5, 5, 5), new Color(1, 1, 1), 30);
 
@@ -197,8 +197,8 @@ public class SceneReader {
 
 		Lightsource light = new Pointlight(Transformation.translate(-2, 5, 2), new Color(1, 1, 1), 20);
 
-		Shape plane = new Plane(Transformation.IDENTITY, diffuseWhite, true);
-		Shape sphere = new Sphere(Transformation.translate(0d, 1d, 0d), 225d, 315d, 45d, 135d, true, checker);
+		Shape plane = new Plane(Transformation.IDENTITY, diffuseWhite);
+		Shape sphere = new Sphere(Transformation.translate(0d, 1d, 0d), 225d, 315d, 45d, 135d, checker);
 
 		Scene scene = new Scene();
 

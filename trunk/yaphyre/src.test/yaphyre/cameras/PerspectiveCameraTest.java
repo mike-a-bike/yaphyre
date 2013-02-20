@@ -19,16 +19,18 @@ package yaphyre.cameras;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import org.junit.Test;
-
 import yaphyre.cameras.AbstractCamera.BaseCameraSettings;
 import yaphyre.cameras.PerspectiveCamera.PerspectiveCameraSettings;
 import yaphyre.films.ImageFile;
 import yaphyre.geometry.Point3D;
 
+import org.junit.Ignore;
+import org.junit.Test;
+
 public class PerspectiveCameraTest {
 
 	@Test
+	@Ignore
 	public void testGetCameraRay() {
 		fail("Not yet implemented");
 	}

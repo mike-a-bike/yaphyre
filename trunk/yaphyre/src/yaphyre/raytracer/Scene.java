@@ -78,23 +78,20 @@ public class Scene implements Serializable {
 				.size()).toString();
 	}
 
-	public CollisionInformation getCollidingShape(Ray ray, double maxDistance, boolean onlyShadowShapes) {
+	public CollisionInformation getCollidingShape(Ray ray, double maxDistance) {
 
 		double nearestCollisionDistance = maxDistance;
 		Shape nearestCollisionShape = null;
+		CollisionInformation result = null;
 
 		for (Shape shape : getShapes()) {
-			if (onlyShadowShapes && !shape.throwsShadow()) {
-				continue;
-			}
-			double distance = shape.getIntersectDistance(ray);
-			if (distance < nearestCollisionDistance) {
-				nearestCollisionDistance = distance;
+			CollisionInformation intersection = shape.intersect(ray);
+			if (intersection.getDistance() < nearestCollisionDistance) {
+				nearestCollisionDistance = intersection.getDistance();
 				nearestCollisionShape = shape;
 			}
 		}
 
-		CollisionInformation result = null;
 		if (nearestCollisionDistance < maxDistance) {
 			final Point3D collisionPoint = ray.getPoint(nearestCollisionDistance);
 			final Normal3D collisionNormal = nearestCollisionShape.getNormal(collisionPoint).faceForward(ray);

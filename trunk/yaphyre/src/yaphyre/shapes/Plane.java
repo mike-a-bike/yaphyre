@@ -53,8 +53,8 @@ public class Plane extends AbstractShape {
 
 	private final BoundingBox boundingBox;
 
-	public Plane(@NotNull Transformation planeToWorld, @NotNull Shader shader, boolean throwsShadow) {
-		super(planeToWorld, shader, throwsShadow);
+	public Plane(@NotNull Transformation planeToWorld, @NotNull Shader shader) {
+		super(planeToWorld, shader);
 		origin = Point3D.ORIGIN;
 		normal = Normal3D.NORMAL_Y;
 		boundingBox = BoundingBox.INFINITE_BOUNDING_BOX;
