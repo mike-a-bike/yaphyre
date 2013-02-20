@@ -48,8 +48,8 @@ public class Instance extends AbstractShape {
 
 	private final BoundingBox boundingBox;
 
-	public Instance(Shape baseShape, Transformation instanceTransformation, Shader shader, boolean throwsShadow) {
-		super(Transformation.IDENTITY, shader, throwsShadow);
+	public Instance(Shape baseShape, Transformation instanceTransformation, Shader shader) {
+		super(Transformation.IDENTITY, shader);
 		checkNotNull(baseShape);
 		checkNotNull(instanceTransformation);
 		this.baseShape = baseShape;

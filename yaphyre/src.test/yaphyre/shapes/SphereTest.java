@@ -43,7 +43,7 @@ public class SphereTest {
 
 	private Shape createTestSphere() {
 		Shader testShader = mock(Shader.class);
-		return Sphere.createSphere(new Point3D(2d, 0d, 0d), 1d, true, testShader);
+		return Sphere.createSphere(new Point3D(2d, 0d, 0d), 1d, testShader);
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class SphereTest {
 	 */
 	private Shape createUnitSphere() {
 		Shader shader = mock(Shader.class);
-		return Sphere.createSphere(Point3D.ORIGIN, 1d, true, shader);
+		return Sphere.createSphere(Point3D.ORIGIN, 1d, shader);
 	}
 
 	@Test
@@ -63,7 +63,7 @@ public class SphereTest {
 		when(origin.getX()).thenReturn(1d);
 		when(origin.getY()).thenReturn(1d);
 		when(origin.getZ()).thenReturn(1d);
-		Sphere s = Sphere.createSphere(origin, 1d, true, shader);
+		Sphere s = Sphere.createSphere(origin, 1d, shader);
 		System.out.println("New sphere created: " + s);
 		assertNotNull(s);
 	}
@@ -73,8 +73,8 @@ public class SphereTest {
 
 		Transformation objectToWorld = Transformation.scale(2, 2, 2);
 
-		Sphere staticSphere = Sphere.createSphere(Point3D.ORIGIN, 2, true, new TestShader());
-		Sphere constructorSphere = new Sphere(objectToWorld, 0d, 360d, 0d, 180d, true, new TestShader());
+		Sphere staticSphere = Sphere.createSphere(Point3D.ORIGIN, 2, new TestShader());
+		Sphere constructorSphere = new Sphere(objectToWorld, 0d, 360d, 0d, 180d, new TestShader());
 
 		Ray testRay = new Ray(new Point3D(-10, 0, 0), Vector3D.X);
 
@@ -92,8 +92,8 @@ public class SphereTest {
 				{0, 0, 0, 1}});
 
 		objectToWorld = new Transformation(initMatrix);
-		staticSphere = Sphere.createSphere(new Point3D(0, 1, 1), 3, true, new TestShader());
-		constructorSphere = new Sphere(objectToWorld, 0d, 360d, 0d, 180d, true, new TestShader());
+		staticSphere = Sphere.createSphere(new Point3D(0, 1, 1), 3, new TestShader());
+		constructorSphere = new Sphere(objectToWorld, 0d, 360d, 0d, 180d, new TestShader());
 		testRay = new Ray(new Point3D(-10, 1.5, 1), Vector3D.X);
 
 		intersectPoint1 = staticSphere.getIntersectionPoint(testRay);

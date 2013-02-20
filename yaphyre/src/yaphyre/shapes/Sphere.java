@@ -72,13 +72,11 @@ public class Sphere extends AbstractShape {
 	 * 1]]
 	 *
 	 *
+	 *
 	 * @param center
 	 * 		The center of the sphere (c<sub>x, y, z</sub>)
 	 * @param radius
 	 * 		Its radius (r)
-	 * @param throwsShadow
-	 * 		Flag whether this {@link yaphyre.core.Shape} throws a shadow or not
-	 *
 	 * @param shader
 	 * 		The {@link yaphyre.core.Shader} to use for rendering
 	 * @return A new instance of {@link Sphere}.
@@ -89,8 +87,8 @@ public class Sphere extends AbstractShape {
 	 * @throws IllegalArgumentException
 	 * 		If <code>radius</code> is too small, an {@link IllegalArgumentException} is thrown.
 	 */
-	public static Sphere createSphere(Point3D center, double radius, boolean throwsShadow, Shader shader) throws NullPointerException, IllegalArgumentException {
-		return createSphere(center, radius, 0d, 360d, 0d, 180d, throwsShadow, shader);
+	public static Sphere createSphere(Point3D center, double radius, Shader shader) {
+		return createSphere(center, radius, 0d, 360d, 0d, 180d, shader);
 	}
 
 	/**
@@ -100,6 +98,7 @@ public class Sphere extends AbstractShape {
 	 * 1]]
 	 * In addition, the angular ranges for &theta; and &phi; can be provided. Both ranges take values between 0 and 360
 	 * degree.
+	 *
 	 *
 	 *
 	 * @param center
@@ -114,9 +113,6 @@ public class Sphere extends AbstractShape {
 	 *      The start angle for &theta; (&theta; &isin; [0, 180])
 	 * @param thetaMax
 	 *      The start angle for &theta; (&theta; &isin; [0, 180])
-	 * @param throwsShadow
-	 * 		Flag whether this {@link yaphyre.core.Shape} throws a shadow or not
-	 *
 	 * @param shader
 	 * 		The {@link yaphyre.core.Shader} to use for rendering
 	 * @return A new instance of {@link Sphere}.
@@ -128,14 +124,16 @@ public class Sphere extends AbstractShape {
 	 * 		If <code>radius</code> is too small, an {@link IllegalArgumentException} is thrown. Or if the specified
 	 * 	    ranges for &theta; and &phi; are out of bounds.
 	 */
-	public static Sphere createSphere(Point3D center, double radius, double phiMin, double phiMax, double thetaMin, double thetaMax, boolean throwsShadow, Shader shader) throws NullPointerException, IllegalArgumentException {
+	public static Sphere createSphere(Point3D center, double radius,
+			double phiMin, double phiMax, double thetaMin, double thetaMax,
+			Shader shader) {
 		checkArgument(radius > EPSILON);
 		checkNotNull(center);
 		checkNotNull(shader);
 		Transformation scaling = Transformation.scale(radius, radius, radius);
 		Transformation translation = Transformation.translate(center.getX(), center.getY(), center.getZ());
 		Transformation objectToWorld = translation.mul(scaling);
-		return new Sphere(objectToWorld, phiMin, phiMax, thetaMin, thetaMax, throwsShadow, shader);
+		return new Sphere(objectToWorld, phiMin, phiMax, thetaMin, thetaMax, shader);
 	}
 
 	/**
@@ -150,16 +148,16 @@ public class Sphere extends AbstractShape {
 	 * @param phiMin
 	 *      The start angle for &phi; (&phi; &isin; [0, 360])
 	 * @param phiMax
-	 *      The end angle for &phi; (&phi; &isin; [0, 360])
+ *      The end angle for &phi; (&phi; &isin; [0, 360])
 	 * @param thetaMin
-	 *      The start angle for &theta; (&theta; &isin; [0, 180])
+*      The start angle for &theta; (&theta; &isin; [0, 180])
 	 * @param thetaMax
-	 *      The start angle for &theta; (&theta; &isin; [0, 180])
-	 * @param throwsShadow
-	 * 		Flag whether this shape throws a shadow or not.
+*      The start angle for &theta; (&theta; &isin; [0, 180])
 	 */
-	public Sphere(final Transformation objectToWorld, final double phiMin, final double phiMax, final double thetaMin, final double thetaMax, final boolean throwsShadow, final Shader shader) {
-		super(objectToWorld, shader, throwsShadow);
+	public Sphere(final Transformation objectToWorld,
+			final double phiMin, final double phiMax, final double thetaMin, final double thetaMax,
+			final Shader shader) {
+		super(objectToWorld, shader);
 		checkArgument(0d <= phiMin && phiMin <= 360d);
 		checkArgument(0d <= phiMax && phiMax <= 360d);
 		checkArgument(0d <= thetaMin && thetaMin <= 180d);

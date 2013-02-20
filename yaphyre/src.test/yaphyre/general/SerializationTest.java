@@ -39,8 +39,8 @@ public class SerializationTest {
 	@Test
 	public void testShapeSerialization() {
 		try {
-			Shape sphere = Sphere.createSphere(new Point3D(10, 20, 30), 1, true, new SimpleShader(new Material(0.2, 0.25, 0.1, 0.9, 0), new Color(1, 0, 0)));
-			Shape plane = new Plane(Transformation.IDENTITY, new SimpleShader(new Material(0, 1, 0, 0, 0), new Color(1, 1, 1)), false);
+			Shape sphere = Sphere.createSphere(new Point3D(10, 20, 30), 1, new SimpleShader(new Material(0.2, 0.25, 0.1, 0.9, 0), new Color(1, 0, 0)));
+			Shape plane = new Plane(Transformation.IDENTITY, new SimpleShader(new Material(0, 1, 0, 0, 0), new Color(1, 1, 1)));
 
 			ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 

@@ -120,12 +120,4 @@ public interface Shape extends Serializable {
 	 */
 	public Point2D getMappedSurfacePoint(Point3D surfacePoint);
 
-	/**
-	 * Flag which determines whether this shape actually throws a shadow or not. This is only used when lights are places
-	 * within a shape. If the surrounding shape throws shadows, then no light can get to the outside of it.
-	 *
-	 * @return <code>true</code> if the shape throws shadows, <code>false</code> otherwise. Default is <code>true</code>.
-	 */
-	public boolean throwsShadow();
-
 }

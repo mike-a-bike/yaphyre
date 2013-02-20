@@ -350,11 +350,10 @@ public class RayTracer {
 			return Color.BLACK;
 		}
 
-		CollisionInformation shapeCollisionInfo = scene.getCollidingShape(ray, Primitive.NO_INTERSECTION, false);
+		CollisionInformation shapeCollisionInfo = scene.getCollidingShape(ray, Primitive.NO_INTERSECTION);
 
 		if (shapeCollisionInfo != null) {
-			Point2D uvCoordinates = shapeCollisionInfo.getShape().getMappedSurfacePoint(
-					shapeCollisionInfo.getPoint());
+			Point2D uvCoordinates = shapeCollisionInfo.getShape().getMappedSurfacePoint(shapeCollisionInfo.getPoint());
 			Color objectColor = shapeCollisionInfo.getShape().getShader().getColor(uvCoordinates);
 			Color ambientColor = (iteration == 1) ? objectColor.multiply(
 					shapeCollisionInfo.getShape().getShader().getMaterial(uvCoordinates).getAmbient()) :

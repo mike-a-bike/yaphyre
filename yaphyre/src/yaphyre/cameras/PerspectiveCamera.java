@@ -15,6 +15,8 @@
  */
 package yaphyre.cameras;
 
+import java.util.Iterator;
+
 import yaphyre.core.Film;
 import yaphyre.core.Sampler;
 import yaphyre.geometry.Point2D;
@@ -77,6 +79,7 @@ public class PerspectiveCamera extends AbstractCamera {
 			Point3D focusPoint = mappedPoint.add(direction.scale(cameraSettings.getFocalDistance()));
 			mappedPoint = mappedPoint.add(lensPoint);
 			direction = new Vector3D(focusPoint, mappedPoint).normalize();
+
 		}
 
 		Ray result = new Ray(mappedPoint, direction);
@@ -84,6 +87,30 @@ public class PerspectiveCamera extends AbstractCamera {
 		result = super.getCamera2World().transform(result);
 
 		return Lists.newArrayList(result);
+	}
+
+	private static class CameraRaysIterator implements Iterator<Ray> {
+
+		private final Iterator<Point2D> unitCircleSamples;
+
+		public CameraRaysIterator(Sampler lensSampler) {
+			this.unitCircleSamples = lensSampler.getUnitCircleSamples().iterator();
+		}
+
+		@Override
+		public boolean hasNext() {
+			return unitCircleSamples.hasNext();
+		}
+
+		@Override
+		public Ray next() {
+			return null;
+		}
+
+		@Override
+		public void remove() {
+			throw new RuntimeException("CameraRaysIterator is readonly");
+		}
 	}
 
 	private Point3D mapViewPlanePoint(Point2D viewPlanePoint) {

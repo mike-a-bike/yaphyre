@@ -48,7 +48,7 @@ public class SphereEntityHandler extends EntityHandler<IdentifiableObject<Shape>
 		double phiMax = super.getPropertyValue(entityMatch, "phiMax", 360d, Double.class);
 		double thetaMin = super.getPropertyValue(entityMatch, "thetaMin", 0d, Double.class);
 		double thetaMax = super.getPropertyValue(entityMatch, "thetaMax", 180d, Double.class);
-		Shape sphere = new Sphere(object2World, phiMin, phiMax, thetaMin, thetaMax, true, shader);
+		Shape sphere = new Sphere(object2World, phiMin, phiMax, thetaMin, thetaMax, shader);
 
 		IdentifiableObject<Shape> result = new IdentifiableObject<Shape>(id, sphere);
 

@@ -44,7 +44,7 @@ public class PlaneEntityHandler extends EntityHandler<IdentifiableObject<Shape>>
 		Transformation object2World = super.decodeTransform(entityMatch);
 		String shaderRef = entityMatch.child("shader").attr("ref");
 		Shader shader = knownShaders.get(shaderRef).getObject();
-		Plane plane = new Plane(object2World, shader, true);
+		Plane plane = new Plane(object2World, shader);
 
 		IdentifiableObject<Shape> result = new IdentifiableObject<Shape>(id, plane);
 

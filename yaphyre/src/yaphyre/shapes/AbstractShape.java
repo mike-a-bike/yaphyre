@@ -41,8 +41,6 @@ public abstract class AbstractShape implements Shape {
 
 	private final Shader shader;
 
-	private final boolean throwsShadow;
-
 	private final Transformation worldToObject;
 
 	private final Transformation objectToWorld;
@@ -55,25 +53,22 @@ public abstract class AbstractShape implements Shape {
 	 * first translated and then rotated.
 	 *
 	 * @param objectToWorld
-	 * 		The {@link Transformation} used to map world coordinates to object coordinates.
+	 * 		The {@link yaphyre.geometry.Transformation} used to map world coordinates to object coordinates.
 	 * @param shader
-	 * 		The {@link Shader} instance to use when rendering this {@link Shape}.
-	 * @param throwsShadow
-	 * 		Flag whether this {@link Shape} throws a shadow or not.
+	 * 		The {@link yaphyre.core.Shader} instance to use when rendering this {@link yaphyre.core.Shape}.
 	 */
-	protected AbstractShape(@NotNull Transformation objectToWorld, @NotNull Shader shader, boolean throwsShadow) {
+	protected AbstractShape(@NotNull Transformation objectToWorld, @NotNull Shader shader) {
 		Preconditions.checkNotNull(objectToWorld);
 		Preconditions.checkNotNull(shader);
 
 		this.shader = shader;
-		this.throwsShadow = throwsShadow;
 		this.objectToWorld = objectToWorld;
 		worldToObject = this.objectToWorld.inverse();
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(getClass(), objectToWorld, shader, throwsShadow);
+		return Objects.hashCode(getClass(), objectToWorld, shader);
 	}
 
 	@Override
@@ -89,19 +84,13 @@ public abstract class AbstractShape implements Shape {
 		}
 		final AbstractShape other = (AbstractShape) obj;
 		return Objects.equal(shader, other.shader)
-				&& Objects.equal(objectToWorld, other.objectToWorld)
-				&& Objects.equal(throwsShadow, other.throwsShadow);
+				&& Objects.equal(objectToWorld, other.objectToWorld);
 	}
 
 	@NotNull
 	@Override
 	public Shader getShader() {
 		return shader;
-	}
-
-	@Override
-	public boolean throwsShadow() {
-		return throwsShadow;
 	}
 
 	protected Transformation getWorldToObject() {

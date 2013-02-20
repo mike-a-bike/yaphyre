@@ -36,20 +36,18 @@ public class TriangleMesh extends AbstractShape {
 	 * remember, that the order of the {@link yaphyre.geometry.Transformation} matters. It is not the same if the object is rotated an
 	 * then translated or first translated and then rotated.
 	 *
+	 *
 	 * @param objectToWorld
 	 * 		The {@link yaphyre.geometry.Transformation} used to map world coordinates to object coordinates.
 	 * @param shader
 	 * 		The {@link yaphyre.core.Shader} instance to use when rendering this {@link yaphyre.core.Shape}.
-	 * @param throwsShadow
-	 * 		Flag whether this {@link yaphyre.core.Shape} throws a shadow or not.
-	 *
 	 * @throws NullPointerException
 	 * 		If either <code>objectToWorld</code> or <code>shader</code> is <code>null</code> a {@link NullPointerException} is
 	 * 		thrown
 	 */
-	protected TriangleMesh(final Transformation objectToWorld, final Shader shader, final boolean throwsShadow)
+	protected TriangleMesh(final Transformation objectToWorld, final Shader shader)
 			throws NullPointerException {
-		super(objectToWorld, shader, throwsShadow);
+		super(objectToWorld, shader);
 	}
 
 	@Override

@@ -48,7 +48,7 @@ public class VisibilityTester {
 	}
 
 	public boolean isUnobstructed(@NotNull Scene scene) {
-		return scene.getCollidingShape(ray, ray.getMaxt(), true) == null;
+		return scene.getCollidingShape(ray, ray.getMaxt()) == null;
 	}
 
 }

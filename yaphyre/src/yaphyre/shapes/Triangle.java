@@ -33,14 +33,16 @@ public class Triangle extends AbstractShape {
 
 	private final MeshTriangle trianglePrimitive;
 
-	public Triangle create(final Point3D v0, final Point3D v1, final Point3D v2, final Shader shader, final boolean throwsShadow) {
+	public Triangle create(final Point3D v0, final Point3D v1, final Point3D v2, final Shader shader) {
 		MeshTriangle trianglePrimitive = FlatMeshTriangle.create(v0, v1, v2);
-		return new Triangle(trianglePrimitive, Transformation.IDENTITY, shader, throwsShadow);
+		return new Triangle(trianglePrimitive, Transformation.IDENTITY, shader);
 	}
 
-	public Triangle create(final Point3D v0, final Point3D v1, final Point3D v2, final Normal3D n0, final Normal3D n1, final Normal3D n2, final Shader shader, final boolean throwsShadow) {
+	public Triangle create(final Point3D v0, final Point3D v1, final Point3D v2,
+			final Normal3D n0, final Normal3D n1, final Normal3D n2,
+			final Shader shader) {
 		MeshTriangle trianglePrimitive = SmoothMeshTriangle.create(v0, v1, v2, n0, n1, n2);
-		return new Triangle(trianglePrimitive, Transformation.IDENTITY, shader, throwsShadow);
+		return new Triangle(trianglePrimitive, Transformation.IDENTITY, shader);
 	}
 
 	/**
@@ -50,21 +52,19 @@ public class Triangle extends AbstractShape {
 	 * remember, that the order of the {@link yaphyre.geometry.Transformation} matters. It is not the same if the object is rotated an
 	 * then translated or first translated and then rotated.
 	 *
+	 *
 	 * @param trianglePrimitive
 	 *      The actual primitive implementing the shape within
 	 * @param objectToWorld
 	 * 		The {@link yaphyre.geometry.Transformation} used to map world coordinates to object coordinates.
 	 * @param shader
 	 * 		The {@link yaphyre.core.Shader} instance to use when rendering this {@link yaphyre.core.Shape}.
-	 * @param throwsShadow
-	 * 		Flag whether this {@link yaphyre.core.Shape} throws a shadow or not.
-	 *
 	 * @throws NullPointerException
 	 * 		If either <code>objectToWorld</code> or <code>shader</code> is <code>null</code> a {@link NullPointerException} is
 	 * 		thrown
 	 */
-	protected Triangle(final MeshTriangle trianglePrimitive, final Transformation objectToWorld, final Shader shader, final boolean throwsShadow) throws NullPointerException {
-		super(objectToWorld, shader, throwsShadow);
+	protected Triangle(final MeshTriangle trianglePrimitive, final Transformation objectToWorld, final Shader shader) {
+		super(objectToWorld, shader);
 		checkNotNull(trianglePrimitive);
 		this.trianglePrimitive = trianglePrimitive;
 	}
