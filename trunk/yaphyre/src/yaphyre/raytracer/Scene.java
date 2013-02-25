@@ -24,9 +24,6 @@ import yaphyre.core.Camera;
 import yaphyre.core.CollisionInformation;
 import yaphyre.core.Lightsource;
 import yaphyre.core.Shape;
-import yaphyre.geometry.Normal3D;
-import yaphyre.geometry.Point2D;
-import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 
 import com.google.common.base.Objects;
@@ -74,30 +71,22 @@ public class Scene implements Serializable {
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(getClass()).add("cameras", cameras.size()).add("shapes", shapes.size()).add("lightsources", lightsources
-				.size()).toString();
+		return Objects.toStringHelper(getClass())
+				.add("cameras", cameras.size())
+				.add("shapes", shapes.size())
+				.add("lightsources", lightsources.size()).toString();
 	}
 
-	public CollisionInformation getCollidingShape(Ray ray, double maxDistance) {
+	public CollisionInformation getCollisionInformation(Ray ray, double maxDistance) {
 
 		double nearestCollisionDistance = maxDistance;
-		Shape nearestCollisionShape = null;
 		CollisionInformation result = null;
 
 		for (Shape shape : getShapes()) {
-			CollisionInformation intersection = shape.intersect(ray);
-			if (intersection.getDistance() < nearestCollisionDistance) {
-				nearestCollisionDistance = intersection.getDistance();
-				nearestCollisionShape = shape;
+			result = shape.intersect(ray);
+			if (result != null && result.getDistance() < nearestCollisionDistance) {
+				nearestCollisionDistance = result.getDistance();
 			}
-		}
-
-		if (nearestCollisionDistance < maxDistance) {
-			final Point3D collisionPoint = ray.getPoint(nearestCollisionDistance);
-			final Normal3D collisionNormal = nearestCollisionShape.getNormal(collisionPoint).faceForward(ray);
-			final Point2D uvCoordinates = nearestCollisionShape.getMappedSurfacePoint(collisionPoint);
-
-			result = new CollisionInformation(ray, nearestCollisionShape, nearestCollisionDistance, collisionPoint, collisionNormal, uvCoordinates);
 		}
 
 		return result;

@@ -18,7 +18,6 @@ package yaphyre.shapes;
 import yaphyre.core.CollisionInformation;
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
-import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Transformation;
 
@@ -37,6 +36,8 @@ import com.google.common.base.Preconditions;
  */
 public abstract class AbstractShape implements Shape {
 
+	/** Constant for signaling that there is no intersection. */
+	protected static final double NO_INTERSECTION = Double.POSITIVE_INFINITY;
 	private static final long serialVersionUID = 6078311087267053881L;
 
 	private final Shader shader;
@@ -101,32 +102,9 @@ public abstract class AbstractShape implements Shape {
 		return objectToWorld;
 	}
 
-	@Override
-	public boolean isInside(@NotNull Point3D point) {
-		throw new RuntimeException("Not implemented yet");
-	}
-
-	@Override
-	public boolean isHitBy(@NotNull Ray ray) {
-		return (getIntersectDistance(ray) > 0d);
-	}
-
 	@Nullable
 	@Override
-	public CollisionInformation intersect(@NotNull Ray ray) {
-		throw new RuntimeException("Not implemented yet");
-	}
-
-	@Nullable
-	@Override
-	public Point3D getIntersectionPoint(@NotNull Ray ray) {
-		double intersectionDistance = getIntersectDistance(ray);
-		if (intersectionDistance == NO_INTERSECTION) {
-			return null;
-		}
-
-		return ray.getPoint(intersectionDistance);
-	}
+	public abstract CollisionInformation intersect(@NotNull Ray ray);
 
 	protected @NotNull Ray transformToObjectSpace(@NotNull Ray ray) {
 		return worldToObject.transform(ray);
