@@ -28,6 +28,7 @@ import static yaphyre.geometry.MathUtils.isInRangeWithTolerance;
 
 import java.text.MessageFormat;
 
+import yaphyre.core.CollisionInformation;
 import yaphyre.core.Shader;
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
@@ -38,6 +39,7 @@ import yaphyre.geometry.Transformation;
 import yaphyre.geometry.Vector3D;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A sphere in the three dimensional space is defined as:<br/> (p - p<sub>0</sub>) &sdot; (p - p<sub>0</sub>) =
@@ -193,6 +195,20 @@ public class Sphere extends AbstractShape {
 		return super.hashCode();
 	}
 
+	@Nullable
+	@Override
+	public CollisionInformation intersect(@NotNull final Ray ray) {
+		double intersectDistance = this.getIntersectDistance(ray);
+		if (intersectDistance == NO_INTERSECTION) {
+			return null;
+		}
+		Point3D intersectionPoint = ray.getPoint(intersectDistance);
+
+		return new CollisionInformation(ray, this,
+				intersectDistance, intersectionPoint,
+				getNormal(intersectionPoint), getMappedSurfacePoint(intersectionPoint));
+	}
+
 	/**
 	 * Determine the distance on a half line where this line intersects with the sphere. To do this, we use the parametric
 	 * form of a line which is:<br/>
@@ -217,8 +233,7 @@ public class Sphere extends AbstractShape {
 	 * @return The distance in which the ray intersects this sphere, or if they do not intersect {@link
 	 *         yaphyre.core.Primitive#NO_INTERSECTION}.
 	 */
-	@Override
-	public double getIntersectDistance(@NotNull Ray ray) {
+	private double getIntersectDistance(@NotNull Ray ray) {
 
 		// Transform the incoming ray from the world space into the object space.
 		ray = super.getWorldToObject().transform(ray);
@@ -256,8 +271,7 @@ public class Sphere extends AbstractShape {
 	 * surface point</li> <li>Transform the resulting normal back to world space</li> </ol>
 	 */
 	@NotNull
-	@Override
-	public Normal3D getNormal(@NotNull Point3D surfacePoint) {
+	private Normal3D getNormal(@NotNull Point3D surfacePoint) {
 		surfacePoint = super.getWorldToObject().transform(surfacePoint);
 		return super.getObjectToWorld().transform(surfacePoint.asNormal());
 	}
@@ -280,8 +294,7 @@ public class Sphere extends AbstractShape {
 	 * 		thrown.
 	 */
 	@NotNull
-	@Override
-	public Point2D getMappedSurfacePoint(@NotNull Point3D surfacePoint) throws NullPointerException, IllegalArgumentException {
+	private Point2D getMappedSurfacePoint(@NotNull Point3D surfacePoint) throws NullPointerException, IllegalArgumentException {
 		surfacePoint = super.getWorldToObject().transform(surfacePoint);
 		// Make sure, that the point lies on the surface.
 		checkNotNull(surfacePoint, "surfacePoint must not be null");
@@ -309,22 +322,9 @@ public class Sphere extends AbstractShape {
 
 	private boolean isInAngularRange(Point3D p) {
 		Point2D uvCoordinates = calculateAngularCoordinates(p);
-		return isInRangeWithTolerance(phiMin, phiMax, uvCoordinates.getU()) && isInRangeWithTolerance(thetaMin, thetaMax, uvCoordinates.getV());
-	}
 
-	@Override
-	public boolean isInside(@NotNull Point3D p) {
-
-		p = super.getWorldToObject().transform(p);
-
-		boolean isInside = p.asVector().lengthSquared() <= 1d;
-
-		if (isPartial) {
-			return isInside && isInAngularRange(p);
-		}
-
-		return isInside;
-
+		return isInRangeWithTolerance(phiMin, phiMax, uvCoordinates.getU())
+				&& isInRangeWithTolerance(thetaMin, thetaMax, uvCoordinates.getV());
 	}
 
 }

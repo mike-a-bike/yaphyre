@@ -52,13 +52,6 @@ public class CollisionInformation implements Serializable {
 
 	/**
 	 * Creates a new instance for the collision information.
-	 *
-	 * @param ray
-	 * @param shape
-	 * @param distance
-	 * @param point
-	 * @param normal
-	 * @param uvCoordinate
 	 */
 	public CollisionInformation(@NotNull final Ray ray, @NotNull final Shape shape, final double distance,
 								@NotNull final Point3D point, @NotNull final Normal3D normal,

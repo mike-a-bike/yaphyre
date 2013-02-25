@@ -16,12 +16,13 @@
 
 package yaphyre.shapes;
 
+import yaphyre.core.CollisionInformation;
 import yaphyre.core.Shader;
-import yaphyre.geometry.Normal3D;
-import yaphyre.geometry.Point2D;
-import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Transformation;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created with IntelliJ IDEA. User: michael Date: 16.02.13 Time: 13:02 To change this template use File | Settings | File
@@ -50,18 +51,10 @@ public class TriangleMesh extends AbstractShape {
 		super(objectToWorld, shader);
 	}
 
+	@Nullable
 	@Override
-	public Normal3D getNormal(final Point3D surfacePoint) {
+	public CollisionInformation intersect(@NotNull final Ray ray) {
 		return null;
 	}
 
-	@Override
-	public Point2D getMappedSurfacePoint(final Point3D surfacePoint) {
-		return null;
-	}
-
-	@Override
-	public double getIntersectDistance(final Ray ray) {
-		return 0;
-	}
 }

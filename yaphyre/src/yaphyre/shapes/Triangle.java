@@ -18,12 +18,15 @@ package yaphyre.shapes;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import yaphyre.core.CollisionInformation;
 import yaphyre.core.Shader;
 import yaphyre.geometry.Normal3D;
-import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Transformation;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created with IntelliJ IDEA. User: michael Date: 17.02.13 Time: 12:47 To change this template use File | Settings | File
@@ -69,18 +72,9 @@ public class Triangle extends AbstractShape {
 		this.trianglePrimitive = trianglePrimitive;
 	}
 
+	@Nullable
 	@Override
-	public double getIntersectDistance(final Ray ray) {
-		return trianglePrimitive.getIntersectDistance(ray);
-	}
-
-	@Override
-	public Normal3D getNormal(final Point3D surfacePoint) {
-		return trianglePrimitive.getNormal(surfacePoint);
-	}
-
-	@Override
-	public Point2D getMappedSurfacePoint(final Point3D surfacePoint) {
-		return trianglePrimitive.getMappedSurfacePoint(surfacePoint);
+	public CollisionInformation intersect(@NotNull final Ray ray) {
+		return null;
 	}
 }

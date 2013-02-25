@@ -32,7 +32,6 @@ import yaphyre.core.CollisionInformation;
 import yaphyre.core.Film;
 import yaphyre.core.LightSample;
 import yaphyre.core.Lightsource;
-import yaphyre.core.Primitive;
 import yaphyre.core.RenderWindow;
 import yaphyre.core.Sampler;
 import yaphyre.core.Shape;
@@ -350,16 +349,16 @@ public class RayTracer {
 			return Color.BLACK;
 		}
 
-		CollisionInformation shapeCollisionInfo = scene.getCollidingShape(ray, Primitive.NO_INTERSECTION);
+		CollisionInformation collisionInfo = scene.getCollisionInformation(ray, Double.MAX_VALUE);
 
-		if (shapeCollisionInfo != null) {
-			Point2D uvCoordinates = shapeCollisionInfo.getShape().getMappedSurfacePoint(shapeCollisionInfo.getPoint());
-			Color objectColor = shapeCollisionInfo.getShape().getShader().getColor(uvCoordinates);
+		if (collisionInfo != null) {
+			Point2D uvCoordinates = collisionInfo.getUVCoordinate();
+			Color objectColor = collisionInfo.getShape().getShader().getColor(uvCoordinates);
 			Color ambientColor = (iteration == 1) ? objectColor.multiply(
-					shapeCollisionInfo.getShape().getShader().getMaterial(uvCoordinates).getAmbient()) :
+					collisionInfo.getShape().getShader().getMaterial(uvCoordinates).getAmbient()) :
 					Color.BLACK;
-			Color lightColor = calculateLightColor(shapeCollisionInfo, uvCoordinates, objectColor);
-			Color reflectedColor = calculateReflectedColor(ray, iteration + 1, shapeCollisionInfo, uvCoordinates);
+			Color lightColor = calculateLightColor(collisionInfo, uvCoordinates, objectColor);
+			Color reflectedColor = calculateReflectedColor(ray, iteration + 1, collisionInfo, uvCoordinates);
 			Color refractedColor = Color.BLACK;
 
 			return ambientColor.add(lightColor).add(reflectedColor).add(refractedColor);

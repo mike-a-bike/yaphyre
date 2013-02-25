@@ -18,12 +18,10 @@ package yaphyre.core;
 
 import java.io.Serializable;
 
-import yaphyre.geometry.Normal3D;
-import yaphyre.geometry.Point2D;
-import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Created with IntelliJ IDEA. User: michael Date: 16.02.13 Time: 12:41 To change this template use File | Settings | File
@@ -31,42 +29,18 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface Primitive extends Serializable {
 
-	/** Constant for signaling that there is no intersection. */
-	double NO_INTERSECTION = Double.POSITIVE_INFINITY;
-
 	/**
-	 * Calculate the distance in which the given {@link Ray} and this shape intersect. If no intersection occurs, {@link
-	 * #NO_INTERSECTION} is returned.
+	 * Create the intersection informations for the given {@link Ray} and this shape. If the {@link Ray} does not
+	 * intersect this shape at all, then <code>null</code> is returned. Otherwise the collision informations are returned.
+	 * The results created by this method are as accurate as possible.
 	 *
 	 * @param ray
-	 * 		The {@link Ray} to calculate the intersection distance for.
+	 * 		The {@link Ray} to check for intersection.
 	 *
-	 * @return The distance in which the ray intersects this shape. {@link #NO_INTERSECTION} if there is no intersection.
+	 * @return The {@link CollisionInformation} instance describing the intersection between the {@link Ray} and this
+	 *         {@link Shape} instance. <code>null</code> if no intersection happens.
 	 */
-	public double getIntersectDistance(@NotNull Ray ray);
-
-	/**
-	 * Gets the {@link yaphyre.geometry.Normal3D} information at a given point on the surface of this shape.
-	 *
-	 *
-	 * @param surfacePoint
-	 * 		The {@link yaphyre.geometry.Point3D} on the surface of this shape.
-	 *
-	 * @return The {@link yaphyre.geometry.Normal3D} information at the location of the <code>surfacePoint</code>.
-	 */
-	@NotNull
-	public Normal3D getNormal(@NotNull Point3D surfacePoint);
-
-	/**
-	 * Gets the mapping information of the given surface point. Each 3D object has a 2D surface with each point described
-	 * by its u- and v- coordinates. The method calculates these coordinates for the given point on the surface.
-	 *
-	 * @param surfacePoint
-	 * 		The point on the surface of this shape.
-	 *
-	 * @return A {@link Point2D} instance with the u- and v- coordinates.
-	 */
-	@NotNull
-	public Point2D getMappedSurfacePoint(@NotNull Point3D surfacePoint);
+	@Nullable
+	public CollisionInformation intersect(@NotNull final Ray ray);
 
 }
