@@ -19,6 +19,8 @@ package yaphyre.geometry;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import yaphyre.core.BoundingBox;
+
 import org.junit.Test;
 
 public class TransformationTest {
@@ -124,7 +126,7 @@ public class TransformationTest {
 	}
 
 	@Test
-	public void testTransfromPoint() {
+	public void testTransformPoint() {
 
 		Point3D p1 = new Point3D(1, 0, 0);
 		Point3D p2 = new Point3D(10, 1, 1);
@@ -177,5 +179,23 @@ public class TransformationTest {
 		r = t.transform(v);
 		assertEquals(new Vector3D(-1, 1, 0), r);
 
+	}
+
+
+	@Test
+	public void testTransformBoundingBox() {
+		BoundingBox box = new BoundingBox(Point3D.ORIGIN, new Point3D(1, 1, 1));
+		Transformation t = Transformation.scale(2, 1, 1);
+		box = t.transform(box);
+
+		assertEquals(box.getPointMin(), Point3D.ORIGIN);
+		assertEquals(box.getPointMax(), new Point3D(2, 1, 1));
+
+		box = new BoundingBox(Point3D.ORIGIN, new Point3D(1, 1, 1));
+		t = Transformation.scale(-1, -1, -1);
+		box = t.transform(box);
+
+		assertEquals(box.getPointMin(), new Point3D(-1, -1, -1));
+		assertEquals(box.getPointMax(), Point3D.ORIGIN);
 	}
 }

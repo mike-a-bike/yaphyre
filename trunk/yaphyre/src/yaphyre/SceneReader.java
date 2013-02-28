@@ -37,7 +37,8 @@ import yaphyre.shapes.Sphere;
 import yaphyre.util.Color;
 
 /**
- * Read a very simple file format in order to make the development and testing simpler.<br/> TODO: IMPLEMENT THIS...
+ * Read a very simple file format in order to make the development and testing simpler.<br/>
+ * TODO: IMPLEMENT THIS...
  *
  * @author Michael Bieri
  */

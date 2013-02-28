@@ -15,11 +15,10 @@
  */
 package yaphyre.shapes;
 
-import static java.lang.Math.signum;
-
 import java.text.MessageFormat;
 
 import yaphyre.core.BoundingBox;
+import yaphyre.core.CollisionInformation;
 import yaphyre.core.Shader;
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
@@ -28,6 +27,7 @@ import yaphyre.geometry.Ray;
 import yaphyre.geometry.Transformation;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Plane represented by a point on the plane and the normal. Since on a plane the normal does not change, it does not
@@ -79,6 +79,29 @@ public class Plane extends AbstractShape {
 		return true;
 	}
 
+	@Nullable
+	@Override
+	public CollisionInformation intersect(@NotNull final Ray ray) {
+		final CollisionInformation result;
+		final double intersectionDistance = calculateIntersectDistance(ray);
+
+		if (intersectionDistance == NO_INTERSECTION) {
+			result = null;
+		} else {
+			final Point3D intersectionPoint = ray.getPoint(intersectionDistance);
+			result = new CollisionInformation(ray, this, intersectionDistance, intersectionPoint, getNormal(),
+											  getMappedSurfacePoint(intersectionPoint));
+		}
+
+		return result;
+	}
+
+	@NotNull
+	@Override
+	public BoundingBox getBoundingBox() {
+		return BoundingBox.INFINITE_BOUNDING_BOX;
+	}
+
 	@Override
 	public int hashCode() {
 		return super.hashCode();
@@ -106,8 +129,7 @@ public class Plane extends AbstractShape {
 	 * @return The distance in which the ray intersects this plane or {@link yaphyre.core.Primitive#NO_INTERSECTION} if there is no
 	 *         intersection.
 	 */
-	@Override
-	public double getIntersectDistance(@NotNull Ray ray) {
+	private double calculateIntersectDistance(@NotNull Ray ray) {
 		ray = super.transformToObjectSpace(ray);
 		double numerator = origin.sub(ray.getOrigin()).dot(normal);
 		double denominator = ray.getDirection().dot(normal);
@@ -128,33 +150,14 @@ public class Plane extends AbstractShape {
 
 	}
 
-	@Override
-	public boolean isHitBy(@NotNull Ray ray) {
-		ray = super.transformToObjectSpace(ray);
-		double numerator = origin.sub(ray.getOrigin()).dot(normal);
-		double denominator = ray.getDirection().dot(normal);
-
-		if (numerator == 0 && denominator == 0) {
-			return true;
-		} else if (numerator != 0 && denominator == 0) {
-			return false;
-		}
-
-		return signum(numerator) == signum(denominator);
-	}
-
 	/**
 	 * The normal of a plane is independent from the position on the plane, so always the defining normal is returned.
 	 *
 	 *
-	 * @param surfacePoint
-	 * 		The surface point (as {@link yaphyre.geometry.Vector3D}) for which the normal is asked.
-	 *
 	 * @return The normal of the plane (position independent)
 	 */
 	@NotNull
-	@Override
-	public Normal3D getNormal(@NotNull Point3D surfacePoint) {
+	private Normal3D getNormal() {
 		return super.getObjectToWorld().transform(normal);
 	}
 
@@ -163,8 +166,7 @@ public class Plane extends AbstractShape {
 	 * can be ignored. So [u, v] = [x, z].
 	 */
 	@NotNull
-	@Override
-	public Point2D getMappedSurfacePoint(@NotNull Point3D surfacePoint) {
+	private Point2D getMappedSurfacePoint(@NotNull Point3D surfacePoint) {
 		surfacePoint = super.getWorldToObject().transform(surfacePoint);
 		return new Point2D(surfacePoint.getX(), surfacePoint.getZ());
 	}

@@ -15,6 +15,7 @@
  */
 package yaphyre.geometry;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.tan;
@@ -22,6 +23,10 @@ import static java.lang.Math.toRadians;
 import static yaphyre.geometry.MathUtils.div;
 
 import java.io.Serializable;
+
+import yaphyre.core.BoundingBox;
+
+import org.jetbrains.annotations.NotNull;
 
 import com.google.common.base.Objects;
 
@@ -60,6 +65,7 @@ public class Transformation implements Serializable {
 	 *
 	 * @return A {@link Transformation} with the translation matrix and its inverse.
 	 */
+	@NotNull
 	public static Transformation translate(double x, double y, double z) {
 		Matrix trans = new Matrix(new double[][] { { 1, 0, 0, x }, { 0, 1, 0, y }, { 0, 0, 1, z }, { 0, 0, 0, 1 } });
 		Matrix transInv = new Matrix(
@@ -80,7 +86,9 @@ public class Transformation implements Serializable {
 	 *
 	 * @return A {@link Transformation} with the scaling matrix and its inverse.
 	 */
+	@NotNull
 	public static Transformation scale(double sx, double sy, double sz) {
+		checkArgument(!(sx == 0d && sy == 0d && sz == 0d));
 		Matrix matrix = new Matrix(
 				new double[][] { { sx, 0, 0, 0 }, { 0, sy, 0, 0 }, { 0, 0, sz, 0 }, { 0, 0, 0, 1 } });
 		Matrix inv = new Matrix(
@@ -96,7 +104,11 @@ public class Transformation implements Serializable {
 	 *
 	 * @return A {@link Transformation} with the rotation matrix.
 	 */
+	@NotNull
 	public static Transformation rotateX(double angle) {
+		if (MathUtils.equalsWithTolerance(0d, angle)) {
+			return Transformation.IDENTITY;
+		}
 		double radAngle = toRadians(angle);
 		Matrix matrix = new Matrix(new double[][] { { 1, 0, 0, 0 }, { 0, cos(radAngle), -sin(radAngle), 0 }, { 0, sin(
 				radAngle), cos(radAngle), 0 }, { 0, 0, 0, 1 } });
@@ -111,7 +123,11 @@ public class Transformation implements Serializable {
 	 *
 	 * @return A {@link Transformation} with the rotation matrix.
 	 */
+	@NotNull
 	public static Transformation rotateY(double angle) {
+		if (MathUtils.equalsWithTolerance(0d, angle)) {
+			return Transformation.IDENTITY;
+		}
 		double radAngle = toRadians(angle);
 		Matrix matrix = new Matrix(new double[][] { { cos(radAngle), 0, sin(radAngle), 0 }, { 0, 1, 0, 0 }, { -sin(
 				radAngle), 0, cos(radAngle), 0 }, { 0, 0, 0, 1 } });
@@ -126,7 +142,11 @@ public class Transformation implements Serializable {
 	 *
 	 * @return A {@link Transformation} with the rotation matrix.
 	 */
+	@NotNull
 	public static Transformation rotateZ(double angle) {
+		if (MathUtils.equalsWithTolerance(0d, angle)) {
+			return Transformation.IDENTITY;
+		}
 		double radAngle = toRadians(angle);
 		Matrix matrix = new Matrix(new double[][] { { cos(radAngle), -sin(radAngle), 0, 0 }, { sin(radAngle), cos(
 				radAngle), 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } });
@@ -144,7 +164,11 @@ public class Transformation implements Serializable {
 	 *
 	 * @return A {@link Transformation} with the rotation matrix.
 	 */
-	public static Transformation rotate(double angle, Vector3D axis) {
+	@NotNull
+	public static Transformation rotate(double angle, @NotNull Vector3D axis) {
+		if (MathUtils.equalsWithTolerance(0d, angle)) {
+			return Transformation.IDENTITY;
+		}
 		Vector3D a = axis.normalize();
 		double s = sin(toRadians(angle));
 		double c = cos(toRadians(angle));
@@ -191,7 +215,8 @@ public class Transformation implements Serializable {
 	 *
 	 * @see http://cs.fit.edu/~wds/classes/cse5255/thesis/viewTrans/viewTrans.html
 	 */
-	public static Transformation lookAt(Point3D eye, Point3D lookAt, Vector3D up) {
+	@NotNull
+	public static Transformation lookAt(@NotNull Point3D eye, @NotNull Point3D lookAt, @NotNull Vector3D up) {
 		Vector3D dir = lookAt.sub(eye).normalize();
 		Vector3D right = up.cross(dir).normalize();
 		Vector3D newUp = dir.cross(right);
@@ -213,6 +238,7 @@ public class Transformation implements Serializable {
 	 *
 	 * @return A {@link Transformation} containing the view transformation.
 	 */
+	@NotNull
 	public static Transformation orthographic(double znear, double zfar) {
 		Transformation scale = scale(1d, 1d, 1d / (zfar - znear));
 		Transformation translation = translate(0d, 0d, -znear);
@@ -231,6 +257,7 @@ public class Transformation implements Serializable {
 	 *
 	 * @return A transformation matrix to transform between camera and world coordinates.
 	 */
+	@NotNull
 	public static Transformation perspective(double fov, double near, double far) {
 		Matrix persp = new Matrix(new double[][] { { 1, 0, 0, 0 }, { 0, 1, 0, 0 },
 				{ 0, 0, far / (far - near), -far * near / (far - near) }, { 0, 0, 1, 0 } });
@@ -250,6 +277,7 @@ public class Transformation implements Serializable {
 	 *
 	 * @return A {@link Transformation} which maps the raster coordinates onto a unit square.
 	 */
+	@NotNull
 	public static Transformation rasterToUnitSquare(int xResolution, int yResolution) {
 		return scale(xResolution, yResolution, 1d).inverse();
 	}
@@ -266,7 +294,7 @@ public class Transformation implements Serializable {
 	 * @param matrix
 	 * 		The {@link Matrix} this transformation is based upon.
 	 */
-	public Transformation(Matrix matrix) {
+	public Transformation(@NotNull Matrix matrix) {
 		this(matrix, matrix.inverse());
 	}
 
@@ -280,7 +308,7 @@ public class Transformation implements Serializable {
 	 * @param inverse
 	 * 		The {@link Matrix} used for its inverse.
 	 */
-	public Transformation(Matrix matrix, Matrix inverse) {
+	public Transformation(@NotNull Matrix matrix, @NotNull Matrix inverse) {
 		this.matrix = matrix;
 		matrixInv = inverse;
 		this.inverse = null;
@@ -328,6 +356,7 @@ public class Transformation implements Serializable {
 	 *
 	 * @return A new instance representing the inverse operation.
 	 */
+	@NotNull
 	public Transformation inverse() {
 		if (inverse == null) {
 			inverse = new Transformation(matrixInv, matrix);
@@ -340,6 +369,7 @@ public class Transformation implements Serializable {
 	 *
 	 * @return A new instance representing the transposed operation.
 	 */
+	@NotNull
 	public Transformation transpose() {
 		if (transposed == null) {
 			transposed = new Transformation(matrix.transpose(), matrixInv.transpose());
@@ -355,7 +385,8 @@ public class Transformation implements Serializable {
 	 *
 	 * @return A new {@link Transformation} containing both operations within one instance.
 	 */
-	public Transformation mul(Transformation trans) {
+	@NotNull
+	public Transformation mul(@NotNull Transformation trans) {
 		Matrix matrix = this.matrix.mul(trans.matrix);
 		return new Transformation(matrix);
 	}
@@ -369,7 +400,8 @@ public class Transformation implements Serializable {
 	 *
 	 * @return The transformed instance.
 	 */
-	public Point3D transform(Point3D p) {
+	@NotNull
+	public Point3D transform(@NotNull Point3D p) {
 		double[] homogenousPoint = new double[] { p.x, p.y, p.z, 1 };
 		double[] result = matrix.mul(homogenousPoint);
 		return new Point3D(div(result[0], result[3]), div(result[1], result[3]), div(result[2], result[3]));
@@ -384,9 +416,10 @@ public class Transformation implements Serializable {
 	 *
 	 * @return A transformed {@link Point2D} instance.
 	 */
-	public Point2D transform(Point2D p) {
-		double[] homogenousPoint = new double[] { p.u, p.v, 0, 1 };
-		double[] result = matrix.mul(homogenousPoint);
+	@NotNull
+	public Point2D transform(@NotNull Point2D p) {
+		double[] homogeneousPoint = new double[] { p.u, p.v, 0, 1 };
+		double[] result = matrix.mul(homogeneousPoint);
 		return new Point2D(div(result[0], result[3]), div(result[1], result[3]));
 	}
 
@@ -399,9 +432,10 @@ public class Transformation implements Serializable {
 	 *
 	 * @return A new, transformed {@link Vector3D} instance.
 	 */
-	public Vector3D transform(Vector3D v) {
-		double[] homogenousVector = new double[] { v.x, v.y, v.z, 0 };
-		double[] result = matrix.mul(homogenousVector);
+	@NotNull
+	public Vector3D transform(@NotNull Vector3D v) {
+		double[] homogeneousVector = new double[] { v.x, v.y, v.z, 0 };
+		double[] result = matrix.mul(homogeneousVector);
 		return new Vector3D(result[0], result[1], result[2]);
 	}
 
@@ -419,9 +453,10 @@ public class Transformation implements Serializable {
 	 * @see <a href="http://www.unknownroad.com/rtfm/graphics/rt_normals.html">Transforming Normals</a>
 	 * @see <a href="http://tog.acm.org/resources/RTNews/html/rtnews1a.html#art4">Abnormal Normals</a>
 	 */
-	public Normal3D transform(Normal3D n) {
-		double[] homogenousNormal = new double[] { n.x, n.y, n.z, 0 };
-		double[] result = matrixInv.transpose().mul(homogenousNormal);
+	@NotNull
+	public Normal3D transform(@NotNull Normal3D n) {
+		double[] homogeneousNormal = new double[] { n.x, n.y, n.z, 0 };
+		double[] result = matrixInv.transpose().mul(homogeneousNormal);
 		return new Normal3D(result[0], result[1], result[2]);
 	}
 
@@ -435,14 +470,27 @@ public class Transformation implements Serializable {
 	 *
 	 * @return The transformed ray.
 	 */
-
-	public Ray transform(Ray r) {
+	@NotNull
+	public Ray transform(@NotNull Ray r) {
 		Point3D newOrigin = transform(r.getOrigin());
 		Vector3D newDirection = transform(r.getDirection());
 		return new Ray(newOrigin, newDirection, r.getMint(), r.getMaxt());
 	}
 
-	// TODO implement a transformation of BoundingBoxes
+	/**
+	 * Transformation of a {@link BoundingBox}. The minimum and maximum points are taken, transformed and a
+	 * new instance is created from these information.
+	 *
+	 * TODO: Cover with test to make sure that this works
+	 *
+	 * @param boundingBox The {@link BoundingBox} to transform
+	 * @return A new {@link BoundingBox} instance from the transformed points.
+	 */
+	public BoundingBox transform(@NotNull BoundingBox boundingBox) {
+		Point3D p1 = transform(boundingBox.getPointMin());
+		Point3D p2 = transform(boundingBox.getPointMax());
+		return new BoundingBox(p1, p2);
+	}
 
 	public Matrix getMatrix() {
 		return matrix;
