@@ -15,18 +15,17 @@
  */
 package yaphyre.shapes;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import yaphyre.core.BoundingBox;
+import yaphyre.core.CollisionInformation;
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
 import yaphyre.geometry.Normal3D;
-import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Transformation;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * This shape is special since it does not represent a shape itself. It is a wrapper around another shape which is
@@ -48,35 +47,27 @@ public class Instance extends AbstractShape {
 
 	private final BoundingBox boundingBox;
 
-	public Instance(Shape baseShape, Transformation instanceTransformation, Shader shader) {
+	public Instance(@NotNull Shape baseShape, @NotNull Transformation instanceTransformation, @NotNull Shader shader) {
 		super(Transformation.IDENTITY, shader);
-		checkNotNull(baseShape);
-		checkNotNull(instanceTransformation);
 		this.baseShape = baseShape;
 		this.instanceTransformation = instanceTransformation;
 		// TODO implement transformation for base shape bounding box.
 		boundingBox = BoundingBox.INFINITE_BOUNDING_BOX;
 	}
 
+	@Nullable
 	@Override
-	public double getIntersectDistance(@NotNull Ray ray) {
-		Ray transformedRay = instanceTransformation.inverse().transform(ray);
-		return baseShape.getIntersectDistance(transformedRay);
+	public CollisionInformation intersect(@NotNull final Ray ray) {
+		final Ray transformedRay = instanceTransformation.inverse().transform(ray);
+		if (boundingBox.isHitBy(ray)) {
+			return baseShape.intersect(transformedRay);
+		}
+		return null;
 	}
 
 	@NotNull
 	@Override
-	public Point2D getMappedSurfacePoint(@NotNull Point3D surfacePoint) {
-		Point3D transformedSurfacePoint = instanceTransformation.inverse().transform(surfacePoint);
-		return baseShape.getMappedSurfacePoint(transformedSurfacePoint);
+	public BoundingBox getBoundingBox() {
+		return boundingBox;
 	}
-
-	@NotNull
-	@Override
-	public Normal3D getNormal(@NotNull Point3D surfacePoint) {
-		Point3D transformedSurfacePoint = instanceTransformation.inverse().transform(surfacePoint);
-		Normal3D transformedNormal = baseShape.getNormal(transformedSurfacePoint);
-		return instanceTransformation.transform(transformedNormal);
-	}
-
 }

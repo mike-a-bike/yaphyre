@@ -18,6 +18,7 @@ package yaphyre.shapes;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import yaphyre.core.BoundingBox;
 import yaphyre.core.CollisionInformation;
 import yaphyre.core.Shader;
 import yaphyre.geometry.Normal3D;
@@ -35,6 +36,8 @@ import org.jetbrains.annotations.Nullable;
 public class Triangle extends AbstractShape {
 
 	private final MeshTriangle trianglePrimitive;
+
+	private final BoundingBox boundingBox;
 
 	public Triangle create(final Point3D v0, final Point3D v1, final Point3D v2, final Shader shader) {
 		MeshTriangle trianglePrimitive = FlatMeshTriangle.create(v0, v1, v2);
@@ -70,11 +73,19 @@ public class Triangle extends AbstractShape {
 		super(objectToWorld, shader);
 		checkNotNull(trianglePrimitive);
 		this.trianglePrimitive = trianglePrimitive;
+		BoundingBox boundingBoxTmp = new BoundingBox(trianglePrimitive.v0, trianglePrimitive.v1);
+		boundingBox = BoundingBox.union(boundingBoxTmp, trianglePrimitive.v2);
 	}
 
 	@Nullable
 	@Override
 	public CollisionInformation intersect(@NotNull final Ray ray) {
 		return null;
+	}
+
+	@NotNull
+	@Override
+	public BoundingBox getBoundingBox() {
+		return boundingBox;
 	}
 }

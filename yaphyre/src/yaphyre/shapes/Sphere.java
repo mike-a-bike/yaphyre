@@ -28,6 +28,7 @@ import static yaphyre.geometry.MathUtils.isInRangeWithTolerance;
 
 import java.text.MessageFormat;
 
+import yaphyre.core.BoundingBox;
 import yaphyre.core.CollisionInformation;
 import yaphyre.core.Shader;
 import yaphyre.geometry.Normal3D;
@@ -66,6 +67,9 @@ public class Sphere extends AbstractShape {
 
 	/** Flag if the instance is a partial sphere or not */
 	private final boolean isPartial;
+
+	/** Bounding box for the sphere */
+	private final BoundingBox boundingBox;
 
 	/**
 	 * Helper method for creating a sphere where the center and its radius are known. This creates a transformation which
@@ -126,12 +130,10 @@ public class Sphere extends AbstractShape {
 	 * 		If <code>radius</code> is too small, an {@link IllegalArgumentException} is thrown. Or if the specified
 	 * 	    ranges for &theta; and &phi; are out of bounds.
 	 */
-	public static Sphere createSphere(Point3D center, double radius,
+	public static Sphere createSphere(@NotNull Point3D center, double radius,
 			double phiMin, double phiMax, double thetaMin, double thetaMax,
-			Shader shader) {
+			@NotNull Shader shader) {
 		checkArgument(radius > EPSILON);
-		checkNotNull(center);
-		checkNotNull(shader);
 		Transformation scaling = Transformation.scale(radius, radius, radius);
 		Transformation translation = Transformation.translate(center.getX(), center.getY(), center.getZ());
 		Transformation objectToWorld = translation.mul(scaling);
@@ -156,9 +158,9 @@ public class Sphere extends AbstractShape {
 	 * @param thetaMax
 *      The start angle for &theta; (&theta; &isin; [0, 180])
 	 */
-	public Sphere(final Transformation objectToWorld,
+	public Sphere(@NotNull final Transformation objectToWorld,
 			final double phiMin, final double phiMax, final double thetaMin, final double thetaMax,
-			final Shader shader) {
+			@NotNull final Shader shader) {
 		super(objectToWorld, shader);
 		checkArgument(0d <= phiMin && phiMin <= 360d);
 		checkArgument(0d <= phiMax && phiMax <= 360d);
@@ -169,6 +171,7 @@ public class Sphere extends AbstractShape {
 		this.thetaMin = min(thetaMin, thetaMax) / 180d * PI;
 		this.thetaMax = max(thetaMin, thetaMax) / 180d  * PI;
 		isPartial = phiMin == 0d && phiMax == 360d && thetaMin == 0d && thetaMax == 180d;
+		boundingBox = objectToWorld.transform(new BoundingBox(new Point3D(1, 1, 1), new Point3D(-1, -1, -1)));
 	}
 
 	@Override
@@ -209,6 +212,12 @@ public class Sphere extends AbstractShape {
 				getNormal(intersectionPoint), getMappedSurfacePoint(intersectionPoint));
 	}
 
+	@NotNull
+	@Override
+	public BoundingBox getBoundingBox() {
+		return null;
+	}
+
 	/**
 	 * Determine the distance on a half line where this line intersects with the sphere. To do this, we use the parametric
 	 * form of a line which is:<br/>
@@ -233,7 +242,7 @@ public class Sphere extends AbstractShape {
 	 * @return The distance in which the ray intersects this sphere, or if they do not intersect {@link
 	 *         yaphyre.core.Primitive#NO_INTERSECTION}.
 	 */
-	private double getIntersectDistance(@NotNull Ray ray) {
+	double getIntersectDistance(@NotNull Ray ray) {
 
 		// Transform the incoming ray from the world space into the object space.
 		ray = super.getWorldToObject().transform(ray);
@@ -271,7 +280,7 @@ public class Sphere extends AbstractShape {
 	 * surface point</li> <li>Transform the resulting normal back to world space</li> </ol>
 	 */
 	@NotNull
-	private Normal3D getNormal(@NotNull Point3D surfacePoint) {
+	Normal3D getNormal(@NotNull Point3D surfacePoint) {
 		surfacePoint = super.getWorldToObject().transform(surfacePoint);
 		return super.getObjectToWorld().transform(surfacePoint.asNormal());
 	}
@@ -294,7 +303,7 @@ public class Sphere extends AbstractShape {
 	 * 		thrown.
 	 */
 	@NotNull
-	private Point2D getMappedSurfacePoint(@NotNull Point3D surfacePoint) throws NullPointerException, IllegalArgumentException {
+	Point2D getMappedSurfacePoint(@NotNull Point3D surfacePoint) throws NullPointerException, IllegalArgumentException {
 		surfacePoint = super.getWorldToObject().transform(surfacePoint);
 		// Make sure, that the point lies on the surface.
 		checkNotNull(surfacePoint, "surfacePoint must not be null");

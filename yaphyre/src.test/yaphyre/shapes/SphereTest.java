@@ -73,13 +73,13 @@ public class SphereTest {
 
 		Transformation objectToWorld = Transformation.scale(2, 2, 2);
 
-		Sphere staticSphere = Sphere.createSphere(Point3D.ORIGIN, 2, new TestShader());
-		Sphere constructorSphere = new Sphere(objectToWorld, 0d, 360d, 0d, 180d, new TestShader());
+		Sphere staticSphere = Sphere.createSphere(Point3D.ORIGIN, 2, mock(Shader.class));
+		Sphere constructorSphere = new Sphere(objectToWorld, 0d, 360d, 0d, 180d, mock(Shader.class));
 
 		Ray testRay = new Ray(new Point3D(-10, 0, 0), Vector3D.X);
 
-		Point3D intersectPoint1 = staticSphere.getIntersectionPoint(testRay);
-		Point3D intersectPoint2 = constructorSphere.getIntersectionPoint(testRay);
+		Point3D intersectPoint1 = staticSphere.getIntersectDistance(testRay);
+		Point3D intersectPoint2 = constructorSphere.getIntersectDistance(testRay);
 
 		assertEquals(constructorSphere, staticSphere);
 		assertEquals(intersectPoint2, intersectPoint1);
@@ -92,8 +92,8 @@ public class SphereTest {
 				{0, 0, 0, 1}});
 
 		objectToWorld = new Transformation(initMatrix);
-		staticSphere = Sphere.createSphere(new Point3D(0, 1, 1), 3, new TestShader());
-		constructorSphere = new Sphere(objectToWorld, 0d, 360d, 0d, 180d, new TestShader());
+		staticSphere = Sphere.createSphere(new Point3D(0, 1, 1), 3, mock(Shader.class));
+		constructorSphere = new Sphere(objectToWorld, 0d, 360d, 0d, 180d, mock(Shader.class));
 		testRay = new Ray(new Point3D(-10, 1.5, 1), Vector3D.X);
 
 		intersectPoint1 = staticSphere.getIntersectionPoint(testRay);
@@ -218,36 +218,6 @@ public class SphereTest {
 		System.out.println("Normal of " + unitSphere + " at " + p + " = " + n);
 		assertNotNull(n);
 		// assertEquals(new Vector(0, -1, 0), n);
-
-	}
-
-	@SuppressWarnings("serial")
-	private static class TestShader implements Shader {
-		private static final Color TEST_COLOR = new Color(java.awt.Color.BLACK);
-
-		@NotNull
-		@Override
-		public Color getColor(@NotNull Point2D uvPoint) {
-			return TEST_COLOR;
-		}
-
-		private static final Material TEST_MATERIAL = MaterialBuilder.start().ambient(0.1).diffuse(0.8).build();
-
-		@NotNull
-		@Override
-		public Material getMaterial(@NotNull Point2D uvCoordinate) {
-			return TEST_MATERIAL;
-		}
-
-		@Override
-		public int hashCode() {
-			return getClass().hashCode();
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			return (this == obj) || (obj instanceof TestShader);
-		}
 
 	}
 

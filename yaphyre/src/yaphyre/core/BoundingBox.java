@@ -103,6 +103,14 @@ public class BoundingBox implements Serializable {
 		pointMax = new Point3D(max(p1.getX(), p2.getX()), max(p1.getY(), p2.getY()), max(p1.getZ(), p2.getZ()));
 	}
 
+	public Point3D getPointMin() {
+		return pointMin;
+	}
+
+	public Point3D getPointMax() {
+		return pointMax;
+	}
+
 	@Override
 	public String toString() {
 		return Objects.toStringHelper(getClass()).add("pMin", pointMin).add("pMax", pointMax).toString();

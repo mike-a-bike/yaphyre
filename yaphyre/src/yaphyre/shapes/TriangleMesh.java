@@ -16,6 +16,7 @@
 
 package yaphyre.shapes;
 
+import yaphyre.core.BoundingBox;
 import yaphyre.core.CollisionInformation;
 import yaphyre.core.Shader;
 import yaphyre.geometry.Ray;
@@ -54,6 +55,12 @@ public class TriangleMesh extends AbstractShape {
 	@Nullable
 	@Override
 	public CollisionInformation intersect(@NotNull final Ray ray) {
+		return null;
+	}
+
+	@NotNull
+	@Override
+	public BoundingBox getBoundingBox() {
 		return null;
 	}
 

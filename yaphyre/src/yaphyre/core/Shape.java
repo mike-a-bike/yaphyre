@@ -20,6 +20,9 @@ import java.io.Serializable;
 
 import yaphyre.geometry.Ray;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Interface implemented by all {@link Shape} of the rendering system.
  *
@@ -34,6 +37,7 @@ public interface Shape extends Serializable {
 	 *
 	 * @return The {@link Shader} for this shape.
 	 */
+	@NotNull
 	public Shader getShader();
 
 	/**
@@ -47,6 +51,10 @@ public interface Shape extends Serializable {
 	 * @return The {@link CollisionInformation} instance describing the intersection between the {@link Ray} and this
 	 *         {@link Shape} instance. <code>null</code> if no intersection happens.
 	 */
-	public CollisionInformation intersect(Ray ray);
+	@Nullable
+	public CollisionInformation intersect(@NotNull Ray ray);
+
+	@NotNull
+	public BoundingBox getBoundingBox();
 
 }
