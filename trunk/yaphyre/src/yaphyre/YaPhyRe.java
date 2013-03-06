@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Michael Bieri
+ * Copyright 2013 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -125,7 +125,10 @@ public class YaPhyRe {
 		rayTracer.setScene(readScene);
 		rayTracer.setSampler(sampler);
 		if (commandLine.hasOption("single")) {
+			LOGGER.info("Using single threaded renderer");
 			rayTracer.useSingleThreadedRenderer();
+		} else {
+			LOGGER.info("Using multi threaded renderer");
 		}
 
 		LOGGER.info("Render image");
