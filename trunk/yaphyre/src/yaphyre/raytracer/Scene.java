@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Michael Bieri
+ * Copyright 2013 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -83,9 +83,10 @@ public class Scene implements Serializable {
 		CollisionInformation result = null;
 
 		for (Shape shape : getShapes()) {
-			result = shape.intersect(ray);
-			if (result != null && result.getDistance() < nearestCollisionDistance) {
-				nearestCollisionDistance = result.getDistance();
+			CollisionInformation collisionInformation = shape.intersect(ray);
+			if (collisionInformation != null && collisionInformation.getDistance() < nearestCollisionDistance) {
+				nearestCollisionDistance = collisionInformation.getDistance();
+				result = collisionInformation;
 			}
 		}
 
