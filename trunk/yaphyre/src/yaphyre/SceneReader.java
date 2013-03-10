@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Michael Bieri
+ * Copyright 2013 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -15,6 +15,13 @@
  */
 
 package yaphyre;
+
+import static yaphyre.geometry.Transformation.IDENTITY;
+import static yaphyre.geometry.Transformation.rotateX;
+import static yaphyre.geometry.Transformation.rotateY;
+import static yaphyre.geometry.Transformation.scale;
+import static yaphyre.geometry.Transformation.translate;
+import static yaphyre.shapes.Sphere.createSphere;
 
 import yaphyre.cameras.AbstractCamera.BaseCameraSettings;
 import yaphyre.cameras.PerspectiveCamera;
@@ -56,13 +63,13 @@ public class SceneReader {
 
 		Point3D sphere2Center = new Point3D(2.5, 1.5, 1.5);
 
-		Transformation pointlight1Transformation = Transformation.translate(-1, 5, 0);
+		Transformation pointlight1Transformation = translate(-1, 5, 0);
 		Color pointlight1Color = new Color(java.awt.Color.RED);
 
-		Transformation pointlight2Transformation = Transformation.translate(1, 5, 2);
+		Transformation pointlight2Transformation = translate(1, 5, 2);
 		Color pointlight2Color = new Color(java.awt.Color.GREEN);
 
-		Transformation pointlight3Transformation = Transformation.translate(1, 5, -2);
+		Transformation pointlight3Transformation = translate(1, 5, -2);
 		Color pointlight3Color = new Color(java.awt.Color.BLUE);
 
 		Material diffuseMaterial = MaterialBuilder.start().ambient(ambientLight).diffuse(0.8).build();
@@ -83,10 +90,10 @@ public class SceneReader {
 
 		Scene simpleScene = new Scene();
 
-		simpleScene.addShape(Sphere.createSphere(sphere1Center, sphere1Radius, whiteShader));
+		simpleScene.addShape(createSphere(sphere1Center, sphere1Radius, whiteShader));
 		double sphere2Radius = 0.5;
-		simpleScene.addShape(Sphere.createSphere(sphere2Center, sphere2Radius, whiteMirror));
-		simpleScene.addShape(new Plane(Transformation.IDENTITY, whiteMirror));
+		simpleScene.addShape(createSphere(sphere2Center, sphere2Radius, whiteMirror));
+		simpleScene.addShape(new Plane(IDENTITY, whiteMirror));
 
 		double pointlight1Intensity = 10d;
 		simpleScene.addLightsource(new Pointlight(pointlight1Transformation, pointlight1Color, pointlight1Intensity));
@@ -118,18 +125,15 @@ public class SceneReader {
 		Shader whiteMirror = new SimpleShader(mirrorMaterial, 1d, 1d, 1d);
 		// Shader redMirror = new SimpleShader(mirrorMaterial, 1d, 0d, 0d);
 
-		Shader sphereCheckerShader = new CheckerShader(Transformation.IDENTITY, whiteMirror, blueDiffuse, 4d, 4d);
-		Shader checkBoardShader = new CheckerShader(Transformation.IDENTITY, redDiffuse, whiteDiffuse, 16d, 16d);
-		Shader planeCeckerShader = new CheckerShader(Transformation.IDENTITY, whiteDiffuse, greenDiffuse, 0.5d, 0.5d);
+		Shader sphereCheckerShader = new CheckerShader(IDENTITY, whiteMirror, blueDiffuse, 4d, 4d);
+		Shader checkBoardShader = new CheckerShader(IDENTITY, redDiffuse, whiteDiffuse, 16d, 16d);
+		Shader planeCeckerShader = new CheckerShader(IDENTITY, whiteDiffuse, greenDiffuse, 0.5d, 0.5d);
 
-		Lightsource pointLight = new Pointlight(Transformation.translate(-2, 5, -2), new Color(1, 1, 1), 15);
+		Lightsource pointLight = new Pointlight(translate(-2, 5, -2), new Color(1, 1, 1), 15);
 
-		Transformation sphereTransformation = Transformation.translate(0, 1.5, 0).mul(Transformation.rotateY(30).mul(
-				Transformation.rotateX(60)));
-		Transformation distantTransformation = Transformation.translate(-2, 10, -5).mul(Transformation.scale(2, 2, 2)
-				.mul(Transformation.rotateX(90)));
-		Transformation planeTransformation = Transformation.rotateX(-10).mul(Transformation.translate(0, -1, 0).mul(
-				Transformation.rotateY(30)));
+		Transformation sphereTransformation = translate(0, 1.5, 0).mul(rotateY(30).mul(rotateX(60)));
+		Transformation distantTransformation = translate(-2, 10, -5).mul(scale(2, 2, 2).mul(rotateX(90)));
+		Transformation planeTransformation = rotateX(-10).mul(translate(0, -1, 0).mul(rotateY(30)));
 
 		Shape plane = new Plane(planeTransformation, planeCeckerShader);
 		Shape sphere = new Sphere(sphereTransformation, 0d, 360d, 0d, 180d, sphereCheckerShader);
@@ -159,12 +163,12 @@ public class SceneReader {
 		final Shader greenDiffuse = new SimpleShader(diffuseMaterial, 0d, 1d, 0d);
 		final Shader blueDiffuse = new SimpleShader(diffuseMaterial, 0d, 0d, 1d);
 
-		final Shape floor = new Plane(Transformation.IDENTITY, whiteDiffuse);
-		final Shape redBall = new Sphere(Transformation.translate(-2, 1.5, -2), 0d, 360d, 0d, 180d, redDiffuse);
-		final Shape blueBall = new Sphere(Transformation.translate(0, 1.5, 0), 0d, 360d, 0d, 180d, blueDiffuse);
-		final Shape greenBall = new Sphere(Transformation.translate(2, 1.5, 2), 0d, 360d, 0d, 180d, greenDiffuse);
+		final Shape floor = new Plane(IDENTITY, whiteDiffuse);
+		final Shape redBall = new Sphere(translate(-2, 1.5, -2), 0d, 360d, 0d, 180d, redDiffuse);
+		final Shape blueBall = new Sphere(translate(0, 1.5, 0), 0d, 360d, 0d, 180d, blueDiffuse);
+		final Shape greenBall = new Sphere(translate(2, 1.5, 2), 0d, 360d, 0d, 180d, greenDiffuse);
 
-		final Lightsource pointLight = new Pointlight(Transformation.translate(2.5, 5, 5), new Color(1, 1, 1), 30);
+		final Lightsource pointLight = new Pointlight(translate(2.5, 5, 5), new Color(1, 1, 1), 30);
 
 		final Scene scene = new Scene();
 
@@ -186,7 +190,7 @@ public class SceneReader {
 	 * @return A very simple {@link Scene} containing one light, one plane and one sphere.
 	 */
 	public static Scene createFirstLight() {
-		double ambientLight = 0.0d;
+		double ambientLight = 0.05d;
 
 		Material diffuseMaterial = MaterialBuilder.start().ambient(ambientLight).diffuse(0.8d).build();
 		Material mirrorMaterial = MaterialBuilder.start().ambient(ambientLight).diffuse(0.1d).reflection(0.9d).build();
@@ -194,12 +198,12 @@ public class SceneReader {
 		Shader diffuseGradient = new GradientShader(diffuseMaterial, new Color(1d, 0d, 0d), new Color(0d, 0d, 1d), GradientShader.BlendDirection.uAxis);
 		Shader diffuseWhite = new SimpleShader(diffuseMaterial, 1, 1, 1);
 		Shader mirrorShader = new SimpleShader(mirrorMaterial, 0, 1, 0);
-		Shader checker = new CheckerShader(Transformation.IDENTITY, diffuseGradient, mirrorShader, 8d);
+		Shader checker = new CheckerShader(IDENTITY, diffuseGradient, mirrorShader, 8d);
 
-		Lightsource light = new Pointlight(Transformation.translate(-2, 5, 2), new Color(1, 1, 1), 20);
+		Lightsource light = new Pointlight(translate(-2, 5, 2), new Color(1, 1, 1), 20);
 
-		Shape plane = new Plane(Transformation.IDENTITY, diffuseWhite);
-		Shape sphere = new Sphere(Transformation.translate(0d, 1d, 0d), 225d, 315d, 45d, 135d, checker);
+		Shape plane = new Plane(IDENTITY, diffuseWhite);
+		Shape sphere = new Sphere(translate(0d, 1d, 0d), 225d, 315d, 45d, 135d, checker);
 
 		Scene scene = new Scene();
 
