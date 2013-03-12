@@ -147,10 +147,10 @@ public enum BezierCurve {
 
 			Point3D result = Point3D.ORIGIN;
 
-			for(int n = 0; n <= order; n++) {
-				final double coefficient = binomialCoefficientDouble(order, n);
-				final double scale = coefficient * Math.pow((1d-t), (order - n)) * Math.pow(t, n);
-				result = result.add(controlPoints[n].scale(scale));
+			for(int k = 0; k <= order; k++) {
+				final double coefficient = binomialCoefficientDouble(order, k);
+				final double scale = coefficient * Math.pow((1d-t), (order - k)) * Math.pow(t, k);
+				result = result.add(controlPoints[k].scale(scale));
 			}
 
 			return result;
