@@ -17,8 +17,10 @@ package yaphyre.geometry;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.abs;
+import static java.lang.Math.pow;
 import static java.lang.Math.signum;
 import static java.lang.Math.sqrt;
+import static org.apache.commons.math.util.MathUtils.binomialCoefficientDouble;
 
 /**
  * Some useful mathematical helper functions.
@@ -124,4 +126,7 @@ public class MathUtils {
 		return value;
 	}
 
+	public static double calculateBernsteinPolynomialFactor(final double t, final int order, final int k) {
+		return binomialCoefficientDouble(order, k) * pow(t, k) * pow((1d - t), (order - k));
+	}
 }

@@ -17,12 +17,13 @@
 package yaphyre.geometry;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static org.apache.commons.math.util.MathUtils.binomialCoefficientDouble;
+import static yaphyre.geometry.MathUtils.calculateBernsteinPolynomialFactor;
 
 import org.jetbrains.annotations.NotNull;
 
 /**
- * An implementation for calculating points on a bezier curve. Each instance takes a different number of control points
+ * An implementation for calculating points on a bezier curve. Each instance takes a different number of control
+ * points
  */
 public enum BezierCurve {
 
@@ -147,9 +148,8 @@ public enum BezierCurve {
 
 			Point3D result = Point3D.ORIGIN;
 
-			for(int k = 0; k <= order; k++) {
-				final double coefficient = binomialCoefficientDouble(order, k);
-				final double scale = coefficient * Math.pow((1d-t), (order - k)) * Math.pow(t, k);
+			for (int k = 0; k <= order; k++) {
+				final double scale = calculateBernsteinPolynomialFactor(t, order, k);
 				result = result.add(controlPoints[k].scale(scale));
 			}
 
