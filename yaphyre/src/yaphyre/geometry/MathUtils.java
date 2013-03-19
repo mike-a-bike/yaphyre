@@ -129,4 +129,17 @@ public class MathUtils {
 	public static double calculateBernsteinPolynomialFactor(final double t, final int order, final int k) {
 		return binomialCoefficientDouble(order, k) * pow(t, k) * pow((1d - t), (order - k));
 	}
+
+	/**
+	 * Calculate the index within a flat array starting at the given startIndex.
+	 *
+	 * @param startIndex The index of the first element
+	 * @param uIndex The u-coordinate of the point
+	 * @param vIndex The v-coordinate of the point
+	 *
+	 * @return The index within the array of the requested point
+	 */
+	public static int calculateIndex(final int startIndex, final int uIndex, final int vIndex) {
+		return startIndex + uIndex + (vIndex * uIndex);
+	}
 }
