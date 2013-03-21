@@ -19,6 +19,7 @@ package yaphyre.shapes;
 import yaphyre.core.BoundingBox;
 import yaphyre.core.CollisionInformation;
 import yaphyre.core.Shader;
+import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Transformation;
 
@@ -30,6 +31,9 @@ import org.jetbrains.annotations.Nullable;
  * Templates.
  */
 public class TriangleMesh extends AbstractShape {
+
+	private final Point3D[] vertices;
+	private final int[][] triangles;
 
 	/**
 	 * Initialize the common fields for all {@link yaphyre.core.Shape}s. Each {@link yaphyre.core.Shape} defines a point of origin for
@@ -43,13 +47,25 @@ public class TriangleMesh extends AbstractShape {
 	 * 		The {@link yaphyre.geometry.Transformation} used to map world coordinates to object coordinates.
 	 * @param shader
 	 * 		The {@link yaphyre.core.Shader} instance to use when rendering this {@link yaphyre.core.Shape}.
-	 * @throws NullPointerException
-	 * 		If either <code>objectToWorld</code> or <code>shader</code> is <code>null</code> a {@link NullPointerException} is
-	 * 		thrown
+	 * @param vertices
+	 * 	    An array of {@link Point3D} representing vertices used as points of triangles.
+	 * @param triangles
+	 *      A two dimensional array containing indices of vertices defining the corners of the triangles. Each sub-
+	 *      array has to have a length of 3 since each entry represents a triangle (no n-gon support with implicit
+	 *      tessellation yet)
 	 */
-	protected TriangleMesh(final Transformation objectToWorld, final Shader shader)
-			throws NullPointerException {
+	protected TriangleMesh(@NotNull final Transformation objectToWorld, @NotNull final Shader shader,
+			final @NotNull Point3D[] vertices, @NotNull final int[][] triangles) {
 		super(objectToWorld, shader);
+		this.vertices = new Point3D[vertices.length];
+		System.arraycopy(vertices, 0, this.vertices, 0, vertices.length);
+		this.triangles = new int[triangles.length][3];
+		for(int triangleIndex = 0; triangleIndex < triangles.length; triangleIndex++) {
+			if (triangles[triangleIndex].length != 3) {
+				throw new IllegalArgumentException("Please make sure, that all triangles have exactly three vertices.");
+			}
+			System.arraycopy(triangles[triangleIndex], 0, this.triangles[triangleIndex], 0, 3);
+		}
 	}
 
 	@Nullable
