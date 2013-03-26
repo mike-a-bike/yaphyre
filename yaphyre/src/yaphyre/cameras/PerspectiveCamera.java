@@ -16,6 +16,7 @@
 package yaphyre.cameras;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import yaphyre.core.Film;
 import yaphyre.core.Sampler;
@@ -24,12 +25,12 @@ import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Vector3D;
 import yaphyre.samplers.JitteredSampler;
+import yaphyre.util.SingleInstanceIterator;
 
 import org.jetbrains.annotations.NotNull;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 
 /**
  * This perspective camera is based on a simple pin hole camera model. Nonetheless, it emulates effects like depth of
@@ -71,31 +72,36 @@ public class PerspectiveCamera extends AbstractCamera {
 		Point3D mappedPoint = mapViewPlanePoint(viewPlanePoint);
 		Vector3D direction = new Vector3D(focalPoint, mappedPoint).normalize();
 
-		if (cameraSettings.getApertureSize() > 0d) {
-			// UGLY, better implementation for random sampling needed...
-			Point2D lensPoint = lensSampler.getUnitCircleSamples().iterator().next().mul(
-					cameraSettings.getApertureSize());
-
-			Point3D focusPoint = mappedPoint.add(direction.scale(cameraSettings.getFocalDistance()));
-			mappedPoint = mappedPoint.add(lensPoint);
-			direction = new Vector3D(focusPoint, mappedPoint).normalize();
-
-		}
+//		if (cameraSettings.getApertureSize() > 0d) {
+//			// UGLY, better implementation for random sampling needed...
+//			Point2D lensPoint = lensSampler.getUnitCircleSamples().iterator().next().mul(
+//					cameraSettings.getApertureSize());
+//
+//			Point3D focusPoint = mappedPoint.add(direction.scale(cameraSettings.getFocalDistance()));
+//			mappedPoint = mappedPoint.add(lensPoint);
+//			direction = new Vector3D(focusPoint, mappedPoint).normalize();
+//
+//		}
 
 		Ray result = new Ray(mappedPoint, direction);
-
 		result = super.getCamera2World().transform(result);
+		final Iterator<Ray> resultIterator = new SingleInstanceIterator<Ray>(result);
 
-		return Lists.newArrayList(result);
+		return new Iterable<Ray>() {
+			@Override
+			public Iterator<Ray> iterator() {
+				return resultIterator;
+			}
+		};
 	}
 
-	private static class CameraRaysIterator implements Iterator<Ray> {
+	private static class MultiSampleCameraRayIterator implements Iterator<Ray> {
 
 		private final Iterator<Point2D> unitCircleSamples;
 		private final double apertureSize;
 		private final Point2D viewPlanePoint;
 
-		public CameraRaysIterator(final Point2D viewPlanePoint, final double apertureSize, final Sampler lensSampler) {
+		public MultiSampleCameraRayIterator(final Point2D viewPlanePoint, final double apertureSize, final Sampler lensSampler) {
 			this.viewPlanePoint = viewPlanePoint;
 			this.apertureSize = apertureSize;
 			this.unitCircleSamples = lensSampler.getUnitCircleSamples().iterator();
@@ -108,6 +114,9 @@ public class PerspectiveCamera extends AbstractCamera {
 
 		@Override
 		public Ray next() {
+			if (!unitCircleSamples.hasNext()) {
+				throw new NoSuchElementException("no more elements available in this iterator");
+			}
 			Point2D lensSamplePoint = unitCircleSamples.next().mul(apertureSize);
 			Point2D newViewPlanePoint = viewPlanePoint.add(lensSamplePoint);
 			return null;
@@ -115,7 +124,7 @@ public class PerspectiveCamera extends AbstractCamera {
 
 		@Override
 		public void remove() {
-			throw new RuntimeException("CameraRaysIterator is readonly");
+			throw new UnsupportedOperationException("read-only iterator");
 		}
 	}
 
