@@ -40,7 +40,7 @@ public class BezierPatchTest {
 		int[][] triangleIndices = patch.createTriangleIndices(uSegments, vSegments);
 		assertTrue(triangleIndices.length == uSegments * vSegments * 2);
 		for(int triangleIndex = 0; triangleIndex < triangleIndices.length; triangleIndex++) {
-			System.out.printf("triangle %2d: a = %2d, b=%2d, c=%2d%n", triangleIndex,
+			System.out.printf("triangle %2d: a=%2d, b=%2d, c=%2d%n", triangleIndex,
 					triangleIndices[triangleIndex][0],
 					triangleIndices[triangleIndex][1],
 					triangleIndices[triangleIndex][2]);
