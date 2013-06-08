@@ -24,26 +24,23 @@
     <option name="FILTER_BY_CURRENT_PROJECT" value="true" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" name="Default" comment="" />
-    <list id="21c369d5-aeaf-48f8-b639-a5b6fca42c08" name="Ignored" comment="" />
-    <list id="778fcabc-c089-4bea-b0f4-b30726e809b1" name="IDE Settings (Do not check in)" comment="">
+    <list default="true" readonly="true" id="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/yaphyre.iml" afterPath="$PROJECT_DIR$/yaphyre.iml" />
     </list>
+    <list id="21c369d5-aeaf-48f8-b639-a5b6fca42c08" name="Ignored" comment="" />
     <ignored path="yaphyre.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/" />
-    <file path="$PROJECT_DIR$/.idea/workspace.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1370721286475" ignored="false" />
     <file path="/CollisionInformation.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1361015495959" ignored="false" />
     <file path="/MultiStageXMLSceneReader.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1357130822422" ignored="false" />
     <file path="/Triangle.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1361105816718" ignored="false" />
     <file path="/fragment.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369949909465" ignored="false" />
     <file path="/TriangleTest.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1360932905161" ignored="false" />
-    <file path="/Dummy.txt" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1370721304180" ignored="false" />
+    <file path="/Dummy.txt" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1370721336065" ignored="false" />
     <file path="/a.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1370201236463" ignored="false" />
     <file path="/sample.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369952799882" ignored="false" />
     <file path="/Primitive.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1361015010951" ignored="false" />
@@ -1112,7 +1109,7 @@
     <task active="true" id="Default" summary="Default task">
       <changelist id="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" name="Default" comment="" />
       <changelist id="21c369d5-aeaf-48f8-b639-a5b6fca42c08" name="Ignored" comment="" />
-      <changelist id="778fcabc-c089-4bea-b0f4-b30726e809b1" name="IDE Settings (Do not check in)" comment="" />
+      <changelist id="" name="IDE Settings (Do not check in)" comment="" />
       <changelist id="402539b5-6025-4e61-b9d3-1408bf7240bd" name="Diagram changes" comment="" />
       <created>1347873315750</created>
       <updated>1349021201263</updated>
@@ -1261,7 +1258,11 @@
       <created>1370721323101</created>
       <updated>1370721323101</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="IDE Settings updated">
+      <created>1370721346100</created>
+      <updated>1370721346100</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1367,7 +1368,7 @@
     <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor enhancements to the perspective camera" />
+    <option name="LAST_COMMIT_MESSAGE" value="IDE Settings updated" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1381,7 +1382,6 @@
     <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="Helper class to calculate the field of view for a given film format and focal length" />
     <MESSAGE value="Some reformatting" />
     <MESSAGE value="Bounding Box collisions implemented" />
     <MESSAGE value="Restructuring of the scene readers in preparation for a more flexible architecture" />
@@ -1406,6 +1406,7 @@
     <MESSAGE value="Static imports for most used transformations added" />
     <MESSAGE value="BezierPatch tessellation implemented" />
     <MESSAGE value="Minor enhancements to the perspective camera" />
+    <MESSAGE value="IDE Settings updated" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
