@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Michael Bieri
+ * Copyright 2013 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -13,6 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package yaphyre.cameras;
 
 import java.util.Iterator;
@@ -23,8 +24,10 @@ import yaphyre.core.Sampler;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
+import yaphyre.geometry.Transformation;
 import yaphyre.geometry.Vector3D;
 import yaphyre.samplers.JitteredSampler;
+import yaphyre.util.RenderStatistics;
 import yaphyre.util.SingleInstanceIterator;
 
 import org.jetbrains.annotations.NotNull;
@@ -69,23 +72,19 @@ public class PerspectiveCamera extends AbstractCamera {
 		Preconditions.checkArgument(viewPlanePoint.getU() >= 0d && viewPlanePoint.getU() <= 1d);
 		Preconditions.checkArgument(viewPlanePoint.getV() >= 0d && viewPlanePoint.getV() <= 1d);
 
-		Point3D mappedPoint = mapViewPlanePoint(viewPlanePoint);
-		Vector3D direction = new Vector3D(focalPoint, mappedPoint).normalize();
+		Point3D origin = mapViewPlanePoint(viewPlanePoint, aspectRatioInv);
+		Vector3D direction = new Vector3D(focalPoint, origin).normalize();
 
-//		if (cameraSettings.getApertureSize() > 0d) {
-//			// UGLY, better implementation for random sampling needed...
-//			Point2D lensPoint = lensSampler.getUnitCircleSamples().iterator().next().mul(
-//					cameraSettings.getApertureSize());
-//
-//			Point3D focusPoint = mappedPoint.add(direction.scale(cameraSettings.getFocalDistance()));
-//			mappedPoint = mappedPoint.add(lensPoint);
-//			direction = new Vector3D(focusPoint, mappedPoint).normalize();
-//
-//		}
+		final Iterator<Ray> resultIterator;
 
-		Ray result = new Ray(mappedPoint, direction);
-		result = super.getCamera2World().transform(result);
-		final Iterator<Ray> resultIterator = new SingleInstanceIterator<Ray>(result);
+		if (cameraSettings.getApertureSize() > 0d) {
+			resultIterator = new MultiSampleCameraRayIterator(viewPlanePoint, cameraSettings.getApertureSize(),
+					cameraSettings.getFocalDistance(), lensSampler, origin, direction, getCamera2World());
+		} else {
+			Ray singleRay = new Ray(origin, direction);
+			singleRay = getCamera2World().transform(singleRay);
+			resultIterator = new SingleInstanceIterator<Ray>(singleRay);
+		}
 
 		return new Iterable<Ray>() {
 			@Override
@@ -95,16 +94,21 @@ public class PerspectiveCamera extends AbstractCamera {
 		};
 	}
 
-	private static class MultiSampleCameraRayIterator implements Iterator<Ray> {
+	private class MultiSampleCameraRayIterator implements Iterator<Ray> {
 
 		private final Iterator<Point2D> unitCircleSamples;
 		private final double apertureSize;
 		private final Point2D viewPlanePoint;
+		private final Point3D focalPoint;
+		private final Transformation camera2World;
 
-		public MultiSampleCameraRayIterator(final Point2D viewPlanePoint, final double apertureSize, final Sampler lensSampler) {
+		public MultiSampleCameraRayIterator(final Point2D viewPlanePoint, final double apertureSize, final double focalDistance,
+				final Sampler lensSampler, final Point3D origin, final Vector3D direction, final Transformation camera2World) {
 			this.viewPlanePoint = viewPlanePoint;
 			this.apertureSize = apertureSize;
-			this.unitCircleSamples = lensSampler.getUnitCircleSamples().iterator();
+			this.camera2World = camera2World;
+			focalPoint = origin.add(direction.normalize().scale(focalDistance));
+			unitCircleSamples = lensSampler.getUnitCircleSamples().iterator();
 		}
 
 		@Override
@@ -117,9 +121,16 @@ public class PerspectiveCamera extends AbstractCamera {
 			if (!unitCircleSamples.hasNext()) {
 				throw new NoSuchElementException("no more elements available in this iterator");
 			}
+
+			RenderStatistics.incEyeRays();
+
 			Point2D lensSamplePoint = unitCircleSamples.next().mul(apertureSize);
 			Point2D newViewPlanePoint = viewPlanePoint.add(lensSamplePoint);
-			return null;
+
+			Point3D newOrigin = PerspectiveCamera.mapViewPlanePoint(newViewPlanePoint, aspectRatioInv);
+			Vector3D newDirection = focalPoint.sub(newOrigin).normalize();
+
+			return camera2World.transform(new Ray(newOrigin, newDirection));
 		}
 
 		@Override
@@ -128,9 +139,10 @@ public class PerspectiveCamera extends AbstractCamera {
 		}
 	}
 
-	private Point3D mapViewPlanePoint(Point2D viewPlanePoint) {
+	@NotNull
+	private static Point3D mapViewPlanePoint(@NotNull Point2D viewPlanePoint, final double aspectRatioInv1) {
 		double u = viewPlanePoint.getU() - 0.5d;
-		double v = (viewPlanePoint.getV() - 0.5d) * aspectRatioInv;
+		double v = (viewPlanePoint.getV() - 0.5d) * aspectRatioInv1;
 		return new Point3D(u, v, 0d);
 	}
 
