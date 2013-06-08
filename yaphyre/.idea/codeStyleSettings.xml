@@ -36,7 +36,7 @@
             <emptyLine />
           </value>
         </option>
-        <option name="RIGHT_MARGIN" value="119" />
+        <option name="RIGHT_MARGIN" value="132" />
         <option name="JD_ALIGN_PARAM_COMMENTS" value="false" />
         <option name="JD_ALIGN_EXCEPTION_COMMENTS" value="false" />
         <option name="JD_ADD_BLANK_AFTER_PARM_COMMENTS" value="true" />
@@ -77,9 +77,6 @@
         <XML>
           <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
         </XML>
-        <ADDITIONAL_INDENT_OPTIONS fileType="haml">
-          <option name="INDENT_SIZE" value="2" />
-        </ADDITIONAL_INDENT_OPTIONS>
         <ADDITIONAL_INDENT_OPTIONS fileType="rb">
           <option name="INDENT_SIZE" value="2" />
           <option name="CONTINUATION_INDENT_SIZE" value="4" />
@@ -102,6 +99,15 @@
           <option name="PARENT_SETTINGS_INSTALLED" value="true" />
         </codeStyleSettings>
         <codeStyleSettings language="CSS">
+          <option name="PARENT_SETTINGS_INSTALLED" value="true" />
+        </codeStyleSettings>
+        <codeStyleSettings language="CoffeeScript">
+          <option name="KEEP_LINE_BREAKS" value="false" />
+          <option name="KEEP_FIRST_COLUMN_COMMENT" value="false" />
+          <option name="KEEP_BLANK_LINES_IN_CODE" value="1" />
+          <option name="ALIGN_MULTILINE_PARAMETERS" value="false" />
+          <option name="SPACE_WITHIN_ARRAY_INITIALIZER_BRACES" value="true" />
+          <option name="METHOD_PARAMETERS_WRAP" value="1" />
           <option name="PARENT_SETTINGS_INSTALLED" value="true" />
         </codeStyleSettings>
         <codeStyleSettings language="ECMA Script Level 4">
