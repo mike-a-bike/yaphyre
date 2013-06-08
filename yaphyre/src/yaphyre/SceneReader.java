@@ -102,7 +102,7 @@ public class SceneReader {
 		double pointlight3Intensity = 10d;
 		simpleScene.addLightsource(new Pointlight(pointlight3Transformation, pointlight3Color, pointlight3Intensity));
 
-		simpleScene.addCamera(createDefaultCamera());
+		simpleScene.addCamera(createDefaultCamera(Double.MAX_VALUE, 0d));
 
 		return simpleScene;
 	}
@@ -147,7 +147,7 @@ public class SceneReader {
 		scene.addShape(sphere);
 		scene.addShape(distantSphere);
 
-		scene.addCamera(createDefaultCamera());
+		scene.addCamera(createDefaultCamera(Double.MAX_VALUE, 0d));
 
 		return scene;
 	}
@@ -179,7 +179,8 @@ public class SceneReader {
 
 		scene.addLightsource(pointLight);
 
-		scene.addCamera(createDefaultCamera());
+		// create a camera with an aperture size other than zero
+		scene.addCamera(createDefaultCamera(100d, 0.0002d));
 
 		return scene;
 	}
@@ -211,17 +212,17 @@ public class SceneReader {
 		scene.addShape(plane);
 		scene.addShape(sphere);
 
-		scene.addCamera(createDefaultCamera());
+		scene.addCamera(createDefaultCamera(Double.MAX_VALUE, 0d));
 
 		return scene;
 	}
 
-	private static Camera createDefaultCamera() {
+	private static Camera createDefaultCamera(final double focalDistance, final double lensRadius) {
 		Point3D cameraPosition = new Point3D(0, 25, 100);
 		Point3D lookAt = new Point3D(0, 1, 0);
 		double aspectRatio = 4d / 3d;
 		double focalLength = 25d;
-		return createCamera(cameraPosition, lookAt, aspectRatio, focalLength, Double.MAX_VALUE, 0d);
+		return createCamera(cameraPosition, lookAt, aspectRatio, focalLength, focalDistance, lensRadius);
 	}
 
 	private static Camera createCamera(Point3D position, Point3D lookAt, double aspectRatio, double focalLength,
