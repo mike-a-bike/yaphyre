@@ -1,0 +1,8 @@
+Raster: ([0, umax] [0, vmax])
+
+ratio = umax / vmax
+
+raster => camera
+([0, umax] [0, vmax]) ==> ([-ratio/2, ratio/2] [-0.5, 0.5])
+
+(ur vr 0 1) * [[1/umax 0 0 -ratio/2] [0 1/vmax 0 -0.5] [0 0 1 0] [0 0 0 1]] = (uc vc 0 1)
