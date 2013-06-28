@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<scene>
+
+	<camera id="camera">
+		<position x="0" y="25" z="-100" />
+		<lookat x="0" y="1" z="0" />
+	</camera>
+
+	<pointlight id="light">
+		<transform>
+			<translate x="-2" y="5" z="-2" />
+		</transform>
+		<color r="1" g="1" b="1" />
+		<intensity value="15" />
+		<falloff value="quadric" />
+	</pointlight>
+
+	<sphere id="big-sphere">
+		<transform>
+			<!-- Change the radius by scaling it -->
+			<scale x="1.5" y="1.5" z="1.5" />
+			<!-- Change its center by translating it -->
+			<translate x="0" y="2" z="0" />
+		</transform>
+		<material ref="white-mirror" />
+	</sphere>
+
+	<sphere id="distant-sphere">
+		<transform>
+			<!-- Change its center by translating it -->
+			<translate x="0" y="1.5" z="0" />
+		</transform>
+		<material ref="white-mirror" />
+	</sphere>
+
+	<sphere id="distant-sphere">
+		<transform>
+			<!-- Change the radius by scaling it -->
+			<scale x="2" y="2" z="2" />
+			<!-- Change its center by translating it -->
+			<translate x="-2" y="10" z="-5" />
+		</transform>
+		<material ref="red-diffuse" />
+	</sphere>
+
+	<plane id="plane">
+		<shader ref="white-diffuse" />
+	</plane>
+
+	<material id="diffuse" ambient="0.075" diffuse="0.8" />
+
+	<material id="mirror" ambient="0.075" diffuse="0.1"
+		reflection="0.9" />
+
+	<shader id="white-diffuse">
+		<color r="1" g="1" b="1" />
+		<material ref="diffuse" />
+	</shader>
+
+	<shader id="white-mirror">
+		<color r="1" g="1" b="1" />
+		<material ref="mirror" />
+	</shader>
+
+	<shader id="red-diffuse">
+		<color r="1" g="0" b="0" />
+		<material ref="diffuse" />
+	</shader>
+
+</scene>

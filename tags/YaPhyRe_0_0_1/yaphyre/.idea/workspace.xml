@@ -1,0 +1,1685 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BuildServerSettings">
+    <option name="LOGIN" value="" />
+    <option name="SERVER_URL" value="http://buildserver" />
+    <option name="PASSWORD" />
+    <option name="REMEMBER_ME" value="true" />
+    <option name="USE_IDEA_PROXY_SETTINGS" value="true" />
+    <option name="TEST_STATUS_BUILD_TYPE_IDS" />
+    <option name="INSPECTIONS_BUILD_TYPE_IDS" />
+    <option name="DUPLICATES_BUILD_TYPE_IDS" />
+    <option name="COVERAGE_SETTINGS" />
+    <option name="ARTIFACTS_BUILD_TYPE_IDS" />
+    <option name="PERFORM_COMMIT_IF_SUCCESSFUL" value="true" />
+    <option name="PERFORM_COMMIT_IF_NO_NEW_FAILED_TESTS" value="false" />
+    <option name="REQUEST_CONFIRMATON" value="false" />
+    <option name="PRE_TESTED_COMMIT" value="true" />
+    <option name="PROJECT_STATUS_DIALOG_SPLITTER_DIVIDER_LOCATION" value="500" />
+    <option name="CHANGES_STATUS_DIALOG_SPLITTER_DIVIDER_LOCATION" value="500" />
+    <option name="FILTER_BY_STATUS" value="false" />
+    <option name="FILTER_MARKED_AS_FIXED" value="false" />
+    <option name="SHOW_CLOSE_PROMPT" value="true" />
+    <option name="TOOL_WINDOW_SELECTED_CONTENT_INDEX" value="0" />
+    <option name="FILTER_BY_CURRENT_PROJECT" value="true" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" readonly="true" id="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
+    <list id="21c369d5-aeaf-48f8-b639-a5b6fca42c08" name="Ignored" comment="" />
+    <ignored path="yaphyre.iws" />
+    <ignored path=".idea/workspace.xml" />
+    <ignored path=".idea/" />
+    <file path="/CollisionInformation.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1361015495959" ignored="false" />
+    <file path="/MultiStageXMLSceneReader.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1357130822422" ignored="false" />
+    <file path="/Triangle.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1361105816718" ignored="false" />
+    <file path="/fragment.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369949909465" ignored="false" />
+    <file path="/TriangleTest.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1360932905161" ignored="false" />
+    <file path="/Dummy.txt" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1370721359711" ignored="false" />
+    <file path="/a.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1370201236463" ignored="false" />
+    <file path="/sample.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369952799882" ignored="false" />
+    <file path="/Primitive.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1361015010951" ignored="false" />
+    <file path="/Shape.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1361015024823" ignored="false" />
+    <file path="/Scene.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1362604205467" ignored="false" />
+    <file path="/TriangleMesh.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1361016188132" ignored="false" />
+    <file path="/Implemented Method Body.txt.ft" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1361016529455" ignored="false" />
+    <file path="/FlatMeshTriangle.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1361105804095" ignored="false" />
+    <file path="/MeshTriangle.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1361105545109" ignored="false" />
+    <file path="/FlatMeshTriangleTest.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1361218472419" ignored="false" />
+    <file path="/BezierPatch.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1364127805968" ignored="false" />
+    <file path="/a.dummy" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1361739219250" ignored="false" />
+    <file path="/SphereTest.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1362600644619" ignored="false" />
+    <file path="/YaPhyRe.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1363553298989" ignored="false" />
+    <file path="/SceneReader.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1364761756711" ignored="false" />
+    <file path="$PROJECT_DIR$/../MavenTest/pom.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1363553050862" ignored="false" />
+    <file path="$PROJECT_DIR$/../MavenTest/src/main/java/ch/zweivelo/yaphyre/YaPhyRe.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1363553301899" ignored="false" />
+    <file path="/File Header.txt.ft" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1363552670628" ignored="false" />
+    <file path="$PROJECT_DIR$/../MavenTest/src/test/java/ch/zweivelo/yaphyre/YaPhyReTest.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1363553333884" ignored="false" />
+    <file path="/YaPhyReTest.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1363553331435" ignored="false" />
+    <file path="$PROJECT_DIR$/../MavenTest/.idea/workspace.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1363553605407" ignored="false" />
+    <file path="/a.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1363553242386" ignored="false" />
+    <file path="$PROJECT_DIR$/../MavenTest/.idea/compiler.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1363553259658" ignored="false" />
+    <file path="/BezierPatchTest.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1364127617385" ignored="false" />
+    <file path="/PerspectiveCamera.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1364761494517" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/j2ee_web_services_client_1_1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605807" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/javaee_web_services_1_2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605807" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/application_1_4.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605807" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/spring.tld" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605807" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/lib/idea.jar!/standardSchemas/html5/xhtml5.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605807" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/maven/lib/maven.jar!/schemas/maven-4.0.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605807" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/maven/lib/maven.jar!/schemas/settings-1.0.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605807" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/jsp_2_1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605807" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/maven/lib/maven.jar!/schemas/profiles-1.0.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605807" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/application-client_6.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605808" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/application-client_1_4.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605808" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/web-app_3_0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605808" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/persistence_2_0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605808" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/persistence.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605808" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/web-facesconfig_1_2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605808" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/jspxml.tld" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605808" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/orm_1_0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605808" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/jspxml.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605808" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/application_6.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605808" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/web-app_2_4.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605808" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/javaee_web_services_1_3.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605808" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/jsp_2_2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605808" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JSF/lib/jsf-support.jar!/resources/schemas/jsf_core_2_0.tld" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605808" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/javaee_6.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605808" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JSF/lib/jsf-support.jar!/resources/schemas/mojarra_ext.taglib.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605808" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/j2ee_1_4.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605808" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JSF/lib/jsf-support.jar!/resources/schemas/jstl.core.facelets.tld" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605809" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/orm_2_0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605809" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JSF/lib/jsf-support.jar!/resources/schemas/javaee_web_services_1_2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605809" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/application_5.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605809" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JSF/lib/jsf-support.jar!/resources/schemas/facelets_jsf_core.taglib.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605809" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/web-app_2_5.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605809" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JSF/lib/jsf-support.jar!/resources/schemas/html_basic.tld" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605809" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JSF/lib/jsf-support.jar!/resources/schemas/jsf-ui.tld" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605809" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/javaee_web_services_client_1_3.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605809" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JSF/lib/jsf-support.jar!/resources/schemas/web-facesconfig_1_1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605809" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/ejb-jar_3_0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605809" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JSF/lib/jsf-support.jar!/resources/schemas/web-facesuicomponent_2_0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605809" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JSF/lib/jsf-support.jar!/resources/schemas/html_basic.taglib.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605809" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/ejb-jar_2_1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605809" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/lib/idea.jar!/resources/relaxng.rng" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605809" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JSF/lib/jsf-support.jar!/resources/schemas/web-facesconfig_1_2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605809" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/javaee_5.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605810" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JSF/lib/jsf-support.jar!/resources/schemas/javaee_5.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605810" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/web-common_3_0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605810" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JSF/lib/jsf-support.jar!/resources/schemas/composite.tld" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605810" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JSF/lib/jsf-support.jar!/resources/schemas/jsf_core.tld" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605810" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/connector_1_6.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605810" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JSF/lib/jsf-support.jar!/resources/schemas/html_basic_2_0.tld" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605810" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/connector_1_5.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605810" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JSF/lib/jsf-support.jar!/resources/schemas/jsf-ui-2_0.tld" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605810" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JSF/lib/jsf-support.jar!/resources/schemas/web-facelettaglibrary_2_0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605810" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/spring-form.tld" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605810" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JSF/lib/jsf-support.jar!/resources/schemas/javaee_web_services_client_1_2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605810" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/ejb-jar_3_1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605810" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JSF/lib/jsf-support.jar!/resources/schemas/jstl-fn.taglib.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605810" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/web-jsptaglibrary_2_0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605810" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JSF/lib/jsf-support.jar!/resources/schemas/jstl-core.taglib.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605810" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/jsp_2_0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605810" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JSF/lib/jsf-support.jar!/resources/schemas/ui.taglib.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605811" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/javaee_web_services_client_1_2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605811" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JSF/lib/jsf-support.jar!/resources/schemas/web-facesconfig_2_0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605811" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JSF/lib/jsf-support.jar!/resources/schemas/web-partialresponse_2_0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605811" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/application-client_5.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605811" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JSF/lib/jsf-support.jar!/resources/schemas/jstl.fn.facelets.tld" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605811" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/web-fragment_3_0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605811" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JSF/lib/jsf-support.jar!/resources/schemas/composite.taglib.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605811" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JSF/lib/jsf-support.jar!/resources/schemas/xml.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605811" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/JavaEE/lib/javaee-impl.jar!/standardSchemas/web-jsptaglibrary_2_1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605811" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/xpath/lib/xpath.jar!/org/intellij/lang/xpath/xslt/resources/documentation.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605811" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/resources/schemas/spring-jee-3.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605811" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/xpath/lib/xpath.jar!/org/intellij/lang/xpath/xslt/resources/xslt-schema.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605811" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/xpath/lib/xpath.jar!/org/intellij/lang/xpath/xslt/resources/documentation.xsl" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605811" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/resources/schemas/spring-aop-3.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605811" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/resources/schemas/spring-tx-3.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605811" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/pageflow-2.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605811" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/resources/schemas/spring-aop-3.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605812" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/resources/schemas/spring-aop-3.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605812" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/resteasy-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605812" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/resources/schemas/spring-tx-3.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605812" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/ui-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605812" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/resources/schemas/spring-tx-3.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605812" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/document-2.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605812" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/resources/schemas/spring-jee-2.5.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605812" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/remoting-2.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605812" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/security-2.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605812" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/persistence-2.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605812" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/persistence-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605812" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/resources/schemas/spring-jms-2.5.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605812" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/web-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605812" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/resources/schemas/spring-jee-3.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605812" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/framework-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605813" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/resources/schemas/spring-tx-2.5.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605813" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/pdf-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605813" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/remoting-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605813" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/resources/schemas/spring-jms-3.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605813" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/core-2.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605813" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/resources/schemas/spring-jms-3.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605813" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/resources/schemas/spring-aop-2.5.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605813" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/theme-2.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605813" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/seam-components_1_0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605813" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/resources/schemas/spring-mvc-3.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605813" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/async-2.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605813" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/transaction-2.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605813" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/pdf-2.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605813" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/resources/schemas/spring-jee-3.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605813" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/core-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605813" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/components-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605813" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/resources/schemas/spring-mvc-3.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605814" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/jms-2.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605814" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/resources/schemas/spring-tx-2.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605814" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/wicket-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605814" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/resources/schemas/spring-jms-3.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605814" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/persistence-2.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605814" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/cache-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605814" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/transaction-2.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605814" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/resources/schemas/spring-mvc-3.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605814" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/international-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605814" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/resources/schemas/spring-aop-2.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605814" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/framework-2.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605814" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/security-2.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605814" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Spring/lib/spring.jar!/resources/schemas/spring-jee-2.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605814" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/async-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605814" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/core-2.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605814" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/plugin-1.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605814" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/ui-2.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605815" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/jms-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605815" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/mail-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605815" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/wicket-2.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605815" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/pageflow-2.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605815" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/pages-2.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605815" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/spring-2.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605815" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/pageflow-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605815" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/international-2.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605815" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/excel-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605815" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/transaction-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605815" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/components-2.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605815" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/components-2.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605815" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/theme-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605815" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/mail-2.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605815" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/navigation-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605815" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/theme-2.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605815" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/web-2.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605816" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/bpm-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605816" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/pages-2.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605816" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/pages-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605816" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/guice-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605816" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/security-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605816" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/mail-2.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605816" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/web-2.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605816" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/spring-seam-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605816" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/framework-2.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605816" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/drools-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605816" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/drools-2.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605816" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/cache-2.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605816" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/spring-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605816" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/document-2.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605816" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/navigation-2.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605816" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/remoting-2.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605816" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/jms-2.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605817" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/bpm-2.1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605817" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/Seam/lib/seam-support.jar!/resources/schemas/drools-2.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605817" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/CDI/lib/cdi-support.jar!/resources/schemas/beans_1_1.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605817" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/CDI/lib/cdi-support.jar!/resources/schemas/beans_1_0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605817" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/CDI/lib/cdi-support.jar!/resources/schemas/web-beans.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605817" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/lib/idea.jar!/standardSchemas/xinclude.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605817" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/lib/idea.jar!/standardSchemas/XMLSchema-instance.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605817" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/lib/idea.jar!/standardSchemas/xhtml1-transitional.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605817" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/lib/idea.jar!/standardSchemas/xhtml1-strict.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605817" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/lib/idea.jar!/standardSchemas/xslt-1_0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605817" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/lib/idea.jar!/standardSchemas/catalog.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605817" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/lib/idea.jar!/standardSchemas/XMLSchema.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605817" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/lib/idea.jar!/standardSchemas/xhtml1-frameset.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605817" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/lib/idea.jar!/standardSchemas/xml.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605817" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/lib/idea.jar!/standardSchemas/xslt-2_0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605817" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/jbpm/lib/jbpm-support.jar.jar!/resources/schemas/jpdl-4.2.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605818" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/jbpm/lib/jbpm-support.jar.jar!/resources/schemas/jpdl-4.3.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605818" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/jbpm/lib/jbpm-support.jar.jar!/resources/schemas/jpdl-4.0.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605818" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/jbpm/lib/jbpm-support.jar.jar!/resources/schemas/jpdl-4.4.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605818" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/jbpm/lib/jbpm-support.jar.jar!/resources/schemas/jbmn20/Semantic.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605818" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/jbpm/lib/jbpm-support.jar.jar!/resources/schemas/jbmn20/DiagramDefinition.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605818" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/jbpm/lib/jbpm-support.jar.jar!/resources/schemas/jbmn20/DiagramInterchange.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605818" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/jbpm/lib/jbpm-support.jar.jar!/resources/schemas/jbmn20/DC.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605818" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/jbpm/lib/jbpm-support.jar.jar!/resources/schemas/jbmn20/DI.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605818" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/jbpm/lib/jbpm-support.jar.jar!/resources/schemas/jbmn20/BPMNDI.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605818" ignored="false" />
+    <file path="$APPLICATION_HOME_DIR$/plugins/jbpm/lib/jbpm-support.jar.jar!/resources/schemas/jbmn20/BPMN20.xsd" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1368474605818" ignored="false" />
+    <file path="$PROJECT_DIR$/../MaveTest/Core/pom.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369942727237" ignored="false" />
+    <file path="$PROJECT_DIR$/../MaveTest/pom.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369942924062" ignored="false" />
+    <file path="$PROJECT_DIR$/../MaveTest/Shared/pom.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369942924062" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/pom.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1370201148803" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Core/pom.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369943430553" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Shared/pom.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369943493963" ignored="false" />
+    <file path="/pom.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1370289128122" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/.idea/workspace.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1370199733028" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/src/main/java/yaphyre/core/yaphyre/App.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369946113203" ignored="false" />
+    <file path="/App.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1370198871490" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/src/main/java/yaphyre/App.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1370198890901" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/src/main/resources/logback.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950870963" ignored="false" />
+    <file path="/logback.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950851768" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/src/main/java/yaphyre/math/Vector3D.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1370201946793" ignored="false" />
+    <file path="/Vector3D.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1370201942570" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/src/test/java/yaphyre/math/Vector3DTest.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1370199733028" ignored="false" />
+    <file path="/Vector3DTest.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1370199710463" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_1.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950316516" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/.idea/libraries/Maven__org_powermock_powermock_reflect_1_5.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950316516" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/.idea/libraries/Maven__junit_junit_4_9.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950316516" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/.idea/libraries/Maven__org_powermock_powermock_core_1_5.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950316516" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/.idea/libraries/Maven__org_powermock_powermock_module_junit4_common_1_5.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950316516" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/.idea/libraries/Maven__org_objenesis_objenesis_1_2.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950316516" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/.idea/libraries/Maven__org_apache_commons_commons_math3_3_1_1.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950316516" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/.idea/libraries/Maven__org_powermock_powermock_api_support_1_5.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950316516" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/.idea/libraries/Maven__org_powermock_powermock_api_mockito_1_5.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950316516" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/.idea/libraries/Maven__org_powermock_powermock_module_junit4_1_5.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950316516" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/.idea/libraries/Maven__org_javassist_javassist_3_17_1_GA.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950316516" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/.idea/scopes/scope_settings.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950316516" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/.idea/libraries/Maven__org_mockito_mockito_all_1_9_5.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950316516" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/.idea/copyright/profiles_settings.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950316517" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/.idea/uiDesigner.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950316517" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/.idea/compiler.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950316517" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/.idea/libraries/Maven__ch_qos_logback_logback_classic_1_0_13.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950316517" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_5.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950316517" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/.idea/libraries/Maven__ch_qos_logback_logback_core_1_0_13.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950316517" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/.idea/modules.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950316517" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/.idea/libraries/Maven__commons_cli_commons_cli_1_2.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950316517" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/.idea/misc.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950316517" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/.idea/encodings.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950330883" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/.idea/vcs.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950316517" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/.idea/libraries/Maven__org_apache_commons_commons_lang3_3_1.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1369950316517" ignored="false" />
+    <file path="$PROJECT_DIR$/../maven_test/Main/src/main/java/yaphyre/math/Point3D.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1370201852779" ignored="false" />
+    <file path="/Point3D.java" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1370201773643" ignored="false" />
+    <file path="$PROJECT_DIR$/../Spielwiese/StructuredProject/prj/Main/pom.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1370289130316" ignored="false" />
+    <file path="$PROJECT_DIR$/../Spielwiese/StructuredProject/prj/Base/pom.xml" changelist="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" time="1370288896981" ignored="false" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
+  <component name="Commander">
+    <leftPanel />
+    <rightPanel />
+    <splitter proportion="0.5" />
+  </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="PARALLEL_COMPILATION" value="true" />
+    <option name="COMPILER_PROCESS_HEAP_SIZE" value="1024" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/yaphyre$All_in_yaphyre.coverage" NAME="All in yaphyre Coverage Results" MODIFIED="1362604650909" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="true" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="DaemonCodeAnalyzer">
+    <disable_hints />
+  </component>
+  <component name="DebuggerManager">
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
+    <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
+      <breakpoint>
+        <option name="NOTIFY_CAUGHT" value="true" />
+        <option name="NOTIFY_UNCAUGHT" value="true" />
+        <option name="ENABLED" value="false" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint>
+        <option name="NOTIFY_CAUGHT" value="true" />
+        <option name="NOTIFY_UNCAUGHT" value="true" />
+        <option name="ENABLED" value="false" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="REMOVE_AFTER_HIT" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="SUSPEND" value="true" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="true" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+    </breakpoint_any>
+    <breakpoint_rules />
+    <ui_properties />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="yaphyre" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="PerspectiveCamera.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/yaphyre/cameras/PerspectiveCamera.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="130" column="73" selection-start="4463" selection-end="4463" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SceneReader.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/yaphyre/SceneReader.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RayTracer.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/yaphyre/raytracer/RayTracer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="346" column="0" selection-start="11749" selection-end="11749" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Ray.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/yaphyre/geometry/Ray.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="47" column="4" selection-start="1409" selection-end="1409" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JitteredSampler.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/yaphyre/samplers/JitteredSampler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="33" column="45" selection-start="1190" selection-end="1190" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AbstractSampler.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/yaphyre/samplers/AbstractSampler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="47" column="51" selection-start="1476" selection-end="1476" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Sampler.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/yaphyre/core/Sampler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="54" column="5" selection-start="1737" selection-end="1737" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="YaPhyRe.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/yaphyre/YaPhyRe.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="164" column="40" selection-start="5328" selection-end="5328" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SingleInstanceIterator.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/yaphyre/util/SingleInstanceIterator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="39" column="12" selection-start="1018" selection-end="1018" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FindManager">
+    <FindUsagesManager>
+      <setting name="OPEN_NEW_TAB" value="false" />
+    </FindUsagesManager>
+  </component>
+  <component name="GradleLocalSettings">
+    <option name="expandStates">
+      <map>
+        <entry key="yaphyre" value="true" />
+      </map>
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="changedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/src/yaphyre/shapes/Triangle.java" />
+        <option value="$PROJECT_DIR$/src/yaphyre/core/Shape.java" />
+        <option value="$PROJECT_DIR$/src/yaphyre/shapes/MeshTriangle.java" />
+        <option value="$PROJECT_DIR$/src/yaphyre/shapes/FlatMeshTriangle.java" />
+        <option value="$PROJECT_DIR$/src.test/yaphyre/shapes/FlatMeshTriangleTest.java" />
+        <option value="$PROJECT_DIR$/src/yaphyre/shapes/Plane.java" />
+        <option value="$PROJECT_DIR$/src/yaphyre/geometry/BezierPatch.java" />
+        <option value="$PROJECT_DIR$/src.test/yaphyre/shapes/SphereTest.java" />
+        <option value="$PROJECT_DIR$/src/yaphyre/YaPhyRe.java" />
+        <option value="$PROJECT_DIR$/src/yaphyre/raytracer/Scene.java" />
+        <option value="$PROJECT_DIR$/src.test/yaphyre/shapes/BezierPatchTest.java" />
+        <option value="$PROJECT_DIR$/src/yaphyre/shapes/BezierPatch.java" />
+        <option value="$PROJECT_DIR$/src/yaphyre/util/SingleInstanceIterator.java" />
+        <option value="$PROJECT_DIR$/src/yaphyre/core/Camera.java" />
+        <option value="$PROJECT_DIR$/src/yaphyre/cameras/PerspectiveCamera.java" />
+        <option value="$PROJECT_DIR$/src/yaphyre/SceneReader.java" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState />
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="215" />
+    <option name="y" value="84" />
+    <option name="width" value="1949" />
+    <option name="height" value="1163" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>Android Lint</id>
+          </State>
+          <State>
+            <id>Ant inspections</id>
+          </State>
+          <State>
+            <id>FreeMarker inspections</id>
+          </State>
+          <State>
+            <id>Java language level migration aids</id>
+          </State>
+          <State>
+            <id>Numeric issues</id>
+          </State>
+          <State>
+            <id>Performance issues</id>
+          </State>
+          <State>
+            <id>Portability issues</id>
+          </State>
+          <State>
+            <id>Probable bugs</id>
+          </State>
+        </expanded-state>
+      </profile-state>
+    </entry>
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="true" id="Remove" />
+    <OptionsSetting value="true" id="Checkout" />
+    <OptionsSetting value="true" id="Update" />
+    <OptionsSetting value="true" id="Status" />
+    <OptionsSetting value="true" id="Edit" />
+    <OptionsSetting value="true" id="Undo Check Out" />
+    <OptionsSetting value="true" id="Get Latest Version" />
+    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="0" id="Remove" />
+  </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+    </navigator>
+    <panes>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="yaphyre" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="yaphyre" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="yaphyre" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="yaphyre" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="yaphyre" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_directory_selection" value="$PROJECT_DIR$/src.test/yaphyre/shapes" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
+    <property name="OverrideImplement.combined" value="true" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="recentsLimit" value="5" />
+    <property name="options.lastSelected" value="reference.projectsettings.compiler.annotationProcessors" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Documents/Pet Projects/MyRayTracer/pbrt-v2/exporters/blender" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="GoToClass.includeJavaFiles" value="false" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.includeInheritedMembers" value="true" />
+    <property name="restartRequiresConfirmation" value="true" />
+    <property name="FullScreen" value="false" />
+    <property name="MemberChooser.showClasses" value="true" />
+    <property name="GoToClass.includeLibraries" value="false" />
+    <property name="dynamic.classpath" value="false" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="yaphyre.shapes" />
+      <recent name="test.yaphyre.geometry" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="yaphyre.shaders" />
+    </key>
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="yaphyre.shapes" />
+    </key>
+    <key name="MoveMembersDialog.RECENTS_KEY">
+      <recent name="yaphyre.core.Primitive" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.DOF">
+    <configuration default="false" name="RandomSamplerTest" type="JUnit" factoryName="JUnit" temporary="true">
+      <extension name="coverage" enabled="false" merge="false" runner="emma">
+        <pattern>
+          <option name="PATTERN" value="yaphyre.sampler.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="yaphyre" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="yaphyre.sampler" />
+      <option name="MAIN_CLASS_NAME" value="yaphyre.sampler.RandomSamplerTest" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="RegularSamplerTest.testHemisphere512Samples" type="JUnit" factoryName="JUnit" temporary="true">
+      <extension name="coverage" enabled="false" merge="false" runner="emma">
+        <pattern>
+          <option name="PATTERN" value="yaphyre.sampler.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="yaphyre" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="yaphyre.sampler" />
+      <option name="MAIN_CLASS_NAME" value="yaphyre.sampler.RegularSamplerTest" />
+      <option name="METHOD_NAME" value="testHemisphere512Samples" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="FlatMeshTriangleTest" type="JUnit" factoryName="JUnit" temporary="true">
+      <extension name="coverage" enabled="false" merge="false" runner="emma">
+        <pattern>
+          <option name="PATTERN" value="yaphyre.shapes.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="yaphyre" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="yaphyre.shapes" />
+      <option name="MAIN_CLASS_NAME" value="yaphyre.shapes.FlatMeshTriangleTest" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="BezierPatchTest.testCreateTriangleIndices" type="JUnit" factoryName="JUnit" temporary="true">
+      <extension name="coverage" enabled="false" merge="false" runner="emma">
+        <pattern>
+          <option name="PATTERN" value="yaphyre.shapes.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="yaphyre" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="yaphyre.shapes" />
+      <option name="MAIN_CLASS_NAME" value="yaphyre.shapes.BezierPatchTest" />
+      <option name="METHOD_NAME" value="testCreateTriangleIndices" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="SingleInstanceIteratorTest" type="JUnit" factoryName="JUnit" temporary="true">
+      <extension name="coverage" enabled="false" merge="false" runner="emma">
+        <pattern>
+          <option name="PATTERN" value="yaphyre.util.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="yaphyre" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="yaphyre.util" />
+      <option name="MAIN_CLASS_NAME" value="yaphyre.util.SingleInstanceIteratorTest" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" runner="emma" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" runner="emma" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="false" name="Spheres" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="emma">
+        <pattern>
+          <option name="PATTERN" value="yaphyre.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="yaphyre.YaPhyRe" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="-a jittered 16 -s spheres" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="yaphyre" />
+      <envs />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Simple" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="emma">
+        <pattern>
+          <option name="PATTERN" value="yaphyre.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="yaphyre.YaPhyRe" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="-a single 1 -s simple" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="yaphyre" />
+      <envs />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="First" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="emma">
+        <pattern>
+          <option name="PATTERN" value="yaphyre.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="yaphyre.YaPhyRe" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="-a jittered 4 -s first" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="yaphyre" />
+      <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="First with Scenereader" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="emma">
+        <pattern>
+          <option name="PATTERN" value="yaphyre.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="yaphyre.YaPhyRe" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="-a jittered 4 -s first -i &quot;scenes/first_light.scene.xml&quot;" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="yaphyre" />
+      <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="First (debugging)" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="emma">
+        <pattern>
+          <option name="PATTERN" value="yaphyre.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="yaphyre.YaPhyRe" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="--sampling single 16 --scene first --single --width 640 --height 480" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="yaphyre" />
+      <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="DOF" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="emma">
+        <pattern>
+          <option name="PATTERN" value="yaphyre.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="yaphyre.YaPhyRe" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="-a jittered 4 -s dof --single" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="yaphyre" />
+      <envs />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="All in yaphyre" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" runner="idea" />
+      <module name="yaphyre" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Cover" />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Cover" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <list size="12">
+      <item index="0" class="java.lang.String" itemvalue="Application.Spheres" />
+      <item index="1" class="java.lang.String" itemvalue="Application.Simple" />
+      <item index="2" class="java.lang.String" itemvalue="Application.First" />
+      <item index="3" class="java.lang.String" itemvalue="Application.First with Scenereader" />
+      <item index="4" class="java.lang.String" itemvalue="Application.First (debugging)" />
+      <item index="5" class="java.lang.String" itemvalue="Application.DOF" />
+      <item index="6" class="java.lang.String" itemvalue="JUnit.All in yaphyre" />
+      <item index="7" class="java.lang.String" itemvalue="JUnit.RandomSamplerTest" />
+      <item index="8" class="java.lang.String" itemvalue="JUnit.RegularSamplerTest.testHemisphere512Samples" />
+      <item index="9" class="java.lang.String" itemvalue="JUnit.FlatMeshTriangleTest" />
+      <item index="10" class="java.lang.String" itemvalue="JUnit.BezierPatchTest.testCreateTriangleIndices" />
+      <item index="11" class="java.lang.String" itemvalue="JUnit.SingleInstanceIteratorTest" />
+    </list>
+    <recent_temporary>
+      <list size="3">
+        <item index="0" class="java.lang.String" itemvalue="JUnit.SingleInstanceIteratorTest" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.BezierPatchTest.testCreateTriangleIndices" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.FlatMeshTriangleTest" />
+      </list>
+    </recent_temporary>
+    <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
+      <Host>localhost</Host>
+      <Port>5050</Port>
+    </configuration>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="true" SSL_PROTOCOLS="sslv3">
+    <option name="USER" value="" />
+    <option name="PASSWORD" value="" />
+    <option name="mySSHConnectionTimeout" value="30000" />
+    <option name="mySSHReadTimeout" value="30000" />
+    <option name="LAST_MERGED_REVISION" />
+    <option name="MERGE_DRY_RUN" value="false" />
+    <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
+    <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
+    <option name="IGNORE_SPACES_IN_MERGE" value="false" />
+    <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
+    <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
+    <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
+    <option name="FORCE_UPDATE" value="true" />
+    <option name="IGNORE_EXTERNALS" value="false" />
+    <configuration useDefault="true">$USER_HOME$/.subversion</configuration>
+    <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
+    <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="SvnFileUrlMappingImpl">
+    <option name="myMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="$PROJECT_DIR$" />
+          <option name="myCopyRoot" value="$PROJECT_DIR$" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="$PROJECT_DIR$/.idea" />
+          <option name="myCopyRoot" value="$PROJECT_DIR$/.idea" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+    <option name="myMoreRealMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="$PROJECT_DIR$" />
+          <option name="myCopyRoot" value="$PROJECT_DIR$" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0d4a6ac4-8231-4561-b27d-8af74dfacbc4" name="Default" comment="" />
+      <changelist id="21c369d5-aeaf-48f8-b639-a5b6fca42c08" name="Ignored" comment="" />
+      <changelist id="" name="IDE Settings (Do not check in)" comment="" />
+      <changelist id="402539b5-6025-4e61-b9d3-1408bf7240bd" name="Diagram changes" comment="" />
+      <created>1347873315750</created>
+      <updated>1349021201263</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Major reformatting &amp; some re-engineering">
+      <created>1348144106316</created>
+      <updated>1348144106316</updated>
+    </task>
+    <task id="LOCAL-00002" summary="IntelliJ project files added">
+      <created>1348144203101</created>
+      <updated>1348144203101</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Ignore the out directory">
+      <created>1348346319104</created>
+      <updated>1348346319104</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Sphere parametrization fixed, GradientShader implemented &amp; Solver for Quartic equations implemented">
+      <created>1348530626104</created>
+      <updated>1348530626104</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Corrected the z-axis position">
+      <created>1348531597102</created>
+      <updated>1348531597102</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Mapping of phi fixed for spheres (finally...)">
+      <created>1348568709101</created>
+      <updated>1348568709101</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Light source position changed to match the direction of the z axis">
+      <created>1348568741101</created>
+      <updated>1348568741101</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Minor changes to the CodeStyle">
+      <created>1349021130109</created>
+      <updated>1349021130109</updated>
+    </task>
+    <task id="LOCAL-00012" summary="API prepared for multi ray sampling">
+      <created>1349021161101</created>
+      <updated>1349021161101</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Partial sphere generation">
+      <created>1349021181102</created>
+      <updated>1349021181102</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Helper class to calculate the field of view for a given film format and focal length">
+      <created>1349025323102</created>
+      <updated>1349025323102</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Some reformatting">
+      <created>1350334105107</created>
+      <updated>1350334105107</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Bounding Box collisions implemented">
+      <created>1350334695102</created>
+      <updated>1350334695102</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Restructuring of the scene readers in preparation for a more flexible architecture">
+      <created>1350334757100</created>
+      <updated>1350334757101</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Interface names changed to match the actual names">
+      <created>1350334903101</created>
+      <updated>1350334903101</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Blender scene for the first light scene added (including a collada export)">
+      <created>1350334959101</created>
+      <updated>1350334959101</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Directory after restructuring the scene reader package no longer needed (will be re-added in the proper place when there are actual tests)">
+      <created>1350335085102</created>
+      <updated>1350335085102</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Existing scene reader integrated in the new interface hierarchy">
+      <created>1350335511101</created>
+      <updated>1350335511101</updated>
+    </task>
+    <task id="LOCAL-00022" summary="test packages moved">
+      <created>1351453584101</created>
+      <updated>1351453584101</updated>
+    </task>
+    <task id="LOCAL-00023" summary="test packages moved">
+      <created>1351453797102</created>
+      <updated>1351453797102</updated>
+    </task>
+    <task id="LOCAL-00024" summary="visual tests for samplers added">
+      <created>1351459034102</created>
+      <updated>1351459034102</updated>
+    </task>
+    <task id="LOCAL-00025" summary="minor code changes">
+      <created>1351459328101</created>
+      <updated>1351459328101</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Hemisphere sampling included for epsilon as 0, 1, 512">
+      <created>1352039632108</created>
+      <updated>1352039632108</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Some code cleanup">
+      <created>1352043791102</created>
+      <updated>1352043791102</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Support for partial spheres added">
+      <created>1359321107103</created>
+      <updated>1359321107103</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Commandline argument for scene file added">
+      <created>1359321142101</created>
+      <updated>1359321142101</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Basic implementation for triangles added">
+      <created>1359321172101</created>
+      <updated>1359321172101</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Triangle intersection calculation implemented">
+      <created>1360933437108</created>
+      <updated>1360933437108</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Triangle intersection calculation implemented -&gt; Not complete, error in test class">
+      <created>1361218436103</created>
+      <updated>1361218436103</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Faulty test ignored">
+      <created>1361218500102</created>
+      <updated>1361218500102</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Removed failing tests due to the new rendering interface">
+      <created>1362600693107</created>
+      <updated>1362600693107</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Some minor changes to logging">
+      <created>1362604752101</created>
+      <updated>1362604752101</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Collision detection fixed">
+      <created>1362604772103</created>
+      <updated>1362604772103</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Static imports for most used transformations added">
+      <created>1362928403110</created>
+      <updated>1362928403110</updated>
+    </task>
+    <task id="LOCAL-00038" summary="BezierPatch tessellation implemented">
+      <created>1364127898104</created>
+      <updated>1364127898104</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Minor enhancements to the perspective camera">
+      <created>1370721323101</created>
+      <updated>1370721323101</updated>
+    </task>
+    <task id="LOCAL-00040" summary="IDE Settings updated">
+      <created>1370721346100</created>
+      <updated>1370721346100</updated>
+    </task>
+    <task id="LOCAL-00041" summary="IDE Settings updated">
+      <created>1370721366102</created>
+      <updated>1370721366102</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
+    <servers />
+  </component>
+  <component name="TodoView" selected-index="0">
+    <todo-panel id="selected-file">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="default-changelist">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="215" y="84" width="1949" height="1163" extended-state="0" />
+    <editor active="false" />
+    <layout>
+      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24161074" sideWeight="0.7246453" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32855505" sideWeight="0.78785425" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39876354" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.211146" sideWeight="0.2716763" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="FindBugs-IDEA" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32637855" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32265276" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.21982116" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32975337" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39966413" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24802943" sideWeight="0.75838923" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20710973" sideWeight="0.9451074" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32637855" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32975337" sideWeight="0.7766615" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Byte Code Viewer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="232" y="84" width="1749" height="1194" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37488016" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="TeamCity" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Analysis" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3990755" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="UpdateCopyrightCheckinHandler">
+    <option name="UPDATE_COPYRIGHT" value="true" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="true" />
+    <option name="myTodoPanelSettings">
+      <value>
+        <are-packages-shown value="false" />
+        <are-modules-shown value="false" />
+        <flatten-packages value="false" />
+        <is-autoscroll-to-source value="false" />
+      </value>
+    </option>
+    <option name="PERFORM_UPDATE_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_COMMIT_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_EDIT_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_CHECKOUT_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
+    <option name="PERFORM_ROLLBACK_IN_BACKGROUND" value="false" />
+    <option name="CHECK_LOCALLY_CHANGED_CONFLICTS_IN_BACKGROUND" value="true" />
+    <option name="CHANGED_ON_SERVER_INTERVAL" value="60" />
+    <option name="SHOW_ONLY_CHANGED_IN_SELECTION_DIFF" value="true" />
+    <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
+    <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
+    <option name="SHORT_DIFF_HORIZONTALLY" value="true" />
+    <option name="SHORT_DIFF_EXTRA_LINES" value="2" />
+    <option name="SOFT_WRAPS_IN_SHORT_DIFF" value="true" />
+    <option name="INCLUDE_TEXT_INTO_PATCH" value="false" />
+    <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
+    <option name="SHOW_FILE_HISTORY_DETAILS" value="true" />
+    <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
+    <option name="SHOW_DIRTY_RECURSIVELY" value="false" />
+    <option name="LIMIT_HISTORY" value="true" />
+    <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
+    <option name="UPDATE_FILTER_SCOPE_NAME" />
+    <option name="USE_COMMIT_MESSAGE_MARGIN" value="false" />
+    <option name="COMMIT_MESSAGE_MARGIN_SIZE" value="72" />
+    <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
+    <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
+    <option name="LAST_COMMIT_MESSAGE" value="IDE Settings updated" />
+    <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
+    <option name="FILE_HISTORY_DIALOG_COMMENTS_SPLITTER_PROPORTION" value="0.8" />
+    <option name="FILE_HISTORY_DIALOG_SPLITTER_PROPORTION" value="0.5" />
+    <option name="ACTIVE_VCS_NAME" />
+    <option name="UPDATE_GROUP_BY_PACKAGES" value="false" />
+    <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
+    <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
+    <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
+    <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
+    <MESSAGE value="Some reformatting" />
+    <MESSAGE value="Bounding Box collisions implemented" />
+    <MESSAGE value="Restructuring of the scene readers in preparation for a more flexible architecture" />
+    <MESSAGE value="Interface names changed to match the actual names" />
+    <MESSAGE value="Blender scene for the first light scene added (including a collada export)" />
+    <MESSAGE value="Directory after restructuring the scene reader package no longer needed (will be re-added in the proper place when there are actual tests)" />
+    <MESSAGE value="Existing scene reader integrated in the new interface hierarchy" />
+    <MESSAGE value="test packages moved" />
+    <MESSAGE value="visual tests for samplers added" />
+    <MESSAGE value="minor code changes" />
+    <MESSAGE value="Hemisphere sampling included for epsilon as 0, 1, 512" />
+    <MESSAGE value="Some code cleanup" />
+    <MESSAGE value="Support for partial spheres added" />
+    <MESSAGE value="Commandline argument for scene file added" />
+    <MESSAGE value="Basic implementation for triangles added" />
+    <MESSAGE value="Triangle intersection calculation implemented" />
+    <MESSAGE value="Triangle intersection calculation implemented -&gt; Not complete, error in test class" />
+    <MESSAGE value="Faulty test ignored" />
+    <MESSAGE value="Removed failing tests due to the new rendering interface" />
+    <MESSAGE value="Some minor changes to logging" />
+    <MESSAGE value="Collision detection fixed" />
+    <MESSAGE value="Static imports for most used transformations added" />
+    <MESSAGE value="BezierPatch tessellation implemented" />
+    <MESSAGE value="Minor enhancements to the perspective camera" />
+    <MESSAGE value="IDE Settings updated" />
+  </component>
+  <component name="VssConfiguration">
+    <option name="CLIENT_PATH" value="" />
+    <option name="SRCSAFEINI_PATH" value="" />
+    <option name="USER_NAME" value="" />
+    <option name="PWD" value="" />
+    <CheckoutOptions>
+      <option name="COMMENT" value="" />
+      <option name="DO_NOT_GET_LATEST_VERSION" value="false" />
+      <option name="REPLACE_WRITABLE" value="false" />
+      <option name="RECURSIVE" value="false" />
+    </CheckoutOptions>
+    <CheckinOptions>
+      <option name="COMMENT" value="" />
+      <option name="KEEP_CHECKED_OUT" value="false" />
+      <option name="RECURSIVE" value="false" />
+    </CheckinOptions>
+    <AddOptions>
+      <option name="STORE_ONLY_LATEST_VERSION" value="false" />
+      <option name="CHECK_OUT_IMMEDIATELY" value="false" />
+    </AddOptions>
+    <UndocheckoutOptions>
+      <option name="MAKE_WRITABLE" value="false" />
+      <option name="REPLACE_LOCAL_COPY" value="2" />
+      <option name="RECURSIVE" value="false" />
+    </UndocheckoutOptions>
+    <GetOptions>
+      <option name="REPLACE_WRITABLE" value="0" />
+      <option name="MAKE_WRITABLE" value="false" />
+      <option name="ANSWER_NEGATIVELY" value="false" />
+      <option name="ANSWER_POSITIVELY" value="false" />
+      <option name="RECURSIVE" value="false" />
+      <option name="VERSION" />
+    </GetOptions>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src.test/yaphyre/shapes/BezierPatchTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="70" selection-start="1317" selection-end="1317" vertical-scroll-proportion="0.21656536" />
+      </provider>
+    </entry>
+    <entry file="uml://JAVA/yaphyre.cameras.PerspectiveCamera.CameraRaysIterator">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>JAVA</ID>
+          <OriginalElement>yaphyre.cameras.PerspectiveCamera.CameraRaysIterator</OriginalElement>
+          <nodes>
+            <node x="" y="">java.util.Iterator</node>
+            <node x="" y="">yaphyre.cameras.PerspectiveCamera.CameraRaysIterator</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="1.0" x="84.0" y="55.0" />
+          <SelectedNodes />
+          <Categories />
+          <SCOPE>All</SCOPE>
+          <VISIBILITY>private</VISIBILITY>
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://JAVA/java.util.Iterator">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>JAVA</ID>
+          <OriginalElement>java.util.Iterator</OriginalElement>
+          <nodes>
+            <node x="" y="">java.util.Iterator</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="1.0" x="56.0" y="15.0" />
+          <SelectedNodes />
+          <Categories />
+          <SCOPE>All</SCOPE>
+          <VISIBILITY>private</VISIBILITY>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar!/java/util/Iterator.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="17" selection-start="156" selection-end="156" vertical-scroll-proportion="0.05699088" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src.test/yaphyre/util/SingleInstanceIteratorTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="48" selection-start="1624" selection-end="1624" vertical-scroll-proportion="0.0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/yaphyre/core/Camera.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="6" selection-start="1270" selection-end="1270" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/color_000.PNG">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/yaphyre/raytracer/RayTracer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="346" column="0" selection-start="11749" selection-end="11749" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/yaphyre/geometry/Ray.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="4" selection-start="1409" selection-end="1409" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/yaphyre/samplers/JitteredSampler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="45" selection-start="1190" selection-end="1190" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/yaphyre/samplers/AbstractSampler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="51" selection-start="1476" selection-end="1476" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/yaphyre/core/Sampler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="54" column="5" selection-start="1737" selection-end="1737" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/yaphyre/YaPhyRe.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="164" column="40" selection-start="5328" selection-end="5328" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/yaphyre/cameras/PerspectiveCamera.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="130" column="73" selection-start="4463" selection-end="4463" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/yaphyre/util/SingleInstanceIterator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="12" selection-start="1018" selection-end="1018" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/yaphyre/SceneReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="Copyright.UI">
+        <settings>
+          <last-edited>Apache 2.0</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.6</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>yaphyre</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.6</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>annotations</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
+
