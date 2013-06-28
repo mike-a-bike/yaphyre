@@ -28,7 +28,9 @@ import yaphyre.geometry.Point3D;
  */
 public interface Sampler {
 
-	/** Shuffle the sets. Call this to avoid aliasing. */
+	/**
+	 * Shuffle the sets. Call this to avoid aliasing.
+	 */
 	public void shuffle();
 
 	/**
@@ -49,8 +51,7 @@ public interface Sampler {
 	 * Creates a collection of samples which lie on a hemisphere. These samples are distributed according to a cosine
 	 * function with the given exponent. <code>exp</code> = 1 means that the samples lie on the hemisphere.
 	 *
-	 * @param exp
-	 * 		The exponent used for the cosine function.
+	 * @param exp The exponent used for the cosine function.
 	 *
 	 * @return An {@link Iterable} usable in loop to access all the samples.
 	 */

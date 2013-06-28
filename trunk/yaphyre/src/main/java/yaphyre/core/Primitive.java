@@ -16,12 +16,9 @@
 
 package yaphyre.core;
 
-import java.io.Serializable;
-
 import yaphyre.geometry.Ray;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import java.io.Serializable;
 
 /**
  * Created with IntelliJ IDEA. User: michael Date: 16.02.13 Time: 12:41 To change this template use File | Settings | File
@@ -34,13 +31,11 @@ public interface Primitive extends Serializable {
 	 * intersect this shape at all, then <code>null</code> is returned. Otherwise the collision informations are returned.
 	 * The results created by this method are as accurate as possible.
 	 *
-	 * @param ray
-	 * 		The {@link Ray} to check for intersection.
+	 * @param ray The {@link Ray} to check for intersection.
 	 *
 	 * @return The {@link CollisionInformation} instance describing the intersection between the {@link Ray} and this
 	 *         {@link Shape} instance. <code>null</code> if no intersection happens.
 	 */
-	@Nullable
-	public CollisionInformation intersect(@NotNull final Ray ray);
+	public CollisionInformation intersect(final Ray ray);
 
 }

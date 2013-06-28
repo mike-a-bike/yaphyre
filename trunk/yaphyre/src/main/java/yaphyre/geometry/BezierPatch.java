@@ -16,8 +16,6 @@
 
 package yaphyre.geometry;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * Calculates a single point on a bezier patch. The format of the data is a linear array to make the usage simpler.
  * From these u bezier-functions, the corresponding v control points are calculated by evaluating each set of control
@@ -26,10 +24,9 @@ import org.jetbrains.annotations.NotNull;
  */
 public enum BezierPatch {
 	GENERIC {
-		@NotNull
 		@Override
 		public Point3D calculateMeshPoint(final double u, final double v, final int uOrder, final int vOrder,
-				final int startIndex, @NotNull final Point3D... controlPoints) {
+		                                  final int startIndex, final Point3D... controlPoints) {
 
 			final Point3D[] vControlPoints = new Point3D[vOrder];
 
@@ -48,8 +45,7 @@ public enum BezierPatch {
 
 	};
 
-	@NotNull
 	public abstract Point3D calculateMeshPoint(final double u, final double v, final int uOrder, final int vOrder,
-			final int startIndex, @NotNull final Point3D... controlPoints);
+	                                           final int startIndex, final Point3D... controlPoints);
 
 }

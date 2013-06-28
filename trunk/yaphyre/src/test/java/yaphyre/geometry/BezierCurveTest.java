@@ -16,17 +16,16 @@
 
 package yaphyre.geometry;
 
-import static com.google.common.base.Preconditions.checkState;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 
-import javax.imageio.ImageIO;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  *
@@ -68,7 +67,7 @@ public class BezierCurveTest {
 		final Point3D p0 = new Point3D(0, 320, 0);
 		final Point3D p1 = new Point3D(640, 320, 0);
 
-		for(double t = 0d; t <= 1d; t += 0.0025d) {
+		for (double t = 0d; t <= 1d; t += 0.0025d) {
 			final Point3D result = BezierCurve.LINEAR.calculatePoint(t, p0, p1);
 			image.setRGB((int) result.getX(), (int) result.getY(), CURVE_COLOR);
 		}
@@ -84,7 +83,7 @@ public class BezierCurveTest {
 		final Point3D p1 = new Point3D(320, 640, 0);
 		final Point3D p2 = new Point3D(640, 320, 0);
 
-		for(double t = 0d; t <= 1d; t += 0.0025d) {
+		for (double t = 0d; t <= 1d; t += 0.0025d) {
 			final Point3D result = BezierCurve.QUADRATIC.calculatePoint(t, p0, p1, p2);
 			image.setRGB((int) result.getX(), (int) result.getY(), CURVE_COLOR);
 		}
@@ -101,7 +100,7 @@ public class BezierCurveTest {
 		final Point3D p2 = new Point3D(480, 0, 0);
 		final Point3D p3 = new Point3D(640, 320, 0);
 
-		for(double t = 0d; t <= 1d; t += 0.0025d) {
+		for (double t = 0d; t <= 1d; t += 0.0025d) {
 			final Point3D result = BezierCurve.CUBIC.calculatePoint(t, p0, p1, p2, p3);
 			image.setRGB((int) result.getX(), (int) result.getY(), CURVE_COLOR);
 		}
@@ -119,7 +118,7 @@ public class BezierCurveTest {
 		final Point3D p3 = new Point3D(480, 640, 0);
 		final Point3D p4 = new Point3D(640, 320, 0);
 
-		for(double t = 0d; t <= 1d; t += 0.0025d) {
+		for (double t = 0d; t <= 1d; t += 0.0025d) {
 			final Point3D result = BezierCurve.QUARTIC.calculatePoint(t, p0, p1, p2, p3, p4);
 			image.setRGB((int) result.getX(), (int) result.getY(), CURVE_COLOR);
 		}
@@ -138,7 +137,7 @@ public class BezierCurveTest {
 		final Point3D p4 = new Point3D(512, 0, 0);
 		final Point3D p5 = new Point3D(640, 320, 0);
 
-		for(double t = 0d; t <= 1d; t += 0.0025d) {
+		for (double t = 0d; t <= 1d; t += 0.0025d) {
 			final Point3D result = BezierCurve.GENERIC.calculatePoint(t, p0, p1, p2, p3, p4, p5);
 			image.setRGB((int) result.getX(), (int) result.getY(), CURVE_COLOR);
 		}
@@ -153,7 +152,7 @@ public class BezierCurveTest {
 		Color lineColor = new Color(ENVELOP_COLOR);
 		Point3D lastPoint = null;
 
-		for(Point3D point : controlPoints) {
+		for (Point3D point : controlPoints) {
 			if (lastPoint != null) {
 				g.setColor(lineColor);
 				g.drawLine((int) lastPoint.getX(), (int) lastPoint.getY(), (int) point.getX(), (int) point.getY());

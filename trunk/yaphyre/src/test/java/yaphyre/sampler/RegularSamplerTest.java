@@ -16,13 +16,12 @@
 
 package yaphyre.sampler;
 
+import org.junit.Before;
+import org.junit.Test;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.samplers.AbstractSampler;
 import yaphyre.samplers.RegularSampler;
-
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * Created with IntelliJ IDEA. User: michael Date: 28.10.12 Time: 20:54 To change this template use File | Settings |
@@ -39,7 +38,7 @@ public class RegularSamplerTest extends SamplerTest {
 
 	@Test
 	public void testGetUnitSquareSamples() {
-		for(Point2D point : sampler.getUnitSquareSamples()) {
+		for (Point2D point : sampler.getUnitSquareSamples()) {
 			super.addMark(getImage(), point);
 		}
 		super.setImageName("RegularSampler_UnitSquareSample.png");
@@ -47,7 +46,7 @@ public class RegularSamplerTest extends SamplerTest {
 
 	@Test
 	public void testGetUnitCircleSamples() {
-		for(Point2D sampledPoint : sampler.getUnitCircleSamples()) {
+		for (Point2D sampledPoint : sampler.getUnitCircleSamples()) {
 			Point2D point = sampledPoint.mul(.5d).add(.5d, .5d);
 			super.addMark(getImage(), point);
 		}
@@ -56,7 +55,7 @@ public class RegularSamplerTest extends SamplerTest {
 
 	@Test
 	public void testHemisphereZeroSamples() {
-		for(Point3D sampledPoint : sampler.getHemisphereSamples(0d)) {
+		for (Point3D sampledPoint : sampler.getHemisphereSamples(0d)) {
 			Point2D point = new Point2D(sampledPoint.getX(), sampledPoint.getY()).mul(.5d).add(.5d, .5d);
 			super.addMark(getImage(), point);
 		}
@@ -65,7 +64,7 @@ public class RegularSamplerTest extends SamplerTest {
 
 	@Test
 	public void testHemisphereOneSamples() {
-		for(Point3D sampledPoint : sampler.getHemisphereSamples(1d)) {
+		for (Point3D sampledPoint : sampler.getHemisphereSamples(1d)) {
 			Point2D point = new Point2D(sampledPoint.getX(), sampledPoint.getY()).mul(.5d).add(.5d, .5d);
 			super.addMark(getImage(), point);
 		}
@@ -74,7 +73,7 @@ public class RegularSamplerTest extends SamplerTest {
 
 	@Test
 	public void testHemisphere512Samples() {
-		for(Point3D sampledPoint : sampler.getHemisphereSamples(512d)) {
+		for (Point3D sampledPoint : sampler.getHemisphereSamples(512d)) {
 			Point2D point = new Point2D(sampledPoint.getX(), sampledPoint.getY()).mul(.5d).add(.5d, .5d);
 			super.addMark(getImage(), point);
 		}
@@ -83,7 +82,7 @@ public class RegularSamplerTest extends SamplerTest {
 
 	@Test
 	public void testUnitSphereSamples() {
-		for(Point3D sampledPoint : sampler.getSphereSamples()) {
+		for (Point3D sampledPoint : sampler.getSphereSamples()) {
 			Point2D point = new Point2D(sampledPoint.getX(), sampledPoint.getY()).mul(.5d).add(.5d, .5d);
 			super.addMark(getImage(), point);
 		}

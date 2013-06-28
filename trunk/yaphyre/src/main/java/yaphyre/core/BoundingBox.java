@@ -16,19 +16,18 @@
 
 package yaphyre.core;
 
+import com.google.common.base.Objects;
+import yaphyre.geometry.MathUtils;
+import yaphyre.geometry.Point3D;
+import yaphyre.geometry.Ray;
+
+import java.io.Serializable;
+
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static yaphyre.geometry.MathUtils.EPSILON;
-
-import java.io.Serializable;
-
-import yaphyre.geometry.MathUtils;
-import yaphyre.geometry.Point3D;
-import yaphyre.geometry.Ray;
-
-import com.google.common.base.Objects;
 
 /**
  * Bounding boxes are used to speed up the rendering process. Complex {@link Shape}s are wrapped by such a {@link
@@ -76,8 +75,8 @@ public class BoundingBox implements Serializable {
 
 	public static BoundingBox union(BoundingBox box, Point3D p) {
 		BoundingBox result = new BoundingBox();
-		result.pointMin = new Point3D(min(box.pointMin.getX(), p.getX()), min(box.pointMin.getY(), p.getY()), min( box.pointMin.getZ(), p.getZ()));
-		result.pointMax = new Point3D(max(box.pointMax.getX(), p.getX()), max(box.pointMax.getY(), p.getY()), max( box.pointMax.getZ(), p.getZ()));
+		result.pointMin = new Point3D(min(box.pointMin.getX(), p.getX()), min(box.pointMin.getY(), p.getY()), min(box.pointMin.getZ(), p.getZ()));
+		result.pointMax = new Point3D(max(box.pointMax.getX(), p.getX()), max(box.pointMax.getY(), p.getY()), max(box.pointMax.getZ(), p.getZ()));
 		return result;
 	}
 
@@ -150,8 +149,12 @@ public class BoundingBox implements Serializable {
 
 	public boolean isHitBy(Ray ray) {
 
-		final double ox = ray.getOrigin().getX(); final double oy = ray.getOrigin().getY(); final double oz = ray.getOrigin().getZ();
-		final double dx = ray.getDirection().getX(); final double dy = ray.getDirection().getY(); final double dz = ray.getDirection().getZ();
+		final double ox = ray.getOrigin().getX();
+		final double oy = ray.getOrigin().getY();
+		final double oz = ray.getOrigin().getZ();
+		final double dx = ray.getDirection().getX();
+		final double dy = ray.getDirection().getY();
+		final double dz = ray.getDirection().getZ();
 
 		double tx_min;
 		double tx_max;

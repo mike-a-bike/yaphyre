@@ -15,11 +15,11 @@
  */
 package yaphyre.samplers;
 
+import yaphyre.geometry.Point2D;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import yaphyre.geometry.Point2D;
 
 /**
  * This is the simplest sampler possible. It creates just one sample which lies in the middle of the unit square.
@@ -32,7 +32,9 @@ public class SinglePointSampler extends AbstractSampler {
 
 	private static final List<Point2D> sampleList = Collections.unmodifiableList(Arrays.asList(new Point2D(0.5, 0.5)));
 
-	/** Since there is only one set, there is no need to shuffle the sets prior to returning one. */
+	/**
+	 * Since there is only one set, there is no need to shuffle the sets prior to returning one.
+	 */
 	@Override
 	public Iterable<Point2D> getUnitSquareSamples() {
 		return createSamples(1);

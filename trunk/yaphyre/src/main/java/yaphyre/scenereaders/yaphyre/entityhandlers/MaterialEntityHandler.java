@@ -16,17 +16,15 @@
 
 package yaphyre.scenereaders.yaphyre.entityhandlers;
 
-import java.util.Map;
-
+import com.google.common.base.Preconditions;
+import org.joox.Match;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
 import yaphyre.shaders.Material;
 
-import org.joox.Match;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.base.Preconditions;
+import java.util.Map;
 
 public class MaterialEntityHandler extends EntityHandler<IdentifiableObject<Material>> {
 

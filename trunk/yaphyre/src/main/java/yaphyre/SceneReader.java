@@ -16,13 +16,6 @@
 
 package yaphyre;
 
-import static yaphyre.geometry.Transformation.IDENTITY;
-import static yaphyre.geometry.Transformation.rotateX;
-import static yaphyre.geometry.Transformation.rotateY;
-import static yaphyre.geometry.Transformation.scale;
-import static yaphyre.geometry.Transformation.translate;
-import static yaphyre.shapes.Sphere.createSphere;
-
 import yaphyre.cameras.AbstractCamera.BaseCameraSettings;
 import yaphyre.cameras.PerspectiveCamera;
 import yaphyre.cameras.PerspectiveCamera.PerspectiveCameraSettings;
@@ -42,6 +35,13 @@ import yaphyre.shaders.SimpleShader;
 import yaphyre.shapes.Plane;
 import yaphyre.shapes.Sphere;
 import yaphyre.util.Color;
+
+import static yaphyre.geometry.Transformation.IDENTITY;
+import static yaphyre.geometry.Transformation.rotateX;
+import static yaphyre.geometry.Transformation.rotateY;
+import static yaphyre.geometry.Transformation.scale;
+import static yaphyre.geometry.Transformation.translate;
+import static yaphyre.shapes.Sphere.createSphere;
 
 /**
  * Read a very simple file format in order to make the development and testing simpler.<br/>
@@ -226,7 +226,7 @@ public class SceneReader {
 	}
 
 	private static Camera createCamera(Point3D position, Point3D lookAt, double aspectRatio, double focalLength,
-			double focalDistance, double lensRadius) {
+	                                   double focalDistance, double lensRadius) {
 		BaseCameraSettings baseSettings = BaseCameraSettings.create(position, lookAt);
 		PerspectiveCameraSettings perspectiveSettings = PerspectiveCameraSettings.create(aspectRatio, focalLength,
 				focalDistance, lensRadius);

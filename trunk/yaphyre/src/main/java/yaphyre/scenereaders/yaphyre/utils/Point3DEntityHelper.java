@@ -16,9 +16,8 @@
 
 package yaphyre.scenereaders.yaphyre.utils;
 
-import yaphyre.geometry.Point3D;
-
 import org.joox.Match;
+import yaphyre.geometry.Point3D;
 
 class Point3DEntityHelper implements EntityHelper<Point3D> {
 

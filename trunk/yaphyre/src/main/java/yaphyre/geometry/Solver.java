@@ -15,6 +15,11 @@
  */
 package yaphyre.geometry;
 
+import com.google.common.primitives.Doubles;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.lang.Math.PI;
 import static java.lang.Math.acos;
@@ -23,11 +28,6 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sqrt;
 import static yaphyre.geometry.MathUtils.div;
 import static yaphyre.geometry.MathUtils.isZero;
-
-import java.util.HashSet;
-import java.util.Set;
-
-import com.google.common.primitives.Doubles;
 
 public enum Solver {
 
@@ -42,7 +42,7 @@ public enum Solver {
 			if (c[1] == 0) {
 				return EMPTY_RESULT;
 			}
-			return new double[] { div(-c[0], c[1]) };
+			return new double[]{div(-c[0], c[1])};
 		}
 	},
 	Quadratic {
@@ -60,7 +60,7 @@ public enum Solver {
 
 			double det = c[1] * c[1] - 4 * c[2] * c[0];
 			if (det == 0) {
-				return new double[] { div(-c[1], 2 * c[2]) };
+				return new double[]{div(-c[1], 2 * c[2])};
 			}
 
 			if (det > 0) {
@@ -89,7 +89,7 @@ public enum Solver {
 			}
 
 			if (c[2] == 0 && c[1] == 0) {
-				return new double[] { cbrt(div(-c[0], c[3])) };
+				return new double[]{cbrt(div(-c[0], c[3]))};
 			}
 
 			if (c[0] == 0) {
@@ -131,10 +131,10 @@ public enum Solver {
 			}
 
 			if (w == 0) {
-				return new double[] { 2 * cbrt(q / 2) + k };
+				return new double[]{2 * cbrt(q / 2) + k};
 			}
 
-			return new double[] { cbrt(q / 2 + sqrt(w)) + cbrt(q / 2 - sqrt(w)) + k };
+			return new double[]{cbrt(q / 2 + sqrt(w)) + cbrt(q / 2 - sqrt(w)) + k};
 
 		}
 	},
@@ -162,15 +162,15 @@ public enum Solver {
 
 			// substitute x = y - A/4 to eliminate the cubic term: y^4 + py^2 + qy + r = 0 (depressed quartic)
 			double sqA = A * A;
-			double p = -3d/8d * sqA + B;
-			double q = 1d/8d * sqA * A - 1d/2d * A * B + C;
-			double r = -3d/256d * sqA * sqA + 1d/16d * sqA * B - 1d/4d * A * C + D;
+			double p = -3d / 8d * sqA + B;
+			double q = 1d / 8d * sqA * A - 1d / 2d * A * B + C;
+			double r = -3d / 256d * sqA * sqA + 1d / 16d * sqA * B - 1d / 4d * A * C + D;
 
 			// check if the constant term is zero: if so, a further simplification can be used
 
 			if (isZero(r)) {
 
-				double[] coefficients = new double[] {q, p, 0, 1};
+				double[] coefficients = new double[]{q, p, 0, 1};
 				// the equation reads now: y(y^3 + py + q) = 0 --> solve the cubic equation
 				double[] cubicResults = Solver.Cubic.solve(coefficients);
 				// add zero as a solution
@@ -185,9 +185,9 @@ public enum Solver {
 				// solve the resolvent qubic
 				double[] coefficients = new double[4];
 
-				coefficients[0] = 1d/2d * r * p - 1d/8d * q * q;
+				coefficients[0] = 1d / 2d * r * p - 1d / 8d * q * q;
 				coefficients[1] = -r;
-				coefficients[2] = -1d/2d * p;
+				coefficients[2] = -1d / 2d * p;
 				coefficients[3] = 1;
 
 				double[] cubicResults = Solver.Cubic.solve(coefficients);
@@ -235,9 +235,9 @@ public enum Solver {
 			}
 
 			// re-substitute
-			double sub = 1d/4d * A;
+			double sub = 1d / 4d * A;
 
-			for(int rootIndex = 0; rootIndex < results.length; rootIndex++) {
+			for (int rootIndex = 0; rootIndex < results.length; rootIndex++) {
 				results[rootIndex] -= sub;
 			}
 
@@ -252,14 +252,12 @@ public enum Solver {
 	/**
 	 * Solve an equation for the given equation type.
 	 *
-	 * @param c
-	 * 		A list of coefficients.
+	 * @param c A list of coefficients.
 	 *
 	 * @return A list of solutions. This list may be empty if there are no real solutions.
 	 *
-	 * @throws IllegalArgumentException
-	 * 		If the number of the coefficients in <code>c</code> does not match the necessary number of values, an {@link
-	 * 		IllegalArgumentException} is thrown. Please notice, even if coefficients may be zero, they must be provided.
+	 * @throws IllegalArgumentException If the number of the coefficients in <code>c</code> does not match the necessary number of values, an {@link
+	 *                                  IllegalArgumentException} is thrown. Please notice, even if coefficients may be zero, they must be provided.
 	 */
 	public abstract double[] solve(double... c) throws IllegalArgumentException;
 

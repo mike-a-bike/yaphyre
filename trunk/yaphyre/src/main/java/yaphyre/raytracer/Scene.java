@@ -16,18 +16,17 @@
 
 package yaphyre.raytracer;
 
-import java.io.Serializable;
-import java.util.Collections;
-import java.util.List;
-
+import com.google.common.base.Objects;
+import com.google.common.collect.Lists;
 import yaphyre.core.Camera;
 import yaphyre.core.CollisionInformation;
 import yaphyre.core.Lightsource;
 import yaphyre.core.Shape;
 import yaphyre.geometry.Ray;
 
-import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
 
 public class Scene implements Serializable {
 

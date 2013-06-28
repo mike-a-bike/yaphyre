@@ -16,20 +16,19 @@
 
 package yaphyre.geometry;
 
+import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import static yaphyre.geometry.MathUtils.EPSILON;
 import static yaphyre.geometry.MathUtils.max;
 import static yaphyre.geometry.MathUtils.min;
-
-import org.junit.Test;
 
 public class MathUtilsTest {
 
 	@Test
 	public void testMin() throws Exception {
 
-		double a = 10d, b = 20d, c =30d;
+		double a = 10d, b = 20d, c = 30d;
 
 		assertEquals(a, min(a, b, c), EPSILON);
 		assertEquals(a, min(a, c, b), EPSILON);
@@ -43,7 +42,7 @@ public class MathUtilsTest {
 	@Test
 	public void testMax() throws Exception {
 
-		double a = 10d, b = 20d, c =30d;
+		double a = 10d, b = 20d, c = 30d;
 
 		assertEquals(c, max(a, b, c), EPSILON);
 		assertEquals(c, max(a, c, b), EPSILON);

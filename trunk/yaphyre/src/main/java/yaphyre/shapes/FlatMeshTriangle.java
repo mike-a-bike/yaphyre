@@ -20,33 +20,28 @@ import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 
-import org.jetbrains.annotations.NotNull;
-
 public class FlatMeshTriangle extends MeshTriangle {
 
 	private final Normal3D normal;
 
-	@NotNull
-	public static FlatMeshTriangle create(@NotNull final Point3D v0, @NotNull final Point3D v1, @NotNull final Point3D v2) {
-		return new FlatMeshTriangle(v0, v1, v2, new Point2D(0, 0), new Point2D(1, 0), new Point2D(0, 1));
-	}
-
-	@NotNull
-	public static FlatMeshTriangle create(@NotNull final Point3D v0, @NotNull final Point3D v1, @NotNull final Point3D v2,
-			@NotNull final Point2D uv0, @NotNull final Point2D uv1, @NotNull final Point2D uv2) {
-
-		return new FlatMeshTriangle(v0, v1, v2, uv0, uv1, uv2);
-
-	}
-
-	public FlatMeshTriangle(@NotNull final Point3D v0, @NotNull final Point3D v1, @NotNull final Point3D v2,
-			@NotNull Point2D uv0, @NotNull Point2D uv1, @NotNull Point2D uv2) {
+	public FlatMeshTriangle(final Point3D v0, final Point3D v1, final Point3D v2,
+	                        Point2D uv0, Point2D uv1, Point2D uv2) {
 		super(v0, v1, v2, uv0, uv1, uv2);
 
 		normal = v1.sub(v0).cross(v2.sub(v0)).normalize().asNormal();
 	}
 
-	@NotNull
+	public static FlatMeshTriangle create(final Point3D v0, final Point3D v1, final Point3D v2) {
+		return new FlatMeshTriangle(v0, v1, v2, new Point2D(0, 0), new Point2D(1, 0), new Point2D(0, 1));
+	}
+
+	public static FlatMeshTriangle create(final Point3D v0, final Point3D v1, final Point3D v2,
+	                                      final Point2D uv0, final Point2D uv1, final Point2D uv2) {
+
+		return new FlatMeshTriangle(v0, v1, v2, uv0, uv1, uv2);
+
+	}
+
 	@Override
 	protected Normal3D calculateNormal(final double alpha, final double beta, final double gamma) {
 		return normal;

@@ -16,12 +16,8 @@
 
 package yaphyre.general;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
+import org.junit.Assert;
+import org.junit.Test;
 import yaphyre.core.Shape;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Transformation;
@@ -31,8 +27,11 @@ import yaphyre.shapes.Plane;
 import yaphyre.shapes.Sphere;
 import yaphyre.util.Color;
 
-import org.junit.Assert;
-import org.junit.Test;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class SerializationTest {
 

@@ -16,8 +16,6 @@
 
 package yaphyre.shapes;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import yaphyre.core.BoundingBox;
 import yaphyre.core.CollisionInformation;
 import yaphyre.core.Shader;
@@ -26,8 +24,7 @@ import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Transformation;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created with IntelliJ IDEA. User: michael Date: 17.02.13 Time: 12:47 To change this template use File | Settings | File
@@ -36,20 +33,7 @@ import org.jetbrains.annotations.Nullable;
 public class Triangle extends AbstractShape {
 
 	private final MeshTriangle trianglePrimitive;
-
 	private final BoundingBox boundingBox;
-
-	public Triangle create(final Point3D v0, final Point3D v1, final Point3D v2, final Shader shader) {
-		MeshTriangle trianglePrimitive = FlatMeshTriangle.create(v0, v1, v2);
-		return new Triangle(trianglePrimitive, Transformation.IDENTITY, shader);
-	}
-
-	public Triangle create(final Point3D v0, final Point3D v1, final Point3D v2,
-			final Normal3D n0, final Normal3D n1, final Normal3D n2,
-			final Shader shader) {
-		MeshTriangle trianglePrimitive = SmoothMeshTriangle.create(v0, v1, v2, n0, n1, n2);
-		return new Triangle(trianglePrimitive, Transformation.IDENTITY, shader);
-	}
 
 	/**
 	 * Initialize the common fields for all {@link yaphyre.core.Shape}s. Each {@link yaphyre.core.Shape} defines a point of origin for
@@ -58,16 +42,12 @@ public class Triangle extends AbstractShape {
 	 * remember, that the order of the {@link yaphyre.geometry.Transformation} matters. It is not the same if the object is rotated an
 	 * then translated or first translated and then rotated.
 	 *
+	 * @param trianglePrimitive The actual primitive implementing the shape within
+	 * @param objectToWorld     The {@link yaphyre.geometry.Transformation} used to map world coordinates to object coordinates.
+	 * @param shader            The {@link yaphyre.core.Shader} instance to use when rendering this {@link yaphyre.core.Shape}.
 	 *
-	 * @param trianglePrimitive
-	 *      The actual primitive implementing the shape within
-	 * @param objectToWorld
-	 * 		The {@link yaphyre.geometry.Transformation} used to map world coordinates to object coordinates.
-	 * @param shader
-	 * 		The {@link yaphyre.core.Shader} instance to use when rendering this {@link yaphyre.core.Shape}.
-	 * @throws NullPointerException
-	 * 		If either <code>objectToWorld</code> or <code>shader</code> is <code>null</code> a {@link NullPointerException} is
-	 * 		thrown
+	 * @throws NullPointerException If either <code>objectToWorld</code> or <code>shader</code> is <code>null</code> a {@link NullPointerException} is
+	 *                              thrown
 	 */
 	protected Triangle(final MeshTriangle trianglePrimitive, final Transformation objectToWorld, final Shader shader) {
 		super(objectToWorld, shader);
@@ -77,13 +57,23 @@ public class Triangle extends AbstractShape {
 		boundingBox = BoundingBox.union(boundingBoxTmp, trianglePrimitive.v2);
 	}
 
-	@Nullable
+	public Triangle create(final Point3D v0, final Point3D v1, final Point3D v2, final Shader shader) {
+		MeshTriangle trianglePrimitive = FlatMeshTriangle.create(v0, v1, v2);
+		return new Triangle(trianglePrimitive, Transformation.IDENTITY, shader);
+	}
+
+	public Triangle create(final Point3D v0, final Point3D v1, final Point3D v2,
+	                       final Normal3D n0, final Normal3D n1, final Normal3D n2,
+	                       final Shader shader) {
+		MeshTriangle trianglePrimitive = SmoothMeshTriangle.create(v0, v1, v2, n0, n1, n2);
+		return new Triangle(trianglePrimitive, Transformation.IDENTITY, shader);
+	}
+
 	@Override
-	public CollisionInformation intersect(@NotNull final Ray ray) {
+	public CollisionInformation intersect(final Ray ray) {
 		return null;
 	}
 
-	@NotNull
 	@Override
 	public BoundingBox getBoundingBox() {
 		return boundingBox;

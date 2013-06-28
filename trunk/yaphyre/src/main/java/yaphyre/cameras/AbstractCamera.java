@@ -15,6 +15,7 @@
  */
 package yaphyre.cameras;
 
+import com.google.common.base.Preconditions;
 import yaphyre.core.Camera;
 import yaphyre.core.Film;
 import yaphyre.geometry.Point2D;
@@ -22,10 +23,6 @@ import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Transformation;
 import yaphyre.geometry.Vector3D;
-
-import org.jetbrains.annotations.NotNull;
-
-import com.google.common.base.Preconditions;
 
 /**
  * A common super class for all implemented {@link Camera}. This handles some common stuff like transformations and the
@@ -53,17 +50,14 @@ public abstract class AbstractCamera implements Camera {
 		this.film = film;
 	}
 
-	@NotNull
 	@Override
-	public abstract Iterable<Ray> createCameraRays(@NotNull Point2D viewPlanePoint);
+	public abstract Iterable<Ray> createCameraRays(Point2D viewPlanePoint);
 
-	@NotNull
 	@Override
 	public Film getFilm() {
 		return film;
 	}
 
-	@NotNull
 	@Override
 	public void setFilm(Film film) {
 		this.film = film;

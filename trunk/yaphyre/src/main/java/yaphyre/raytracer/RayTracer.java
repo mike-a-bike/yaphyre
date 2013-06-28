@@ -16,16 +16,10 @@
 
 package yaphyre.raytracer;
 
-import static yaphyre.geometry.MathUtils.EPSILON;
-
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-
+import com.google.common.base.Preconditions;
+import com.google.common.base.Stopwatch;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import yaphyre.core.Camera;
 import yaphyre.core.CameraSample;
 import yaphyre.core.CollisionInformation;
@@ -45,11 +39,15 @@ import yaphyre.samplers.SinglePointSampler;
 import yaphyre.util.Color;
 import yaphyre.util.RenderStatistics;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Stopwatch;
+import static yaphyre.geometry.MathUtils.EPSILON;
 
 /**
  * This is the class which exposes the rendering algorithm to the caller. It takes some basic information like the
@@ -64,13 +62,19 @@ public class RayTracer {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RayTracer.class);
 
-	/** Tuning factor for parallelization: Number of image slices per cpu to render. */
+	/**
+	 * Tuning factor for parallelization: Number of image slices per cpu to render.
+	 */
 	private static final int SLICES_PER_CORE = 2;
 
-	/** Tuning factor for parallelization: How long to wait between checks if the rendering is finished. */
+	/**
+	 * Tuning factor for parallelization: How long to wait between checks if the rendering is finished.
+	 */
 	private static final int THREAD_POLL_TIMEOUT = 1000;
 
-	/** Hard limit after which the rendering is canceled. */
+	/**
+	 * Hard limit after which the rendering is canceled.
+	 */
 	private static final int MAX_ITERATIONS = 10;
 
 	private Scene scene;
@@ -113,7 +117,9 @@ public class RayTracer {
 		return Runtime.getRuntime().availableProcessors();
 	}
 
-	/** This method is the public entry point to start the rendering. */
+	/**
+	 * This method is the public entry point to start the rendering.
+	 */
 	public void render() {
 		Preconditions.checkState(scene != null, "'scene' must be initialized before calling 'render'");
 		for (Camera camera : scene.getCameras()) {
@@ -128,8 +134,7 @@ public class RayTracer {
 	 * method is responsible for preparing the rendering and managing the multi-threaded execution of the rendering
 	 * process.
 	 *
-	 * @param camera
-	 * 		The {@link Camera} to render the scene for.
+	 * @param camera The {@link Camera} to render the scene for.
 	 */
 	private void render(Camera camera) {
 
@@ -171,19 +176,15 @@ public class RayTracer {
 	 * each core to make the most effective use of the available cpu power. The rendering itself is implemented in the
 	 * #renderWindow method.
 	 *
-	 * @param imageWidth
-	 * 		The width of the image to create.
-	 * @param imageHeight
-	 * 		The height of the image.
-	 * @param rasterToCamera
-	 * 		The camera transformation.
-	 * @param overallTime
-	 * 		The Stopwatch instance used to time the rendering progress
+	 * @param imageWidth     The width of the image to create.
+	 * @param imageHeight    The height of the image.
+	 * @param rasterToCamera The camera transformation.
+	 * @param overallTime    The Stopwatch instance used to time the rendering progress
 	 *
 	 * @return The elapsed time.
 	 */
 	private long renderMultiThreaded(final int imageWidth, final int imageHeight, final Transformation rasterToCamera,
-			final Stopwatch overallTime) {
+	                                 final Stopwatch overallTime) {
 
 		// Slicing up the work
 		int numberOfCores = getNumberOfCPUs();
@@ -198,7 +199,7 @@ public class RayTracer {
 	}
 
 	private List<RenderCallable> prepareRenderingTasks(final int imageWidth, final int imageHeight,
-			final Transformation rasterToCamera, final int numberOfCores) {
+	                                                   final Transformation rasterToCamera, final int numberOfCores) {
 
 		int sliceWidth = (imageWidth + (numberOfCores - 1)) / numberOfCores;
 		int sliceHeight = (imageHeight + (SLICES_PER_CORE - 1)) / SLICES_PER_CORE;
@@ -216,7 +217,7 @@ public class RayTracer {
 				int sliceEndX = Math.min(imageWidth, (horizontalSliceIndex + 1) * sliceWidth);
 
 				LOGGER.debug("Preparing slice {} [{}/{} {}/{}]",
-						new Object[] { sliceId, sliceStartX, sliceStartY, sliceEndX, sliceEndY });
+						new Object[]{sliceId, sliceStartX, sliceStartY, sliceEndX, sliceEndY});
 
 				RenderWindow window = new RenderWindow(sliceStartX, sliceEndX, sliceStartY, sliceEndY);
 
@@ -270,19 +271,15 @@ public class RayTracer {
 	 * Render the image. This is done in a single thread and is very useful for debugging purposes. The rendering itself
 	 * is implemented in the #renderWindow method.
 	 *
-	 * @param imageWidth
-	 * 		The width of the image to create.
-	 * @param imageHeight
-	 * 		The height of the image.
-	 * @param rasterToCamera
-	 * 		The camera transformation.
-	 * @param overallTime
-	 * 		The Stopwatch instance used to time the rendering progress
+	 * @param imageWidth     The width of the image to create.
+	 * @param imageHeight    The height of the image.
+	 * @param rasterToCamera The camera transformation.
+	 * @param overallTime    The Stopwatch instance used to time the rendering progress
 	 *
 	 * @return The elapsed time.
 	 */
 	private long renderSingleThreaded(final int imageWidth, final int imageHeight, final Transformation rasterToCamera,
-			final Stopwatch overallTime) {
+	                                  final Stopwatch overallTime) {
 		LOGGER.info("Using single threaded rendering");
 
 		RenderWindow renderWindow = new RenderWindow(0, imageWidth, 0, imageHeight);
@@ -297,12 +294,9 @@ public class RayTracer {
 	 * This contains the actual render loop. Use this method for creating the color informations. The results are recorded
 	 * by the {@link Film} which is in the camera (just like in real life...).
 	 *
-	 * @param sampler
-	 * 		The {@link Sampler} to use. This allows for sub pixel rendering used for a very simple anti aliasing.
-	 * @param window
-	 * 		The {@link RenderWindow} describing the part of the image to render.
-	 * @param rasterToCamera
-	 * 		The transformation from the raster space into the camera space. THis is here for optimization.
+	 * @param sampler        The {@link Sampler} to use. This allows for sub pixel rendering used for a very simple anti aliasing.
+	 * @param window         The {@link RenderWindow} describing the part of the image to render.
+	 * @param rasterToCamera The transformation from the raster space into the camera space. THis is here for optimization.
 	 */
 	private void renderWindow(Sampler sampler, RenderWindow window, Transformation rasterToCamera) {
 
@@ -335,10 +329,8 @@ public class RayTracer {
 	 * secondary rays may be generated which in turn are traced again by this method. It calls itself recursively in order
 	 * to calculate effects like reflection and refraction.
 	 *
-	 * @param ray
-	 * 		The {@link Ray} to follow trough the scene.
-	 * @param iteration
-	 * 		The iteration depth. Prevents the algorithm from being stuck in an endless loop.
+	 * @param ray       The {@link Ray} to follow trough the scene.
+	 * @param iteration The iteration depth. Prevents the algorithm from being stuck in an endless loop.
 	 *
 	 * @return The {@link Color} the origin of the {@link Ray} "sees" in the scene.
 	 */
@@ -370,17 +362,14 @@ public class RayTracer {
 	/**
 	 * For a given point, calculate the hue and brightness contributed by the lights in the scene.
 	 *
-	 * @param shapeCollisionInfo
-	 * 		The {@link CollisionInformation} describing where the point lies and of which {@link Shape} it is a part of.
-	 * @param uvCoordinates
-	 * 		The u/v coordinates on the shape.
-	 * @param objectColor
-	 * 		The {@link Color} of the shape.
+	 * @param shapeCollisionInfo The {@link CollisionInformation} describing where the point lies and of which {@link Shape} it is a part of.
+	 * @param uvCoordinates      The u/v coordinates on the shape.
+	 * @param objectColor        The {@link Color} of the shape.
 	 *
 	 * @return The Color of the light which depends on the distance and the angle under which the light is 'seen'.
 	 */
 	private Color calculateLightColor(CollisionInformation shapeCollisionInfo, Point2D uvCoordinates,
-			Color objectColor) {
+	                                  Color objectColor) {
 		if (objectColor.equals(Color.BLACK)) {
 			return objectColor;
 		}
@@ -413,19 +402,15 @@ public class RayTracer {
 	 * origin of that ray is the point of collision (with a small correction to prevent self-shadowing). It the calls
 	 * {@link #traceRay(Ray, int)} to determine the {@link Color} information at that point.
 	 *
-	 * @param ray
-	 * 		The incoming ray.
-	 * @param iteration
-	 * 		The iteration (used to cancel the recursive nature of the algorithm).
-	 * @param shapeCollisionInfo
-	 * 		The {@link Shape} for which the reflection is calculated.
-	 * @param uvCoordinates
-	 * 		The u/v coordinates on the {@link Shape}.
+	 * @param ray                The incoming ray.
+	 * @param iteration          The iteration (used to cancel the recursive nature of the algorithm).
+	 * @param shapeCollisionInfo The {@link Shape} for which the reflection is calculated.
+	 * @param uvCoordinates      The u/v coordinates on the {@link Shape}.
 	 *
 	 * @return The {@link Color} for what the reflected ray 'sees' in the scene.
 	 */
 	private Color calculateReflectedColor(Ray ray, int iteration, CollisionInformation shapeCollisionInfo,
-			Point2D uvCoordinates) {
+	                                      Point2D uvCoordinates) {
 		Color reflectedColor = Color.BLACK;
 		double reflectionValue = shapeCollisionInfo.getShape()
 				.getShader()
@@ -450,11 +435,9 @@ public class RayTracer {
 	 * Print some statistics, like number of rays, rendering time, total CPU time and some more. The two parameter are
 	 * used to calculate the factor by which the rendering was speed up by using multiple CPUs.
 	 *
-	 * @param duration
-	 * 		The duration of the rendering (the time the caller had to wait)
-	 * @param cpuTime
-	 * 		The total time used by all involved CPUs. This is at least the same as the value of <code>duration</code> but
-	 * 		when using more than one CPU this value may be higher.
+	 * @param duration The duration of the rendering (the time the caller had to wait)
+	 * @param cpuTime  The total time used by all involved CPUs. This is at least the same as the value of <code>duration</code> but
+	 *                 when using more than one CPU this value may be higher.
 	 */
 	private void printRenderStatistics(long duration, long cpuTime) {
 		LOGGER.info("Rendering finished in: {}ms", duration);
@@ -510,7 +493,7 @@ public class RayTracer {
 			renderingStopwatch.start();
 			renderWindow(sampler, window, rasterToCamera);
 			renderingStopwatch.stop();
-			LOGGER.debug("Slice {} done in {}ms", new Object[] { sliceId, renderingStopwatch.elapsedMillis() });
+			LOGGER.debug("Slice {} done in {}ms", new Object[]{sliceId, renderingStopwatch.elapsedMillis()});
 			return renderingStopwatch.elapsedMillis();
 		}
 

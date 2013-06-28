@@ -15,20 +15,17 @@
  */
 package yaphyre.scenereaders.yaphyre;
 
-import static org.joox.JOOX.$;
-
-import java.io.InputStream;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.google.common.base.Preconditions;
+import com.google.common.base.Throwables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import org.joox.Match;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import yaphyre.core.Lightsource;
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
 import yaphyre.raytracer.Scene;
-
-
 import yaphyre.scenereaders.Capabilities;
 import yaphyre.scenereaders.SceneReaders;
 import yaphyre.scenereaders.yaphyre.entityhandlers.EntityHandler;
@@ -40,14 +37,13 @@ import yaphyre.scenereaders.yaphyre.entityhandlers.SimpleShaderEnityHandler;
 import yaphyre.scenereaders.yaphyre.entityhandlers.SphereEntityHandler;
 import yaphyre.shaders.Material;
 
-import org.joox.Match;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.InputStream;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Throwables;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import static org.joox.JOOX.$;
 
 /**
  * XML document reader. Creates a {@link Scene} representation by reading an XML document in multiple stages. Since
@@ -97,23 +93,23 @@ public class MultiStageXMLSceneReader implements SceneReaders {
 	}
 
 	private static enum ReaderStage {
-		Init{
+		Init {
 			@Override
 			void handleStage(final Match document, final Scene scene, final Map<String, IdentifiableObject<Material>> knownMaterials,
-					final Map<String, IdentifiableObject<Shader>> knownShaders,
-					final Map<String, IdentifiableObject<Shape>> knownShapes) { }
+			                 final Map<String, IdentifiableObject<Shader>> knownShaders,
+			                 final Map<String, IdentifiableObject<Shape>> knownShapes) { }
 		},
-		PreProcess{
+		PreProcess {
 			@Override
 			void handleStage(final Match document, final Scene scene, final Map<String, IdentifiableObject<Material>> knownMaterials,
-					final Map<String, IdentifiableObject<Shader>> knownShaders,
-					final Map<String, IdentifiableObject<Shape>> knownShapes) { }
+			                 final Map<String, IdentifiableObject<Shader>> knownShaders,
+			                 final Map<String, IdentifiableObject<Shape>> knownShapes) { }
 		},
 		Material {
 			@Override
 			void handleStage(final Match document, final Scene scene, final Map<String, IdentifiableObject<Material>> knownMaterials,
-					final Map<String, IdentifiableObject<Shader>> knownShaders,
-					final Map<String, IdentifiableObject<Shape>> knownShapes) {
+			                 final Map<String, IdentifiableObject<Shader>> knownShaders,
+			                 final Map<String, IdentifiableObject<Shape>> knownShapes) {
 				for (EntityHandler<IdentifiableObject<Material>> materialHandler : MATERIAL_HANDLERS) {
 					Match materials = document.xpath(materialHandler.getXPath());
 					for (Match material : materials.each()) {
@@ -126,8 +122,8 @@ public class MultiStageXMLSceneReader implements SceneReaders {
 		Shader {
 			@Override
 			void handleStage(final Match document, final Scene scene, final Map<String, IdentifiableObject<Material>> knownMaterials,
-					final Map<String, IdentifiableObject<Shader>> knownShaders,
-					final Map<String, IdentifiableObject<Shape>> knownShapes) {
+			                 final Map<String, IdentifiableObject<Shader>> knownShaders,
+			                 final Map<String, IdentifiableObject<Shape>> knownShapes) {
 				for (EntityHandler<IdentifiableObject<Shader>> shaderHandler : SHADER_HANDLERS) {
 					Match shaders = document.xpath(shaderHandler.getXPath());
 					for (Match shader : shaders.each()) {
@@ -140,8 +136,8 @@ public class MultiStageXMLSceneReader implements SceneReaders {
 		Primitive {
 			@Override
 			void handleStage(final Match document, final Scene scene, final Map<String, IdentifiableObject<Material>> knownMaterials,
-					final Map<String, IdentifiableObject<Shader>> knownShaders,
-					final Map<String, IdentifiableObject<Shape>> knownShapes) {
+			                 final Map<String, IdentifiableObject<Shader>> knownShaders,
+			                 final Map<String, IdentifiableObject<Shape>> knownShapes) {
 				for (EntityHandler<IdentifiableObject<Shape>> shapeHandler : PRIMITIVE_HANDLERS) {
 					Match primitives = document.xpath(shapeHandler.getXPath());
 					for (Match primitive : primitives.each()) {
@@ -155,11 +151,11 @@ public class MultiStageXMLSceneReader implements SceneReaders {
 		Complex {
 			@Override
 			void handleStage(final Match document, final Scene scene, final Map<String, IdentifiableObject<Material>> knownMaterials,
-					final Map<String, IdentifiableObject<Shader>> knownShaders,
-					final Map<String, IdentifiableObject<Shape>> knownShapes) {
-				for(EntityHandler<IdentifiableObject<Shape>> complexShapeHandler : COMPLEX_SHAPE_HANDLERS) {
+			                 final Map<String, IdentifiableObject<Shader>> knownShaders,
+			                 final Map<String, IdentifiableObject<Shape>> knownShapes) {
+				for (EntityHandler<IdentifiableObject<Shape>> complexShapeHandler : COMPLEX_SHAPE_HANDLERS) {
 					Match complexShapes = document.xpath(complexShapeHandler.getXPath());
-					for(Match complexShape : complexShapes.each()) {
+					for (Match complexShape : complexShapes.each()) {
 						IdentifiableObject<Shape> decodedComplexShape = complexShapeHandler.decodeEntity(complexShape, knownMaterials, knownShaders, knownShapes);
 						knownShapes.put(decodedComplexShape.getId(), decodedComplexShape);
 						scene.addShape(decodedComplexShape.getObject());
@@ -170,8 +166,8 @@ public class MultiStageXMLSceneReader implements SceneReaders {
 		Light {
 			@Override
 			void handleStage(final Match document, final Scene scene, final Map<String, IdentifiableObject<Material>> knownMaterials,
-					final Map<String, IdentifiableObject<Shader>> knownShaders,
-					final Map<String, IdentifiableObject<Shape>> knownShapes) {
+			                 final Map<String, IdentifiableObject<Shader>> knownShaders,
+			                 final Map<String, IdentifiableObject<Shape>> knownShapes) {
 				for (EntityHandler<IdentifiableObject<Lightsource>> lightHandler : LIGHT_HANDLERS) {
 					Match lights = document.xpath(lightHandler.getXPath());
 					for (Match light : lights.each()) {
@@ -180,28 +176,28 @@ public class MultiStageXMLSceneReader implements SceneReaders {
 				}
 			}
 		},
-		Camera{
+		Camera {
 			@Override
 			void handleStage(final Match document, final Scene scene, final Map<String, IdentifiableObject<Material>> knownMaterials,
-					final Map<String, IdentifiableObject<Shader>> knownShaders,
-					final Map<String, IdentifiableObject<Shape>> knownShapes) { }
+			                 final Map<String, IdentifiableObject<Shader>> knownShaders,
+			                 final Map<String, IdentifiableObject<Shape>> knownShapes) { }
 		},
 		PostProcess {
 			@Override
 			void handleStage(final Match document, final Scene scene, final Map<String, IdentifiableObject<Material>> knownMaterials,
-					final Map<String, IdentifiableObject<Shader>> knownShaders,
-					final Map<String, IdentifiableObject<Shape>> knownShapes) { }
+			                 final Map<String, IdentifiableObject<Shader>> knownShaders,
+			                 final Map<String, IdentifiableObject<Shape>> knownShapes) { }
 		},
 		Finish {
 			@Override
 			void handleStage(final Match document, final Scene scene, final Map<String, IdentifiableObject<Material>> knownMaterials,
-					final Map<String, IdentifiableObject<Shader>> knownShaders,
-					final Map<String, IdentifiableObject<Shape>> knownShapes) { }
+			                 final Map<String, IdentifiableObject<Shader>> knownShaders,
+			                 final Map<String, IdentifiableObject<Shape>> knownShapes) { }
 		};
 
 		abstract void handleStage(Match document, Scene scene, final Map<String, IdentifiableObject<Material>> knownMaterials,
-				final Map<String, IdentifiableObject<Shader>> knownShaders,
-				final Map<String, IdentifiableObject<Shape>> knownShapes);
+		                          final Map<String, IdentifiableObject<Shader>> knownShaders,
+		                          final Map<String, IdentifiableObject<Shape>> knownShapes);
 
 		private static final List<EntityHandler<IdentifiableObject<Material>>> MATERIAL_HANDLERS;
 

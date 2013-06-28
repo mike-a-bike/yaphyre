@@ -16,18 +16,17 @@
 
 package yaphyre.scenereaders.yaphyre.entityhandlers;
 
-import java.util.Map;
-
-import yaphyre.core.Shader;
-import yaphyre.core.Shape;
-import yaphyre.shaders.Material;
-import yaphyre.shaders.SimpleShader;
-import yaphyre.util.Color;
-import yaphyre.scenereaders.yaphyre.utils.HelperFactory;
-
 import org.joox.Match;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import yaphyre.core.Shader;
+import yaphyre.core.Shape;
+import yaphyre.scenereaders.yaphyre.utils.HelperFactory;
+import yaphyre.shaders.Material;
+import yaphyre.shaders.SimpleShader;
+import yaphyre.util.Color;
+
+import java.util.Map;
 
 public class SimpleShaderEnityHandler extends EntityHandler<IdentifiableObject<Shader>> {
 

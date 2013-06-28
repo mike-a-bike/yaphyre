@@ -19,8 +19,6 @@ package yaphyre.geometry;
 import static com.google.common.base.Preconditions.checkArgument;
 import static yaphyre.geometry.MathUtils.calculateBernsteinPolynomialFactor;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * An implementation for calculating points on a bezier curve. Each instance takes a different number of control
  * points
@@ -28,9 +26,8 @@ import org.jetbrains.annotations.NotNull;
 public enum BezierCurve {
 
 	LINEAR {
-		@NotNull
 		@Override
-		public Point3D calculatePoint(final double t, @NotNull final Point3D... controlPoints) {
+		public Point3D calculatePoint(final double t, final Point3D... controlPoints) {
 			checkArgument(controlPoints.length == 2, "Wrong number of control points. Expected: 2");
 			checkArgument(0d <= t && t <= 1d, "t is out of range: 0 <= t <= 1");
 
@@ -47,9 +44,8 @@ public enum BezierCurve {
 		}
 	},
 	QUADRATIC {
-		@NotNull
 		@Override
-		public Point3D calculatePoint(final double t, @NotNull final Point3D... controlPoints) {
+		public Point3D calculatePoint(final double t, final Point3D... controlPoints) {
 			checkArgument(controlPoints.length == 3, "Wrong number of control points. Expected: 3");
 			checkArgument(0d <= t && t <= 1d, "t is out of range: 0 <= t <= 1");
 
@@ -71,9 +67,8 @@ public enum BezierCurve {
 		}
 	},
 	CUBIC {
-		@NotNull
 		@Override
-		public Point3D calculatePoint(final double t, @NotNull final Point3D... controlPoints) {
+		public Point3D calculatePoint(final double t, final Point3D... controlPoints) {
 			checkArgument(controlPoints.length == 4, "Wrong number of control points. Expected: 4");
 			checkArgument(0d <= t && t <= 1d, "t is out of range: 0 <= t <= 1");
 
@@ -84,7 +79,7 @@ public enum BezierCurve {
 
 			final double s = 1d - t;
 
-			return p0.scale(s*s*s)
+			return p0.scale(s * s * s)
 					.add(p1.scale(3d * s * s * t))
 					.add(p2.scale(3d * s * t * t))
 					.add(p3.scale(t * t * t));
@@ -99,9 +94,8 @@ public enum BezierCurve {
 		}
 	},
 	QUARTIC {
-		@NotNull
 		@Override
-		public Point3D calculatePoint(final double t, @NotNull final Point3D... controlPoints) {
+		public Point3D calculatePoint(final double t, final Point3D... controlPoints) {
 			checkArgument(controlPoints.length == 5, "Wrong number of control points. Expected: 5");
 			checkArgument(0d <= t && t <= 1d, "t is out of range: 0 <= t <= 1");
 
@@ -113,7 +107,7 @@ public enum BezierCurve {
 
 			final double s = 1d - t;
 
-			return p0.scale(s*s*s*s)
+			return p0.scale(s * s * s * s)
 					.add(p1.scale(4d * s * s * s * t))
 					.add(p2.scale(6d * s * s * t * t))
 					.add(p3.scale(4d * s * t * t * t))
@@ -122,9 +116,8 @@ public enum BezierCurve {
 		}
 	},
 	GENERIC {
-		@NotNull
 		@Override
-		public Point3D calculatePoint(final double t, @NotNull final Point3D... controlPoints) {
+		public Point3D calculatePoint(final double t, final Point3D... controlPoints) {
 			checkArgument(controlPoints.length >= 2, "Too few control points. At least two control points are needed");
 			checkArgument(0d <= t && t <= 1d, "t is out of range: 0 <= t <= 1");
 
@@ -136,14 +129,14 @@ public enum BezierCurve {
 
 			final int order = controlPoints.length - 1;
 			switch (order) {
-			case 1:
-				return LINEAR.calculatePoint(t, controlPoints);
-			case 2:
-				return QUADRATIC.calculatePoint(t, controlPoints);
-			case 3:
-				return CUBIC.calculatePoint(t, controlPoints);
-			case 4:
-				return QUARTIC.calculatePoint(t, controlPoints);
+				case 1:
+					return LINEAR.calculatePoint(t, controlPoints);
+				case 2:
+					return QUADRATIC.calculatePoint(t, controlPoints);
+				case 3:
+					return CUBIC.calculatePoint(t, controlPoints);
+				case 4:
+					return QUARTIC.calculatePoint(t, controlPoints);
 			}
 
 			Point3D result = Point3D.ORIGIN;
@@ -159,7 +152,6 @@ public enum BezierCurve {
 
 	};
 
-	@NotNull
-	public abstract Point3D calculatePoint(double t, @NotNull final Point3D... controlPoints);
+	public abstract Point3D calculatePoint(double t, final Point3D... controlPoints);
 
 }

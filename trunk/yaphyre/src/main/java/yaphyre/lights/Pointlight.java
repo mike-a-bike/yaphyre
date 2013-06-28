@@ -15,8 +15,6 @@
  */
 package yaphyre.lights;
 
-import static java.lang.Math.PI;
-
 import yaphyre.core.LightSample;
 import yaphyre.core.Lightsource;
 import yaphyre.core.VisibilityTester;
@@ -24,6 +22,8 @@ import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Transformation;
 import yaphyre.geometry.Vector3D;
 import yaphyre.util.Color;
+
+import static java.lang.Math.PI;
 
 /**
  * A simple point light. The characteristics of this {@link Lightsource} is, that is has no physical size and radiates
@@ -39,7 +39,9 @@ public class Pointlight extends Lightsource {
 
 	private static final long serialVersionUID = -1976888619913693137L;
 
-	/** The position of the point light. This is pre-calculated for convenience reasons. */
+	/**
+	 * The position of the point light. This is pre-calculated for convenience reasons.
+	 */
 	private final Point3D position;
 
 	public Pointlight(Transformation l2w, Color color, double intensity) {

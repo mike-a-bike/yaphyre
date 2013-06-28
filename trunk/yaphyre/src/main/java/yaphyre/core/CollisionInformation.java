@@ -16,16 +16,13 @@
 
 package yaphyre.core;
 
-import java.io.Serializable;
-
+import com.google.common.base.Objects;
 import yaphyre.geometry.Normal3D;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 
-import org.jetbrains.annotations.NotNull;
-
-import com.google.common.base.Objects;
+import java.io.Serializable;
 
 /**
  * A record which contains all the information relevant for a ray-object collision.
@@ -53,9 +50,9 @@ public class CollisionInformation implements Serializable {
 	/**
 	 * Creates a new instance for the collision information.
 	 */
-	public CollisionInformation(@NotNull final Ray ray, @NotNull final Shape shape, final double distance,
-								@NotNull final Point3D point, @NotNull final Normal3D normal,
-								@NotNull final Point2D uvCoordinate) {
+	public CollisionInformation(final Ray ray, final Shape shape, final double distance,
+	                            final Point3D point, final Normal3D normal,
+	                            final Point2D uvCoordinate) {
 		this.shape = shape;
 		this.distance = distance;
 		this.point = point;

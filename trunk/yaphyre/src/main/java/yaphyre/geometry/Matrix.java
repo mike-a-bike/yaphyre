@@ -15,17 +15,16 @@
  */
 package yaphyre.geometry;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static yaphyre.geometry.MathUtils.equalsWithTolerance;
+import org.apache.commons.math3.linear.LUDecomposition;
+import org.apache.commons.math3.linear.MatrixUtils;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.SingularMatrixException;
 
 import java.io.Serializable;
 import java.util.Arrays;
 
-import org.apache.commons.math.linear.InvalidMatrixException;
-import org.apache.commons.math.linear.LUDecomposition;
-import org.apache.commons.math.linear.LUDecompositionImpl;
-import org.apache.commons.math.linear.MatrixUtils;
-import org.apache.commons.math.linear.RealMatrix;
+import static com.google.common.base.Preconditions.checkArgument;
+import static yaphyre.geometry.MathUtils.equalsWithTolerance;
 
 /**
  * Rudimentary implementation of some essential matrix operations.
@@ -203,11 +202,11 @@ public class Matrix implements Serializable {
 	private void calculateInternals() {
 		try {
 			RealMatrix rm = MatrixUtils.createRealMatrix(m);
-			LUDecomposition decomp = new LUDecompositionImpl(rm);
+			LUDecomposition decomp = new LUDecomposition(rm);
 			determinant = decomp.getDeterminant();
 			inverse = new Matrix(decomp.getSolver().getInverse().getData());
 			invertible = true;
-		} catch (InvalidMatrixException e) {
+		} catch (SingularMatrixException e) {
 			inverse = null;
 			invertible = false;
 		}

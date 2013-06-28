@@ -16,10 +16,9 @@
 
 package yaphyre.scenereaders;
 
-import java.io.InputStream;
-import java.util.Set;
-
 import yaphyre.raytracer.Scene;
+
+import java.io.InputStream;
 
 /**
  * Created with IntelliJ IDEA. User: michael Date: 15.10.12 Time: 22:51 To change this template use File | Settings |

@@ -15,19 +15,6 @@
  */
 package yaphyre.shapes;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static java.lang.Math.PI;
-import static java.lang.Math.acos;
-import static java.lang.Math.atan2;
-import static java.lang.Math.max;
-import static java.lang.Math.min;
-import static yaphyre.geometry.MathUtils.EPSILON;
-import static yaphyre.geometry.MathUtils.TWO_PI;
-import static yaphyre.geometry.MathUtils.isInRangeWithTolerance;
-
-import java.text.MessageFormat;
-
 import yaphyre.core.BoundingBox;
 import yaphyre.core.CollisionInformation;
 import yaphyre.core.Shader;
@@ -39,8 +26,18 @@ import yaphyre.geometry.Solver;
 import yaphyre.geometry.Transformation;
 import yaphyre.geometry.Vector3D;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import java.text.MessageFormat;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static java.lang.Math.PI;
+import static java.lang.Math.acos;
+import static java.lang.Math.atan2;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+import static yaphyre.geometry.MathUtils.EPSILON;
+import static yaphyre.geometry.MathUtils.TWO_PI;
+import static yaphyre.geometry.MathUtils.isInRangeWithTolerance;
 
 /**
  * A sphere in the three dimensional space is defined as:<br/> (p - p<sub>0</sub>) &sdot; (p - p<sub>0</sub>) =
@@ -52,24 +49,58 @@ import org.jetbrains.annotations.Nullable;
 public class Sphere extends AbstractShape {
 
 	private static final long serialVersionUID = -8353927614531728405L;
-
-	/** The radius of the unit sphere is 1. */
+	/**
+	 * The radius of the unit sphere is 1.
+	 */
 	private static final int RADIUS = 1;
-
-	/** The squared radius of the unit sphere is 1: 1^2 = 1 */
+	/**
+	 * The squared radius of the unit sphere is 1: 1^2 = 1
+	 */
 	private static final int RADIUS_SQUARED = 1;
-
-	/** Range of the angle across the 'up'/'down' axis */
+	/**
+	 * Range of the angle across the 'up'/'down' axis
+	 */
 	private final double thetaMin, thetaMax;
-
-	/** Range of the angle rotating around the y axis. */
+	/**
+	 * Range of the angle rotating around the y axis.
+	 */
 	private final double phiMin, phiMax;
-
-	/** Flag if the instance is a partial sphere or not */
+	/**
+	 * Flag if the instance is a partial sphere or not
+	 */
 	private final boolean isPartial;
-
-	/** Bounding box for the sphere */
+	/**
+	 * Bounding box for the sphere
+	 */
 	private final BoundingBox boundingBox;
+
+	/**
+	 * Creates a unit sphere at the origin of the world coordinates. Changes in the position of the objects and the radius
+	 * are made by providing a transformation matrix. <ul> <li>Change the radius -> Use a scaling transformation.</li>
+	 * <li>Change the center -> Use a translation transformation.</li> <li>Make an ellipsoid -> Use a non uniform scaling
+	 * transformation</li> </ul>
+	 *
+	 * @param objectToWorld The {@link yaphyre.geometry.Transformation} to translate from object space into world space.
+	 * @param phiMin        The start angle for &phi; (&phi; &isin; [0, 360])
+	 * @param phiMax        The end angle for &phi; (&phi; &isin; [0, 360])
+	 * @param thetaMin      The start angle for &theta; (&theta; &isin; [0, 180])
+	 * @param thetaMax      The start angle for &theta; (&theta; &isin; [0, 180])
+	 */
+	public Sphere(final Transformation objectToWorld,
+	              final double phiMin, final double phiMax, final double thetaMin, final double thetaMax,
+	              final Shader shader) {
+		super(objectToWorld, shader);
+		checkArgument(0d <= phiMin && phiMin <= 360d);
+		checkArgument(0d <= phiMax && phiMax <= 360d);
+		checkArgument(0d <= thetaMin && thetaMin <= 180d);
+		checkArgument(0d <= thetaMax && thetaMax <= 180d);
+		this.phiMin = min(phiMin, phiMax) / 360d * TWO_PI;
+		this.phiMax = max(phiMin, phiMax) / 360d * TWO_PI;
+		this.thetaMin = min(thetaMin, thetaMax) / 180d * PI;
+		this.thetaMax = max(thetaMin, thetaMax) / 180d * PI;
+		isPartial = phiMin == 0d && phiMax == 360d && thetaMin == 0d && thetaMax == 180d;
+		boundingBox = objectToWorld.transform(new BoundingBox(new Point3D(1, 1, 1), new Point3D(-1, -1, -1)));
+	}
 
 	/**
 	 * Helper method for creating a sphere where the center and its radius are known. This creates a transformation which
@@ -77,21 +108,15 @@ public class Sphere extends AbstractShape {
 	 * resulting matrix looks like this: <br/> [[r 0 0 c<sub>x</sub>] [0 r 0 c<sub>y</sub>] [0 0 r c<sub>z</sub>] [0 0 0
 	 * 1]]
 	 *
+	 * @param center The center of the sphere (c<sub>x, y, z</sub>)
+	 * @param radius Its radius (r)
+	 * @param shader The {@link yaphyre.core.Shader} to use for rendering
 	 *
-	 *
-	 * @param center
-	 * 		The center of the sphere (c<sub>x, y, z</sub>)
-	 * @param radius
-	 * 		Its radius (r)
-	 * @param shader
-	 * 		The {@link yaphyre.core.Shader} to use for rendering
 	 * @return A new instance of {@link Sphere}.
 	 *
-	 * @throws NullPointerException
-	 * 		If either <code>center</code> or <code>shader</code> are <code>null</code>, a {@link NullPointerException} is
-	 * 		thrown.
-	 * @throws IllegalArgumentException
-	 * 		If <code>radius</code> is too small, an {@link IllegalArgumentException} is thrown.
+	 * @throws NullPointerException     If either <code>center</code> or <code>shader</code> are <code>null</code>, a {@link NullPointerException} is
+	 *                                  thrown.
+	 * @throws IllegalArgumentException If <code>radius</code> is too small, an {@link IllegalArgumentException} is thrown.
 	 */
 	public static Sphere createSphere(Point3D center, double radius, Shader shader) {
 		return createSphere(center, radius, 0d, 360d, 0d, 180d, shader);
@@ -105,73 +130,29 @@ public class Sphere extends AbstractShape {
 	 * In addition, the angular ranges for &theta; and &phi; can be provided. Both ranges take values between 0 and 360
 	 * degree.
 	 *
+	 * @param center   The center of the sphere (c<sub>x, y, z</sub>)
+	 * @param radius   Its radius (r)
+	 * @param phiMin   The start angle for &phi; (&phi; &isin; [0, 360])
+	 * @param phiMax   The end angle for &phi; (&phi; &isin; [0, 360])
+	 * @param thetaMin The start angle for &theta; (&theta; &isin; [0, 180])
+	 * @param thetaMax The start angle for &theta; (&theta; &isin; [0, 180])
+	 * @param shader   The {@link yaphyre.core.Shader} to use for rendering
 	 *
-	 *
-	 * @param center
-	 * 		The center of the sphere (c<sub>x, y, z</sub>)
-	 * @param radius
-	 * 		Its radius (r)
-	 * @param phiMin
-	 *      The start angle for &phi; (&phi; &isin; [0, 360])
-	 * @param phiMax
-	 *      The end angle for &phi; (&phi; &isin; [0, 360])
-	 * @param thetaMin
-	 *      The start angle for &theta; (&theta; &isin; [0, 180])
-	 * @param thetaMax
-	 *      The start angle for &theta; (&theta; &isin; [0, 180])
-	 * @param shader
-	 * 		The {@link yaphyre.core.Shader} to use for rendering
 	 * @return A new instance of {@link Sphere}.
 	 *
-	 * @throws NullPointerException
-	 * 		If either <code>center</code> or <code>shader</code> are <code>null</code>, a {@link NullPointerException} is
-	 * 		thrown.
-	 * @throws IllegalArgumentException
-	 * 		If <code>radius</code> is too small, an {@link IllegalArgumentException} is thrown. Or if the specified
-	 * 	    ranges for &theta; and &phi; are out of bounds.
+	 * @throws NullPointerException     If either <code>center</code> or <code>shader</code> are <code>null</code>, a {@link NullPointerException} is
+	 *                                  thrown.
+	 * @throws IllegalArgumentException If <code>radius</code> is too small, an {@link IllegalArgumentException} is thrown. Or if the specified
+	 *                                  ranges for &theta; and &phi; are out of bounds.
 	 */
-	public static Sphere createSphere(@NotNull Point3D center, double radius,
-			double phiMin, double phiMax, double thetaMin, double thetaMax,
-			@NotNull Shader shader) {
+	public static Sphere createSphere(Point3D center, double radius,
+	                                  double phiMin, double phiMax, double thetaMin, double thetaMax,
+	                                  Shader shader) {
 		checkArgument(radius > EPSILON);
 		Transformation scaling = Transformation.scale(radius, radius, radius);
 		Transformation translation = Transformation.translate(center.getX(), center.getY(), center.getZ());
 		Transformation objectToWorld = translation.mul(scaling);
 		return new Sphere(objectToWorld, phiMin, phiMax, thetaMin, thetaMax, shader);
-	}
-
-	/**
-	 * Creates a unit sphere at the origin of the world coordinates. Changes in the position of the objects and the radius
-	 * are made by providing a transformation matrix. <ul> <li>Change the radius -> Use a scaling transformation.</li>
-	 * <li>Change the center -> Use a translation transformation.</li> <li>Make an ellipsoid -> Use a non uniform scaling
-	 * transformation</li> </ul>
-	 *
-	 *
-	 * @param objectToWorld
-	 * 		The {@link yaphyre.geometry.Transformation} to translate from object space into world space.
-	 * @param phiMin
-	 *      The start angle for &phi; (&phi; &isin; [0, 360])
-	 * @param phiMax
- *      The end angle for &phi; (&phi; &isin; [0, 360])
-	 * @param thetaMin
-*      The start angle for &theta; (&theta; &isin; [0, 180])
-	 * @param thetaMax
-*      The start angle for &theta; (&theta; &isin; [0, 180])
-	 */
-	public Sphere(@NotNull final Transformation objectToWorld,
-			final double phiMin, final double phiMax, final double thetaMin, final double thetaMax,
-			@NotNull final Shader shader) {
-		super(objectToWorld, shader);
-		checkArgument(0d <= phiMin && phiMin <= 360d);
-		checkArgument(0d <= phiMax && phiMax <= 360d);
-		checkArgument(0d <= thetaMin && thetaMin <= 180d);
-		checkArgument(0d <= thetaMax && thetaMax <= 180d);
-		this.phiMin = min(phiMin, phiMax) / 360d * TWO_PI;
-		this.phiMax = max(phiMin, phiMax) / 360d * TWO_PI;
-		this.thetaMin = min(thetaMin, thetaMax) / 180d * PI;
-		this.thetaMax = max(thetaMin, thetaMax) / 180d  * PI;
-		isPartial = phiMin == 0d && phiMax == 360d && thetaMin == 0d && thetaMax == 180d;
-		boundingBox = objectToWorld.transform(new BoundingBox(new Point3D(1, 1, 1), new Point3D(-1, -1, -1)));
 	}
 
 	@Override
@@ -198,9 +179,8 @@ public class Sphere extends AbstractShape {
 		return super.hashCode();
 	}
 
-	@Nullable
 	@Override
-	public CollisionInformation intersect(@NotNull final Ray ray) {
+	public CollisionInformation intersect(final Ray ray) {
 		double intersectDistance = this.getIntersectDistance(ray);
 		if (intersectDistance == NO_INTERSECTION) {
 			return null;
@@ -212,7 +192,6 @@ public class Sphere extends AbstractShape {
 				getNormal(intersectionPoint), getMappedSurfacePoint(intersectionPoint));
 	}
 
-	@NotNull
 	@Override
 	public BoundingBox getBoundingBox() {
 		return null;
@@ -224,25 +203,23 @@ public class Sphere extends AbstractShape {
 	 * p(<em>t</em>) = p<sub>0</sub> + <em>t</em> * d<br/>
 	 * with
 	 * <ul>
-	 *     <li>p(<em>t</em>): point on the line for the parameter value <em>t</em></li>
-	 *     <li>p<sub>0</sub>: line start point</li>
-	 *     <li>d: direction</li>
-	 *     <li><em>t</em>: parameter value</li>
-     * </ul>
+	 * <li>p(<em>t</em>): point on the line for the parameter value <em>t</em></li>
+	 * <li>p<sub>0</sub>: line start point</li>
+	 * <li>d: direction</li>
+	 * <li><em>t</em>: parameter value</li>
+	 * </ul>
 	 * We have to solve a quadratic equation:
 	 * c<sub>2</sub>*<em>t</em><sup>2</sup> + c<sub>1</sub>* <em>t</em> + c<sub>0</sub> = 0<br/>
 	 * Solutions:<br/>
 	 * <em>t</em><sub>0</sub> = (-c<sub>1</sub> - SQRT( c<sub>1</sub><sup>2</sup> - 4c<sub>2</sub>c<sub>0</sub>)) / 2c<sub>2</sub><br/>
 	 * <em>t</em><sub>1</sub> = (-c<sub>1</sub> + SQRT( c<sub>1</sub><sup>2</sup> - 4c<sub>2</sub>c<sub>0</sub>)) / 2c<sub>2</sub><br/>
 	 *
-	 *
-	 * @param ray
-	 * 		The {@link yaphyre.geometry.Ray} to intersect with this sphere.
+	 * @param ray The {@link yaphyre.geometry.Ray} to intersect with this sphere.
 	 *
 	 * @return The distance in which the ray intersects this sphere, or if they do not intersect {@link
-	 *         yaphyre.core.Primitive#NO_INTERSECTION}.
+	 *         AbstractShape#NO_INTERSECTION}.
 	 */
-	double getIntersectDistance(@NotNull Ray ray) {
+	double getIntersectDistance(Ray ray) {
 
 		// Transform the incoming ray from the world space into the object space.
 		ray = super.getWorldToObject().transform(ray);
@@ -279,8 +256,7 @@ public class Sphere extends AbstractShape {
 	 * surface point into the object space</li> <li>Construct the vector connecting the origin of the sphere and the
 	 * surface point</li> <li>Transform the resulting normal back to world space</li> </ol>
 	 */
-	@NotNull
-	Normal3D getNormal(@NotNull Point3D surfacePoint) {
+	Normal3D getNormal(Point3D surfacePoint) {
 		surfacePoint = super.getWorldToObject().transform(surfacePoint);
 		return super.getObjectToWorld().transform(surfacePoint.asNormal());
 	}
@@ -291,19 +267,16 @@ public class Sphere extends AbstractShape {
 	 * standard <em>u</em>/<em>v</em> range {u, v &isin; [0, 1]}<br/>
 	 * The definition is:
 	 * <ul>
-	 *     <li><em>cos</em>(&theta;) = <em>z</em> / <em>r</em></li>
-	 *     <li><em>tan</em>(&phi;) = <em>y</em> / <em>x</em></li>
+	 * <li><em>cos</em>(&theta;) = <em>z</em> / <em>r</em></li>
+	 * <li><em>tan</em>(&phi;) = <em>y</em> / <em>x</em></li>
 	 * </ul>
 	 * With &theta; &isin; [0, &pi;) and &phi; &isin; [0, 2&pi;)
 	 *
-	 * @throws NullPointerException
-	 * 		If <code>surfacePoint</code> is <code>null</code> a {@link NullPointerException} is thrown.
-	 * @throws IllegalArgumentException
-	 * 		If <code>surfacePoint</code> does not lie on the surface of the sphere an {@link IllegalArgumentException} is
-	 * 		thrown.
+	 * @throws NullPointerException     If <code>surfacePoint</code> is <code>null</code> a {@link NullPointerException} is thrown.
+	 * @throws IllegalArgumentException If <code>surfacePoint</code> does not lie on the surface of the sphere an {@link IllegalArgumentException} is
+	 *                                  thrown.
 	 */
-	@NotNull
-	Point2D getMappedSurfacePoint(@NotNull Point3D surfacePoint) throws NullPointerException, IllegalArgumentException {
+	Point2D getMappedSurfacePoint(Point3D surfacePoint) throws NullPointerException, IllegalArgumentException {
 		surfacePoint = super.getWorldToObject().transform(surfacePoint);
 		// Make sure, that the point lies on the surface.
 		checkNotNull(surfacePoint, "surfacePoint must not be null");
@@ -323,7 +296,7 @@ public class Sphere extends AbstractShape {
 
 		// Calculate the two angles of the spherical coordinates
 		double phi = atan2(surfacePoint.getZ(), surfacePoint.getX());
-		phi = phi >= 0? phi : phi + TWO_PI;
+		phi = phi >= 0 ? phi : phi + TWO_PI;
 		double theta = acos(surfacePoint.getY());
 
 		return new Point2D(phi, theta);

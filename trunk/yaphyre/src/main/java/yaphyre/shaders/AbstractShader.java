@@ -20,8 +20,6 @@ import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Transformation;
 import yaphyre.util.Color;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * An abstract super class which contains an optional {@link Transformation} used to transform the shader u/v
  * coordinates onto the object u/v coordinates.
@@ -88,12 +86,10 @@ public abstract class AbstractShader implements Shader {
 		return shaderToObject.transform(point);
 	}
 
-	@NotNull
 	@Override
-	public abstract Color getColor(@NotNull Point2D uvCoordinate);
+	public abstract Color getColor(Point2D uvCoordinate);
 
-	@NotNull
 	@Override
-	public abstract Material getMaterial(@NotNull Point2D uvCoordinate);
+	public abstract Material getMaterial(Point2D uvCoordinate);
 
 }

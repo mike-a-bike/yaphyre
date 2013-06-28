@@ -16,13 +16,11 @@
 
 package yaphyre.core;
 
-import java.io.Serializable;
-
 import yaphyre.geometry.Point2D;
 import yaphyre.shaders.Material;
 import yaphyre.util.Color;
 
-import org.jetbrains.annotations.NotNull;
+import java.io.Serializable;
 
 /**
  * The common interface for all shading activities. It provides two method. One for accessing the material at the given
@@ -34,10 +32,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface Shader extends Serializable {
 
-	@NotNull
-	public Color getColor(@NotNull final Point2D uvCoordinate);
+	public Color getColor(final Point2D uvCoordinate);
 
-	@NotNull
-	public Material getMaterial(@NotNull final Point2D uvCoordinate);
+	public Material getMaterial(final Point2D uvCoordinate);
 
 }

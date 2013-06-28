@@ -16,21 +16,19 @@
 
 package yaphyre.sampler;
 
-import static com.google.common.base.Preconditions.checkState;
-import static java.lang.Math.max;
-import static java.lang.Math.min;
-
-import java.awt.image.BufferedImage;
-import java.io.FileOutputStream;
-
-import javax.imageio.ImageIO;
-
+import org.junit.After;
+import org.junit.Before;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.samplers.AbstractSampler;
 
-import org.junit.After;
-import org.junit.Before;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.FileOutputStream;
+
+import static com.google.common.base.Preconditions.checkState;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 
 /**
  * Base class for all test cases producing images for different sampling strategies.
@@ -77,11 +75,11 @@ public class SamplerTest {
 		final int maxHeight = image.getHeight() - 1;
 		final int maxWidth = image.getWidth() - 1;
 
-		for(int u = startU; u < startU + MARK_SIZE; u++) {
+		for (int u = startU; u < startU + MARK_SIZE; u++) {
 			image.setRGB(clipImageCoordinate(0, maxWidth, u), clipImageCoordinate(0, maxHeight, centerV), MARK_COLOR);
 		}
 
-		for(int v = startV; v < startV + MARK_SIZE; v++) {
+		for (int v = startV; v < startV + MARK_SIZE; v++) {
 			image.setRGB(clipImageCoordinate(0, maxWidth, centerU), clipImageCoordinate(0, maxHeight, v), MARK_COLOR);
 		}
 
@@ -100,16 +98,16 @@ public class SamplerTest {
 	}
 
 	protected void createUnitSquareImage(final BufferedImage image, final AbstractSampler sampler, final int numberOfSets) {
-		for(int run = 0; run < numberOfSets; run++) {
-			for(Point2D point : sampler.getUnitSquareSamples()) {
+		for (int run = 0; run < numberOfSets; run++) {
+			for (Point2D point : sampler.getUnitSquareSamples()) {
 				addMark(image, point);
 			}
 		}
 	}
 
 	protected void createUnitCircleImage(final BufferedImage image, final AbstractSampler sampler, final int numberOfSets) {
-		for(int run = 0; run < numberOfSets; run++) {
-			for(Point2D sampledPoint : sampler.getUnitCircleSamples()) {
+		for (int run = 0; run < numberOfSets; run++) {
+			for (Point2D sampledPoint : sampler.getUnitCircleSamples()) {
 				Point2D point = sampledPoint.mul(.5d).add(.5d, .5d);
 				addMark(image, point);
 			}
@@ -117,8 +115,8 @@ public class SamplerTest {
 	}
 
 	protected void createUnitSphereImageXY(final BufferedImage image, final AbstractSampler sampler, final int numberOfSets) {
-		for(int run = 0; run < numberOfSets; run++) {
-			for(Point3D sampledPoint : sampler.getSphereSamples()) {
+		for (int run = 0; run < numberOfSets; run++) {
+			for (Point3D sampledPoint : sampler.getSphereSamples()) {
 				Point2D point = new Point2D(sampledPoint.getX(), sampledPoint.getY()).mul(.5d).add(.5d, .5d);
 				addMark(image, point);
 			}

@@ -15,17 +15,13 @@
  */
 package yaphyre.shapes;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import yaphyre.core.CollisionInformation;
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Transformation;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 
 /**
  * Implementation of common methods for most {@link Shape}.
@@ -36,14 +32,13 @@ import com.google.common.base.Preconditions;
  */
 public abstract class AbstractShape implements Shape {
 
-	/** Constant for signaling that there is no intersection. */
+	/**
+	 * Constant for signaling that there is no intersection.
+	 */
 	protected static final double NO_INTERSECTION = Double.POSITIVE_INFINITY;
 	private static final long serialVersionUID = 6078311087267053881L;
-
 	private final Shader shader;
-
 	private final Transformation worldToObject;
-
 	private final Transformation objectToWorld;
 
 	/**
@@ -53,12 +48,10 @@ public abstract class AbstractShape implements Shape {
 	 * order of the {@link Transformation} matters. It is not the same if the object is rotated an then translated or
 	 * first translated and then rotated.
 	 *
-	 * @param objectToWorld
-	 * 		The {@link yaphyre.geometry.Transformation} used to map world coordinates to object coordinates.
-	 * @param shader
-	 * 		The {@link yaphyre.core.Shader} instance to use when rendering this {@link yaphyre.core.Shape}.
+	 * @param objectToWorld The {@link yaphyre.geometry.Transformation} used to map world coordinates to object coordinates.
+	 * @param shader        The {@link yaphyre.core.Shader} instance to use when rendering this {@link yaphyre.core.Shape}.
 	 */
-	protected AbstractShape(@NotNull Transformation objectToWorld, @NotNull Shader shader) {
+	protected AbstractShape(Transformation objectToWorld, Shader shader) {
 		Preconditions.checkNotNull(objectToWorld);
 		Preconditions.checkNotNull(shader);
 
@@ -88,7 +81,6 @@ public abstract class AbstractShape implements Shape {
 				&& Objects.equal(objectToWorld, other.objectToWorld);
 	}
 
-	@NotNull
 	@Override
 	public Shader getShader() {
 		return shader;
@@ -102,11 +94,10 @@ public abstract class AbstractShape implements Shape {
 		return objectToWorld;
 	}
 
-	@Nullable
 	@Override
-	public abstract CollisionInformation intersect(@NotNull Ray ray);
+	public abstract CollisionInformation intersect(Ray ray);
 
-	protected @NotNull Ray transformToObjectSpace(@NotNull Ray ray) {
+	protected Ray transformToObjectSpace(Ray ray) {
 		return worldToObject.transform(ray);
 	}
 

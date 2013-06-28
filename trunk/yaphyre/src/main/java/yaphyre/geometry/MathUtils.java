@@ -20,7 +20,7 @@ import static java.lang.Math.abs;
 import static java.lang.Math.pow;
 import static java.lang.Math.signum;
 import static java.lang.Math.sqrt;
-import static org.apache.commons.math.util.MathUtils.binomialCoefficientDouble;
+import static org.apache.commons.math3.util.ArithmeticUtils.binomialCoefficient;
 
 /**
  * Some useful mathematical helper functions.
@@ -31,19 +31,29 @@ import static org.apache.commons.math.util.MathUtils.binomialCoefficientDouble;
  */
 public class MathUtils {
 
-	/** Small value. Used for tolerance calculations. */
+	/**
+	 * Small value. Used for tolerance calculations.
+	 */
 	public static final double EPSILON = 1e-10;
 
-	/** Inverse of &pi;. If division by &pi; is needed, use this and multiply. */
+	/**
+	 * Inverse of &pi;. If division by &pi; is needed, use this and multiply.
+	 */
 	public static final double INV_PI = 1d / PI;
 
-	/** The numerical value of 2&pi;. */
+	/**
+	 * The numerical value of 2&pi;.
+	 */
 	public static final double TWO_PI = 2d * PI;
 
-	/** Inverse of 2&pi;. If division by 2&pi; is needed, use this and multiply. */
+	/**
+	 * Inverse of 2&pi;. If division by 2&pi; is needed, use this and multiply.
+	 */
 	public static final double INV_TWO_PI = 1d / TWO_PI;
 
-	/** Use this (large value indeed) to handle division by zero. */
+	/**
+	 * Use this (large value indeed) to handle division by zero.
+	 */
 	private static final double LARGE_VAL = Double.MAX_VALUE;
 
 	private MathUtils() {
@@ -54,10 +64,8 @@ public class MathUtils {
 	 * So this method never throws an error for dividing by zero. Since this application only solves numerical problems,
 	 * this is the preferred behavior.
 	 *
-	 * @param a
-	 * 		The numerator.
-	 * @param b
-	 * 		The denominator.
+	 * @param a The numerator.
+	 * @param b The denominator.
 	 *
 	 * @return a / b if b is not zero, {@link #LARGE_VAL} otherwise.
 	 */
@@ -127,15 +135,15 @@ public class MathUtils {
 	}
 
 	public static double calculateBernsteinPolynomialFactor(final double t, final int order, final int k) {
-		return binomialCoefficientDouble(order, k) * pow(t, k) * pow((1d - t), (order - k));
+		return binomialCoefficient(order, k) * pow(t, k) * pow((1d - t), (order - k));
 	}
 
 	/**
 	 * Calculate the index within a flat array starting at the given startIndex.
 	 *
 	 * @param startIndex The index of the first element
-	 * @param uIndex The u-coordinate of the point
-	 * @param vIndex The v-coordinate of the point
+	 * @param uIndex     The u-coordinate of the point
+	 * @param vIndex     The v-coordinate of the point
 	 *
 	 * @return The index within the array of the requested point
 	 */

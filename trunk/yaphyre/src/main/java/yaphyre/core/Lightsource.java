@@ -16,13 +16,12 @@
 
 package yaphyre.core;
 
-import java.io.Serializable;
-
+import com.google.common.base.Objects;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Transformation;
 import yaphyre.util.Color;
 
-import com.google.common.base.Objects;
+import java.io.Serializable;
 
 /**
  * Common interface for all light sources in the rendering system.
@@ -62,8 +61,7 @@ public abstract class Lightsource implements Serializable {
 	 * information about the incident light ray direction, the intensity of the light and the yet to solve visibility of
 	 * the lightsource from the given points view.
 	 *
-	 * @param point
-	 * 		The {@link Point3D} to sample the light from.
+	 * @param point The {@link Point3D} to sample the light from.
 	 *
 	 * @return A {@link LightSample} instance containing all the necessary information about this light seen from the
 	 *         given point.

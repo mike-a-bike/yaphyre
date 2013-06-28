@@ -15,11 +15,11 @@
  */
 package yaphyre.samplers;
 
+import yaphyre.geometry.Point2D;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import yaphyre.geometry.Point2D;
 
 /**
  * A pure random sampler. Each time the sampler is called, some new samples are created. This prevents the re-use of

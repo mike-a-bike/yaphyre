@@ -15,22 +15,18 @@
  */
 package yaphyre.films;
 
-import java.awt.image.BufferedImage;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import yaphyre.core.CameraSample;
 import yaphyre.core.Film;
 import yaphyre.util.Color;
 
-import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * Film implementation which records the camera samples as colored pixels in an image file.
@@ -42,22 +38,17 @@ import com.google.common.base.Preconditions;
 public class ImageFile implements Film {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ImageFile.class);
-
 	private static final ImageFormat DEFAULT_IMAGE_FORMAT = ImageFormat.PNG;
-
 	private final int xResolution;
-
 	private final int yResolution;
-
 	private final ImageFormat imageFormat;
-
 	private final Color[] pixelColors;
 
 	public ImageFile(int xResolution, int yResolution) {
 		this(xResolution, yResolution, DEFAULT_IMAGE_FORMAT);
 	}
 
-	public ImageFile(int xResolution, int yResolution, @NotNull ImageFormat imageFormat) {
+	public ImageFile(int xResolution, int yResolution, ImageFormat imageFormat) {
 
 		Preconditions.checkArgument(imageFormat == ImageFormat.JPEG || imageFormat == ImageFormat.PNG, "unsupoorted image format: %s", imageFormat);
 
@@ -78,7 +69,7 @@ public class ImageFile implements Film {
 	}
 
 	@Override
-	public void addCameraSample(@NotNull CameraSample sample, @NotNull Color color) {
+	public void addCameraSample(CameraSample sample, Color color) {
 		int uCoordinate = (int) sample.getRasterPoint().getU();
 		int vCoordinate = (int) sample.getRasterPoint().getV();
 
@@ -103,7 +94,7 @@ public class ImageFile implements Film {
 	}
 
 	@Override
-	public void writeImageFile(int xSize, int ySize, @NotNull String fileName) {
+	public void writeImageFile(int xSize, int ySize, String fileName) {
 		Preconditions.checkArgument(xSize == xResolution && ySize == yResolution, "scaling is not yet supported");
 
 		BufferedImage image = createImageFromData();
@@ -147,14 +138,12 @@ public class ImageFile implements Film {
 		JPEG("jpg"),
 		PNG("png"),
 		OpenEXR("exr");
-
 		private final String defaultFileExtention;
 
-		private ImageFormat(@NotNull String defaultFileExtention) {
+		private ImageFormat(String defaultFileExtention) {
 			this.defaultFileExtention = defaultFileExtention;
 		}
 
-		@NotNull
 		public String getDefaultFileExtention() {
 			return defaultFileExtention;
 		}
