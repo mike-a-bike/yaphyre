@@ -19,8 +19,6 @@ package yaphyre.core;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Ray;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * This is the common interface all cameras must implement.
  *
@@ -35,14 +33,12 @@ public interface Camera {
 	 * It is perfectly valid to return a list of rays, since a camera may need multiple samples to simulate different
 	 * effects, like depth of field effects by sampling the same view plane point using a non zero lens size.
 	 *
-	 * @param viewPlanePoint
-	 * 		The {@link yaphyre.geometry.Point2D} to create the camera ray for.
+	 * @param viewPlanePoint The {@link yaphyre.geometry.Point2D} to create the camera ray for.
 	 *
 	 * @return A collection of {@link Ray}s which corresponds with the given u/v position in the world space. More than
 	 *         one ray is used to simulate effects like depth of field with thin lens cameras.
 	 */
-	@NotNull
-	public Iterable</*@NotNull*/ Ray> createCameraRays(@NotNull Point2D viewPlanePoint);
+	public Iterable</*@NotNull*/ Ray> createCameraRays(Point2D viewPlanePoint);
 
 	/**
 	 * Get the {@link Film} instance that is associated with the camera. This is usually an image file, but can be
@@ -52,14 +48,12 @@ public interface Camera {
 	 *
 	 * @see yaphyre.films.ImageFile
 	 */
-	@NotNull
 	public Film getFilm();
 
 	/**
 	 * Sets the {@link Film} instance for this camera.
 	 *
-	 * @param film
-	 * 		An instance of {@link Film}.
+	 * @param film An instance of {@link Film}.
 	 */
 	public void setFilm(Film film);
 

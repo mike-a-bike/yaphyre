@@ -16,11 +16,11 @@
 
 package yaphyre.geometry;
 
+import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 import static yaphyre.geometry.MathUtils.EPSILON;
 import static yaphyre.geometry.Point2D.ZERO;
-
-import org.junit.Test;
 
 public class Point2DTest {
 	@Test

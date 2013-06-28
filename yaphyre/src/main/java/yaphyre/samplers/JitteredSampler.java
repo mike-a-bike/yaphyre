@@ -15,12 +15,11 @@
  */
 package yaphyre.samplers;
 
-import java.util.List;
-import java.util.Random;
-
+import com.google.common.collect.Lists;
 import yaphyre.geometry.Point2D;
 
-import com.google.common.collect.Lists;
+import java.util.List;
+import java.util.Random;
 
 /**
  * This sampler creates a regular pattern with nxn cells with n = sqrt(number of samples). Within these cells the

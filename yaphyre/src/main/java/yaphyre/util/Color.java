@@ -15,13 +15,13 @@
  */
 package yaphyre.util;
 
-import static com.google.common.primitives.Doubles.max;
-import static com.google.common.primitives.Doubles.min;
-import static java.lang.Math.*;
+import com.google.common.base.Objects;
 
 import java.io.Serializable;
 
-import com.google.common.base.Objects;
+import static com.google.common.primitives.Doubles.max;
+import static com.google.common.primitives.Doubles.min;
+import static java.lang.Math.pow;
 
 /**
  * Represents a color by its three components of red, green and blue with a value between zero and one. Each instance
@@ -38,10 +38,14 @@ public class Color implements Serializable {
 
 	private static final long serialVersionUID = 6104986207165257901L;
 
-	/** Represent the value of black. */
+	/**
+	 * Represent the value of black.
+	 */
 	public static final Color BLACK = new Color(0d, 0d, 0d);
 
-	/** White */
+	/**
+	 * White
+	 */
 	public static final Color WHITE = new Color(1d, 1d, 1d);
 
 	private final double red;
@@ -111,8 +115,7 @@ public class Color implements Serializable {
 	/**
 	 * Multiply this color with another color. It does this by multiplying the separate components with each other.
 	 *
-	 * @param other
-	 * 		The {@link Color} to multiply the values with.
+	 * @param other The {@link Color} to multiply the values with.
 	 *
 	 * @return A new instance with the multiplied values.
 	 */
@@ -123,8 +126,7 @@ public class Color implements Serializable {
 	/**
 	 * Multiply the values of this color with a scalar. Thus 'scaling' the color value.
 	 *
-	 * @param factor
-	 * 		The value to multiply each color value with.
+	 * @param factor The value to multiply each color value with.
 	 *
 	 * @return A new instance with the multiplied values.
 	 */
@@ -136,8 +138,7 @@ public class Color implements Serializable {
 	 * Add another {@link Color} to this {@link Color}. Adds each component separately and creates a new color with these
 	 * values.
 	 *
-	 * @param other
-	 * 		The {@link Color} to add to this instance.
+	 * @param other The {@link Color} to add to this instance.
 	 *
 	 * @return A new instance of {@link Color} with the added values.
 	 */
@@ -182,8 +183,7 @@ public class Color implements Serializable {
 	 * Creates a new color instance with each component raised to the power of <code>pow</code>. This can be used for
 	 * gamma correction.
 	 *
-	 * @param pow
-	 * 		The power to which each component is raised.
+	 * @param pow The power to which each component is raised.
 	 *
 	 * @return A new {@link Color} with the scaled values.
 	 */

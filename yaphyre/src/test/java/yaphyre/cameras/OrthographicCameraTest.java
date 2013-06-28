@@ -16,16 +16,15 @@
 
 package yaphyre.cameras;
 
-import static org.junit.Assert.assertNotNull;
-
 import org.junit.Test;
-
 import yaphyre.cameras.AbstractCamera.BaseCameraSettings;
 import yaphyre.cameras.OrthographicCamera.OrthographicCameraSettings;
 import yaphyre.core.Camera;
 import yaphyre.films.ImageFile;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
+
+import static org.junit.Assert.assertNotNull;
 
 public class OrthographicCameraTest {
 

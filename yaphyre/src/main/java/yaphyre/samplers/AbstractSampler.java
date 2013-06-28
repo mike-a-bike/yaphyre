@@ -15,12 +15,12 @@
  */
 package yaphyre.samplers;
 
-import static java.lang.Math.PI;
-import static java.lang.Math.cos;
-import static java.lang.Math.pow;
-import static java.lang.Math.sin;
-import static java.lang.Math.sqrt;
-import static yaphyre.geometry.MathUtils.TWO_PI;
+import com.google.common.collect.Lists;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import yaphyre.core.Sampler;
+import yaphyre.geometry.Point2D;
+import yaphyre.geometry.Point3D;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -28,14 +28,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import yaphyre.core.Sampler;
-import yaphyre.geometry.Point2D;
-import yaphyre.geometry.Point3D;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.Lists;
+import static java.lang.Math.PI;
+import static java.lang.Math.cos;
+import static java.lang.Math.pow;
+import static java.lang.Math.sin;
+import static java.lang.Math.sqrt;
+import static yaphyre.geometry.MathUtils.TWO_PI;
 
 /**
  * An abstract implementation of the interface {@link Sampler}. This is used to ensure that all samplers provide a
@@ -49,10 +47,14 @@ public abstract class AbstractSampler implements Sampler {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSampler.class);
 
-	/** random generator for choosing a set of samples. */
+	/**
+	 * random generator for choosing a set of samples.
+	 */
 	private static final Random random = new Random(System.nanoTime());
 
-	/** nice prime number... a very arbitrary chosen number */
+	/**
+	 * nice prime number... a very arbitrary chosen number
+	 */
 	private static final int NUMBER_OF_SAMPLE_SETS = 97;
 
 	private List<List<Point2D>> sampleSets;
@@ -72,9 +74,8 @@ public abstract class AbstractSampler implements Sampler {
 	 * Default constructor used by most of the derived classes. It takes a number of samples to create. The derived {@link
 	 * #createSamples(int)} method handles the actual creation of the samples.
 	 *
-	 * @param numberOfSamples
-	 * 		The number of samples requested. Please notice, the number of effective samples may vary according to the
-	 * 		implemented algorithm.
+	 * @param numberOfSamples The number of samples requested. Please notice, the number of effective samples may vary according to the
+	 *                        implemented algorithm.
 	 */
 	public AbstractSampler(int numberOfSamples) {
 		this.numberOfSamples = numberOfSamples;
@@ -84,8 +85,7 @@ public abstract class AbstractSampler implements Sampler {
 	/**
 	 * Initializes the internal list of different sample sets.
 	 *
-	 * @param numberOfSamples
-	 * 		The number of sets to create.
+	 * @param numberOfSamples The number of sets to create.
 	 */
 	protected void createSampleSets(int numberOfSamples) {
 		LOGGER.debug("Start creation of samples for {}", getClass().getSimpleName());
@@ -96,7 +96,9 @@ public abstract class AbstractSampler implements Sampler {
 		LOGGER.debug("Sample creation finished");
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void shuffle() {
 		Collections.shuffle(sampleSets, random);
@@ -112,7 +114,9 @@ public abstract class AbstractSampler implements Sampler {
 		return sampleSets.get(setIndex);
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Iterable<Point2D> getUnitCircleSamples() {
 
@@ -153,7 +157,9 @@ public abstract class AbstractSampler implements Sampler {
 		return result;
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Iterable<Point3D> getHemisphereSamples(double exp) {
 		List<Point3D> result = new ArrayList<Point3D>();
@@ -169,7 +175,9 @@ public abstract class AbstractSampler implements Sampler {
 		return result;
 	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Iterable<Point3D> getSphereSamples() {
 
@@ -192,8 +200,7 @@ public abstract class AbstractSampler implements Sampler {
 	/**
 	 * This is where each algorithm creates its samples. This method must be implemented for each sampler strategy.
 	 *
-	 * @param numberOfSamples
-	 * 		The number of samples which are requested.
+	 * @param numberOfSamples The number of samples which are requested.
 	 *
 	 * @return The list of created samples. Each {@link Point2D} represents a sample on a unit square.
 	 */

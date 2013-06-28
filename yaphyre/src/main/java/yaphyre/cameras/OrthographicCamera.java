@@ -15,18 +15,15 @@
  */
 package yaphyre.cameras;
 
-import java.text.MessageFormat;
-
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import yaphyre.core.Film;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Vector3D;
 
-import org.jetbrains.annotations.NotNull;
-
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
+import java.text.MessageFormat;
 
 /**
  * A very simple camera showing an orthographic view of the scene to render.
@@ -44,16 +41,15 @@ public class OrthographicCamera extends AbstractCamera {
 	private final double viewPlaneHeightStart;
 
 	public OrthographicCamera(BaseCameraSettings baseSettings, OrthographicCameraSettings orthographicSettings,
-			Film film) {
+	                          Film film) {
 		super(baseSettings, film);
 		cameraSettings = orthographicSettings;
 		viewPlaneWidthStart = -(cameraSettings.getViewPlaneWidth() / 2d);
 		viewPlaneHeightStart = -(cameraSettings.getViewPlaneHeight() / 2d);
 	}
 
-	@NotNull
 	@Override
-	public Iterable<Ray> createCameraRays(@NotNull Point2D viewPlanePoint) {
+	public Iterable<Ray> createCameraRays(Point2D viewPlanePoint) {
 		Preconditions.checkArgument(viewPlanePoint.getU() >= 0d && viewPlanePoint.getU() <= 1d);
 		Preconditions.checkArgument(viewPlanePoint.getV() >= 0d && viewPlanePoint.getV() <= 1d);
 
@@ -75,8 +71,7 @@ public class OrthographicCamera extends AbstractCamera {
 	/**
 	 * Map the view plane point onto a concrete coordinate on this cameras width and height rectangle.
 	 *
-	 * @param viewPlanePoint
-	 * 		The point to map (u, v &isin; [0, 1])
+	 * @param viewPlanePoint The point to map (u, v &isin; [0, 1])
 	 *
 	 * @return A point which lies on the view plane rectangle (u &isin; [-width/2, +width/2] and v &isin; [-height/2,
 	 *         height/2])

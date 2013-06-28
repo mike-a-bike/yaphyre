@@ -16,12 +16,9 @@
 
 package yaphyre.core;
 
-import java.io.Serializable;
-
 import yaphyre.geometry.Ray;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import java.io.Serializable;
 
 /**
  * Interface implemented by all {@link Shape} of the rendering system.
@@ -37,7 +34,6 @@ public interface Shape extends Serializable {
 	 *
 	 * @return The {@link Shader} for this shape.
 	 */
-	@NotNull
 	public Shader getShader();
 
 	/**
@@ -45,16 +41,13 @@ public interface Shape extends Serializable {
 	 * intersect this shape at all, then <code>null</code> is returned. Otherwise the collision informations are returned.
 	 * The results created by this method are as accurate as possible.
 	 *
-	 * @param ray
-	 * 		The {@link Ray} to check for intersection.
+	 * @param ray The {@link Ray} to check for intersection.
 	 *
 	 * @return The {@link CollisionInformation} instance describing the intersection between the {@link Ray} and this
 	 *         {@link Shape} instance. <code>null</code> if no intersection happens.
 	 */
-	@Nullable
-	public CollisionInformation intersect(@NotNull Ray ray);
+	public CollisionInformation intersect(Ray ray);
 
-	@NotNull
 	public BoundingBox getBoundingBox();
 
 }

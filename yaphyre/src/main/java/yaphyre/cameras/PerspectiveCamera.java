@@ -16,9 +16,8 @@
 
 package yaphyre.cameras;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import yaphyre.core.Film;
 import yaphyre.core.Sampler;
 import yaphyre.geometry.Point2D;
@@ -30,10 +29,8 @@ import yaphyre.samplers.JitteredSampler;
 import yaphyre.util.RenderStatistics;
 import yaphyre.util.SingleInstanceIterator;
 
-import org.jetbrains.annotations.NotNull;
-
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * This perspective camera is based on a simple pin hole camera model. Nonetheless, it emulates effects like depth of
@@ -54,7 +51,7 @@ public class PerspectiveCamera extends AbstractCamera {
 	private final Sampler lensSampler;
 
 	public PerspectiveCamera(BaseCameraSettings baseSettings, PerspectiveCameraSettings perspectiveSettings,
-			Film film) {
+	                         Film film) {
 		super(baseSettings, film);
 		cameraSettings = perspectiveSettings;
 		focalPoint = new Point3D(0, 0, -cameraSettings.getFocalLength());
@@ -66,9 +63,8 @@ public class PerspectiveCamera extends AbstractCamera {
 		}
 	}
 
-	@NotNull
 	@Override
-	public Iterable</*@NotNull*/ Ray> createCameraRays(@NotNull Point2D viewPlanePoint) {
+	public Iterable<Ray> createCameraRays(Point2D viewPlanePoint) {
 		Preconditions.checkArgument(viewPlanePoint.getU() >= 0d && viewPlanePoint.getU() <= 1d);
 		Preconditions.checkArgument(viewPlanePoint.getV() >= 0d && viewPlanePoint.getV() <= 1d);
 
@@ -103,7 +99,7 @@ public class PerspectiveCamera extends AbstractCamera {
 		private final Transformation camera2World;
 
 		public MultiSampleCameraRayIterator(final Point2D viewPlanePoint, final double apertureSize, final double focalDistance,
-				final Sampler lensSampler, final Point3D origin, final Vector3D direction, final Transformation camera2World) {
+		                                    final Sampler lensSampler, final Point3D origin, final Vector3D direction, final Transformation camera2World) {
 			this.viewPlanePoint = viewPlanePoint;
 			this.apertureSize = apertureSize;
 			this.camera2World = camera2World;
@@ -139,8 +135,7 @@ public class PerspectiveCamera extends AbstractCamera {
 		}
 	}
 
-	@NotNull
-	private static Point3D mapViewPlanePoint(@NotNull Point2D viewPlanePoint, final double aspectRatioInv1) {
+	private static Point3D mapViewPlanePoint(Point2D viewPlanePoint, final double aspectRatioInv1) {
 		double u = viewPlanePoint.getU() - 0.5d;
 		double v = (viewPlanePoint.getV() - 0.5d) * aspectRatioInv1;
 		return new Point3D(u, v, 0d);
@@ -180,12 +175,12 @@ public class PerspectiveCamera extends AbstractCamera {
 		}
 
 		public static PerspectiveCameraSettings create(double aspectRatio, double focalLength, double focalDistance,
-				double apertureSize) {
+		                                               double apertureSize) {
 			return new PerspectiveCameraSettings(aspectRatio, focalLength, focalDistance, apertureSize);
 		}
 
 		private PerspectiveCameraSettings(double aspectRatio, double focalLength, double focalDistance,
-				double apertureSize) {
+		                                  double apertureSize) {
 			this.aspectRatio = aspectRatio;
 			this.focalLength = focalLength;
 			this.focalDistance = focalDistance;

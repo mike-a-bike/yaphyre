@@ -16,11 +16,11 @@
 
 package yaphyre.geometry;
 
+import org.junit.Test;
+
 import static java.lang.Math.toDegrees;
 import static java.lang.Math.toRadians;
 import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
 
 public class FovCalculatorTest {
 	@Test

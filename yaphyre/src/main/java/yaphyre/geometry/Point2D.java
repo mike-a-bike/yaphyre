@@ -15,9 +15,9 @@
  */
 package yaphyre.geometry;
 
-import java.io.Serializable;
-
 import com.google.common.base.Objects;
+
+import java.io.Serializable;
 
 /**
  * Abstraction of a point in a 2 dimensional space. This uses u and v as coordinates since its major usage will be the
@@ -85,7 +85,7 @@ public class Point2D implements Serializable {
 	}
 
 	public Point2D add(double dU, double dV) {
-		return new Point2D(u + dU,  v + dV);
+		return new Point2D(u + dU, v + dV);
 	}
 
 	public Point3D add(Point3D p) {

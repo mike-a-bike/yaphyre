@@ -16,14 +16,14 @@
 
 package yaphyre.geometry;
 
+import org.junit.Test;
+
+import java.text.MessageFormat;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
-import java.text.MessageFormat;
-
-import org.junit.Test;
 
 public class VectorTest {
 
@@ -45,7 +45,7 @@ public class VectorTest {
 		assertEquals(new Vector3D(1, 1, 1), v);
 	}
 
-	@SuppressWarnings({ "EqualsBetweenInconvertibleTypes", "ObjectEqualsNull" })
+	@SuppressWarnings({"EqualsBetweenInconvertibleTypes", "ObjectEqualsNull"})
 	@Test
 	public void testEqualsObject() {
 		Vector3D v1 = new Vector3D(0d, 0d, 0d);

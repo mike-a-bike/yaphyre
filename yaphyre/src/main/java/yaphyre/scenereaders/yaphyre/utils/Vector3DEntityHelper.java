@@ -16,9 +16,8 @@
 
 package yaphyre.scenereaders.yaphyre.utils;
 
-import yaphyre.geometry.Vector3D;
-
 import org.joox.Match;
+import yaphyre.geometry.Vector3D;
 
 class Vector3DEntityHelper implements EntityHelper<Vector3D> {
 

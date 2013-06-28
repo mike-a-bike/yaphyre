@@ -16,11 +16,8 @@
 
 package yaphyre.core;
 
-import yaphyre.geometry.Point2D;
-
-import org.jetbrains.annotations.NotNull;
-
 import com.google.common.base.Objects;
+import yaphyre.geometry.Point2D;
 
 public class CameraSample {
 
@@ -28,11 +25,11 @@ public class CameraSample {
 
 	private final Point2D lensCoordinates;
 
-	public CameraSample(@NotNull final Point2D rasterPoint) {
+	public CameraSample(final Point2D rasterPoint) {
 		this(rasterPoint, Point2D.ZERO);
 	}
 
-	public CameraSample(@NotNull final Point2D rasterPoint, @NotNull final Point2D lensCoordinates) {
+	public CameraSample(final Point2D rasterPoint, final Point2D lensCoordinates) {
 		this.rasterPoint = rasterPoint;
 		this.lensCoordinates = lensCoordinates;
 	}
@@ -71,12 +68,10 @@ public class CameraSample {
 				lensCoordinates).toString();
 	}
 
-	@NotNull
 	public Point2D getRasterPoint() {
 		return rasterPoint;
 	}
 
-	@NotNull
 	public Point2D getLensCoordinates() {
 		return lensCoordinates;
 	}

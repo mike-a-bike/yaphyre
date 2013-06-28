@@ -45,6 +45,8 @@
         <commons.cli.version>1.2</commons.cli.version>
         <commoms.lang3.version>3.1</commoms.lang3.version>
         <commons.math3.version>3.2</commons.math3.version>
+        <joox.version>0.9.3</joox.version>
+
         <powermock.version>1.5</powermock.version>
 
     </properties>
@@ -84,6 +86,13 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-math3</artifactId>
             <version>${commons.math3.version}</version>
+        </dependency>
+
+        <!-- JOOX -->
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>joox</artifactId>
+            <version>${joox.version}</version>
         </dependency>
 
         <!-- Testing: Mockito / PowerMock -->

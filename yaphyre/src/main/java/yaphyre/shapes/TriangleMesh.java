@@ -23,9 +23,6 @@ import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Transformation;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 /**
  * Created with IntelliJ IDEA. User: michael Date: 16.02.13 Time: 13:02 To change this template use File | Settings | File
  * Templates.
@@ -42,25 +39,20 @@ public class TriangleMesh extends AbstractShape {
 	 * remember, that the order of the {@link yaphyre.geometry.Transformation} matters. It is not the same if the object is rotated an
 	 * then translated or first translated and then rotated.
 	 *
-	 *
-	 * @param objectToWorld
-	 * 		The {@link yaphyre.geometry.Transformation} used to map world coordinates to object coordinates.
-	 * @param shader
-	 * 		The {@link yaphyre.core.Shader} instance to use when rendering this {@link yaphyre.core.Shape}.
-	 * @param vertices
-	 * 	    An array of {@link Point3D} representing vertices used as points of triangles.
-	 * @param triangles
-	 *      A two dimensional array containing indices of vertices defining the corners of the triangles. Each sub-
-	 *      array has to have a length of 3 since each entry represents a triangle (no n-gon support with implicit
-	 *      tessellation yet)
+	 * @param objectToWorld The {@link yaphyre.geometry.Transformation} used to map world coordinates to object coordinates.
+	 * @param shader        The {@link yaphyre.core.Shader} instance to use when rendering this {@link yaphyre.core.Shape}.
+	 * @param vertices      An array of {@link Point3D} representing vertices used as points of triangles.
+	 * @param triangles     A two dimensional array containing indices of vertices defining the corners of the triangles. Each sub-
+	 *                      array has to have a length of 3 since each entry represents a triangle (no n-gon support with implicit
+	 *                      tessellation yet)
 	 */
-	protected TriangleMesh(@NotNull final Transformation objectToWorld, @NotNull final Shader shader,
-			final @NotNull Point3D[] vertices, @NotNull final int[][] triangles) {
+	protected TriangleMesh(final Transformation objectToWorld, final Shader shader,
+	                       final Point3D[] vertices, final int[][] triangles) {
 		super(objectToWorld, shader);
 		this.vertices = new Point3D[vertices.length];
 		System.arraycopy(vertices, 0, this.vertices, 0, vertices.length);
 		this.triangles = new int[triangles.length][3];
-		for(int triangleIndex = 0; triangleIndex < triangles.length; triangleIndex++) {
+		for (int triangleIndex = 0; triangleIndex < triangles.length; triangleIndex++) {
 			if (triangles[triangleIndex].length != 3) {
 				throw new IllegalArgumentException("Please make sure, that all triangles have exactly three vertices.");
 			}
@@ -68,13 +60,11 @@ public class TriangleMesh extends AbstractShape {
 		}
 	}
 
-	@Nullable
 	@Override
-	public CollisionInformation intersect(@NotNull final Ray ray) {
+	public CollisionInformation intersect(final Ray ray) {
 		return null;
 	}
 
-	@NotNull
 	@Override
 	public BoundingBox getBoundingBox() {
 		return null;

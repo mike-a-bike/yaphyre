@@ -16,16 +16,15 @@
 
 package yaphyre.shapes;
 
-import static org.junit.Assert.fail;
-
-import java.util.Random;
-
+import org.junit.Ignore;
+import org.junit.Test;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Vector3D;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import java.util.Random;
+
+import static org.junit.Assert.fail;
 
 /**
  * Created with IntelliJ IDEA. User: michael Date: 27.01.13 Time: 11:50 To change this template use File | Settings |

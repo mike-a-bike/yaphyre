@@ -15,22 +15,20 @@
  */
 package yaphyre.scenereaders.yaphyre.entityhandlers;
 
-import java.util.Map;
-
+import com.google.common.base.Preconditions;
+import org.joox.Match;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import yaphyre.core.Lightsource;
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
 import yaphyre.geometry.Transformation;
 import yaphyre.lights.Pointlight;
+import yaphyre.scenereaders.yaphyre.utils.HelperFactory;
 import yaphyre.shaders.Material;
 import yaphyre.util.Color;
-import yaphyre.scenereaders.yaphyre.utils.HelperFactory;
 
-import org.joox.Match;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.base.Preconditions;
+import java.util.Map;
 
 /**
  * This handler reads a point light source from the given match.

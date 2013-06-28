@@ -15,15 +15,13 @@
  */
 package yaphyre.shaders;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import yaphyre.core.Shader;
 import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Transformation;
 import yaphyre.util.Color;
 
-import org.jetbrains.annotations.NotNull;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * A simple checker pattern. No ray tracer is complete without one ;-) This implementation uses two shader to create
@@ -45,12 +43,9 @@ public class CheckerShader extends AbstractShader {
 	/**
 	 * Creates a simple checker with the given two shader. The frequency of the change is 1.
 	 *
-	 * @param shaderToObject
-	 * 		An eventual {@link Transformation} used to map the shader coordinates into the object coordinate space.
-	 * @param shader1
-	 * 		The first shader
-	 * @param shader2
-	 * 		The second shader
+	 * @param shaderToObject An eventual {@link Transformation} used to map the shader coordinates into the object coordinate space.
+	 * @param shader1        The first shader
+	 * @param shader2        The second shader
 	 */
 	public CheckerShader(Transformation shaderToObject, Shader shader1, Shader shader2) {
 		this(shaderToObject, shader1, shader2, 1d, 1d);
@@ -60,14 +55,10 @@ public class CheckerShader extends AbstractShader {
 	 * Create a new checker shader defined by its id, the two shader used for its tiles and the frequency with which the
 	 * pattern changes.
 	 *
-	 * @param shaderToObject
-	 * 		An eventual {@link Transformation} used to map the shader coordinates into the object coordinate space.
-	 * @param shader1
-	 * 		The first shader
-	 * @param shader2
-	 * 		The second shader
-	 * @param frequency
-	 * 		The frequency with which the pattern changes.
+	 * @param shaderToObject An eventual {@link Transformation} used to map the shader coordinates into the object coordinate space.
+	 * @param shader1        The first shader
+	 * @param shader2        The second shader
+	 * @param frequency      The frequency with which the pattern changes.
 	 */
 	public CheckerShader(Transformation shaderToObject, Shader shader1, Shader shader2, double frequency) {
 		this(shaderToObject, shader1, shader2, frequency, frequency);
@@ -77,19 +68,14 @@ public class CheckerShader extends AbstractShader {
 	 * Create a new checker shader defined by its id, the two shader used for its tiles and the frequency with which the
 	 * pattern changes.
 	 *
-	 * @param shaderToObject
-	 * 		An eventual {@link Transformation} used to map the shader coordinates into the object coordinate space.
-	 * @param shader1
-	 * 		The first shader
-	 * @param shader2
-	 * 		The second shader
-	 * @param uFrequency
-	 * 		The frequency with which the pattern changes in the u direction.
-	 * @param vFrequency
-	 * 		The frequency with which the pattern changes in the v direction.
+	 * @param shaderToObject An eventual {@link Transformation} used to map the shader coordinates into the object coordinate space.
+	 * @param shader1        The first shader
+	 * @param shader2        The second shader
+	 * @param uFrequency     The frequency with which the pattern changes in the u direction.
+	 * @param vFrequency     The frequency with which the pattern changes in the v direction.
 	 */
 	public CheckerShader(Transformation shaderToObject, Shader shader1, Shader shader2, double uFrequency,
-			double vFrequency) {
+	                     double vFrequency) {
 		super(shaderToObject);
 		checkArgument(uFrequency > 0d && vFrequency > 0d);
 		this.shader1 = checkNotNull(shader1);
@@ -158,15 +144,13 @@ public class CheckerShader extends AbstractShader {
 		return true;
 	}
 
-	@NotNull
 	@Override
-	public Color getColor(@NotNull Point2D uvCoordinate) {
+	public Color getColor(Point2D uvCoordinate) {
 		return getShaderAtCoordinate(uvCoordinate).getColor(uvCoordinate);
 	}
 
-	@NotNull
 	@Override
-	public Material getMaterial(@NotNull Point2D uvCoordinate) {
+	public Material getMaterial(Point2D uvCoordinate) {
 		return getShaderAtCoordinate(uvCoordinate).getMaterial(uvCoordinate);
 	}
 

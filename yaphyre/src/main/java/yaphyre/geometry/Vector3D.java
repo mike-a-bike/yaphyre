@@ -15,11 +15,11 @@
  */
 package yaphyre.geometry;
 
-import static java.lang.Math.abs;
+import com.google.common.base.Objects;
 
 import java.io.Serializable;
 
-import com.google.common.base.Objects;
+import static java.lang.Math.abs;
 
 /**
  * Represent an arithmetical vector within a 3 dimensional Cartesian coordinate space. This class also provides the
@@ -47,10 +47,8 @@ public class Vector3D implements Serializable {
 	/**
 	 * Creates a new instance of {@link Vector3D} so that P<sub>start</sub> + V = P<sub>end</sub>
 	 *
-	 * @param start
-	 * 		The start point for the calculation (P<sub>start</sub>)
-	 * @param end
-	 * 		The end point for tha calculation (P<sub>end</sub>)
+	 * @param start The start point for the calculation (P<sub>start</sub>)
+	 * @param end   The end point for tha calculation (P<sub>end</sub>)
 	 */
 	public Vector3D(Point3D start, Point3D end) {
 		this(end.x - start.x, end.y - start.y, end.z - start.z);
@@ -59,12 +57,9 @@ public class Vector3D implements Serializable {
 	/**
 	 * Create a new {@link Vector3D} with the given components.
 	 *
-	 * @param x
-	 * 		The X axis component.
-	 * @param y
-	 * 		The Y axis component.
-	 * @param z
-	 * 		The Z axis component.
+	 * @param x The X axis component.
+	 * @param y The Y axis component.
+	 * @param z The Z axis component.
 	 */
 	public Vector3D(double x, double y, double z) {
 		this.x = x;

@@ -13,6 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+
 /**
  * This package contains all known shapes. The most used, public structure is
  * the {@link Shape} interface. All shapes must implement this interface. The
@@ -33,4 +34,3 @@
  */
 package yaphyre.shapes;
 
-import yaphyre.core.Shape;

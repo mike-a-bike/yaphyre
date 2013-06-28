@@ -15,11 +15,11 @@
  */
 package yaphyre.geometry;
 
-import static yaphyre.geometry.MathUtils.EPSILON;
+import com.google.common.base.Objects;
 
 import java.io.Serializable;
 
-import com.google.common.base.Objects;
+import static yaphyre.geometry.MathUtils.EPSILON;
 
 /**
  * Simple implementation of a ray. These are used as seeing rays and shadow rays.<br/> <p/> It is defined by an origin

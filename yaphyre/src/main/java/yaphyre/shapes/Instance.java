@@ -24,9 +24,6 @@ import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Transformation;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 /**
  * This shape is special since it does not represent a shape itself. It is a wrapper around another shape which is
  * transformed by a defined transformation. This is used when complicated objects which use a lot of memory should be
@@ -47,7 +44,7 @@ public class Instance extends AbstractShape {
 
 	private final BoundingBox boundingBox;
 
-	public Instance(@NotNull Shape baseShape, @NotNull Transformation instanceTransformation, @NotNull Shader shader) {
+	public Instance(Shape baseShape, Transformation instanceTransformation, Shader shader) {
 		super(Transformation.IDENTITY, shader);
 		this.baseShape = baseShape;
 		this.instanceTransformation = instanceTransformation;
@@ -55,9 +52,8 @@ public class Instance extends AbstractShape {
 		boundingBox = BoundingBox.INFINITE_BOUNDING_BOX;
 	}
 
-	@Nullable
 	@Override
-	public CollisionInformation intersect(@NotNull final Ray ray) {
+	public CollisionInformation intersect(final Ray ray) {
 		final Ray transformedRay = instanceTransformation.inverse().transform(ray);
 		if (boundingBox.isHitBy(ray)) {
 			return baseShape.intersect(transformedRay);
@@ -65,7 +61,6 @@ public class Instance extends AbstractShape {
 		return null;
 	}
 
-	@NotNull
 	@Override
 	public BoundingBox getBoundingBox() {
 		return boundingBox;

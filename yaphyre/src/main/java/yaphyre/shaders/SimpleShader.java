@@ -19,8 +19,6 @@ import yaphyre.core.Shader;
 import yaphyre.geometry.Point2D;
 import yaphyre.util.Color;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * This class implements a very simple {@link Shader}. It contains a single material which is returned independent from
  * the object coordinates.
@@ -66,7 +64,7 @@ public class SimpleShader extends AbstractShader {
 		if (this == obj) {
 			return true;
 		}
-		if (!(obj instanceof  SimpleShader)) {
+		if (!(obj instanceof SimpleShader)) {
 			return false;
 		}
 		SimpleShader other = (SimpleShader) obj;
@@ -82,15 +80,13 @@ public class SimpleShader extends AbstractShader {
 		return true;
 	}
 
-	@NotNull
 	@Override
-	public Color getColor(@NotNull Point2D uvCoordinate) {
+	public Color getColor(Point2D uvCoordinate) {
 		return color;
 	}
 
-	@NotNull
 	@Override
-	public Material getMaterial(@NotNull Point2D uvCoordinate) {
+	public Material getMaterial(Point2D uvCoordinate) {
 		return material;
 	}
 

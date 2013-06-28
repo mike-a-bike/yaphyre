@@ -16,11 +16,10 @@
 
 package yaphyre.sampler;
 
-import yaphyre.samplers.AbstractSampler;
-import yaphyre.samplers.RandomSampler;
-
 import org.junit.Before;
 import org.junit.Test;
+import yaphyre.samplers.AbstractSampler;
+import yaphyre.samplers.RandomSampler;
 
 /**
  * Created with IntelliJ IDEA. User: michael Date: 28.10.12 Time: 20:54 To change this template use File | Settings |

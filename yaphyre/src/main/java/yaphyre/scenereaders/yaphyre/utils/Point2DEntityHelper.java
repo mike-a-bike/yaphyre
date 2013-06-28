@@ -16,9 +16,8 @@
 
 package yaphyre.scenereaders.yaphyre.utils;
 
-import yaphyre.geometry.Point2D;
-
 import org.joox.Match;
+import yaphyre.geometry.Point2D;
 
 public class Point2DEntityHelper implements EntityHelper<Point2D> {
 

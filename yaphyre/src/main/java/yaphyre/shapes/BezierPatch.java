@@ -16,9 +16,6 @@
 
 package yaphyre.shapes;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static org.apache.commons.math.util.FastMath.min;
-
 import yaphyre.core.BoundingBox;
 import yaphyre.core.CollisionInformation;
 import yaphyre.core.Shader;
@@ -26,8 +23,8 @@ import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Transformation;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import static com.google.common.base.Preconditions.checkArgument;
+import static org.apache.commons.math3.util.FastMath.min;
 
 /**
  * Shape representing a BezierPatch geometry. Internally a TriangleMesh is used to approximate the bezier patch.
@@ -54,8 +51,8 @@ public class BezierPatch extends AbstractShape {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected BezierPatch(@NotNull final Transformation objectToWorld, @NotNull final Shader shader, int uDimension,
-			int vDimension, int startIndex, @NotNull Point3D... controlPoints) {
+	protected BezierPatch(final Transformation objectToWorld, final Shader shader, int uDimension,
+	                      int vDimension, int startIndex, Point3D... controlPoints) {
 		super(objectToWorld, shader);
 		checkArgument(startIndex >= 0);
 		controlPointCount = uDimension * vDimension;
@@ -71,20 +68,18 @@ public class BezierPatch extends AbstractShape {
 
 	private void initializeBoundingBox() {
 		BoundingBox boundingBox = new BoundingBox(controlPoints[startIndex]);
-		for(int pointIndex = startIndex + 1; pointIndex < lastControlPointIndex; pointIndex++) {
+		for (int pointIndex = startIndex + 1; pointIndex < lastControlPointIndex; pointIndex++) {
 			boundingBox = BoundingBox.union(boundingBox, controlPoints[pointIndex]);
 		}
 	}
 
-	@NotNull
 	@Override
 	public BoundingBox getBoundingBox() {
 		return boundingBox;
 	}
 
-	@Nullable
 	@Override
-	public CollisionInformation intersect(@NotNull final Ray ray) {
+	public CollisionInformation intersect(final Ray ray) {
 		tessellateIfNecessary();
 		return null;
 	}
@@ -101,8 +96,8 @@ public class BezierPatch extends AbstractShape {
 		final double uStepSize = 1d / uResolution;
 		final double vStepSize = 1d / vResolution;
 		Point3D[] patchPoints = new Point3D[arraySize];
-		for(int uStep = 0; uStep <= uResolution; uStep++) {
-			for(int vStep = 0; vStep <= vResolution; vStep++) {
+		for (int uStep = 0; uStep <= uResolution; uStep++) {
+			for (int vStep = 0; vStep <= vResolution; vStep++) {
 				final double u = min(1d, uStep * uStepSize);
 				final double v = min(1d, vStep * vStepSize);
 				patchPoints[(vStep + uStep * vDimension)] = yaphyre.geometry.BezierPatch.GENERIC.calculateMeshPoint(u, v, uDimension, vDimension, 0, controlPoints);
@@ -114,8 +109,8 @@ public class BezierPatch extends AbstractShape {
 	int[][] createTriangleIndices(final int uResolution, final int vResolution) {
 		int[][] triangles = new int[uResolution * vResolution * 2][3];
 		final int vStripSize = vResolution + 1;
-		for(int uStep = 0, triangleIndex = 0; uStep < uResolution; uStep++) {
-			for(int vStep = 0; vStep < vResolution; vStep++) {
+		for (int uStep = 0, triangleIndex = 0; uStep < uResolution; uStep++) {
+			for (int vStep = 0; vStep < vResolution; vStep++) {
 				triangles[triangleIndex] = new int[3];
 				triangles[triangleIndex][0] = vStep + uStep * vStripSize;
 				triangles[triangleIndex][1] = vStep + (uStep + 1) * vStripSize;
@@ -133,11 +128,11 @@ public class BezierPatch extends AbstractShape {
 
 	private void tessellateIfNecessary() {
 		switch (state) {
-		case NotTessellated:
-			tessellateMesh(U_RESOLUTION, V_RESOLUTION);
-			break;
-		case Failed:
-			throw new IllegalStateException("Failed to tessellate bezier patch: " + toString());
+			case NotTessellated:
+				tessellateMesh(U_RESOLUTION, V_RESOLUTION);
+				break;
+			case Failed:
+				throw new IllegalStateException("Failed to tessellate bezier patch: " + toString());
 		}
 	}
 

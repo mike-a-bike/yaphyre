@@ -15,28 +15,25 @@
  */
 package yaphyre.scenereaders.yaphyre.entityhandlers;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+import org.joox.Match;
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
 import yaphyre.geometry.Transformation;
-import yaphyre.shaders.Material;
 import yaphyre.scenereaders.yaphyre.utils.HelperFactory;
+import yaphyre.shaders.Material;
 
-import org.joox.Match;
-
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Abstract super class for all EnityHandler implementations. Each implementation handles one or more entities. Each
  * {@link EntityHandler} supply an XPath expression which is used to select the corresponding instances from the whole
  * document.
  *
- * @param <T>
- * 		The concrete type created by the implementing handler.
+ * @param <T> The concrete type created by the implementing handler.
  *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
@@ -50,21 +47,17 @@ public abstract class EntityHandler<T extends IdentifiableObject<?>> {
 	 * information the method gets all the relevant, already known instances of {@link Material}, {@link Shader} and
 	 * {@link Shape}. So xml references may be replaced by actual object references.
 	 *
-	 * @param entityMatch
-	 * 		The {@link Match} selected by the XPath expression.
-	 * @param knownMaterials
-	 * 		All known {@link Material}s.
-	 * @param knownShaders
-	 * 		The known {@link Shader}s
-	 * @param knownShapes
-	 * 		The decoded {@link Shape}s
+	 * @param entityMatch    The {@link Match} selected by the XPath expression.
+	 * @param knownMaterials All known {@link Material}s.
+	 * @param knownShaders   The known {@link Shader}s
+	 * @param knownShapes    The decoded {@link Shape}s
 	 *
 	 * @return An {@link IdentifiableObject} of the correct type containing the decoded information.
 	 */
 	public abstract T decodeEntity(Match entityMatch,
-			Map<String, IdentifiableObject<Material>> knownMaterials,
-			Map<String, IdentifiableObject<Shader>> knownShaders,
-			Map<String, IdentifiableObject<Shape>> knownShapes);
+	                               Map<String, IdentifiableObject<Material>> knownMaterials,
+	                               Map<String, IdentifiableObject<Shader>> knownShaders,
+	                               Map<String, IdentifiableObject<Shape>> knownShapes);
 
 	/**
 	 * Returns the XPath selector for this handler (see <a href="http://jquery.com">jQuery</a> for more information).
@@ -87,8 +80,7 @@ public abstract class EntityHandler<T extends IdentifiableObject<?>> {
 	 * Decodes a transformation from the given {@link Match}. Each element containing a transformation uses the tag
 	 * <i>transform</i> to mark it.
 	 *
-	 * @param entityMatch
-	 * 		The {@link Match} representing the surrounding entity.
+	 * @param entityMatch The {@link Match} representing the surrounding entity.
 	 *
 	 * @return A {@link Transformation} instance if the entity contains a transformation, <code>null</code> otherwise.
 	 */
@@ -104,14 +96,10 @@ public abstract class EntityHandler<T extends IdentifiableObject<?>> {
 	/**
 	 * Reads a numerical value from an attribute. If the attribute is not set, the null substitution value is returned.
 	 *
-	 * @param match
-	 * 		The {@link Match} which contains the attribute.
-	 * @param attribute
-	 * 		The name of the attribute.
-	 * @param nullSubstitution
-	 * 		If the attribute is not set, use this value.
-	 * @param valueTypeClass
-	 * 		The type of the expected value type (used because generic types are not preserved).
+	 * @param match            The {@link Match} which contains the attribute.
+	 * @param attribute        The name of the attribute.
+	 * @param nullSubstitution If the attribute is not set, use this value.
+	 * @param valueTypeClass   The type of the expected value type (used because generic types are not preserved).
 	 *
 	 * @return A valid value of the requested numerical type.
 	 */
@@ -126,17 +114,18 @@ public abstract class EntityHandler<T extends IdentifiableObject<?>> {
 	/**
 	 * Read the value for the given property.
 	 *
-	 * @param match The {@link Match} to read the property from.
+	 * @param match        The {@link Match} to read the property from.
 	 * @param propertyName The name of the property
+	 *
 	 * @return A {@link String} value representing the value of the property. If the property is not found, an empty string is returned.
 	 */
 	protected <T> T getPropertyValue(Match match, String propertyName, T nullSubstitution, Class<T> valueTypeClass) {
 		Preconditions.checkNotNull(match);
 		Preconditions.checkArgument(propertyName != null && !propertyName.trim().isEmpty());
 		propertyName = propertyName.trim();
-		String propertySelector=String.format("property[@name=\"%s\"]", propertyName);
+		String propertySelector = String.format("property[@name=\"%s\"]", propertyName);
 		Match property = match.child(propertySelector);
-		return (property == null)? nullSubstitution : property.attr("value", valueTypeClass);
+		return (property == null) ? nullSubstitution : property.attr("value", valueTypeClass);
 	}
 
 }

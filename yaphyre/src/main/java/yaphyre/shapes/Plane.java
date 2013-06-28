@@ -15,8 +15,6 @@
  */
 package yaphyre.shapes;
 
-import java.text.MessageFormat;
-
 import yaphyre.core.BoundingBox;
 import yaphyre.core.CollisionInformation;
 import yaphyre.core.Shader;
@@ -26,17 +24,16 @@ import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 import yaphyre.geometry.Transformation;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import java.text.MessageFormat;
 
 /**
  * Plane represented by a point on the plane and the normal. Since on a plane the normal does not change, it does not
  * matter where on the plane the origin lies.<br/> The mathematical representation of a point on the plane is:<br/>
  * (p - p<sub>0</sub>) &sdot; n = 0<br/> with
  * <ul>
- *     <li>p: the point on the plane</li>
- *     <li>p<sub>0</sub>: the origin</li>
- *     <li>n: the normal of the plane</li>
+ * <li>p: the point on the plane</li>
+ * <li>p<sub>0</sub>: the origin</li>
+ * <li>n: the normal of the plane</li>
  * </ul>
  *
  * @author Michael Bieri
@@ -53,7 +50,7 @@ public class Plane extends AbstractShape {
 
 	private final BoundingBox boundingBox;
 
-	public Plane(@NotNull Transformation planeToWorld, @NotNull Shader shader) {
+	public Plane(Transformation planeToWorld, Shader shader) {
 		super(planeToWorld, shader);
 		origin = Point3D.ORIGIN;
 		normal = Normal3D.NORMAL_Y;
@@ -79,9 +76,8 @@ public class Plane extends AbstractShape {
 		return true;
 	}
 
-	@Nullable
 	@Override
-	public CollisionInformation intersect(@NotNull final Ray ray) {
+	public CollisionInformation intersect(final Ray ray) {
 		final CollisionInformation result;
 		final double intersectionDistance = calculateIntersectDistance(ray);
 
@@ -90,13 +86,12 @@ public class Plane extends AbstractShape {
 		} else {
 			final Point3D intersectionPoint = ray.getPoint(intersectionDistance);
 			result = new CollisionInformation(ray, this, intersectionDistance, intersectionPoint, getNormal(),
-											  getMappedSurfacePoint(intersectionPoint));
+					getMappedSurfacePoint(intersectionPoint));
 		}
 
 		return result;
 	}
 
-	@NotNull
 	@Override
 	public BoundingBox getBoundingBox() {
 		return BoundingBox.INFINITE_BOUNDING_BOX;
@@ -122,14 +117,12 @@ public class Plane extends AbstractShape {
 	 * If the result is negative, the line intersects with the plane behind the origin of the ray, so there is no
 	 * visible intersection.
 	 *
+	 * @param ray The {@link yaphyre.geometry.Ray} to intersect with this plane.
 	 *
-	 * @param ray
-	 * 		The {@link yaphyre.geometry.Ray} to intersect with this plane.
-	 *
-	 * @return The distance in which the ray intersects this plane or {@link yaphyre.core.Primitive#NO_INTERSECTION} if there is no
+	 * @return The distance in which the ray intersects this plane or {@link AbstractShape#NO_INTERSECTION} if there is no
 	 *         intersection.
 	 */
-	private double calculateIntersectDistance(@NotNull Ray ray) {
+	private double calculateIntersectDistance(Ray ray) {
 		ray = super.transformToObjectSpace(ray);
 		double numerator = origin.sub(ray.getOrigin()).dot(normal);
 		double denominator = ray.getDirection().dot(normal);
@@ -153,10 +146,8 @@ public class Plane extends AbstractShape {
 	/**
 	 * The normal of a plane is independent from the position on the plane, so always the defining normal is returned.
 	 *
-	 *
 	 * @return The normal of the plane (position independent)
 	 */
-	@NotNull
 	private Normal3D getNormal() {
 		return super.getObjectToWorld().transform(normal);
 	}
@@ -165,8 +156,7 @@ public class Plane extends AbstractShape {
 	 * Maps the given point to the planes u/v coordinates. Since each surface point lies on the x/z plane, the y component
 	 * can be ignored. So [u, v] = [x, z].
 	 */
-	@NotNull
-	private Point2D getMappedSurfacePoint(@NotNull Point3D surfacePoint) {
+	private Point2D getMappedSurfacePoint(Point3D surfacePoint) {
 		surfacePoint = super.getWorldToObject().transform(surfacePoint);
 		return new Point2D(surfacePoint.getX(), surfacePoint.getZ());
 	}

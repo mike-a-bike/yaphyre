@@ -16,14 +16,13 @@
 
 package yaphyre.shapes;
 
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-
+import org.junit.Test;
 import yaphyre.core.Shader;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Transformation;
 
-import org.junit.Test;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 
 /**
  * YaPhyRe
@@ -35,11 +34,12 @@ public class BezierPatchTest {
 
 	@Test
 	public void testCreateTriangleIndices() throws Exception {
-		BezierPatch patch = new BezierPatch(mock(Transformation.class), mock(Shader.class), 1, 1, 0, new Point3D[] {Point3D.ORIGIN});
-		final int uSegments = 4; final int vSegments = 3;
+		BezierPatch patch = new BezierPatch(mock(Transformation.class), mock(Shader.class), 1, 1, 0, new Point3D[]{Point3D.ORIGIN});
+		final int uSegments = 4;
+		final int vSegments = 3;
 		int[][] triangleIndices = patch.createTriangleIndices(uSegments, vSegments);
 		assertTrue(triangleIndices.length == uSegments * vSegments * 2);
-		for(int triangleIndex = 0; triangleIndex < triangleIndices.length; triangleIndex++) {
+		for (int triangleIndex = 0; triangleIndex < triangleIndices.length; triangleIndex++) {
 			System.out.printf("triangle %2d: a=%2d, b=%2d, c=%2d%n", triangleIndex,
 					triangleIndices[triangleIndex][0],
 					triangleIndices[triangleIndex][1],

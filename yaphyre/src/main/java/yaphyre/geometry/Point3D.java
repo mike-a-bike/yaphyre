@@ -15,12 +15,12 @@
  */
 package yaphyre.geometry;
 
-import static yaphyre.geometry.MathUtils.calcLength;
-import static yaphyre.geometry.MathUtils.calculateLengthSquared;
+import com.google.common.base.Objects;
 
 import java.io.Serializable;
 
-import com.google.common.base.Objects;
+import static yaphyre.geometry.MathUtils.calcLength;
+import static yaphyre.geometry.MathUtils.calculateLengthSquared;
 
 /**
  * Abstraction of a point in a 3d Cartesian coordinate system.

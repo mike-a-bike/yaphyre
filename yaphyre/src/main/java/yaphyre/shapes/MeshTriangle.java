@@ -24,9 +24,6 @@ import yaphyre.geometry.Point2D;
 import yaphyre.geometry.Point3D;
 import yaphyre.geometry.Ray;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 /**
  * Created with IntelliJ IDEA. User: michael Date: 17.02.13 Time: 12:50 To change this template use File | Settings | File
  * Templates.
@@ -34,11 +31,10 @@ import org.jetbrains.annotations.Nullable;
 public abstract class MeshTriangle implements Primitive {
 
 	protected final Point3D v0, v1, v2;
-
 	protected final Point2D uv0, uv1, uv2;
 
 	protected MeshTriangle(final Point3D v0, final Point3D v1, final Point3D v2,
-			final Point2D uv0, final Point2D uv1, final Point2D uv2) {
+	                       final Point2D uv0, final Point2D uv1, final Point2D uv2) {
 		this.v0 = v0;
 		this.v1 = v1;
 		this.v2 = v2;
@@ -47,18 +43,15 @@ public abstract class MeshTriangle implements Primitive {
 		this.uv2 = uv2;
 	}
 
-	@NotNull
 	protected Point2D calculateUVCoordinates(final double alpha, final double beta, final double gamma,
-			@NotNull final Point2D uv0, @NotNull final Point2D uv1, @NotNull final Point2D uv2) {
+	                                         final Point2D uv0, final Point2D uv1, final Point2D uv2) {
 		return uv0.mul(alpha).add(uv1.mul(beta)).add(uv2.mul(gamma));
 	}
 
-	@NotNull
 	protected abstract Normal3D calculateNormal(final double alpha, final double beta, final double gamma);
 
 	@Override
-	@Nullable
-	public CollisionInformation intersect(@NotNull final Ray ray) {
+	public CollisionInformation intersect(final Ray ray) {
 		CollisionInformation result = null;
 		TriangleIntersectionInformation triangleIntersection = calculateTriangleIntersection(ray);
 
@@ -72,19 +65,18 @@ public abstract class MeshTriangle implements Primitive {
 		return result;
 	}
 
-	@Nullable
-	protected TriangleIntersectionInformation calculateTriangleIntersection(@NotNull final Ray ray) {
-				// prepare system of equations
+	protected TriangleIntersectionInformation calculateTriangleIntersection(final Ray ray) {
+		// prepare system of equations
 		final double a = v0.getX() - v1.getX(), b = v0.getX() - v2.getX(), c = ray.getDirection().getX(), d = v0.getX() - ray.getOrigin().getX();
 		final double e = v0.getY() - v1.getY(), f = v0.getY() - v2.getY(), g = ray.getDirection().getY(), h = v0.getY() - ray.getOrigin().getY();
 		final double i = v0.getZ() - v1.getZ(), j = v0.getZ() - v2.getZ(), k = ray.getDirection().getZ(), l = v0.getZ() - ray.getOrigin().getZ();
 
-		final double m = f*k - g*j, n = h*k - g*l, p = f*l - h*j, q = g*i-e*k, s = e*j - f*i;
+		final double m = f * k - g * j, n = h * k - g * l, p = f * l - h * j, q = g * i - e * k, s = e * j - f * i;
 
-		final double inv_denominator = 1d / (a*m + b*q + c*s);
+		final double inv_denominator = 1d / (a * m + b * q + c * s);
 
 		// calculate beta (first coordinate of the barycentric coordinate system)
-		final double e1 = d*m - b*n - c*p;
+		final double e1 = d * m - b * n - c * p;
 		final double beta = e1 * inv_denominator;
 
 		if (beta < 0d) {
@@ -123,7 +115,7 @@ public abstract class MeshTriangle implements Primitive {
 		private final double intersectionDistance;
 
 		public TriangleIntersectionInformation(final double alpha, final double beta, final double gamma,
-											   final double intersectionDistance) {
+		                                       final double intersectionDistance) {
 			this.alpha = alpha;
 			this.beta = beta;
 			this.gamma = gamma;
