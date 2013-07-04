@@ -37,10 +37,13 @@ import static yaphyre.math.MathUtils.div;
  */
 public class Transformation implements Serializable {
 
-	public static final Transformation IDENTITY = new Transformation(Matrix.IDENTITY);
 	private static final long serialVersionUID = 2965313538211290303L;
+
+	public static final Transformation IDENTITY = new Transformation(Matrix.IDENTITY);
+
 	private final Matrix matrix;
 	private final Matrix matrixInv;
+
 	private Transformation inverse;
 	private Transformation transposed;
 
