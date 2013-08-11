@@ -31,7 +31,7 @@ import static java.lang.Math.abs;
  * @version $Revision: 208 $
  */
 @SuppressWarnings("PackageVisibleField")
-public class Vector3D implements Serializable {
+public class Vector3D implements Comparable<Vector3D>, Serializable {
 
 	private static final long serialVersionUID = 6313172979195055223L;
 
@@ -135,6 +135,14 @@ public class Vector3D implements Serializable {
 	}
 
 	@Override
+	public int compareTo(Vector3D vector3D) {
+		if (vector3D == null) {
+			return 1;
+		}
+		return Double.compare(this.lengthSquared(), vector3D.lengthSquared());
+	}
+
+	@Override
 	public boolean equals(Object o) {
 		if (o == this) {
 			return true;
@@ -186,5 +194,4 @@ public class Vector3D implements Serializable {
 	public double getZ() {
 		return z;
 	}
-
 }
