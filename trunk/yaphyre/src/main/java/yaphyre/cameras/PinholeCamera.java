@@ -23,6 +23,8 @@ import yaphyre.math.Normal3D;
 import yaphyre.math.Point3D;
 import yaphyre.math.Transformation;
 
+import static java.lang.Math.tan;
+
 /**
  * YaPhyRe
  *
@@ -38,15 +40,16 @@ public class PinholeCamera extends FilmBasedCamera {
 	private final double aspectRatio;
 	private final double nearDistance;
 	private final double farDistance;
-	private final Sampler sampler;
+	private final Sampler cameraSampler;
 
 	private Transformation cameraToWorld;
 	private Transformation worldToCamera;
+	private Point3D virtualOrigin;
 
 	public PinholeCamera(Film film,
 	                     Point3D position, Point3D lookAt, Normal3D up,
 	                     double fieldOfView, double aspectRatio,
-	                     double nearDistance, double farDistance, Sampler sampler) {
+	                     double nearDistance, double farDistance, Sampler cameraSampler) {
 		super(film);
 
 		this.position = position;
@@ -56,14 +59,16 @@ public class PinholeCamera extends FilmBasedCamera {
 		this.aspectRatio = aspectRatio;
 		this.nearDistance = nearDistance;
 		this.farDistance = farDistance;
-		this.sampler = sampler;
+		this.cameraSampler = cameraSampler;
 
-		this.setCamera();
+		this.setupCamera();
 	}
 
-	private void setCamera() {
+	private void setupCamera() {
 		worldToCamera = Transformation.lookAt(position, lookAt, up.asVector());
 		cameraToWorld = worldToCamera.inverse();
+		double virtualZ = 1d / (2d * tan(fieldOfView / 2d));
+		virtualOrigin = new Point3D(0d, 0d, -virtualZ);
 	}
 
 	@Override
