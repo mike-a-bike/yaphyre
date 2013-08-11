@@ -14,17 +14,25 @@
  * limitations under the License.
  */
 
-package yaphyre.math;
+package yaphyre.core;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+import yaphyre.math.Color;
+import yaphyre.math.Point2D;
 
-@RunWith(Suite.class)
-@SuiteClasses({
-		Point2DTest.class, VectorTest.class, MatrixTest.class, TransformationTest.class, RayTest.class,
-		FovCalculatorTest.class, BezierCurveTest.class, BoundingBoxTest.class, MathUtilsTest.class,
-		VectorMathTest.class, ColorTest.class})
-public class AllGeometryTests {
+import java.io.Serializable;
+
+/**
+ * The common interface for all shading activities. It provides two method. One for accessing the material at the given
+ * u- v- coordinates. And another for accessing the material properties at the given coordinates.
+ *
+ * @author Michael Bieri
+ * @author $LastChangedBy$
+ * @version $Revision$
+ */
+public interface Shader extends Serializable {
+
+	public Color getColor(final Point2D uvCoordinate);
+
+	public Material getMaterial(final Point2D uvCoordinate);
 
 }
