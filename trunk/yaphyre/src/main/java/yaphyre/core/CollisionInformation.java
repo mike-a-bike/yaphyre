@@ -35,7 +35,7 @@ public class CollisionInformation implements Serializable {
 
 	private static final long serialVersionUID = 9132420627811920135L;
 
-	private final Ray ray;
+	private final Ray incidentRay;
 
 	private final Shape shape;
 
@@ -50,13 +50,13 @@ public class CollisionInformation implements Serializable {
 	/**
 	 * Creates a new instance for the collision information.
 	 */
-	public CollisionInformation(final Ray ray, final Shape shape, final double distance,
+	public CollisionInformation(final Ray incidentRay, final Shape shape, final double distance,
 	                            final Point3D point, final Normal3D normal,
 	                            final Point2D uvCoordinate) {
 		this.shape = shape;
 		this.distance = distance;
 		this.point = point;
-		this.ray = ray;
+		this.incidentRay = incidentRay;
 		this.normal = normal;
 		this.uvCoordinate = uvCoordinate;
 	}
@@ -65,7 +65,7 @@ public class CollisionInformation implements Serializable {
 	public String toString() {
 		return Objects.toStringHelper(
 				getClass())
-				.add("ray", ray)
+				.add("incidentRay", incidentRay)
 				.add("shape", shape)
 				.add("distance", distance)
 				.add("point", point)
@@ -93,7 +93,7 @@ public class CollisionInformation implements Serializable {
 		if (!point.equals(that.point)) {
 			return false;
 		}
-		if (!ray.equals(that.ray)) {
+		if (!incidentRay.equals(that.incidentRay)) {
 			return false;
 		}
 		if (!shape.equals(that.shape)) {
@@ -112,14 +112,14 @@ public class CollisionInformation implements Serializable {
 		long temp = (distance != +0.0d) ? Double.doubleToLongBits(distance) : 0L;
 		result = 31 * result + (int) (temp ^ (temp >>> 32));
 		result = 31 * result + point.hashCode();
-		result = 31 * result + ray.hashCode();
+		result = 31 * result + incidentRay.hashCode();
 		result = 31 * result + normal.hashCode();
 		result = 31 * result + uvCoordinate.hashCode();
 		return result;
 	}
 
-	public Ray getRay() {
-		return ray;
+	public Ray getIncidentRay() {
+		return incidentRay;
 	}
 
 	public Shape getShape() {
