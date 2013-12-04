@@ -41,6 +41,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Library versions -->
+		<intellij.annotations.version>12.0</intellij.annotations.version>
         <logback.classic.version>1.0.13</logback.classic.version>
         <guava.version>14.0.1</guava.version>
         <commons.cli.version>1.2</commons.cli.version>
@@ -54,6 +55,14 @@
 
     <dependencies>
 
+		<!-- IntelliJ annotations -->
+		<dependency>
+			<groupId>com.intellij</groupId>
+			<artifactId>annotations</artifactId>
+			<version>${intellij.annotations.version}</version>
+		</dependency>
+            
+	
         <!-- LogBack logging framework -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
