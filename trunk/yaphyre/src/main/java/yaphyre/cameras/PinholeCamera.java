@@ -16,6 +16,8 @@
 
 package yaphyre.cameras;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import yaphyre.core.Film;
 import yaphyre.core.Sampler;
 import yaphyre.core.Scene;
@@ -46,10 +48,10 @@ public class PinholeCamera extends FilmBasedCamera {
 	private Transformation worldToCamera;
 	private Point3D virtualOrigin;
 
-	public PinholeCamera(Film film,
-	                     Point3D position, Point3D lookAt, Normal3D up,
+	public PinholeCamera(@NotNull Film film,
+	                     @NotNull Point3D position, @NotNull Point3D lookAt, @NotNull Normal3D up,
 	                     double fieldOfView, double aspectRatio,
-	                     double nearDistance, double farDistance, Sampler cameraSampler) {
+	                     double nearDistance, double farDistance, @Nullable Sampler cameraSampler) {
 		super(film);
 
 		this.position = position;
