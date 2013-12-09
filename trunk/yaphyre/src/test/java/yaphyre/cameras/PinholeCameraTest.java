@@ -16,6 +16,7 @@
 
 package yaphyre.cameras;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import yaphyre.core.Camera;
 
@@ -24,7 +25,8 @@ import yaphyre.core.Camera;
  */
 public class PinholeCameraTest {
 
-    @Test
+    @Ignore
+    @Test(expected = IllegalArgumentException.class)
     public void testNullArgument() {
         Camera camera = new PinholeCamera(null, null, null, null, 0, 0, 0, 0, null);
     }
