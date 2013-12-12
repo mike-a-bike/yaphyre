@@ -131,7 +131,7 @@ public class Sphere extends AbstractShape {
 	 * In addition, the angular ranges for &theta; and &phi; can be provided. Both ranges take values between 0 and 360
 	 * degree.
 	 *
-	 * @param center   The center of the sphere (c<sub>x, y, z</sub>)
+	 * @param center   The center of the sphere (c<sub>x</sub>, c<sub>y</sub>, c<sub>z</sub>)
 	 * @param radius   Its radius (r)
 	 * @param phiMin   The start angle for &phi; (&phi; &isin; [0, 360])
 	 * @param phiMax   The end angle for &phi; (&phi; &isin; [0, 360])
