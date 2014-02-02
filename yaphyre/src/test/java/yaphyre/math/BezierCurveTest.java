@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Bieri
+ * Copyright 2014 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import org.junit.Test;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 
@@ -38,7 +37,6 @@ public class BezierCurveTest {
 	private static final int CURVE_COLOR = 0xffffff; // white
 	private static final int POINT_COLOR = 0x00ff00; // green
 	private static final int ENVELOP_COLOR = 0x0000ff; // blue
-
 	private BufferedImage image;
 	private String imageName;
 

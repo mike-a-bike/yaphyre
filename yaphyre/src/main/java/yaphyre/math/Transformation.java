@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Bieri
+ * Copyright 2014 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -425,7 +425,7 @@ public class Transformation implements Serializable {
 	public Ray transform(Ray r) {
 		Point3D newOrigin = transform(r.getOrigin());
 		Vector3D newDirection = transform(r.getDirection());
-		return new Ray(newOrigin, newDirection, r.getMint(), r.getMaxt());
+		return new Ray(newOrigin, newDirection, r.getTRange());
 	}
 
 	/**

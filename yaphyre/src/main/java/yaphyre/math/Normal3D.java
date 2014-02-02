@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Bieri
+ * Copyright 2014 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package yaphyre.math;
 
+import javax.annotation.concurrent.Immutable;
 import java.io.Serializable;
 import java.text.MessageFormat;
 
@@ -26,6 +27,7 @@ import java.text.MessageFormat;
  * @author $LastChangedBy: mike0041@gmail.com $
  * @version $Revision: 37 $
  */
+@Immutable
 @SuppressWarnings("PackageVisibleField")
 public class Normal3D implements Serializable {
 

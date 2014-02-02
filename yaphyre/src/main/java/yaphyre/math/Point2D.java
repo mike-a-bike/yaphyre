@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Bieri
+ * Copyright 2014 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package yaphyre.math;
 
 import com.google.common.base.Objects;
 
+import javax.annotation.concurrent.Immutable;
 import java.io.Serializable;
 
 /**
@@ -28,6 +29,7 @@ import java.io.Serializable;
  * @author $LastChangedBy: mike0041@gmail.com $
  * @version $Revision: 47 $
  */
+@Immutable
 @SuppressWarnings("ProtectedField")
 public class Point2D implements Serializable {
 

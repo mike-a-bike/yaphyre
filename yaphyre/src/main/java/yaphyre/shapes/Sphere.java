@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Bieri
+ * Copyright 2014 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -218,7 +218,7 @@ public class Sphere extends AbstractShape {
 	 * @param ray The {@link Ray} to intersect with this sphere.
 	 *
 	 * @return The distance in which the ray intersects this sphere, or if they do not intersect {@link
-	 *         yaphyre.shapes.AbstractShape#NO_INTERSECTION}.
+	 * yaphyre.shapes.AbstractShape#NO_INTERSECTION}.
 	 */
 	double getIntersectDistance(Ray ray) {
 
@@ -237,7 +237,7 @@ public class Sphere extends AbstractShape {
 		double result = NO_INTERSECTION;
 
 		for (double solution : solutions) {
-			if (solution < result && (solution >= ray.getMint() && solution <= ray.getMaxt())) {
+			if (solution < result && ray.getTRange().contains(solution)) {
 				Point3D intersectionPoint = ray.getPoint(solution);
 				if (isPartial) {
 					if (isInAngularRange(intersectionPoint)) {

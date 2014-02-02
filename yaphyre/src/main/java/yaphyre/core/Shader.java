@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Bieri
+ * Copyright 2014 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,6 @@ package yaphyre.core;
 import yaphyre.math.Color;
 import yaphyre.math.Point2D;
 
-import java.io.Serializable;
-
 /**
  * The common interface for all shading activities. It provides two method. One for accessing the material at the given
  * u- v- coordinates. And another for accessing the material properties at the given coordinates.
@@ -29,7 +27,7 @@ import java.io.Serializable;
  * @author $LastChangedBy$
  * @version $Revision$
  */
-public interface Shader extends Serializable {
+public interface Shader {
 
 	public Color getColor(final Point2D uvCoordinate);
 

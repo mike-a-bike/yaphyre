@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Bieri
+ * Copyright 2014 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package yaphyre.math;
 
 import com.google.common.base.Objects;
 
+import javax.annotation.concurrent.Immutable;
 import java.io.Serializable;
 
 import static com.google.common.primitives.Doubles.max;
@@ -35,6 +36,7 @@ import static java.lang.Math.pow;
  *
  * @author Michael Bieri
  */
+@Immutable
 public class Color implements Serializable {
 
 	private static final long serialVersionUID = 6104986207165257901L;

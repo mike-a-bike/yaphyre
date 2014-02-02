@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Bieri
+ * Copyright 2014 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,7 @@
 
 package yaphyre.core;
 
-import java.io.Serializable;
-
-public class Material implements Serializable {
-
-	private static final long serialVersionUID = -7396033500247262551L;
+public class Material {
 
 	private final double ambient;
 

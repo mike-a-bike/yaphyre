@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Bieri
+ * Copyright 2014 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ package yaphyre.cameras;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import yaphyre.core.Camera;
 
 /**
  * Simple test case for {@link org.jetbrains.annotations.NotNull} annotation.
@@ -28,7 +27,7 @@ public class PinholeCameraTest {
     @Ignore
     @Test(expected = IllegalArgumentException.class)
     public void testNullArgument() {
-        Camera camera = new PinholeCamera(null, null, null, null, 0, 0, 0, 0, null);
+//        Camera camera = new PinholeCamera(null, null, null, null, 0, 0, 0, 0, null);
     }
 
 }

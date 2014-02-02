@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Bieri
+ * Copyright 2014 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -292,6 +292,15 @@ public class VectorTest {
 		System.out.println(MessageFormat.format("New coordinate system from up={0} and right={1}", up, right));
 		System.out.println(MessageFormat.format("x={0}, y={1}, z={2}", x, y, z));
 
+	}
+
+	@Test
+	public void testSameDirection() {
+		Vector3D v1 = new Vector3D(1, 0, 0);
+		Vector3D v2 = new Vector3D(2, 1, 1);
+
+		assertTrue(v1.isSameDirection(v2));
+		assertTrue(v2.isSameDirection(v1));
 	}
 
 }

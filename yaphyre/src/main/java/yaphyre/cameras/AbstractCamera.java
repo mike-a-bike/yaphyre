@@ -14,33 +14,45 @@
  * limitations under the License.
  */
 
-package yaphyre.core;
+package yaphyre.cameras;
 
-import com.google.inject.BindingAnnotation;
+import yaphyre.core.Camera;
+import yaphyre.core.Sampler;
+import yaphyre.core.Tracer;
+import yaphyre.math.Point2D;
+import yaphyre.math.Ray;
 
 import javax.annotation.Nonnull;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.PARAMETER;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import javax.inject.Inject;
 
 /**
  * YaPhyRe
  *
  * @author Michael Bieri
- * @since 04.07.13
+ * @since 08.09.13
  */
-public interface Camera {
+public abstract class AbstractCamera implements Camera {
 
-	public void renderScene(@Nonnull Scene scene);
+	private Tracer tracer;
+	private Sampler sampler;
 
-	@BindingAnnotation
-	@Target({FIELD, METHOD, PARAMETER})
-	@Retention(RUNTIME)
-	public @interface CameraSampler {}
+	public Sampler getSampler() {
+		return sampler;
+	}
 
+	@Inject
+	public void setSampler(@CameraSampler @Nonnull Sampler sampler) {
+		this.sampler = sampler;
+	}
+
+	public Tracer getTracer() {
+		return tracer;
+	}
+
+	@Inject
+	public void setTracer(@Nonnull Tracer tracer) {
+		this.tracer = tracer;
+	}
+
+	protected abstract Ray createCameraRay(@Nonnull Point2D samplePoint);
 }
-

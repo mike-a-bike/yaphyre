@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Bieri
+ * Copyright 2014 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,6 @@ package yaphyre.core;
 import yaphyre.math.BoundingBox;
 import yaphyre.math.Ray;
 
-import java.io.Serializable;
-
 /**
  * Interface implemented by all {@link yaphyre.core.Shape} of the rendering system.
  *
@@ -28,7 +26,7 @@ import java.io.Serializable;
  * @author $LastChangedBy$
  * @version $Revision$
  */
-public interface Shape extends Serializable {
+public interface Shape {
 
 	/**
 	 * Gets the {@link Shader} instance associated with this shape instance.
@@ -45,7 +43,7 @@ public interface Shape extends Serializable {
 	 * @param ray The {@link yaphyre.math.Ray} to check for intersection.
 	 *
 	 * @return The {@link yaphyre.core.CollisionInformation} instance describing the intersection between the {@link yaphyre.math.Ray} and this
-	 *         {@link yaphyre.core.Shape} instance. <code>null</code> if no intersection happens.
+	 * {@link yaphyre.core.Shape} instance. <code>null</code> if no intersection happens.
 	 */
 	public CollisionInformation intersect(Ray ray);
 

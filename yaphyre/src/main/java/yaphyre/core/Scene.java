@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Bieri
+ * Copyright 2014 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,13 @@
 
 package yaphyre.core;
 
+import com.google.common.base.Objects;
+import com.google.common.collect.Lists;
+import org.apache.commons.lang3.Range;
 import yaphyre.math.Ray;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * YaPhyRe
@@ -25,8 +31,71 @@ import yaphyre.math.Ray;
  * @author $LastChangedBy: $
  * @version $Revision: $
  */
-public interface Scene {
+public class Scene {
 
-	public CollisionInformation hitObject(Ray ray, double minDistance, double maxDistance);
+	private final List<Shape> shapes;
+
+	private final List<Light> lightsources;
+
+	private final List<Camera> cameras;
+
+	public Scene() {
+		shapes = Lists.newArrayList();
+		lightsources = Lists.newArrayList();
+		cameras = Lists.newArrayList();
+	}
+
+	public void addCamera(Camera camera) {
+		cameras.add(camera);
+	}
+
+	public List<Camera> getCameras() {
+		return Collections.unmodifiableList(cameras);
+	}
+
+	public void addShape(Shape shape) {
+		shapes.add(shape);
+	}
+
+	public List<Shape> getShapes() {
+		return Collections.unmodifiableList(shapes);
+	}
+
+	public void addLightsource(Light lightsource) {
+		lightsources.add(lightsource);
+	}
+
+	public List<Light> getLightsources() {
+		return Collections.unmodifiableList(lightsources);
+	}
+
+	@Override
+	public String toString() {
+		return Objects.toStringHelper(getClass())
+				.add("cameras", cameras.size())
+				.add("shapes", shapes.size())
+				.add("lightsources", lightsources.size()).toString();
+	}
+
+	public CollisionInformation getCollisionInformation(Ray ray, double maxDistance) {
+
+		double nearestCollisionDistance = maxDistance;
+		CollisionInformation result = null;
+
+		for (Shape shape : getShapes()) {
+			CollisionInformation collisionInformation = shape.intersect(ray);
+			if (collisionInformation != null && collisionInformation.getDistance() < nearestCollisionDistance) {
+				nearestCollisionDistance = collisionInformation.getDistance();
+				result = collisionInformation;
+			}
+		}
+
+		return result;
+	}
+
+
+	public CollisionInformation hitObject(Ray ray, Range<Double> hitRange) {
+		return null;
+	}
 
 }

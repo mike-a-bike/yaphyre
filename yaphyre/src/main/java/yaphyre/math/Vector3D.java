@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Bieri
+ * Copyright 2014 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package yaphyre.math;
 
 import com.google.common.base.Objects;
 
+import javax.annotation.concurrent.Immutable;
 import java.io.Serializable;
 
 import static java.lang.Math.abs;
@@ -30,6 +31,7 @@ import static java.lang.Math.abs;
  * @author $LastChangedBy: mike0041@gmail.com $
  * @version $Revision: 208 $
  */
+@Immutable
 @SuppressWarnings("PackageVisibleField")
 public class Vector3D implements Comparable<Vector3D>, Serializable {
 
@@ -132,6 +134,10 @@ public class Vector3D implements Comparable<Vector3D>, Serializable {
 		double cy = z * v.x - x * v.z;
 		double cz = x * v.y - y * v.x;
 		return new Vector3D(cx, cy, cz);
+	}
+
+	public boolean isSameDirection(Vector3D v) {
+		return this.dot(v) >= 0d;
 	}
 
 	@Override

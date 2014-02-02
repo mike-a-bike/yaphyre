@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Bieri
+ * Copyright 2014 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +18,8 @@ package yaphyre.math;
 
 import com.google.common.base.Objects;
 
+import javax.annotation.concurrent.Immutable;
 import java.io.Serializable;
-
-import static yaphyre.math.MathUtils.calcLength;
-import static yaphyre.math.MathUtils.calculateLengthSquared;
 
 /**
  * Abstraction of a point in a 3d Cartesian coordinate system.
@@ -30,6 +28,7 @@ import static yaphyre.math.MathUtils.calculateLengthSquared;
  * @author $LastChangedBy: mike0041@gmail.com $
  * @version $Revision: 37 $
  */
+@Immutable
 @SuppressWarnings("PackageVisibleField")
 public class Point3D implements Serializable {
 
@@ -37,7 +36,9 @@ public class Point3D implements Serializable {
 
 	public static final Point3D ORIGIN = new Point3D(0, 0, 0);
 
-	final double x, y, z;
+	final double x;
+	final double y;
+	final double z;
 
 	public Point3D(double x, double y, double z) {
 		this.x = x;
@@ -79,11 +80,11 @@ public class Point3D implements Serializable {
 	}
 
 	public double length() {
-		return calcLength(x, y, z);
+		return MathUtils.calcLength(x, y, z);
 	}
 
 	public double lengthSquared() {
-		return calculateLengthSquared(x, y, z);
+		return MathUtils.calculateLengthSquared(x, y, z);
 	}
 
 	public Point3D scale(double s) {

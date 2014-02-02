@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Bieri
+ * Copyright 2014 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,7 +54,7 @@ public abstract class AbstractShape implements Shape {
 	 */
 	protected AbstractShape(Transformation objectToWorld, Shader shader) {
 		Preconditions.checkNotNull(objectToWorld);
-		Preconditions.checkNotNull(shader);
+//		Preconditions.checkNotNull(shader);
 
 		this.shader = shader;
 		this.objectToWorld = objectToWorld;
