@@ -148,7 +148,7 @@ public class BezierCurveTest {
 
 	private void paintControlPoints(Point3D... controlPoints) {
 		Graphics g = image.getGraphics();
-		Color pointColor = new Color(POINT_COLOR));
+		Color pointColor = new Color(POINT_COLOR);
 		Color lineColor = new Color(ENVELOP_COLOR);
 		Point3D lastPoint = null;
 
