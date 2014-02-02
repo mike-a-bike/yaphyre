@@ -37,7 +37,7 @@ public class BezierCurveTest {
 	private static final int IMAGE_HEIGHT = 640;
 	private static final int CURVE_COLOR = 0xffffff; // white
 	private static final int POINT_COLOR = 0x00ff00; // green
-	private static final int ENVELOP_COLOR = 0x0000ff; // blue
+	private static final int ENVELOPE_COLOR = 0x0000ff; // blue
 	private BufferedImage image;
 	private String imageName;
 
@@ -149,7 +149,7 @@ public class BezierCurveTest {
 	private void paintControlPoints(Point3D... controlPoints) {
 		Graphics g = image.getGraphics();
 		Color pointColor = new Color(POINT_COLOR);
-		Color lineColor = new Color(ENVELOP_COLOR);
+		Color lineColor = new Color(ENVELOPE_COLOR);
 		Point3D lastPoint = null;
 
 		for (Point3D point : controlPoints) {
