@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Bieri
+ * Copyright 2014 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,6 +42,10 @@ public enum FovCalculator {
 	public double calculateHorizontalFov(final double focalLength) {
 		checkArgument(focalLength >= EPSILON);
 		return calculateFov(focalLength, width);
+	}
+
+	public double getAspectRatio() {
+		return width / height;
 	}
 
 	private double calculateFov(final double focalLength, final double filmSize) {

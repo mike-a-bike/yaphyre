@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Bieri
+ * Copyright 2014 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 
 package yaphyre.cameras;
 
-import yaphyre.core.Camera;
 import yaphyre.core.Film;
 
 /**
@@ -25,15 +24,15 @@ import yaphyre.core.Film;
  * @author Michael Bieri
  * @since 27.07.13
  */
-public abstract class FilmBasedCamera implements Camera {
+public abstract class FilmBasedCamera<T extends Film> extends AbstractCamera {
 
-	private final Film film;
+	private final T film;
 
-	protected FilmBasedCamera(Film film) {
+	protected FilmBasedCamera(T film) {
 		this.film = film;
 	}
 
-	public Film getFilm() {
+	public T getFilm() {
 		return film;
 	}
 }

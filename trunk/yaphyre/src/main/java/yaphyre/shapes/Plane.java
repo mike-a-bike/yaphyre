@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Bieri
+ * Copyright 2014 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -118,7 +118,7 @@ public class Plane extends AbstractShape {
 	 * @param ray The {@link Ray} to intersect with this plane.
 	 *
 	 * @return The distance in which the ray intersects this plane or {@link yaphyre.shapes.AbstractShape#NO_INTERSECTION} if there is no
-	 *         intersection.
+	 * intersection.
 	 */
 	private double calculateIntersectDistance(Ray ray) {
 		ray = super.transformToObjectSpace(ray);
@@ -128,7 +128,7 @@ public class Plane extends AbstractShape {
 		if (numerator == 0 && denominator == 0) {
 			// The ray starts on the plane and is parallel to the plane, so it
 			// intersects everywhere.
-			return ray.getMint();
+			return ray.getTRange().getMinimum();
 		} else if (numerator != 0 && denominator == 0) {
 			// The ray starts outside the plane and is parallel to the plane, so no
 			// intersection, ever...
@@ -137,7 +137,7 @@ public class Plane extends AbstractShape {
 
 		double distance = numerator / denominator;
 
-		return (distance >= ray.getMint() && distance <= ray.getMaxt()) ? distance : NO_INTERSECTION;
+		return ray.getTRange().contains(distance) ? distance : NO_INTERSECTION;
 
 	}
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Bieri
+ * Copyright 2014 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package yaphyre.films;
 
+import org.apache.commons.math3.util.Pair;
 import yaphyre.core.CameraSample;
 import yaphyre.core.Film;
 
@@ -26,6 +27,11 @@ import yaphyre.core.Film;
  * @since 27.07.13
  */
 public class GraphicsContext implements Film {
+
+	@Override
+	public Pair<Integer, Integer> getNativeResolution() {
+		return null;
+	}
 
 	@Override
 	public void addCameraSample(CameraSample sample) {

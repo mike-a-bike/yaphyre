@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Bieri
+ * Copyright 2014 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,16 @@
 
 package yaphyre.core;
 
+import com.google.inject.BindingAnnotation;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 /**
  * YaPhyRe
  *
@@ -23,4 +33,9 @@ package yaphyre.core;
  * @since 05.07.13
  */
 public interface Light {
+
+	@BindingAnnotation
+	@Target({FIELD, METHOD, PARAMETER})
+	@Retention(RUNTIME)
+	public @interface LightSampler {}
 }

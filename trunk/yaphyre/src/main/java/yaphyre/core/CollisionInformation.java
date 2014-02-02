@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Bieri
+ * Copyright 2014 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,8 +22,6 @@ import yaphyre.math.Point2D;
 import yaphyre.math.Point3D;
 import yaphyre.math.Ray;
 
-import java.io.Serializable;
-
 /**
  * A record which contains all the information relevant for a ray-object collision.
  *
@@ -31,9 +29,7 @@ import java.io.Serializable;
  * @author $LastChangedBy$
  * @version $Revision$
  */
-public class CollisionInformation implements Serializable {
-
-	private static final long serialVersionUID = 9132420627811920135L;
+public class CollisionInformation {
 
 	private final Ray incidentRay;
 

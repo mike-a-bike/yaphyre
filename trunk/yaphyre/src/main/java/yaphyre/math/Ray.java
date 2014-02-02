@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Bieri
+ * Copyright 2014 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,9 @@
 package yaphyre.math;
 
 import com.google.common.base.Objects;
+import org.apache.commons.lang3.Range;
 
+import javax.annotation.concurrent.Immutable;
 import java.io.Serializable;
 
 import static yaphyre.math.MathUtils.EPSILON;
@@ -34,6 +36,7 @@ import static yaphyre.math.MathUtils.EPSILON;
  * @author $LastChangedBy: mike0041@gmail.com $
  * @version $Revision: 208 $
  */
+@Immutable
 public class Ray implements Serializable {
 
 	private static final long serialVersionUID = 6349693380913182303L;
@@ -42,9 +45,7 @@ public class Ray implements Serializable {
 
 	private final Vector3D direction;
 
-	private final double mint;
-
-	private final double maxt;
+	private final Range<Double> tRange;
 
 	public Ray(Point3D origin, Vector3D direction) {
 		this(origin, direction, EPSILON, Double.MAX_VALUE);
@@ -53,8 +54,13 @@ public class Ray implements Serializable {
 	public Ray(Point3D origin, Vector3D direction, double mint, double maxt) {
 		this.origin = origin;
 		this.direction = direction;
-		this.mint = mint;
-		this.maxt = maxt;
+		this.tRange = Range.between(mint, maxt);
+	}
+
+	public Ray(Point3D origin, Vector3D direction, Range<Double> tRange) {
+		this.origin = origin;
+		this.direction = direction;
+		this.tRange = tRange;
 	}
 
 	@Override
@@ -68,10 +74,7 @@ public class Ray implements Serializable {
 		int result = 1;
 		result = prime * result + direction.hashCode();
 		result = prime * result + origin.hashCode();
-		long temp = Double.doubleToLongBits(maxt);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(mint);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + tRange.hashCode();
 		return result;
 	}
 
@@ -90,10 +93,7 @@ public class Ray implements Serializable {
 		if (!origin.equals(other.origin)) {
 			return false;
 		}
-		if (!MathUtils.equalsWithTolerance(maxt, other.maxt)) {
-			return false;
-		}
-		if (!MathUtils.equalsWithTolerance(mint, other.mint)) {
+		if (!tRange.equals(other.tRange)) {
 			return false;
 		}
 		return true;
@@ -111,12 +111,8 @@ public class Ray implements Serializable {
 		return direction;
 	}
 
-	public double getMint() {
-		return mint;
-	}
-
-	public double getMaxt() {
-		return maxt;
+	public Range<Double> getTRange() {
+		return tRange;
 	}
 
 }

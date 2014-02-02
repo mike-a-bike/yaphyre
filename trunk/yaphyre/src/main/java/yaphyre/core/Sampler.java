@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Bieri
+ * Copyright 2014 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,5 +22,8 @@ package yaphyre.core;
  * @author Michael Bieri
  * @since 27.07.13
  */
-public interface Sampler {
+public interface Sampler extends Iterable<Double> {
+
+	public double getNextSample();
+
 }

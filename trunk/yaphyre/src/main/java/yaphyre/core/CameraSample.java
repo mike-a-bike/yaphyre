@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Bieri
+ * Copyright 2014 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,15 +21,13 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import yaphyre.math.Color;
 import yaphyre.math.Point2D;
 
-import java.io.Serializable;
-
 /**
  * YaPhyRe
  *
  * @author Michael Bieri
  * @since 27.07.13
  */
-public class CameraSample implements Serializable {
+public class CameraSample {
 	private final Point2D samplePoint;
 	private final Point2D lensCoordinates;
 	private final Color sampleColor;
