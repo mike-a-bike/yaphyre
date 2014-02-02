@@ -21,6 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.imageio.ImageIO;
+import java.awt.Color;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
@@ -147,7 +148,7 @@ public class BezierCurveTest {
 
 	private void paintControlPoints(Point3D... controlPoints) {
 		Graphics g = image.getGraphics();
-		Color pointColor = new Color(POINT_COLOR);
+		Color pointColor = new Color(POINT_COLOR));
 		Color lineColor = new Color(ENVELOP_COLOR);
 		Point3D lastPoint = null;
 
