@@ -20,6 +20,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static java.lang.Math.atan;
 import static yaphyre.math.MathUtils.EPSILON;
 
+/**
+ * Helper enumeration for calculating field of view angles for the most used sensor sizes.
+ */
 public enum FovCalculator {
 	FullFrame35mm(36d, 24d), APS_H(28.7d, 19d), APS_C(23.6d, 15.7d);
 
@@ -34,11 +37,25 @@ public enum FovCalculator {
 		this.height = height;
 	}
 
-	public double calculateVerticalFov(final double focalLength) {
+    /**
+     * Calculate the vertical field of view for the given sensor size
+     *
+     * @param focalLength The focal length used (in mm). Please notice, the value must be greater than
+     *                    {@value yaphyre.math.MathUtils#EPSILON}.
+     * @return The field of view in rad.
+     */
+    public double calculateVerticalFov(final double focalLength) {
 		checkArgument(focalLength >= EPSILON);
 		return calculateFov(focalLength, height);
 	}
 
+    /**
+     * Calculate the horizontal field of view for the given sensor size
+     *
+     * @param focalLength The focal length used (in mm). Please notice, the value must be greater than
+     *                    {@value yaphyre.math.MathUtils#EPSILON}.
+     * @return The field of view in rad.
+     */
 	public double calculateHorizontalFov(final double focalLength) {
 		checkArgument(focalLength >= EPSILON);
 		return calculateFov(focalLength, width);
