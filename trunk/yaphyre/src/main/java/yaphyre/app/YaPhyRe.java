@@ -69,11 +69,17 @@ public class YaPhyRe {
 		ImageFile film = new ImageFile(640, 480);
 
 		final double hFov = FovCalculator.FullFrame35mm.calculateHorizontalFov(50d);
-		final double aspectRatio =
-				((double) film.getNativeResolution().getFirst()) / ((double) film.getNativeResolution().getSecond());
+		final double aspectRatio = ((double) film.getNativeResolution().getFirst()) / ((double) film.getNativeResolution().getSecond());
 
-		final PerspectiveCamera camera = new PerspectiveCamera<ImageFile>(film, new Point3D(2, 2, -2), Point3D.ORIGIN,
-				Normal3D.NORMAL_Y, hFov, aspectRatio, MathUtils.EPSILON, 1d / MathUtils.EPSILON);
+		final PerspectiveCamera camera = new PerspectiveCamera<ImageFile>(
+                film,
+                new Point3D(2, 2, -2),
+                Point3D.ORIGIN,
+                Normal3D.NORMAL_Y,
+                hFov,
+                aspectRatio,
+                MathUtils.EPSILON,
+                1d / MathUtils.EPSILON);
 
 		// Inject values
 		injector.injectMembers(scene);
