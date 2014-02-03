@@ -55,7 +55,8 @@
         <commons.math3.version>3.2</commons.math3.version>
         <joox.version>0.9.3</joox.version>
 
-        <powermock.version>1.5</powermock.version>
+        <junit.version>4.9</junit.version>
+        <mockito-all.version>1.9.5</mockito-all.version>
 
     </properties>
 
@@ -126,15 +127,15 @@
 
         <!-- Testing: Mockito / PowerMock -->
         <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-module-junit4</artifactId>
-            <version>${powermock.version}</version>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>${mockito-all.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.powermock</groupId>
-            <artifactId>powermock-api-mockito</artifactId>
-            <version>${powermock.version}</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
 
