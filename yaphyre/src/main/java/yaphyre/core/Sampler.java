@@ -17,13 +17,27 @@
 package yaphyre.core;
 
 /**
- * YaPhyRe
+ * Common interface for all samplers. The idea is that it can deliver continuously values within the range (0,1). If
+ * all samples would be taken together, a perfect distribution would be achieved. This is of course not possible,
+ * so most implementation have a limited number of samples (which may be pre-calculated) which represent an
+ * approximation of a continuous stream of values.<br/>
+ * The interface extends Iterable&lt;Double&gt; so that each sampler can be used within a for-each loop. Example:
+ * <pre>
+ *     for(double sample : sampler) {
+ *         ...
+ *     }
+ * </pre>
  *
  * @author Michael Bieri
  * @since 27.07.13
  */
 public interface Sampler extends Iterable<Double> {
 
+    /**
+     * Fetch the next sample from the stream of random values.
+     *
+     * @return The next sample within the range (0,1)
+     */
 	public double getNextSample();
 
 }

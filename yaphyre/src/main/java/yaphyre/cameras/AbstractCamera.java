@@ -16,6 +16,7 @@
 
 package yaphyre.cameras;
 
+import org.jetbrains.annotations.NotNull;
 import yaphyre.core.Camera;
 import yaphyre.core.Sampler;
 import yaphyre.core.Tracer;
@@ -26,33 +27,45 @@ import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
 /**
- * YaPhyRe
+ * A generic camera base class. Most of the implemented cameras will use this base class. It contains a
+ * {@link yaphyre.core.Sampler} for use in Montecarlo sampling as well as a {@link yaphyre.core.Tracer} for integrating
+ * a camera ray.
+ * Both instance cannot be null.
  *
  * @author Michael Bieri
  * @since 08.09.13
  */
 public abstract class AbstractCamera implements Camera {
 
-	private Tracer tracer;
-	private Sampler sampler;
+    /**
+     * Tracer used for integrating a camera ray.
+     */
+    private Tracer tracer;
+    /**
+     * Camera sampler
+     */
+    private Sampler sampler;
 
-	public Sampler getSampler() {
-		return sampler;
-	}
+    @Nonnull
+    public Sampler getSampler() {
+        return sampler;
+    }
 
-	@Inject
-	public void setSampler(@CameraSampler @Nonnull Sampler sampler) {
-		this.sampler = sampler;
-	}
+    @Inject
+    public void setSampler(@CameraSampler @Nonnull Sampler sampler) {
+        this.sampler = sampler;
+    }
 
-	public Tracer getTracer() {
-		return tracer;
-	}
+    @Nonnull
+    public Tracer getTracer() {
+        return tracer;
+    }
 
-	@Inject
-	public void setTracer(@Nonnull Tracer tracer) {
-		this.tracer = tracer;
-	}
+    @Inject
+    public void setTracer(@Nonnull Tracer tracer) {
+        this.tracer = tracer;
+    }
 
-	protected abstract Ray createCameraRay(@Nonnull Point2D samplePoint);
+    @Nonnull
+    protected abstract Ray createCameraRay(@Nonnull Point2D samplePoint);
 }

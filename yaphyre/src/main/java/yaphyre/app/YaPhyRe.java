@@ -18,20 +18,25 @@ package yaphyre.app;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import org.apache.commons.cli.OptionBuilder;
-import org.apache.commons.cli.Options;
+import org.apache.commons.cli.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import yaphyre.cameras.FilmBasedCamera;
 import yaphyre.cameras.PerspectiveCamera;
+import yaphyre.core.Camera;
+import yaphyre.core.Sampler;
 import yaphyre.core.Scene;
+import yaphyre.core.Tracer;
 import yaphyre.films.ImageFile;
 import yaphyre.math.FovCalculator;
 import yaphyre.math.MathUtils;
 import yaphyre.math.Normal3D;
 import yaphyre.math.Point3D;
 import yaphyre.math.Transformation;
+import yaphyre.samplers.SinglePointSampler;
 import yaphyre.shapes.Plane;
 import yaphyre.shapes.Sphere;
+import yaphyre.tracers.SimpleRayCaster;
 
 /**
  * YaPhyRe
@@ -41,37 +46,73 @@ import yaphyre.shapes.Sphere;
  */
 public class YaPhyRe {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(YaPhyRe.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(YaPhyRe.class);
 
-	private static Injector injector;
+    private static Injector injector;
 
-	public static void main(String... arguments) {
+    public static void main(String... arguments) {
 
-		LOGGER.info("------------------------");
-		LOGGER.info("-- Welcome to YaPhyRe --");
-		LOGGER.info("------------------------");
+        LOGGER.info("------------------------");
+        LOGGER.info("-- Welcome to YaPhyRe --");
+        LOGGER.info("------------------------");
 
-		// Parsing the commandline
-		LOGGER.info("Reading CommandLine");
-		Options commandLineOptions = createCommandLineOptions();
+        // Parsing the commandline
+        LOGGER.info("Reading CommandLine");
+        CommandLine commandLine = parseCommandLine(arguments);
 
-		// Setup the injector
-		LOGGER.info("Setting up Injector");
-		setupInjector();
+        // Setup the injector
+        LOGGER.info("Setting up Injector");
+        setupInjector(commandLine);
 
-		// Preparing the scene
-		LOGGER.info("Setting up Scene");
-		Scene scene = new Scene();
+        // Preparing the scene
+        LOGGER.info("Setting up Scene");
+        Scene scene = setupScene();
 
-		scene.addShape(new Sphere(Transformation.IDENTITY, 0, 360d, 0, 180d, null));
-		scene.addShape(new Plane(Transformation.IDENTITY, null));
+        // Render the scene
+        LOGGER.info("Render Scene");
+        renderScene(scene);
 
-		ImageFile film = new ImageFile(640, 480);
+        // Save the result
+        LOGGER.info("Save Result");
+        saveImages(scene);
 
-		final double hFov = FovCalculator.FullFrame35mm.calculateHorizontalFov(50d);
-		final double aspectRatio = ((double) film.getNativeResolution().getFirst()) / ((double) film.getNativeResolution().getSecond());
+        LOGGER.info("Finished");
+    }
 
-		final PerspectiveCamera camera = new PerspectiveCamera<ImageFile>(
+    private static void saveImages(Scene scene) {
+        int cameraIndex = 0;
+        for (Camera camera : scene.getCameras()) {
+            if (camera instanceof FilmBasedCamera) {
+                FilmBasedCamera<?> filmBasedCamera = (FilmBasedCamera) camera;
+                if (filmBasedCamera.getFilm() instanceof ImageFile) {
+                    ImageFile imageFileFilm = (ImageFile) filmBasedCamera.getFilm();
+                    String fileName = String.format("color_%d.%s",
+                            cameraIndex++,
+                            ImageFile.ImageFormat.PNG.getDefaultFileExtention());
+                    imageFileFilm.safeAsImage(fileName, ImageFile.ImageFormat.PNG);
+                }
+            }
+        }
+    }
+
+    private static void renderScene(Scene scene) {
+        for (Camera camera : scene.getCameras()) {
+            camera.renderScene(scene);
+        }
+    }
+
+    private static Scene setupScene() {
+        Scene scene = new Scene();
+
+        scene.addShape(new Sphere(Transformation.IDENTITY, 0, 360d, 0, 180d, null));
+        scene.addShape(new Plane(Transformation.IDENTITY, null));
+
+        ImageFile film = new ImageFile(640, 480);
+
+        final double hFov = FovCalculator.FullFrame35mm.calculateHorizontalFov(50d);
+        final double aspectRatio = ((double) film.getNativeResolution().getFirst()) / ((double) film.getNativeResolution().getSecond());
+
+        final Camera camera = new PerspectiveCamera<ImageFile>(
                 film,
                 new Point3D(2, 2, -2),
                 Point3D.ORIGIN,
@@ -80,36 +121,52 @@ public class YaPhyRe {
                 aspectRatio,
                 MathUtils.EPSILON,
                 1d / MathUtils.EPSILON);
+        scene.addCamera(camera);
 
-		// Inject values
-		injector.injectMembers(scene);
-		injector.injectMembers(camera);
+        // Inject values
+        scene.injectMembers(injector);
 
-		// Render the scene
-		LOGGER.info("Render Scene");
-		camera.renderScene(scene);
+        return scene;
+    }
 
-		// Save the result
-		LOGGER.info("Save Result");
-		film.safeAsImage(String.format("color.%s", ImageFile.ImageFormat.PNG.getDefaultFileExtention()), ImageFile.ImageFormat.PNG);
+    private static void setupInjector(CommandLine commandLine) {
+        String cameraSamplerName = commandLine.getOptionValue("cameraSampler");
+        Sampler cameraSampler = new SinglePointSampler();
+        Sampler lightSampler = new SinglePointSampler();
+        Sampler defaultSampler = new SinglePointSampler();
+        Tracer tracer = new SimpleRayCaster();
+        injector = Guice.createInjector(new DefaultBindingModule(cameraSampler, lightSampler, defaultSampler, tracer));
+    }
 
-		LOGGER.info("Finished");
-	}
+    private static CommandLine parseCommandLine(String[] arguments) {
+        CommandLine commandLine = null;
+        Options commandLineOptions = createCommandLineOptions();
+        try {
+            commandLine = new PosixParser().parse(commandLineOptions, arguments);
+        } catch (ParseException e) {
+            LOGGER.error("Invalid program call. See usage below.");
+            printHelp(commandLineOptions);
+            System.exit(1);
+        }
+        return commandLine;
+    }
 
-	private static Options createCommandLineOptions() {
-		Options options = new Options();
+    private static Options createCommandLineOptions() {
+        Options options = new Options();
 
-		options.addOption(
-				OptionBuilder.withArgName("sampler name")
-						.withDescription("The Sampler to use for the camera")
-						.hasArg()
-						.create("cameraSampler"));
+        options.addOption(
+                OptionBuilder.withArgName("sampler name")
+                        .withDescription("The Sampler to use for the camera (single, jittered, regular, random)")
+                        .hasArg()
+                        .isRequired()
+                        .create("cameraSampler"));
 
-		return options;
-	}
+        return options;
+    }
 
-	private static void setupInjector() {
-		injector = Guice.createInjector(new DefaultBindingModule());
-	}
+    private static void printHelp(Options commandLineOptions) {
+        HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp(999, "java -jar YaPhyRe.jar", null, commandLineOptions, null, true);
+    }
 
 }

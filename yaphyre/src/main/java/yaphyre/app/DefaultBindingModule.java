@@ -24,7 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import yaphyre.core.Sampler;
 import yaphyre.core.Tracer;
-import yaphyre.tracers.RayCaster;
+import yaphyre.tracers.SimpleRayCaster;
 
 import javax.annotation.Nonnull;
 
@@ -39,9 +39,22 @@ import static yaphyre.core.Light.LightSampler;
  */
 public class DefaultBindingModule extends PrivateModule {
 
-	private final Logger LOGGER = LoggerFactory.getLogger(DefaultBindingModule.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(DefaultBindingModule.class);
 
-	@Override
+    private final Sampler cameraSampler;
+    private final Sampler lightSampler;
+    private final Sampler defaultSampler;
+    private final Tracer tracer;
+
+    public DefaultBindingModule(@Nonnull Sampler cameraSampler, @Nonnull Sampler lightSampler,
+                                @Nonnull Sampler defaultSampler, @Nonnull Tracer tracer) {
+        this.cameraSampler = cameraSampler;
+        this.lightSampler = lightSampler;
+        this.defaultSampler = defaultSampler;
+        this.tracer = tracer;
+    }
+
+    @Override
 	protected void configure() {
 	}
 
@@ -51,7 +64,7 @@ public class DefaultBindingModule extends PrivateModule {
 	@CameraSampler
 	public Sampler providesCameraSampler() {
 		LOGGER.debug("Creating instance for Camera Sampler");
-		return null;
+		return cameraSampler;
 	}
 
 	@Nonnull
@@ -60,7 +73,7 @@ public class DefaultBindingModule extends PrivateModule {
 	@LightSampler
 	public Sampler providesLightSampler() {
 		LOGGER.debug("Creating instance for Light Sampler");
-		return null;
+		return lightSampler;
 	}
 
 	@Nonnull
@@ -68,7 +81,7 @@ public class DefaultBindingModule extends PrivateModule {
 	@Provides
 	public Sampler providesDefaultSampler() {
 		LOGGER.debug("Creating new general purpose Sampler");
-		return null;
+		return defaultSampler;
 	}
 
 	@Nonnull
@@ -77,7 +90,7 @@ public class DefaultBindingModule extends PrivateModule {
 	@Singleton
 	public Tracer providesTracer() {
 		LOGGER.debug("Creating instance for Tracer");
-		return new RayCaster();
+		return tracer;
 	}
 
 }

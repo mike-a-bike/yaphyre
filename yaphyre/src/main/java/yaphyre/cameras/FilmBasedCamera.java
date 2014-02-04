@@ -18,21 +18,38 @@ package yaphyre.cameras;
 
 import yaphyre.core.Film;
 
+import javax.annotation.Nonnull;
+
 /**
- * YaPhyRe
+ * Base class for all camera implementations using a {@link yaphyre.core.Film} for recording the sampled information.
+ * This contains just the filed to hold a film instance with the corresponding accessor.
  *
  * @author Michael Bieri
  * @since 27.07.13
  */
 public abstract class FilmBasedCamera<T extends Film> extends AbstractCamera {
 
-	private final T film;
+    /**
+     * film field.
+     */
+    private final T film;
 
-	protected FilmBasedCamera(T film) {
-		this.film = film;
-	}
+    /**
+     * Constructor creating a new instance. The {@link yaphyre.core.Film} instance must not be null.
+     *
+     * @param film The instance of {@link yaphyre.core.Film} to use. Not null
+     */
+    protected FilmBasedCamera(@Nonnull T film) {
+        this.film = film;
+    }
 
-	public T getFilm() {
-		return film;
-	}
+    /**
+     * Access the {@link yaphyre.core.Film} instance.
+     *
+     * @return The {@link yaphyre.core.Film} instance associated with this camera.
+     */
+    @Nonnull
+    public T getFilm() {
+        return film;
+    }
 }

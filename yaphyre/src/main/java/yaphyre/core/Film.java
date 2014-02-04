@@ -18,6 +18,8 @@ package yaphyre.core;
 
 import org.apache.commons.math3.util.Pair;
 
+import javax.annotation.Nonnull;
+
 /**
  * YaPhyRe
  *
@@ -26,8 +28,9 @@ import org.apache.commons.math3.util.Pair;
  */
 public interface Film {
 
+    @Nonnull
 	public Pair<Integer, Integer> getNativeResolution();
 
-	public void addCameraSample(CameraSample sample);
+	public void addCameraSample(@Nonnull CameraSample sample);
 
 }

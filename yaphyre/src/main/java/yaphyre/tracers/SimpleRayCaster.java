@@ -17,6 +17,8 @@
 package yaphyre.tracers;
 
 import org.apache.commons.lang3.Range;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import yaphyre.core.CollisionInformation;
 import yaphyre.core.Scene;
 import yaphyre.core.Tracer;
@@ -26,14 +28,17 @@ import yaphyre.math.Ray;
 import yaphyre.shapes.Sphere;
 
 /**
- * YaPhyRe
+ * Straightforward implementation of a {@link yaphyre.core.Tracer}. Just some basic functionality. Use this for
+ * debugging purposes only.
  *
  * @author Michael Bieri
  * @since 05.07.13
  */
-public class RayCaster implements Tracer {
+public class SimpleRayCaster implements Tracer {
 
-	private static final Range<Double> rayRange = Range.between(MathUtils.EPSILON, 1d / MathUtils.EPSILON);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleRayCaster.class);
+
+    private static final Range<Double> rayRange = Range.between(MathUtils.EPSILON, 1d / MathUtils.EPSILON);
 
 	private static final Color BLUE = new Color(0, 0, 1);
 
