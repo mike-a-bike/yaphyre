@@ -18,6 +18,7 @@ package yaphyre.core;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
+import com.google.inject.Injector;
 import org.apache.commons.lang3.Range;
 import yaphyre.math.Ray;
 
@@ -98,4 +99,15 @@ public class Scene {
 		return null;
 	}
 
+    public void injectMembers(Injector injector) {
+        for (Shape shape : shapes) {
+            injector.injectMembers(shape);
+        }
+        for (Light lightsource : lightsources) {
+            injector.injectMembers(lightsource);
+        }
+        for (Camera camera : cameras) {
+            injector.injectMembers(camera);
+        }
+    }
 }

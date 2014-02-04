@@ -17,6 +17,8 @@
 package yaphyre.cameras;
 
 import org.apache.commons.lang3.Range;
+import org.apache.commons.math3.util.Pair;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import yaphyre.core.CameraSample;
@@ -83,7 +85,8 @@ public class PerspectiveCamera<T extends Film> extends FilmBasedCamera<T> {
 		virtualOrigin = new Point3D(0d, 0d, -virtualZ);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	protected Ray createCameraRay(@Nonnull Point2D samplePoint) {
 		checkArgument(VALID_COORDINATE_RANGE.contains(samplePoint.getU()));
 		checkArgument(VALID_COORDINATE_RANGE.contains(samplePoint.getV()));
@@ -103,7 +106,7 @@ public class PerspectiveCamera<T extends Film> extends FilmBasedCamera<T> {
 			LOGGER.trace("entering renderScene: " + scene);
 		}
 
-		final int xResolution = this.getFilm().getNativeResolution().getFirst();
+        final int xResolution = this.getFilm().getNativeResolution().getFirst();
 		final int yResolution = this.getFilm().getNativeResolution().getSecond();
 
 		final double xStep = 1d / xResolution;

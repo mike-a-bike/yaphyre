@@ -28,15 +28,25 @@ import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * YaPhyRe
+ * Camera interface. This interface must be implemented by all classes functioning as a camera. This interface contains
+ * a single method: {@link #renderScene(Scene)}. As the name implies, the function of this class is to create a
+ * representation of the scene as seen from the camera. It is not mandatory, that a visual representation is created.
  *
  * @author Michael Bieri
  * @since 04.07.13
  */
 public interface Camera {
 
+    /**
+     * Render the given scene.
+     *
+     * @param scene The {@link yaphyre.core.Scene} to render. Must not be null.
+     */
 	public void renderScene(@Nonnull Scene scene);
 
+    /**
+     * Marker interface used for wiring. Use this in an injection context to mark a sampler as camera specific.
+     */
 	@BindingAnnotation
 	@Target({FIELD, METHOD, PARAMETER})
 	@Retention(RUNTIME)

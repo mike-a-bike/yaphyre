@@ -54,7 +54,7 @@ public class ImageFile implements Film {
 		samples = ArrayListMultimap.create(xResolution * yResolution, 1);
 	}
 
-	public void safeAsImage(String filename, ImageFormat format) {
+    public void safeAsImage(String filename, ImageFormat format) {
 		BufferedImage bufferedImage = createImageFromSamples();
 
 		try {
@@ -74,7 +74,7 @@ public class ImageFile implements Film {
 		for (Point2D sample : samples.keySet()) {
 			Color sampleColor = Color.BLACK;
 			Collection<Color> colorSamples = samples.get(sample);
-			for (Color color : colorSamples) {
+            for (Color color : colorSamples) {
 				sampleColor = sampleColor.add(color);
 			}
 			sampleColor = sampleColor.multiply(1d / colorSamples.size()).clip();
