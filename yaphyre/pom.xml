@@ -84,6 +84,13 @@
             <version>${logback.classic.version}</version>
         </dependency>
 
+        <!-- Spring framework -->
+        <dependency>
+            <groupId>org.springframework.integration</groupId>
+            <artifactId>spring-integration-core</artifactId>
+            <version>2.2.6.RELEASE</version>
+        </dependency>
+
         <!-- Google Guice -->
         <dependency>
             <groupId>com.google.inject</groupId>
