@@ -28,11 +28,7 @@ import yaphyre.core.Sampler;
 import yaphyre.core.Scene;
 import yaphyre.core.Tracer;
 import yaphyre.films.ImageFile;
-import yaphyre.math.FovCalculator;
-import yaphyre.math.MathUtils;
-import yaphyre.math.Normal3D;
-import yaphyre.math.Point3D;
-import yaphyre.math.Transformation;
+import yaphyre.math.*;
 import yaphyre.samplers.SinglePointSampler;
 import yaphyre.shapes.Plane;
 import yaphyre.shapes.Sphere;
@@ -66,7 +62,7 @@ public class YaPhyRe {
 
         // Preparing the scene
         LOGGER.info("Setting up Scene");
-        Scene scene = setupScene();
+        Scene scene = setupScene(injector);
 
         // Render the scene
         LOGGER.info("Render Scene");
@@ -101,8 +97,8 @@ public class YaPhyRe {
         }
     }
 
-    private static Scene setupScene() {
-        Scene scene = new Scene();
+    private static Scene setupScene(Injector injector) {
+        Scene scene = injector.getInstance(Scene.class);
 
         scene.addShape(new Sphere(Transformation.IDENTITY, 0, 360d, 0, 180d, null));
         scene.addShape(new Plane(Transformation.IDENTITY, null));
@@ -122,9 +118,6 @@ public class YaPhyRe {
                 MathUtils.EPSILON,
                 1d / MathUtils.EPSILON);
         scene.addCamera(camera);
-
-        // Inject values
-        scene.injectMembers(injector);
 
         return scene;
     }
