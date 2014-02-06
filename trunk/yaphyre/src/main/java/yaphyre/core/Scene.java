@@ -17,11 +17,12 @@
 package yaphyre.core;
 
 import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
 import com.google.inject.Injector;
 import org.apache.commons.lang3.Range;
 import yaphyre.math.Ray;
 
+import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -40,13 +41,18 @@ public class Scene {
 
 	private final List<Camera> cameras;
 
-	public Scene() {
-		shapes = Lists.newArrayList();
-		lightsources = Lists.newArrayList();
-		cameras = Lists.newArrayList();
+    private final Injector injector;
+
+    @Inject
+	public Scene(Injector injector) {
+        this.injector = injector;
+        shapes = new ArrayList<>();
+		lightsources = new ArrayList<>();
+		cameras = new ArrayList<>();
 	}
 
 	public void addCamera(Camera camera) {
+        injector.injectMembers(camera);
 		cameras.add(camera);
 	}
 
@@ -55,6 +61,7 @@ public class Scene {
 	}
 
 	public void addShape(Shape shape) {
+        injector.injectMembers(shape);
 		shapes.add(shape);
 	}
 
@@ -63,6 +70,7 @@ public class Scene {
 	}
 
 	public void addLightsource(Light lightsource) {
+        injector.injectMembers(lightsource);
 		lightsources.add(lightsource);
 	}
 
@@ -99,15 +107,4 @@ public class Scene {
 		return null;
 	}
 
-    public void injectMembers(Injector injector) {
-        for (Shape shape : shapes) {
-            injector.injectMembers(shape);
-        }
-        for (Light lightsource : lightsources) {
-            injector.injectMembers(lightsource);
-        }
-        for (Camera camera : cameras) {
-            injector.injectMembers(camera);
-        }
-    }
 }

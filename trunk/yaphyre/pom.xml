@@ -48,6 +48,7 @@
         <jsr305.version>2.0.1</jsr305.version>
 
         <!-- Library versions -->
+        <spring.version>4.0.1.RELEASE</spring.version>
         <logback.classic.version>1.0.13</logback.classic.version>
         <guice.version>3.0</guice.version>
         <guava.version>14.0.1</guava.version>
@@ -60,6 +61,16 @@
         <mockito-all.version>1.9.5</mockito-all.version>
 
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
 
@@ -77,19 +88,18 @@
             <version>${jsr305.version}</version>
         </dependency>
 
+        <!-- Spring framework -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+
         <!-- LogBack logging framework -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback.classic.version}</version>
         </dependency>
-
-        <!-- Spring framework -->
-        <!--<dependency>-->
-        <!--<groupId>org.springframework</groupId>-->
-        <!--<artifactId>spring-context</artifactId>-->
-        <!--<version>4.0.1.RELEASE</version>-->
-        <!--</dependency>-->
 
         <!-- Google Guice -->
         <dependency>
