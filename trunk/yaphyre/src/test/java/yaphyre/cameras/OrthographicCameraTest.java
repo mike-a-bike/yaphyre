@@ -53,6 +53,9 @@ public class OrthographicCameraTest {
     /** Size of the film in y dimension. */
     public static final int Y_SIZE = 3;
 
+    /** Default location of the camera on the z axis */
+    private static final double Z_COORDINATE = -100d;
+
     /** Instance for all test methods. */
     private OrthographicCamera testCamera;
 
@@ -71,7 +74,7 @@ public class OrthographicCameraTest {
         when(film.getNativeResolution()).thenReturn(new Pair<>(X_SIZE, Y_SIZE));
         tracer = mock(Tracer.class);
         when(tracer.traceRay(any(Ray.class), any(Scene.class))).thenReturn(Color.BLACK);
-        testCamera = new OrthographicCamera<>(film, DIMENSION, DIMENSION);
+        testCamera = new OrthographicCamera<>(film, DIMENSION, DIMENSION, Z_COORDINATE);
         testCamera.setTracer(tracer);
     }
 
@@ -81,20 +84,20 @@ public class OrthographicCameraTest {
         Ray cameraRay = testCamera.createCameraRay(new Point2D(0d, 0d));
         assertEquals(-DIMENSION / 2d, cameraRay.getOrigin().getX(), EPSILON);
         assertEquals(-DIMENSION / 2d, cameraRay.getOrigin().getY(), EPSILON);
-        assertEquals(0d, cameraRay.getOrigin().getZ(), EPSILON);
+        assertEquals(Z_COORDINATE, cameraRay.getOrigin().getZ(), EPSILON);
         assertEquals(cameraRay.getDirection(), Vector3D.Z.neg());
 
         // corner case [1, 1]
         cameraRay = testCamera.createCameraRay(new Point2D(1d, 1d));
         assertEquals(DIMENSION / 2d, cameraRay.getOrigin().getX(), EPSILON);
         assertEquals(DIMENSION / 2d, cameraRay.getOrigin().getY(), EPSILON);
-        assertEquals(0d, cameraRay.getOrigin().getZ(), EPSILON);
+        assertEquals(Z_COORDINATE, cameraRay.getOrigin().getZ(), EPSILON);
 
         // case [0.5, 0.5] --> [0, 0, 0]
         cameraRay = testCamera.createCameraRay(new Point2D(0.5d, 0.5d));
         assertEquals(0d, cameraRay.getOrigin().getX(), EPSILON);
         assertEquals(0d, cameraRay.getOrigin().getY(), EPSILON);
-        assertEquals(0d, cameraRay.getOrigin().getZ(), EPSILON);
+        assertEquals(Z_COORDINATE, cameraRay.getOrigin().getZ(), EPSILON);
     }
 
     @Test

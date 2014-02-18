@@ -68,28 +68,28 @@ public class OrthographicCameraTest {
 		BaseCameraSettings baseSettings = BaseCameraSettings.create(new Point3D(0, 0, -1), Point3D.ORIGIN);
 		OrthographicCameraSettings orthoSettings = OrthographicCameraSettings.create(4, 3);
 
-		return new OrthographicCamera(baseSettings, orthoSettings, new ImageFile(800, 600));
+		return new OrthographicCamera(baseSettings, orthoSettings, new ImageFile(800, 600), zCoordinate);
 	}
 
 	private Camera getOffsettedOriginCamera() {
 		BaseCameraSettings baseSettings = BaseCameraSettings.create(new Point3D(0, 1, 0), new Point3D(0, 1, 1));
 		OrthographicCameraSettings orthoSettings = OrthographicCameraSettings.create(4, 3);
 
-		return new OrthographicCamera(baseSettings, orthoSettings, new ImageFile(800, 600));
+		return new OrthographicCamera(baseSettings, orthoSettings, new ImageFile(800, 600), zCoordinate);
 	}
 
 	private Camera getOriginCamera() {
 		BaseCameraSettings baseSettings = BaseCameraSettings.create(Point3D.ORIGIN, new Point3D(0, 0, 1));
 		OrthographicCameraSettings orthoSettings = OrthographicCameraSettings.create(4, 3);
 
-		return new OrthographicCamera(baseSettings, orthoSettings, new ImageFile(800, 600));
+		return new OrthographicCamera(baseSettings, orthoSettings, new ImageFile(800, 600), zCoordinate);
 	}
 
 	private Camera getTiltedCamera() {
 		BaseCameraSettings baseSettings = BaseCameraSettings.create(new Point3D(0, 1, -2), Point3D.ORIGIN);
 		OrthographicCameraSettings orthoSettings = OrthographicCameraSettings.create(4, 3);
 
-		return new OrthographicCamera(baseSettings, orthoSettings, new ImageFile(800, 600));
+		return new OrthographicCamera(baseSettings, orthoSettings, new ImageFile(800, 600), zCoordinate);
 	}
 
 	@Test
@@ -97,7 +97,7 @@ public class OrthographicCameraTest {
 		BaseCameraSettings baseSettings = BaseCameraSettings.create(new Point3D(1, 1, 0), new Point3D(1, 1, 1));
 		OrthographicCameraSettings orthographicSettings = OrthographicCameraSettings.create(4, 3);
 
-		Camera camera = new OrthographicCamera(baseSettings, orthographicSettings, new ImageFile(800, 600));
+		Camera camera = new OrthographicCamera(baseSettings, orthographicSettings, new ImageFile(800, 600), zCoordinate);
 
 		assertNotNull(camera);
 	}

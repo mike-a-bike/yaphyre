@@ -22,7 +22,7 @@ import org.apache.commons.cli.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import yaphyre.cameras.FilmBasedCamera;
-import yaphyre.cameras.PerspectiveCamera;
+import yaphyre.cameras.OrthographicCamera;
 import yaphyre.core.Camera;
 import yaphyre.core.Sampler;
 import yaphyre.core.Scene;
@@ -30,7 +30,6 @@ import yaphyre.core.Tracer;
 import yaphyre.films.ImageFile;
 import yaphyre.math.*;
 import yaphyre.samplers.SinglePointSampler;
-import yaphyre.shapes.Plane;
 import yaphyre.shapes.Sphere;
 import yaphyre.tracers.SimpleRayCaster;
 
@@ -101,22 +100,23 @@ public class YaPhyRe {
         Scene scene = injector.getInstance(Scene.class);
 
         scene.addShape(new Sphere(Transformation.IDENTITY, 0, 360d, 0, 180d, null));
-        scene.addShape(new Plane(Transformation.IDENTITY, null));
+//        scene.addShape(new Plane(Transformation.IDENTITY, null));
 
         ImageFile film = new ImageFile(640, 480);
 
         final double hFov = FovCalculator.FullFrame35mm.calculateHorizontalFov(50d);
         final double aspectRatio = ((double) film.getNativeResolution().getFirst()) / ((double) film.getNativeResolution().getSecond());
 
-        final Camera camera = new PerspectiveCamera<>(
-                film,
-                new Point3D(2, 2, -2),
-                Point3D.ORIGIN,
-                Normal3D.NORMAL_Y,
-                hFov,
-                aspectRatio,
-                MathUtils.EPSILON,
-                1d / MathUtils.EPSILON);
+//        final Camera camera = new PerspectiveCamera<>(
+//                film,
+//                new Point3D(2, 2, -2),
+//                Point3D.ORIGIN,
+//                Normal3D.NORMAL_Y,
+//                hFov,
+//                aspectRatio,
+//                MathUtils.EPSILON,
+//                1d / MathUtils.EPSILON);
+        Camera camera = new OrthographicCamera<>(film, 8d, 6d, -100d);
         scene.addCamera(camera);
 
         return scene;
