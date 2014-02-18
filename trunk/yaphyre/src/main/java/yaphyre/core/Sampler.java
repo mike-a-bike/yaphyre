@@ -16,28 +16,43 @@
 
 package yaphyre.core;
 
+import javax.annotation.Nonnegative;
+import javax.annotation.Nonnull;
+import yaphyre.math.Point2D;
+import yaphyre.math.Point3D;
+
 /**
  * Common interface for all samplers. The idea is that it can deliver continuously values within the range (0,1). If
  * all samples would be taken together, a perfect distribution would be achieved. This is of course not possible,
  * so most implementation have a limited number of samples (which may be pre-calculated) which represent an
  * approximation of a continuous stream of values.<br/>
- * The interface extends Iterable&lt;Double&gt; so that each sampler can be used within a for-each loop. Example:
- * <pre>
- *     for(double sample : sampler) {
- *         ...
- *     }
- * </pre>
+ * In addition this class also provides access to a set of specific representations like samples in a unit square, a
+ * unit disc, a unit sphere and hemisphere. The hemisphere can be parametrised using a cosine distribution. The
+ * necessary power factor is part of the call to get the samples.
  *
  * @author Michael Bieri
  * @since 27.07.13
  */
-public interface Sampler extends Iterable<Double> {
+public interface Sampler {
 
     /**
-     * Fetch the next sample from the stream of random values.
+     * Get an Iterable instance representing all the samples of this sampler. This represents values generated using
+     * the implemented method. The samples are not sorted.
      *
-     * @return The next sample within the range (0,1)
+     * @return An Iterable to use in foreach loops.
      */
-	public double getNextSample();
+    @Nonnull
+    public Iterable<Double> getSamples();
 
+    @Nonnull
+    public Iterable<Point2D> getUnitSquareSamples();
+
+    @Nonnull
+    public Iterable<Point2D> getUnitCircleSamples();
+
+    @Nonnull
+    public Iterable<Point3D> getUnitSphereSamples();
+
+    @Nonnull
+    public Iterable<Point3D> getUnitHemisphereSamples(@Nonnegative double cosinePower);
 }
