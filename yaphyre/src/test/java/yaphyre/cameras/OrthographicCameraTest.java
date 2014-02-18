@@ -54,7 +54,7 @@ public class OrthographicCameraTest {
     public static final int Y_SIZE = 3;
 
     /** Default location of the camera on the z axis */
-    private static final double Z_COORDINATE = -100d;
+    private static final double Z_COORDINATE = 100d;
 
     /** Instance for all test methods. */
     private OrthographicCamera testCamera;
