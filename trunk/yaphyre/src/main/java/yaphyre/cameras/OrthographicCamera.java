@@ -18,8 +18,10 @@ package yaphyre.cameras;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
+import yaphyre.core.CameraSample;
 import yaphyre.core.Film;
 import yaphyre.core.Scene;
+import yaphyre.math.Color;
 import yaphyre.math.Point2D;
 import yaphyre.math.Point3D;
 import yaphyre.math.Ray;
@@ -29,7 +31,7 @@ import yaphyre.math.Vector3D;
  * A simple orthographic camera located at the origin looking along the negative z axis. No transformation handling
  * is implemented yet. The camera uses some basic parameters to render the scene like: dimension and resolution
  *
- * @author mike0041@gmail.com
+ * @author Michael Bieri
  * @since 18.02.14
  */
 public class OrthographicCamera<T extends Film> extends FilmBasedCamera<T> {
@@ -47,8 +49,7 @@ public class OrthographicCamera<T extends Film> extends FilmBasedCamera<T> {
      * @param uDimension The size of the sampling rectangle in the u direction.
      * @param vDimension The size of the sampling rectangle in the v direction.
      */
-    public OrthographicCamera(@Nonnull T film,
-                              @Nonnegative double uDimension, @Nonnegative double vDimension) {
+    public OrthographicCamera(@Nonnull T film, @Nonnegative double uDimension, @Nonnegative double vDimension) {
         super(film);
         this.uDimension = uDimension;
         this.vDimension = vDimension;
@@ -57,16 +58,30 @@ public class OrthographicCamera<T extends Film> extends FilmBasedCamera<T> {
     @Nonnull
     @Override
     protected Ray createCameraRay(@Nonnull Point2D samplePoint) {
-        double u = calculateSamplingPoint(samplePoint.getU(), uDimension);
-        double v = calculateSamplingPoint(samplePoint.getV(), vDimension);
+        double u = transformSamplingPoint(samplePoint.getU(), uDimension);
+        double v = transformSamplingPoint(samplePoint.getV(), vDimension);
         return new Ray(new Point3D(u, v, 0), Vector3D.Z.neg());
     }
 
-    private double calculateSamplingPoint(double samplePoint, double dimension) {
+    private double transformSamplingPoint(double samplePoint, double dimension) {
         return -(dimension / 2d) + (dimension * samplePoint);
     }
 
     @Override
     public void renderScene(@Nonnull Scene scene) {
+        final int xResolution = getFilm().getNativeResolution().getFirst();
+        final int yResolution = getFilm().getNativeResolution().getSecond();
+
+        final double xStep = 1d / xResolution;
+        final double yStep = 1d / yResolution;
+
+        for (int x = 0; x < xResolution; x++) {
+            for (int y = 0; y < yResolution; y++) {
+                final Point2D samplePoint = new Point2D(x * xStep, y * yStep);
+                final Ray cameraRay = createCameraRay(samplePoint);
+                final Color sampledColor = getTracer().traceRay(cameraRay, scene);
+                getFilm().addCameraSample(new CameraSample(samplePoint, sampledColor));
+            }
+        }
     }
 }
