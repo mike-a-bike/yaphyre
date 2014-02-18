@@ -42,17 +42,24 @@ public class OrthographicCamera<T extends Film> extends FilmBasedCamera<T> {
     /** The cameras siz ein the v dimension. */
     private final double vDimension;
 
+    /** The location of the camera on the z axis */
+    private final double zCoordinate;
+
     /**
      * Creates a new orthographic camera with the given size. The resolution is taken from the used film.
      *
      * @param film The Film instance to use to record the image data.
      * @param uDimension The size of the sampling rectangle in the u direction.
      * @param vDimension The size of the sampling rectangle in the v direction.
+     * @param zCoordinate The location of the camera on the z axis.
      */
-    public OrthographicCamera(@Nonnull T film, @Nonnegative double uDimension, @Nonnegative double vDimension) {
+    public OrthographicCamera(@Nonnull T film,
+                              @Nonnegative double uDimension, @Nonnegative double vDimension,
+                              double zCoordinate) {
         super(film);
         this.uDimension = uDimension;
         this.vDimension = vDimension;
+        this.zCoordinate = zCoordinate;
     }
 
     @Nonnull
@@ -60,7 +67,7 @@ public class OrthographicCamera<T extends Film> extends FilmBasedCamera<T> {
     protected Ray createCameraRay(@Nonnull Point2D samplePoint) {
         double u = transformSamplingPoint(samplePoint.getU(), uDimension);
         double v = transformSamplingPoint(samplePoint.getV(), vDimension);
-        return new Ray(new Point3D(u, v, 0), Vector3D.Z.neg());
+        return new Ray(new Point3D(u, v, zCoordinate), Vector3D.Z.neg());
     }
 
     private double transformSamplingPoint(double samplePoint, double dimension) {
