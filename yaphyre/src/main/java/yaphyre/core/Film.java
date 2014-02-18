@@ -16,9 +16,8 @@
 
 package yaphyre.core;
 
-import org.apache.commons.math3.util.Pair;
-
 import javax.annotation.Nonnull;
+import org.apache.commons.math3.util.Pair;
 
 /**
  * YaPhyRe

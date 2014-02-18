@@ -91,11 +91,11 @@
     <dependencies>
 
 		<!-- IntelliJ annotations -->
-		<dependency>
-			<groupId>com.intellij</groupId>
-			<artifactId>annotations</artifactId>
-			<version>${intellij.annotations.version}</version>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>com.intellij</groupId>-->
+			<!--<artifactId>annotations</artifactId>-->
+			<!--<version>${intellij.annotations.version}</version>-->
+		<!--</dependency>-->
 
         <!-- JSR 305 annotations -->
         <dependency>
@@ -105,10 +105,10 @@
         </dependency>
 
         <!-- Spring framework -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-context</artifactId>-->
+        <!--</dependency>-->
 
         <!-- LogBack logging framework -->
         <dependency>

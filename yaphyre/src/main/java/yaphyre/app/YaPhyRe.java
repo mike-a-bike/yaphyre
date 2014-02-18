@@ -84,7 +84,7 @@ public class YaPhyRe {
                     ImageFile imageFileFilm = (ImageFile) filmBasedCamera.getFilm();
                     String fileName = String.format("color_%d.%s",
                             cameraIndex++,
-                            ImageFile.ImageFormat.PNG.getDefaultFileExtention());
+                            ImageFile.ImageFormat.PNG.getDefaultFileExtension());
                     imageFileFilm.safeAsImage(fileName, ImageFile.ImageFormat.PNG);
                 }
             }
@@ -108,7 +108,7 @@ public class YaPhyRe {
         final double hFov = FovCalculator.FullFrame35mm.calculateHorizontalFov(50d);
         final double aspectRatio = ((double) film.getNativeResolution().getFirst()) / ((double) film.getNativeResolution().getSecond());
 
-        final Camera camera = new PerspectiveCamera<ImageFile>(
+        final Camera camera = new PerspectiveCamera<>(
                 film,
                 new Point3D(2, 2, -2),
                 Point3D.ORIGIN,
