@@ -16,6 +16,12 @@
 
 package yaphyre.films;
 
+import java.awt.image.BufferedImage;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Collection;
+import javax.annotation.Nonnull;
+import javax.imageio.ImageIO;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import org.apache.commons.math3.util.Pair;
@@ -25,12 +31,6 @@ import yaphyre.core.CameraSample;
 import yaphyre.core.Film;
 import yaphyre.math.Color;
 import yaphyre.math.Point2D;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Collection;
 
 /**
  * YaPhyRe
@@ -95,13 +95,14 @@ public class ImageFile implements Film {
 		return argb;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public Pair<Integer, Integer> getNativeResolution() {
-		return new Pair<Integer, Integer>(xResolution, yResolution);
+		return new Pair<>(xResolution, yResolution);
 	}
 
 	@Override
-	public void addCameraSample(CameraSample sample) {
+	public void addCameraSample(@Nonnull CameraSample sample) {
 		samples.put(sample.getSamplePoint(), sample.getSampleColor());
 	}
 
@@ -110,14 +111,14 @@ public class ImageFile implements Film {
 		JPEG("jpg"),
 		PNG("png"),;
 
-		private final String defaultFileExtention;
+		private final String defaultFileExtension;
 
-		private ImageFormat(String defaultFileExtention) {
-			this.defaultFileExtention = defaultFileExtention;
+		private ImageFormat(String defaultFileExtension) {
+			this.defaultFileExtension = defaultFileExtension;
 		}
 
-		public String getDefaultFileExtention() {
-			return defaultFileExtention;
+		public String getDefaultFileExtension() {
+			return defaultFileExtension;
 		}
 
 	}

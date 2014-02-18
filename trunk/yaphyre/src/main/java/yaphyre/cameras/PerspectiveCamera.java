@@ -16,9 +16,9 @@
 
 package yaphyre.cameras;
 
+import javax.annotation.Nonnegative;
+import javax.annotation.Nonnull;
 import org.apache.commons.lang3.Range;
-import org.apache.commons.math3.util.Pair;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import yaphyre.core.CameraSample;
@@ -31,9 +31,6 @@ import yaphyre.math.Point3D;
 import yaphyre.math.Ray;
 import yaphyre.math.Transformation;
 import yaphyre.math.Vector3D;
-
-import javax.annotation.Nonnegative;
-import javax.annotation.Nonnull;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.lang.Math.tan;

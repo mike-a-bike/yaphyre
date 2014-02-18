@@ -16,15 +16,13 @@
 
 package yaphyre.cameras;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
 import yaphyre.core.Camera;
 import yaphyre.core.Sampler;
 import yaphyre.core.Tracer;
 import yaphyre.math.Point2D;
 import yaphyre.math.Ray;
-
-import javax.annotation.Nonnull;
-import javax.inject.Inject;
 
 /**
  * A generic camera base class. Most of the implemented cameras will use this base class. It contains a
