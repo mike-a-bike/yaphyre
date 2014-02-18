@@ -29,7 +29,7 @@ import yaphyre.core.Scene;
 import yaphyre.core.Tracer;
 import yaphyre.films.ImageFile;
 import yaphyre.math.*;
-import yaphyre.samplers.SinglePointSampler;
+import yaphyre.samplers.SingleValueSampler;
 import yaphyre.shapes.Sphere;
 import yaphyre.tracers.SimpleRayCaster;
 
@@ -116,7 +116,7 @@ public class YaPhyRe {
 //                aspectRatio,
 //                MathUtils.EPSILON,
 //                1d / MathUtils.EPSILON);
-        Camera camera = new OrthographicCamera<>(film, 8d, 6d, -100d);
+        Camera camera = new OrthographicCamera<>(film, 8d, 6d, 100d);
         scene.addCamera(camera);
 
         return scene;
@@ -124,9 +124,9 @@ public class YaPhyRe {
 
     private static void setupInjector(CommandLine commandLine) {
         String cameraSamplerName = commandLine.getOptionValue("cameraSampler");
-        Sampler cameraSampler = new SinglePointSampler();
-        Sampler lightSampler = new SinglePointSampler();
-        Sampler defaultSampler = new SinglePointSampler();
+        Sampler cameraSampler = new SingleValueSampler();
+        Sampler lightSampler = new SingleValueSampler();
+        Sampler defaultSampler = new SingleValueSampler();
         Tracer tracer = new SimpleRayCaster();
         injector = Guice.createInjector(new DefaultBindingModule(cameraSampler, lightSampler, defaultSampler, tracer));
     }
