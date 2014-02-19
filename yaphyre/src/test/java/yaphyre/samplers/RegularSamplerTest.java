@@ -17,14 +17,15 @@
 package yaphyre.samplers;
 
 import java.util.Iterator;
+import javax.annotation.Nonnull;
 import org.junit.Test;
+import yaphyre.math.Point2D;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.fail;
 
 /**
- * YaPhyRe
+ * Test for the RegularSampler. This sampler created regularly spaced samples in the range [0, 1).
  *
  * @author Michael Bieri
  * @since 18.02.14
@@ -42,10 +43,18 @@ public class RegularSamplerTest {
 
     @Test
     public void testGetUnitSquareSamples() throws Exception {
-        fail("Not implemented yet");
+        RegularSampler sampler = new RegularSampler(2);
+        validateSamples(sampler.getUnitSquareSamples().iterator(),
+                new Point2D(0.25d, 0.25d), new Point2D(0.75d, 0.75d));
+
+        sampler = new RegularSampler(4);
+        validateSamples(sampler.getUnitSquareSamples().iterator(),
+                new Point2D(0.125, 0.125d), new Point2D(0.375d, 0.375d),
+                new Point2D(0.625d, 0.625d), new Point2D(0.875d, 0.875d));
     }
 
-    private <T> void validateSamples(Iterator<T> samples, T... referenceValues) {
+    @SafeVarargs
+    private final <T> void validateSamples(@Nonnull Iterator<T> samples, T... referenceValues) {
         for (T referenceValue : referenceValues) {
             assertEquals(referenceValue, samples.next());
         }
