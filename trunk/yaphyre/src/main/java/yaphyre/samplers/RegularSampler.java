@@ -17,56 +17,26 @@
 package yaphyre.samplers;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javax.annotation.Nonnull;
 import yaphyre.math.Point2D;
 
 /**
- * YaPhyRe
+ * A sampler which created regularly spaced samples across the value range [0,1). This will most probably not be used
+ * in production, but is very useful for debugging purposes.
  *
  * @author Michael Bieri
  * @since 18.02.14
  */
 public class RegularSampler extends AbstractSampler {
 
-    private final List<Double> samples;
-
-    private final List<Point2D> unitSquareSamples;
-
     public RegularSampler(int numberOfSamples) {
-        samples = Collections.unmodifiableList(createValueSamples(numberOfSamples));
-        unitSquareSamples = Collections.unmodifiableList(createUnitSquareSamples(samples));
+        super(numberOfSamples);
     }
 
     @Nonnull
     @Override
-    public Iterable<Double> getSamples() {
-        return samples;
-    }
-
-    @Nonnull
-    @Override
-    public Iterable<Point2D> getUnitSquareSamples() {
-        return unitSquareSamples;
-    }
-
-    @Override
-    protected int getSampleCount() {
-        return samples.size();
-    }
-
-    //region Private Helpers
-
-    private List<Point2D> createUnitSquareSamples(List<Double> samples) {
-        List<Point2D> backingPointSamples = new ArrayList<>();
-        for (Double sample : samples) {
-            backingPointSamples.add(new Point2D(sample, sample));
-        }
-        return backingPointSamples;
-    }
-
-    private List<Double> createValueSamples(int numberOfSamples) {
+    protected List<Double> createLinearSamples(int numberOfSamples) {
         List<Double> backingSamples = new ArrayList<>();
         final double stepSize = 1d / numberOfSamples;
         final double start = stepSize / 2d;
@@ -77,5 +47,15 @@ public class RegularSampler extends AbstractSampler {
         return backingSamples;
     }
 
-    //endregion
+    @Nonnull
+    @Override
+    protected List<Point2D> createUnitSquareSamples(int numberOfSamples) {
+        List<Double> sampleValues = createLinearSamples(numberOfSamples);
+        List<Point2D> backingPointSamples = new ArrayList<>();
+        for (Double sample : sampleValues) {
+            backingPointSamples.add(new Point2D(sample, sample));
+        }
+        return backingPointSamples;
+    }
+
 }

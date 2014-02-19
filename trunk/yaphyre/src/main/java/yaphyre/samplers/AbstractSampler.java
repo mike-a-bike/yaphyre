@@ -16,6 +16,9 @@
 
 package yaphyre.samplers;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import yaphyre.core.Sampler;
@@ -30,9 +33,31 @@ import yaphyre.math.Point3D;
  */
 public abstract class AbstractSampler implements Sampler {
 
+    private List<Double> linearSamples;
+
+    private List<Point2D> pointSamples;
+
+    public AbstractSampler(int numberOfSamples) {
+        linearSamples = Collections.unmodifiableList(createLinearSamples(numberOfSamples));
+        pointSamples = Collections.unmodifiableList(createUnitSquareSamples(numberOfSamples));
+    }
+
+    @Nonnull
+    @Override
+    public Iterable<Double> getSamples() {
+        return linearSamples;
+    }
+
+    @Nonnull
+    @Override
+    public Iterable<Point2D> getUnitSquareSamples() {
+        return pointSamples;
+    }
+
     @Nonnull
     @Override
     public Iterable<Point2D> getUnitCircleSamples() {
+        // map samples to unit circle u/v -> r/phi polar transformation
         return null;
     }
 
@@ -48,6 +73,22 @@ public abstract class AbstractSampler implements Sampler {
         return null;
     }
 
-    protected abstract int getSampleCount();
+    @Override
+    public void shuffle() {
+        linearSamples = shuffleCollection(linearSamples);
+        pointSamples = shuffleCollection(pointSamples);
+    }
+
+    private <T> List<T> shuffleCollection(List<T> collection) {
+        List<T> shuffledCollection = new ArrayList<>(collection);
+        Collections.shuffle(shuffledCollection);
+        return Collections.unmodifiableList(shuffledCollection);
+    }
+
+    @Nonnull
+    protected abstract List<Double> createLinearSamples(int numberOfSamples);
+
+    @Nonnull
+    protected abstract List<Point2D> createUnitSquareSamples(int numberOfSamples);
 
 }

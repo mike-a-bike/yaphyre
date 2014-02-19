@@ -61,15 +61,4 @@ public class RegularSamplerTest {
         assertFalse(samples.hasNext());
     }
 
-    @Test
-    public void testGetSampleCount() throws Exception {
-        RegularSampler sampler = new RegularSampler(4);
-        assertEquals(4, sampler.getSampleCount());
-        
-        sampler = new RegularSampler(1);
-        assertEquals(1, sampler.getSampleCount());
-        
-        sampler = new RegularSampler(1000);
-        assertEquals(1000, sampler.getSampleCount());
-    }
 }
