@@ -55,4 +55,6 @@ public interface Sampler {
 
     @Nonnull
     public Iterable<Point3D> getUnitHemisphereSamples(@Nonnegative double cosinePower);
+
+    public void shuffle();
 }

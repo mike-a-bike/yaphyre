@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.List;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
+import yaphyre.core.Sampler;
 import yaphyre.math.Point2D;
 import yaphyre.math.Point3D;
 
@@ -30,7 +31,7 @@ import yaphyre.math.Point3D;
  * @author Michael Bieri
  * @since 04.02.14
  */
-public class SingleValueSampler extends AbstractSampler {
+public class SingleValueSampler implements Sampler {
 
     /** An unmodifiable collection containing the one sample of this sampler. */
     private static final List<Double> SAMPLES = Collections.unmodifiableList(Arrays.asList(0.5d));
@@ -78,7 +79,8 @@ public class SingleValueSampler extends AbstractSampler {
     }
 
     @Override
-    protected int getSampleCount() {
-        return SAMPLES.size();
+    public void shuffle() {
+        // NOP -> Makes no sense in a sampler with one sample...
     }
+
 }

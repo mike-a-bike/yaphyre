@@ -19,7 +19,6 @@ package yaphyre.samplers;
 import javax.annotation.Nonnull;
 import org.junit.Before;
 import org.junit.Test;
-import yaphyre.core.Sampler;
 import yaphyre.math.Point2D;
 import yaphyre.math.Point3D;
 
@@ -38,14 +37,6 @@ public class SingleValueSamplerTest {
     @Before
     public void setUp() {
         singleValueSampler = new SingleValueSampler();
-    }
-
-    /**
-     * Test if the sampler count is one.
-     */
-    @Test
-    public void testGetSampleCount() {
-        assertEquals(1, singleValueSampler.getSampleCount());
     }
 
     /**
