@@ -74,7 +74,7 @@ public class OrthographicCameraTest {
         when(film.getNativeResolution()).thenReturn(new Pair<>(X_SIZE, Y_SIZE));
         tracer = mock(Tracer.class);
         when(tracer.traceRay(any(Ray.class), any(Scene.class))).thenReturn(Color.BLACK);
-        testCamera = new OrthographicCamera<>(film, DIMENSION, DIMENSION, Z_COORDINATE);
+        testCamera = new OrthographicCamera(film, DIMENSION, DIMENSION, Z_COORDINATE);
         testCamera.setTracer(tracer);
     }
 

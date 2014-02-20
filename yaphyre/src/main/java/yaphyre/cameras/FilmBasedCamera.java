@@ -27,19 +27,19 @@ import javax.annotation.Nonnull;
  * @author Michael Bieri
  * @since 27.07.13
  */
-public abstract class FilmBasedCamera<T extends Film> extends AbstractCamera {
+public abstract class FilmBasedCamera extends AbstractCamera {
 
     /**
      * film field.
      */
-    private final T film;
+    private final Film film;
 
     /**
      * Constructor creating a new instance. The {@link yaphyre.core.Film} instance must not be null.
      *
      * @param film The instance of {@link yaphyre.core.Film} to use. Not null
      */
-    protected FilmBasedCamera(@Nonnull T film) {
+    protected FilmBasedCamera(@Nonnull Film film) {
         this.film = film;
     }
 
@@ -49,7 +49,7 @@ public abstract class FilmBasedCamera<T extends Film> extends AbstractCamera {
      * @return The {@link yaphyre.core.Film} instance associated with this camera.
      */
     @Nonnull
-    public T getFilm() {
+    public Film getFilm() {
         return film;
     }
 }
