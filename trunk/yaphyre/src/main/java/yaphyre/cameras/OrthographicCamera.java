@@ -34,7 +34,7 @@ import yaphyre.math.Vector3D;
  * @author Michael Bieri
  * @since 18.02.14
  */
-public class OrthographicCamera<T extends Film> extends FilmBasedCamera<T> {
+public class OrthographicCamera extends FilmBasedCamera {
 
     /** The cameras size in the u dimension. */
     private final double uDimension;
@@ -53,7 +53,7 @@ public class OrthographicCamera<T extends Film> extends FilmBasedCamera<T> {
      * @param vDimension The size of the sampling rectangle in the v direction.
      * @param zCoordinate The location of the camera on the z axis.
      */
-    public OrthographicCamera(@Nonnull T film,
+    public OrthographicCamera(@Nonnull Film film,
                               @Nonnegative double uDimension, @Nonnegative double vDimension,
                               double zCoordinate) {
         super(film);

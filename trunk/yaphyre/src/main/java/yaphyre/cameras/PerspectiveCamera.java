@@ -41,7 +41,7 @@ import static java.lang.Math.tan;
  * @author Michael Bieri
  * @since 05.07.13
  */
-public class PerspectiveCamera<T extends Film> extends FilmBasedCamera<T> {
+public class PerspectiveCamera extends FilmBasedCamera {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PerspectiveCamera.class);
 
@@ -58,7 +58,7 @@ public class PerspectiveCamera<T extends Film> extends FilmBasedCamera<T> {
 	private Point3D virtualOrigin;
 	public static final Range<Double> VALID_COORDINATE_RANGE = Range.between(0d, 1d);
 
-	public PerspectiveCamera(@Nonnull T film,
+	public PerspectiveCamera(@Nonnull Film film,
 	                         @Nonnull Point3D position, @Nonnull Point3D lookAt, @Nonnull Normal3D up,
 	                         @Nonnegative double fieldOfView, @Nonnegative double aspectRatio,
 	                         @Nonnegative double nearDistance, @Nonnegative double farDistance) {

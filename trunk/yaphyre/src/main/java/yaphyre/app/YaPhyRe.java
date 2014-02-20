@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import yaphyre.cameras.FilmBasedCamera;
 import yaphyre.cameras.OrthographicCamera;
 import yaphyre.core.Camera;
+import yaphyre.core.Film;
 import yaphyre.core.Sampler;
 import yaphyre.core.Scene;
 import yaphyre.core.Tracer;
@@ -78,9 +79,10 @@ public class YaPhyRe {
         int cameraIndex = 0;
         for (Camera camera : scene.getCameras()) {
             if (camera instanceof FilmBasedCamera) {
-                FilmBasedCamera<?> filmBasedCamera = (FilmBasedCamera) camera;
-                if (filmBasedCamera.getFilm() instanceof ImageFile) {
-                    ImageFile imageFileFilm = (ImageFile) filmBasedCamera.getFilm();
+                FilmBasedCamera filmBasedCamera = (FilmBasedCamera) camera;
+                final Film film = filmBasedCamera.getFilm();
+                if (film instanceof ImageFile) {
+                    ImageFile imageFileFilm = (ImageFile) film;
                     String fileName = String.format("color_%d.%s",
                             cameraIndex++,
                             ImageFile.ImageFormat.PNG.getDefaultFileExtension());
@@ -104,10 +106,10 @@ public class YaPhyRe {
 
         ImageFile film = new ImageFile(640, 480);
 
-        final double hFov = FovCalculator.FullFrame35mm.calculateHorizontalFov(50d);
-        final double aspectRatio = ((double) film.getNativeResolution().getFirst()) / ((double) film.getNativeResolution().getSecond());
-
-//        final Camera camera = new PerspectiveCamera<>(
+//        final double hFov = FovCalculator.FullFrame35mm.calculateHorizontalFov(50d);
+//        final double aspectRatio = ((double) film.getNativeResolution().getFirst()) / ((double) film.getNativeResolution().getSecond());
+//
+//        final Camera camera = new PerspectiveCamera(
 //                film,
 //                new Point3D(2, 2, -2),
 //                Point3D.ORIGIN,
@@ -116,7 +118,7 @@ public class YaPhyRe {
 //                aspectRatio,
 //                MathUtils.EPSILON,
 //                1d / MathUtils.EPSILON);
-        Camera camera = new OrthographicCamera<>(film, 8d, 6d, 100d);
+        Camera camera = new OrthographicCamera(film, 8d, 6d, 100d);
         scene.addCamera(camera);
 
         return scene;
