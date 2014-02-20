@@ -44,21 +44,20 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- language additions -->
-        <intellij.annotations.version>12.0</intellij.annotations.version>
+        <!--<intellij.annotations.version>12.0</intellij.annotations.version>-->
         <jsr305.version>2.0.1</jsr305.version>
 
         <!-- Library versions -->
-        <spring.version>4.0.1.RELEASE</spring.version>
+        <!--<spring.version>4.0.1.RELEASE</spring.version>-->
         <logback.classic.version>1.0.13</logback.classic.version>
         <guice.version>3.0</guice.version>
         <guava.version>14.0.1</guava.version>
         <commons.cli.version>1.2</commons.cli.version>
         <commoms.lang3.version>3.1</commoms.lang3.version>
         <commons.math3.version>3.2</commons.math3.version>
-        <joox.version>0.9.3</joox.version>
 
-        <junit.version>4.9</junit.version>
         <mockito-all.version>1.9.5</mockito-all.version>
+        <junit.version>4.9</junit.version>
 
     </properties>
 
@@ -78,15 +77,33 @@
         </plugins>
     </build>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.7</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <configuration>
+                    <show>protected</show>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+
+    <!--<dependencyManagement>-->
+        <!--<dependencies>-->
+            <!--<dependency>-->
+                <!--<groupId>org.springframework</groupId>-->
+                <!--<artifactId>spring-context</artifactId>-->
+                <!--<version>${spring.version}</version>-->
+            <!--</dependency>-->
+        <!--</dependencies>-->
+    <!--</dependencyManagement>-->
 
     <dependencies>
 
@@ -152,14 +169,7 @@
             <version>${commons.math3.version}</version>
         </dependency>
 
-        <!-- JOOX -->
-        <dependency>
-            <groupId>org.jooq</groupId>
-            <artifactId>joox</artifactId>
-            <version>${joox.version}</version>
-        </dependency>
-
-        <!-- Testing: Mockito / PowerMock -->
+        <!-- Testing: Mockito -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
