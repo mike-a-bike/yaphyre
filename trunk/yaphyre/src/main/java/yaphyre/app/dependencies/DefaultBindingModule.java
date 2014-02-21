@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package yaphyre.app;
+package yaphyre.app.dependencies;
 
 import com.google.inject.Exposed;
 import com.google.inject.PrivateModule;
@@ -24,7 +24,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import yaphyre.core.Sampler;
 import yaphyre.core.Tracer;
-import yaphyre.tracers.SimpleRayCaster;
 
 import javax.annotation.Nonnull;
 

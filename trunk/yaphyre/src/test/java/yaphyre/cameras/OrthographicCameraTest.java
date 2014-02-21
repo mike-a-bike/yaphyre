@@ -37,7 +37,7 @@ import static org.mockito.Mockito.when;
 import static yaphyre.math.MathUtils.EPSILON;
 
 /**
- * YaPhyRe
+ * Test cases for the OrthographicCamera class.
  *
  * @author Michael Bieri
  * @since 18.02.14
