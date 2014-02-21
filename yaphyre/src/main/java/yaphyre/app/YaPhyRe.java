@@ -18,9 +18,16 @@ package yaphyre.app;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import org.apache.commons.cli.*;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.OptionBuilder;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.PosixParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import yaphyre.app.aop.AOPModule;
+import yaphyre.app.dependencies.DefaultBindingModule;
 import yaphyre.cameras.FilmBasedCamera;
 import yaphyre.cameras.OrthographicCamera;
 import yaphyre.core.Camera;
@@ -29,7 +36,7 @@ import yaphyre.core.Sampler;
 import yaphyre.core.Scene;
 import yaphyre.core.Tracer;
 import yaphyre.films.ImageFile;
-import yaphyre.math.*;
+import yaphyre.math.Transformation;
 import yaphyre.samplers.SingleValueSampler;
 import yaphyre.shapes.Sphere;
 import yaphyre.tracers.SimpleRayCaster;
@@ -130,7 +137,8 @@ public class YaPhyRe {
         Sampler lightSampler = new SingleValueSampler();
         Sampler defaultSampler = new SingleValueSampler();
         Tracer tracer = new SimpleRayCaster();
-        injector = Guice.createInjector(new DefaultBindingModule(cameraSampler, lightSampler, defaultSampler, tracer));
+	    injector = Guice.createInjector(new AOPModule(), new DefaultBindingModule(cameraSampler, lightSampler, defaultSampler, tracer));
+	    injector.injectMembers(tracer);
     }
 
     private static CommandLine parseCommandLine(String[] arguments) {
