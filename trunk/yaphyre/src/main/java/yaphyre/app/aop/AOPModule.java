@@ -29,7 +29,9 @@ import static com.google.inject.matcher.Matchers.any;
 import static com.google.inject.matcher.Matchers.subclassesOf;
 
 public class AOPModule extends AbstractModule {
+
 	protected void configure() {
 		bindInterceptor(subclassesOf(Tracer.class), any(), new TracingInterceptor());
 	}
+
 }
