@@ -26,7 +26,6 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import yaphyre.app.aop.AOPModule;
 import yaphyre.app.dependencies.DefaultBindingModule;
 import yaphyre.cameras.FilmBasedCamera;
 import yaphyre.cameras.OrthographicCamera;
@@ -37,7 +36,9 @@ import yaphyre.core.Scene;
 import yaphyre.core.Tracer;
 import yaphyre.films.ImageFile;
 import yaphyre.math.Transformation;
+import yaphyre.samplers.RegularSampler;
 import yaphyre.samplers.SingleValueSampler;
+import yaphyre.samplers.StratifiedSampler;
 import yaphyre.shapes.Sphere;
 import yaphyre.tracers.SimpleRayCaster;
 
@@ -132,15 +133,36 @@ public class YaPhyRe {
 	}
 
 	private static void setupInjector(CommandLine commandLine) {
-		String cameraSamplerName = commandLine.getOptionValue("cameraSampler");
-		Sampler cameraSampler = new SingleValueSampler();
-		Sampler lightSampler = new SingleValueSampler();
+        Sampler cameraSampler = createSampler(commandLine.getOptionValues("cameraSampler"));
+        Sampler lightSampler = new SingleValueSampler();
 		Sampler defaultSampler = new SingleValueSampler();
 		Tracer tracer = new SimpleRayCaster();
-		injector = Guice.createInjector(new AOPModule(), new DefaultBindingModule(cameraSampler, lightSampler, defaultSampler, tracer));
+		injector = Guice.createInjector(new DefaultBindingModule(cameraSampler, lightSampler, defaultSampler, tracer));
 	}
 
-	private static CommandLine parseCommandLine(String[] arguments) {
+    private static Sampler createSampler(String[] commandlineArguments) {
+        LOGGER.debug("Creating sampler for: {}", (Object) commandlineArguments);
+        String samplerName = commandlineArguments[0];
+        Sampler sampler;
+        if (samplerName.equalsIgnoreCase("single")) {
+            sampler = new SingleValueSampler();
+        } else {
+            int sampleCount = Integer.parseInt(commandlineArguments[1]);
+            switch (samplerName.toLowerCase()) {
+                case "regular":
+                    sampler = new RegularSampler(sampleCount);
+                    break;
+                case "stratified":
+                    sampler = new StratifiedSampler(sampleCount);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unknown type for  sampler: " + samplerName);
+            }
+        }
+        return sampler;
+    }
+
+    private static CommandLine parseCommandLine(String[] arguments) {
 		CommandLine commandLine = null;
 		Options commandLineOptions = createCommandLineOptions();
 		try {
@@ -156,14 +178,13 @@ public class YaPhyRe {
 	private static Options createCommandLineOptions() {
 		Options options = new Options();
 
-		options.addOption(
-				OptionBuilder.withArgName("sampler name")
-						.withDescription("The Sampler to use for the camera (single, jittered, regular, random)")
-						.hasArg()
-						.isRequired()
-						.create("cameraSampler"));
+        OptionBuilder.withArgName("<sampler name> [number of samples]");
+        OptionBuilder.withDescription("The Sampler to use for the camera (single, regular, stratified, random)");
+        OptionBuilder.hasArgs(2);
+        OptionBuilder.isRequired();
+        options.addOption(OptionBuilder.create("cameraSampler"));
 
-		return options;
+        return options;
 	}
 
 	private static void printHelp(Options commandLineOptions) {
