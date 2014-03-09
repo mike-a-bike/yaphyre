@@ -35,7 +35,7 @@ import yaphyre.core.Sampler;
 import yaphyre.core.Scene;
 import yaphyre.core.Tracer;
 import yaphyre.films.ImageFile;
-import yaphyre.math.Transformation;
+import yaphyre.math.Point3D;
 import yaphyre.samplers.RegularSampler;
 import yaphyre.samplers.SingleValueSampler;
 import yaphyre.samplers.StratifiedSampler;
@@ -83,6 +83,47 @@ public class YaPhyRe {
 		LOGGER.info("Finished");
 	}
 
+	private static Scene setupScene(Injector injector) {
+		Scene scene = injector.getInstance(Scene.class);
+
+		scene.addShape(Sphere.createSphere(Point3D.ORIGIN, 1d, null));
+//        scene.addShape(new Plane(Transformation.IDENTITY, null));
+
+		ImageFile film = new ImageFile(640, 480);
+
+//        final double hFov = FovCalculator.FullFrame35mm.calculateHorizontalFov(50d);
+//        final double aspectRatio = ((double) film.getNativeResolution().getFirst()) / ((double) film.getNativeResolution().getSecond());
+//
+//        final Camera camera = new PerspectiveCamera(
+//                film,
+//                new Point3D(2, 2, -2),
+//                Point3D.ORIGIN,
+//                Normal3D.NORMAL_Y,
+//                hFov,
+//                aspectRatio,
+//                MathUtils.EPSILON,
+//                1d / MathUtils.EPSILON);
+
+		Camera camera = new OrthographicCamera(film, 8d, 6d, 100d);
+		scene.addCamera(camera);
+
+		return scene;
+	}
+
+	private static void setupInjector(CommandLine commandLine) {
+        Sampler cameraSampler = createSampler(commandLine.getOptionValues("cameraSampler"));
+        Sampler lightSampler = new SingleValueSampler();
+		Sampler defaultSampler = new SingleValueSampler();
+		Tracer tracer = new SimpleRayCaster();
+		injector = Guice.createInjector(new DefaultBindingModule(cameraSampler, lightSampler, defaultSampler, tracer));
+	}
+
+	private static void renderScene(Scene scene) {
+		for (Camera camera : scene.getCameras()) {
+			camera.renderScene(scene);
+		}
+	}
+
 	private static void saveImages(Scene scene) {
 		int cameraIndex = 0;
 		for (Camera camera : scene.getCameras()) {
@@ -100,69 +141,7 @@ public class YaPhyRe {
 		}
 	}
 
-	private static void renderScene(Scene scene) {
-		for (Camera camera : scene.getCameras()) {
-			camera.renderScene(scene);
-		}
-	}
-
-	private static Scene setupScene(Injector injector) {
-		Scene scene = injector.getInstance(Scene.class);
-
-		scene.addShape(new Sphere(Transformation.IDENTITY, 0, 360d, 0, 180d, null));
-//        scene.addShape(new Plane(Transformation.IDENTITY, null));
-
-		ImageFile film = new ImageFile(640, 480);
-
-//        final double hFov = FovCalculator.FullFrame35mm.calculateHorizontalFov(50d);
-//        final double aspectRatio = ((double) film.getNativeResolution().getFirst()) / ((double) film.getNativeResolution().getSecond());
-//
-//        final Camera camera = new PerspectiveCamera(
-//                film,
-//                new Point3D(2, 2, -2),
-//                Point3D.ORIGIN,
-//                Normal3D.NORMAL_Y,
-//                hFov,
-//                aspectRatio,
-//                MathUtils.EPSILON,
-//                1d / MathUtils.EPSILON);
-		Camera camera = new OrthographicCamera(film, 8d, 6d, 100d);
-		scene.addCamera(camera);
-
-		return scene;
-	}
-
-	private static void setupInjector(CommandLine commandLine) {
-        Sampler cameraSampler = createSampler(commandLine.getOptionValues("cameraSampler"));
-        Sampler lightSampler = new SingleValueSampler();
-		Sampler defaultSampler = new SingleValueSampler();
-		Tracer tracer = new SimpleRayCaster();
-		injector = Guice.createInjector(new DefaultBindingModule(cameraSampler, lightSampler, defaultSampler, tracer));
-	}
-
-    private static Sampler createSampler(String[] commandlineArguments) {
-        LOGGER.debug("Creating sampler for: {}", (Object) commandlineArguments);
-        String samplerName = commandlineArguments[0];
-        Sampler sampler;
-        if (samplerName.equalsIgnoreCase("single")) {
-            sampler = new SingleValueSampler();
-        } else {
-            int sampleCount = Integer.parseInt(commandlineArguments[1]);
-            switch (samplerName.toLowerCase()) {
-                case "regular":
-                    sampler = new RegularSampler(sampleCount);
-                    break;
-                case "stratified":
-                    sampler = new StratifiedSampler(sampleCount);
-                    break;
-                default:
-                    throw new IllegalArgumentException("Unknown type for  sampler: " + samplerName);
-            }
-        }
-        return sampler;
-    }
-
-    private static CommandLine parseCommandLine(String[] arguments) {
+	private static CommandLine parseCommandLine(String[] arguments) {
 		CommandLine commandLine = null;
 		Options commandLineOptions = createCommandLineOptions();
 		try {
@@ -173,6 +152,28 @@ public class YaPhyRe {
 			System.exit(1);
 		}
 		return commandLine;
+	}
+
+	private static Sampler createSampler(String[] commandlineArguments) {
+		LOGGER.debug("Creating sampler for: {}", (Object) commandlineArguments);
+		String samplerName = commandlineArguments[0];
+		Sampler sampler;
+		if (samplerName.equalsIgnoreCase("single")) {
+			sampler = new SingleValueSampler();
+		} else {
+			int sampleCount = Integer.parseInt(commandlineArguments[1]);
+			switch (samplerName.toLowerCase()) {
+				case "regular":
+					sampler = new RegularSampler(sampleCount);
+					break;
+				case "stratified":
+					sampler = new StratifiedSampler(sampleCount);
+					break;
+				default:
+					throw new IllegalArgumentException("Unknown type for  sampler: " + samplerName);
+			}
+		}
+		return sampler;
 	}
 
 	private static Options createCommandLineOptions() {
