@@ -16,11 +16,14 @@
 
 package yaphyre.samplers;
 
-import javax.annotation.Nonnull;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import yaphyre.math.Point2D;
 import yaphyre.math.Point3D;
+
+import javax.annotation.Nonnull;
 
 import static org.junit.Assert.assertEquals;
 
@@ -32,7 +35,10 @@ import static org.junit.Assert.assertEquals;
  */
 public class SingleValueSamplerTest {
 
-    private SingleValueSampler singleValueSampler;
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
+
+	private SingleValueSampler singleValueSampler;
 
     @Before
     public void setUp() {
@@ -44,33 +50,34 @@ public class SingleValueSamplerTest {
      */
     @Test
     public void testGetSamples() {
-        validateSingleSample(0.5d, singleValueSampler.getSamples());
+	    validateSingleSample(0.5d, singleValueSampler.getSamples());
     }
 
-    /**
-     * Checks the number of samples (one) and its value on a unit square (0.5, 0.5).
+	/**
+	 * Checks the number of samples (one) and its value on a unit square (0.5, 0.5).
      */
     @Test
     public void testGetUnitSquareSamples() {
-        validateSingleSample(new Point2D(0.5d, 0.5d), singleValueSampler.getUnitSquareSamples());
+	    validateSingleSample(new Point2D(0.5d, 0.5d), singleValueSampler.getUnitSquareSamples());
     }
 
     @Test
     public void testGetUnitCircleSamples() {
-        validateSingleSample(Point2D.ZERO, singleValueSampler.getUnitCircleSamples());
+	    validateSingleSample(Point2D.ZERO, singleValueSampler.getUnitCircleSamples());
     }
 
-    @Test
-    public void testGetUnitHemisphereSamples() {
+	@Test
+	public void testGetUnitHemisphereSamples() {
         validateSingleSample(new Point3D(0, 1, 0), singleValueSampler.getUnitHemisphereSamples(100));
     }
 
     /**
      * This should throw a RuntimeException, since there is no single point to sample on a unit sphere.
      */
-    @Test(expected = RuntimeException.class)
+    @Test
     public void testGetUnitSphereSamples() {
-        singleValueSampler.getUnitSphereSamples();
+	    thrown.expect(RuntimeException.class);
+	    singleValueSampler.getUnitSphereSamples();
     }
 
     /**
