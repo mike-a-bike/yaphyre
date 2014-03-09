@@ -86,9 +86,9 @@ public class Scene {
 				.add("lightsources", lightsources.size()).toString();
 	}
 
-	public CollisionInformation getCollisionInformation(Ray ray, double maxDistance) {
+	public CollisionInformation hitObject(Ray ray, Range<Double> hitRange) {
 
-		double nearestCollisionDistance = maxDistance;
+		double nearestCollisionDistance = hitRange.getMaximum();
 		CollisionInformation result = null;
 
 		for (Shape shape : getShapes()) {
@@ -100,11 +100,6 @@ public class Scene {
 		}
 
 		return result;
-	}
-
-
-	public CollisionInformation hitObject(Ray ray, Range<Double> hitRange) {
-		return null;
 	}
 
 }

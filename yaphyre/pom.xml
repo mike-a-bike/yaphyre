@@ -48,12 +48,11 @@
         <jsr305.version>2.0.1</jsr305.version>
 
         <!-- Library versions -->
-        <!--<spring.version>4.0.1.RELEASE</spring.version>-->
         <logback.classic.version>1.0.13</logback.classic.version>
         <guice.version>3.0</guice.version>
         <guava.version>14.0.1</guava.version>
         <commons.cli.version>1.2</commons.cli.version>
-        <commoms.lang3.version>3.1</commoms.lang3.version>
+        <commoms.lang3.version>3.3</commoms.lang3.version>
         <commons.math3.version>3.2</commons.math3.version>
 
         <mockito-all.version>1.9.5</mockito-all.version>
@@ -95,16 +94,6 @@
         </plugins>
     </reporting>
 
-    <!--<dependencyManagement>-->
-        <!--<dependencies>-->
-            <!--<dependency>-->
-                <!--<groupId>org.springframework</groupId>-->
-                <!--<artifactId>spring-context</artifactId>-->
-                <!--<version>${spring.version}</version>-->
-            <!--</dependency>-->
-        <!--</dependencies>-->
-    <!--</dependencyManagement>-->
-
     <dependencies>
 
 		<!-- IntelliJ annotations -->
@@ -120,12 +109,6 @@
             <artifactId>jsr305</artifactId>
             <version>${jsr305.version}</version>
         </dependency>
-
-        <!-- Spring framework -->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework</groupId>-->
-            <!--<artifactId>spring-context</artifactId>-->
-        <!--</dependency>-->
 
         <!-- LogBack logging framework -->
         <dependency>
