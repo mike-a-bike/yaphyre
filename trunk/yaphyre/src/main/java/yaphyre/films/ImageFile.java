@@ -16,12 +16,6 @@
 
 package yaphyre.films;
 
-import java.awt.image.BufferedImage;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Collection;
-import javax.annotation.Nonnull;
-import javax.imageio.ImageIO;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import org.apache.commons.math3.util.Pair;
@@ -31,6 +25,13 @@ import yaphyre.core.CameraSample;
 import yaphyre.core.Film;
 import yaphyre.math.Color;
 import yaphyre.math.Point2D;
+
+import javax.annotation.Nonnull;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Collection;
 
 /**
  * YaPhyRe
@@ -57,10 +58,8 @@ public class ImageFile implements Film {
     public void safeAsImage(String filename, ImageFormat format) {
 		BufferedImage bufferedImage = createImageFromSamples();
 
-		try {
-			FileOutputStream imageFileStream = new FileOutputStream(filename);
-			ImageIO.write(bufferedImage, String.valueOf(format), imageFileStream);
-			imageFileStream.close();
+	    try (FileOutputStream imageFileStream = new FileOutputStream(filename)) {
+		    ImageIO.write(bufferedImage, String.valueOf(format), imageFileStream);
 		} catch (IOException ioe) {
 			LOGGER.error("Could not write image file: '" + filename + "' with format: '" + format + "'", ioe);
 		}
