@@ -90,8 +90,7 @@ public class ImageFile implements Film {
 		int green = (int) (color.getGreen() * 255);
 		int blue = (int) (color.getBlue() * 255);
 		int alpha = 0xff;
-		int argb = ((alpha << 24) | (red << 16) | (green << 8) | blue);
-		return argb;
+        return ((alpha << 24) | (red << 16) | (green << 8) | blue);
 	}
 
 	@Nonnull

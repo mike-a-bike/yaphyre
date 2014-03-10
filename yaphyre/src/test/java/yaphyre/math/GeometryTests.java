@@ -25,6 +25,6 @@ import org.junit.runners.Suite.SuiteClasses;
 		Point2DTest.class, VectorTest.class, MatrixTest.class, TransformationTest.class, RayTest.class,
 		FovCalculatorTest.class, BezierCurveTest.class, BoundingBoxTest.class, MathUtilsTest.class,
 		VectorMathTest.class, ColorTest.class})
-public class AllGeometryTests {
+public class GeometryTests {
 
 }

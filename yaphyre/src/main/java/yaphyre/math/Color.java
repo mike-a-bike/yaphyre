@@ -41,14 +41,10 @@ public class Color implements Serializable {
 
 	private static final long serialVersionUID = 6104986207165257901L;
 
-	/**
-	 * Represent the value of black.
-	 */
+	/** Represent the value of black. */
 	public static final Color BLACK = new Color(0d, 0d, 0d);
 
-	/**
-	 * White
-	 */
+	/** White */
 	public static final Color WHITE = new Color(1d, 1d, 1d);
 
 	private final double red;
@@ -81,8 +77,8 @@ public class Color implements Serializable {
 	}
 
 	/**
-	 * Compares two instances. If the instance to compare to is a {@link yaphyre.math.Color}, non-null and each its three color
-	 * components has the same value as this instance, the two {@link yaphyre.math.Color}s are equal.
+	 * Compares two instances. If the instance to compare to is a {@link yaphyre.math.Color}, non-null and each its
+     * three color components has the same value as this instance, the two {@link yaphyre.math.Color}s are equal.
 	 *
 	 * @return <code>true</code> if both {@link yaphyre.math.Color} instances represent the same red, green and blue values.
 	 */
@@ -138,8 +134,8 @@ public class Color implements Serializable {
 	}
 
 	/**
-	 * Add another {@link yaphyre.math.Color} to this {@link yaphyre.math.Color}. Adds each component separately and creates a new color with these
-	 * values.
+	 * Add another {@link yaphyre.math.Color} to this {@link yaphyre.math.Color}. Adds each component separately and
+     * creates a new color with these values.
 	 *
 	 * @param other The {@link yaphyre.math.Color} to add to this instance.
 	 *
@@ -152,8 +148,9 @@ public class Color implements Serializable {
 	/**
 	 * When doing calculations with a color it can happen that the range between zero and one is exceeded. To use such a
 	 * color in another context it is necessary to make sure that the value for the color components are within the
-	 * allowed boundaries. Otherwise clipping can occur.<br/> By clipping the color values it ensures that values smaller
-	 * than zero are set to zero and values bigger than one are set to one. Any other values are left as they are.
+	 * allowed boundaries. Otherwise clipping can occur.<br/> By clipping the color values it ensures that values
+     * smaller than zero are set to zero and values bigger than one are set to one. Any other values are left as they
+     * are.
 	 *
 	 * @return A new instance of {@link yaphyre.math.Color} with each component value between zero and one.
 	 */
@@ -165,8 +162,8 @@ public class Color implements Serializable {
 	}
 
 	/**
-	 * If a value for one of the three color components exceeds the range of zero to one all the components are scaled so
-	 * that the biggest value is one and all the others are scaled accordingly.
+	 * If a value for one of the three color components exceeds the range of zero to one all the components are scaled
+     * so that the biggest value is one and all the others are scaled accordingly.
 	 *
 	 * @return A new instance of {@link yaphyre.math.Color} with the scaled values.
 	 */
