@@ -16,15 +16,14 @@
 
 package yaphyre.core;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.inject.Inject;
 import com.google.common.base.Objects;
 import com.google.inject.Injector;
 import org.apache.commons.lang3.Range;
 import yaphyre.math.Ray;
-
-import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * YaPhyRe

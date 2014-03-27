@@ -34,17 +34,17 @@ import yaphyre.shapes.Sphere;
  * @author Michael Bieri
  * @since 05.07.13
  */
-public class SimpleRayCaster implements Tracer {
+public class DebuggingRayCaster implements Tracer {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleRayCaster.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DebuggingRayCaster.class);
 
     private static final Range<Double> rayRange = Range.between(MathUtils.EPSILON, 1d / MathUtils.EPSILON);
 
-	private static final Color BLUE = new Color(0, 0, 1);
+	private static final Color BLUE = new Color(0, 0, .9d);
 
-	private static final Color RED = new Color(1, 0, 0);
+	private static final Color RED = new Color(.9d, 0, 0);
 
-	private static final Color GREEN = new Color(0, 1, 0);
+	private static final Color GREEN = new Color(0, .9d, 0);
 
 	@Override
 	public Color traceRay(Ray ray, Scene scene) {
