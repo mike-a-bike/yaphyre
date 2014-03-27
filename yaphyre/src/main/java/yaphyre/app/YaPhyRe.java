@@ -40,21 +40,28 @@ import yaphyre.samplers.RegularSampler;
 import yaphyre.samplers.SingleValueSampler;
 import yaphyre.samplers.StratifiedSampler;
 import yaphyre.shapes.Sphere;
-import yaphyre.tracers.SimpleRayCaster;
+import yaphyre.tracers.DebuggingRayCaster;
 
 /**
- * YaPhyRe
+ * YaPhyRe: Renderer application class. This reads the commandline for the sampler to use and sets up a simple,
+ * hardcoded scene. It then renders the scene and saves the result as image file. In the future,
+ * this will be the entry point from where the rendering process is setup and executed.
  *
  * @author Michael Bieri
  * @since 08.09.13
  */
 public class YaPhyRe {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(YaPhyRe.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(YaPhyRe.class);
 
-	private static Injector injector;
+    public static final String COMMANDLINE_OPTION_CAMERA_SAMPLER = "cameraSampler";
+    public static final String COMMANDLINE_OPTION_GAMMA = "gamma";
 
-	public static void main(String... arguments) {
+    public static final double DEFAULT_GAMMA = 1d;
+
+    public static void main(String... arguments) {
+
+        final double gamma;
 
 		LOGGER.info("------------------------");
 		LOGGER.info("-- Welcome to YaPhyRe --");
@@ -62,15 +69,16 @@ public class YaPhyRe {
 
 		// Parsing the commandline
 		LOGGER.info("Reading CommandLine");
-		CommandLine commandLine = parseCommandLine(arguments);
+		final CommandLine commandLine = parseCommandLine(arguments);
+        gamma = evaluateGamma(commandLine);
 
-		// Setup the injector
+        // Setup the injector
 		LOGGER.info("Setting up Injector");
-		setupInjector(commandLine);
+        final Injector injector = setupInjector(commandLine);
 
 		// Preparing the scene
 		LOGGER.info("Setting up Scene");
-		Scene scene = setupScene(injector);
+        final Scene scene = setupScene(injector);
 
 		// Render the scene
 		LOGGER.info("Render Scene");
@@ -78,12 +86,26 @@ public class YaPhyRe {
 
 		// Save the result
 		LOGGER.info("Save Result");
-		saveImages(scene);
+		saveImages(scene, gamma);
 
 		LOGGER.info("Finished");
 	}
 
-	private static Scene setupScene(Injector injector) {
+    private static double evaluateGamma(CommandLine commandLine) {
+        double gamma;
+        try {
+            gamma = Double.parseDouble(commandLine.getOptionValue(COMMANDLINE_OPTION_GAMMA));
+        } catch (NullPointerException | NumberFormatException exception) {
+            if (exception instanceof NumberFormatException) {
+                LOGGER.warn("Unable to parse gamma value.");
+            }
+            LOGGER.info("Using default gamma value: " + DEFAULT_GAMMA);
+            gamma = DEFAULT_GAMMA;
+        }
+        return gamma;
+    }
+
+    private static Scene setupScene(Injector injector) {
 		Scene scene = injector.getInstance(Scene.class);
 
 		scene.addShape(Sphere.createSphere(Point3D.ORIGIN, 1d, null));
@@ -110,21 +132,21 @@ public class YaPhyRe {
 		return scene;
 	}
 
-	private static void setupInjector(CommandLine commandLine) {
-        Sampler cameraSampler = createSampler(commandLine.getOptionValues("cameraSampler"));
+	private static Injector setupInjector(CommandLine commandLine) {
+        Sampler cameraSampler = createSampler(commandLine.getOptionValues(COMMANDLINE_OPTION_CAMERA_SAMPLER));
         Sampler lightSampler = new SingleValueSampler();
 		Sampler defaultSampler = new SingleValueSampler();
-		Tracer tracer = new SimpleRayCaster();
-		injector = Guice.createInjector(new DefaultBindingModule(cameraSampler, lightSampler, defaultSampler, tracer));
-	}
+		Tracer tracer = new DebuggingRayCaster();
+		return Guice.createInjector(new DefaultBindingModule(cameraSampler, lightSampler, defaultSampler, tracer));
+    }
 
-	private static void renderScene(Scene scene) {
+    private static void renderScene(Scene scene) {
 		for (Camera camera : scene.getCameras()) {
 			camera.renderScene(scene);
 		}
 	}
 
-	private static void saveImages(Scene scene) {
+	private static void saveImages(Scene scene, double gamma) {
 		int cameraIndex = 0;
 		for (Camera camera : scene.getCameras()) {
 			if (camera instanceof FilmBasedCamera) {
@@ -135,7 +157,7 @@ public class YaPhyRe {
 					String fileName = String.format("color_%d.%s",
 							cameraIndex++,
 							ImageFile.ImageFormat.PNG.getDefaultFileExtension());
-					imageFileFilm.safeAsImage(fileName, ImageFile.ImageFormat.PNG);
+                    imageFileFilm.safeAsImage(fileName, ImageFile.ImageFormat.PNG, gamma);
 				}
 			}
 		}
@@ -183,7 +205,13 @@ public class YaPhyRe {
         OptionBuilder.withDescription("The Sampler to use for the camera (single, regular, stratified, random)");
         OptionBuilder.hasArgs(2);
         OptionBuilder.isRequired();
-        options.addOption(OptionBuilder.create("cameraSampler"));
+        options.addOption(OptionBuilder.create(COMMANDLINE_OPTION_CAMERA_SAMPLER));
+
+        OptionBuilder.withArgName("gamma value");
+        OptionBuilder.withDescription("Optional gamma correction");
+        OptionBuilder.hasArg();
+        OptionBuilder.isRequired(false);
+        options.addOption(OptionBuilder.create(COMMANDLINE_OPTION_GAMMA));
 
         return options;
 	}

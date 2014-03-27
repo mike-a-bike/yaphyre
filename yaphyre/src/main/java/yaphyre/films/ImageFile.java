@@ -16,6 +16,12 @@
 
 package yaphyre.films;
 
+import java.awt.image.BufferedImage;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Collection;
+import javax.annotation.Nonnull;
+import javax.imageio.ImageIO;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import org.apache.commons.math3.util.Pair;
@@ -25,13 +31,6 @@ import yaphyre.core.CameraSample;
 import yaphyre.core.Film;
 import yaphyre.math.Color;
 import yaphyre.math.Point2D;
-
-import javax.annotation.Nonnull;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Collection;
 
 /**
  * YaPhyRe
@@ -55,8 +54,8 @@ public class ImageFile implements Film {
 		samples = ArrayListMultimap.create(xResolution * yResolution, 1);
 	}
 
-    public void safeAsImage(String filename, ImageFormat format) {
-		BufferedImage bufferedImage = createImageFromSamples();
+    public void safeAsImage(String filename, ImageFormat format, double gamma) {
+		BufferedImage bufferedImage = createImageFromSamples(gamma);
 
 	    try (FileOutputStream imageFileStream = new FileOutputStream(filename)) {
 		    ImageIO.write(bufferedImage, String.valueOf(format), imageFileStream);
@@ -66,19 +65,22 @@ public class ImageFile implements Film {
 
 	}
 
-	private BufferedImage createImageFromSamples() {
+	private BufferedImage createImageFromSamples(double gamma) {
 
 		BufferedImage image = new BufferedImage(xResolution, yResolution, BufferedImage.TYPE_INT_RGB);
 
 		for (Point2D sample : samples.keySet()) {
 			Color sampleColor = Color.BLACK;
 			Collection<Color> colorSamples = samples.get(sample);
-            for (Color color : colorSamples) {
-				sampleColor = sampleColor.add(color);
-			}
-			sampleColor = sampleColor.multiply(1d / colorSamples.size()).clip();
-			int imageX = (int) (sample.getU() * xResolution);
-			int imageY = (int) (sample.getV() * yResolution);
+            if (colorSamples != null && colorSamples.size() > 0) {
+                for (Color color : colorSamples) {
+                    sampleColor = sampleColor.add(color);
+                }
+                sampleColor = sampleColor.multiply(1d / colorSamples.size());
+                sampleColor = (gamma != 1d) ? sampleColor.powc(gamma).clip() : sampleColor;
+            }
+            int imageX = (int) (sample.getU());
+			int imageY = (int) (sample.getV());
 			image.setRGB(imageX, imageY, createARGBfromColor(sampleColor));
 		}
 

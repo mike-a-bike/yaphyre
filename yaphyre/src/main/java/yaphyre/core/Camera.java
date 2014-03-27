@@ -16,11 +16,10 @@
 
 package yaphyre.core;
 
-import com.google.inject.BindingAnnotation;
-
-import javax.annotation.Nonnull;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+import javax.annotation.Nonnull;
+import com.google.inject.BindingAnnotation;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
@@ -38,7 +37,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public interface Camera {
 
     /**
-     * Render the given scene.
+     * Render the given scene. Please notice, the recording medium is part of the camera. An example are cameras
+     * which contain a virtual film which records the image data.
      *
      * @param scene The {@link yaphyre.core.Scene} to render. Must not be null.
      */

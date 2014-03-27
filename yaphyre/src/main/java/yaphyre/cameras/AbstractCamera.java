@@ -64,6 +64,11 @@ public abstract class AbstractCamera implements Camera {
         this.tracer = tracer;
     }
 
+    /**
+     * Create a sample ray representing a 'looking' ray for the given sample point. The range of the samples is [0,1).
+     * @param samplePoint The point to create the sample ray for. Must not be null
+     * @return A corresponding ray starting at the camera.
+     */
     @Nonnull
     protected abstract Ray createCameraRay(@Nonnull Point2D samplePoint);
 }
