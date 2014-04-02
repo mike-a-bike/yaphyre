@@ -68,9 +68,9 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
-                    <!-- set the code and target level to 1.7 -->
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <!-- set the code and target level to 1.8 -->
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>
@@ -96,12 +96,12 @@
 
     <dependencies>
 
-		<!-- IntelliJ annotations -->
-		<!--<dependency>-->
-			<!--<groupId>com.intellij</groupId>-->
-			<!--<artifactId>annotations</artifactId>-->
-			<!--<version>${intellij.annotations.version}</version>-->
-		<!--</dependency>-->
+        <!-- IntelliJ annotations -->
+        <!--<dependency>-->
+        <!--<groupId>com.intellij</groupId>-->
+        <!--<artifactId>annotations</artifactId>-->
+        <!--<version>${intellij.annotations.version}</version>-->
+        <!--</dependency>-->
 
         <!-- JSR 305 annotations -->
         <dependency>
