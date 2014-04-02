@@ -16,14 +16,20 @@
 
 package yaphyre.samplers;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import javax.annotation.Nonnegative;
-import javax.annotation.Nonnull;
+import com.google.common.collect.Lists;
 import yaphyre.core.Sampler;
 import yaphyre.math.Point2D;
 import yaphyre.math.Point3D;
+
+import javax.annotation.Nonnegative;
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import static java.lang.Math.PI;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 
 /**
  * Base implementation for all Samplers.
@@ -57,8 +63,15 @@ public abstract class AbstractSampler implements Sampler {
     @Nonnull
     @Override
     public Iterable<Point2D> getUnitCircleSamples() {
-        // map samples to unit circle u/v -> r/phi polar transformation
-        return null;
+        return Collections.unmodifiableList(
+                Lists.newArrayList(
+                        pointSamples.stream().map((p) -> {
+                            final double radius = p.getU();
+                            final double phi = p.getV() * 2d * PI;
+                            return new Point2D(radius * sin(phi), radius * cos(phi));
+                        }).iterator()
+                )
+        );
     }
 
     @Nonnull
