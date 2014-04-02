@@ -64,13 +64,15 @@ public abstract class AbstractSampler implements Sampler {
     @Override
     public Iterable<Point2D> getUnitCircleSamples() {
         return Collections.unmodifiableList(
-                Lists.newArrayList(
-                        pointSamples.stream().map((p) -> {
-                            final double radius = p.getU();
-                            final double phi = p.getV() * 2d * PI;
-                            return new Point2D(radius * sin(phi), radius * cos(phi));
-                        }).iterator()
-                )
+            Lists.newArrayList(
+                pointSamples.stream().map(
+                    (p) -> {
+                        final double radius = p.getU();
+                        final double phi = p.getV() * 2d * PI;
+                        return new Point2D(radius * sin(phi), radius * cos(phi));
+                    }
+                ).iterator()
+            )
         );
     }
 
