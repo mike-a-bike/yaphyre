@@ -79,7 +79,17 @@ public abstract class AbstractSampler implements Sampler {
     @Nonnull
     @Override
     public Iterable<Point3D> getUnitSphereSamples() {
-        return null;
+        return Collections.unmodifiableList(
+            Lists.newArrayList(
+                pointSamples.stream().map(
+                    (p) -> {
+                        final double phi = p.getU() * 2d * PI;
+                        final double theta = p.getV() * PI;
+                        return new Point3D(cos(phi) * cos(theta), cos(phi) * sin(theta), sin(phi));
+                    }
+                ).iterator()
+            )
+        );
     }
 
     @Nonnull
