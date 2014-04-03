@@ -44,17 +44,36 @@ public interface Sampler {
     @Nonnull
     public Iterable<Double> getSamples();
 
+    /**
+     * @return An Iterable representing samples within the unit square.
+     */
     @Nonnull
     public Iterable<Point2D> getUnitSquareSamples();
 
+    /**
+     * Access a collection of samples within a unit circle.
+     *
+     * @return An Iterable of samples within the unit circle.
+     */
     @Nonnull
     public Iterable<Point2D> getUnitCircleSamples();
 
+    /**
+     * Get a collection of samples lying on the surface of the unit sphere.
+     *
+     * @return An Iterable of samples on the unit sphere.
+     */
     @Nonnull
     public Iterable<Point3D> getUnitSphereSamples();
 
     @Nonnull
     public Iterable<Point3D> getUnitHemisphereSamples(@Nonnegative double cosinePower);
 
-    public void shuffle();
+    /**
+     * Implementation is optional. If the sampler holds an internal collection of samples,
+     * this call shuffles them to prevent aliasing effects.
+     */
+    public default void shuffle() {
+        // NOP, ignore this call by default.
+    }
 }
