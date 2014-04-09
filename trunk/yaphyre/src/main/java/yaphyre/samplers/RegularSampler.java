@@ -57,12 +57,6 @@ public class RegularSampler extends AbstractSampler {
                                                    .map((d) -> new Point2D(d, d))
                                                    .collect(toList());
 
-//        List<Double> sampleValues = createLinearSamples(numberOfSamples);
-//        List<Point2D> backingPointSamples = new ArrayList<>();
-//        for (Double sample : sampleValues) {
-//            backingPointSamples.add(new Point2D(sample, sample));
-//        }
-//        return backingPointSamples;
     }
 
 }
