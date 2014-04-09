@@ -16,12 +16,12 @@
 
 package yaphyre.samplers;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
-import com.google.common.collect.Lists;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import yaphyre.core.Sampler;
 import yaphyre.math.Point2D;
 import yaphyre.math.Point3D;
@@ -29,6 +29,7 @@ import yaphyre.math.Point3D;
 import static java.lang.Math.PI;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Base implementation for all Samplers.
@@ -38,6 +39,7 @@ import static java.lang.Math.sin;
  */
 public abstract class AbstractSampler implements Sampler {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSampler.class);
     private List<Double> linearSamples;
 
     private List<Point2D> pointSamples;
@@ -47,8 +49,8 @@ public abstract class AbstractSampler implements Sampler {
     private List<Point3D> sphereSamples;
 
     public AbstractSampler(int numberOfSamples) {
-        linearSamples = Collections.unmodifiableList(createLinearSamples(numberOfSamples));
-        pointSamples = Collections.unmodifiableList(createUnitSquareSamples(numberOfSamples));
+        linearSamples = createLinearSamples(numberOfSamples);
+        pointSamples = createUnitSquareSamples(numberOfSamples);
         discSamples = null;
         sphereSamples = null;
     }
@@ -74,20 +76,17 @@ public abstract class AbstractSampler implements Sampler {
     @Override
     public Iterable<Point2D> getUnitCircleSamples() {
         if (discSamples == null) {
-            discSamples = Collections.unmodifiableList(
-                Lists.newArrayList(
-                    pointSamples.stream().map(
-                        this::mapUnitSquarePointToUnitDisc
-                    ).iterator()
-                )
-            );
+            discSamples = pointSamples.stream()
+                                      .peek((p) -> LOGGER.trace("converting: {}", p))
+                                      .map(AbstractSampler::mapUnitSquarePointToUnitDisc)
+                                      .collect(toList());
         }
         return discSamples;
     }
 
-    private Point2D mapUnitSquarePointToUnitDisc(Point2D p) {
-        final double r1 = shiftInterval(p.getU());
-        final double r2 = shiftInterval(p.getV());
+    private static Point2D mapUnitSquarePointToUnitDisc(Point2D p) {
+        final double r1 = p.getU() * 2d - 1d;
+        final double r2 = p.getV() * 2d - 1d;
         final double PI4th = PI / 4d;
         final double radius;
         final double phi;
@@ -107,54 +106,44 @@ public abstract class AbstractSampler implements Sampler {
         return new Point2D(radius * sin(phi), radius * cos(phi));
     }
 
-    private double shiftInterval(double value) {
-        return value * 2d - 1d;
-    }
-
     @Nonnull
     @Override
     public Iterable<Point3D> getUnitSphereSamples() {
         if (sphereSamples == null) {
-            sphereSamples = Collections.unmodifiableList(
-                Lists.newArrayList(
-                    pointSamples.stream().map(
-                        (p) -> {
-                            final double phi = p.getU() * 2d * PI;
-                            final double theta = p.getV() * PI;
-                            final double cosPhi = cos(phi);
-                            return new Point3D(cosPhi * cos(theta), cosPhi * sin(theta), sin(phi));
-                        }
-                    ).iterator()
-                )
-            );
+            sphereSamples = pointSamples.stream()
+                                        .peek((p) -> LOGGER.trace("converting: {}", p))
+                                        .map(AbstractSampler::mapUnitSquarePointToUnitSphere)
+                                        .collect(toList());
         }
         return sphereSamples;
+    }
+
+    private static Point3D mapUnitSquarePointToUnitSphere(Point2D p) {
+        // TODO REVIEW IMPLEMENTATION: IS MOST CERTAINLY WRONG...
+        final double phi = p.getU() * 2d * PI;
+        final double theta = p.getV() * PI;
+        final double cosPhi = cos(phi);
+        return new Point3D(cosPhi * cos(theta), cosPhi * sin(theta), sin(phi));
     }
 
     @Nonnull
     @Override
     public Iterable<Point3D> getUnitHemisphereSamples(@Nonnegative double cosinePower) {
-        return Collections.unmodifiableList(
-            Lists.newArrayList(
-                pointSamples.stream().map(
-                    (p) -> Point3D.ORIGIN
-                ).iterator()
-            )
-        );
+        return pointSamples.stream()
+                           .map((p) -> Point3D.ORIGIN)
+                           .collect(toList());
     }
 
     @Override
     public void shuffle() {
-        linearSamples = shuffleCollection(linearSamples);
-        pointSamples = shuffleCollection(pointSamples);
+        shuffleCollection(linearSamples);
+        shuffleCollection(pointSamples);
         discSamples = null;
         sphereSamples = null;
     }
 
-    private <T> List<T> shuffleCollection(List<T> collection) {
-        List<T> shuffledCollection = new ArrayList<>(collection);
-        Collections.shuffle(shuffledCollection);
-        return Collections.unmodifiableList(shuffledCollection);
+    private <T> void shuffleCollection(List<T> collection) {
+        Collections.shuffle(collection);
     }
 
     @Nonnull
