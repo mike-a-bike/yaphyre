@@ -21,6 +21,8 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import yaphyre.math.Point2D;
 
+import static java.util.stream.Collectors.toList;
+
 /**
  * A sampler which created regularly spaced samples across the value range [0,1). This will most probably not be used
  * in production, but is very useful for debugging purposes.
@@ -50,12 +52,17 @@ public class RegularSampler extends AbstractSampler {
     @Nonnull
     @Override
     protected List<Point2D> createUnitSquareSamples(int numberOfSamples) {
-        List<Double> sampleValues = createLinearSamples(numberOfSamples);
-        List<Point2D> backingPointSamples = new ArrayList<>();
-        for (Double sample : sampleValues) {
-            backingPointSamples.add(new Point2D(sample, sample));
-        }
-        return backingPointSamples;
+
+        return createLinearSamples(numberOfSamples).stream()
+                                                   .map((d) -> new Point2D(d, d))
+                                                   .collect(toList());
+
+//        List<Double> sampleValues = createLinearSamples(numberOfSamples);
+//        List<Point2D> backingPointSamples = new ArrayList<>();
+//        for (Double sample : sampleValues) {
+//            backingPointSamples.add(new Point2D(sample, sample));
+//        }
+//        return backingPointSamples;
     }
 
 }
