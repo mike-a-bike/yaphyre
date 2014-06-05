@@ -57,7 +57,7 @@ public class SimpleSphere extends AbstractShape {
      * @param objectToWorld The {@link yaphyre.math.Transformation} used to map world coordinates to object coordinates.
      * @param shader The {@link yaphyre.core.Shader} instance to use when rendering this {@link yaphyre.core.Shape}.
      */
-    protected SimpleSphere(Transformation objectToWorld, Shader shader) {
+    public SimpleSphere(Transformation objectToWorld, Shader shader) {
         super(objectToWorld, shader);
 
         // pre-calculate bounding boxes

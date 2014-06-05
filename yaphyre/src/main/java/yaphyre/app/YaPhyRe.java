@@ -18,6 +18,7 @@ package yaphyre.app;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.sun.management.jmx.Trace;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.OptionBuilder;
@@ -36,9 +37,11 @@ import yaphyre.core.Scene;
 import yaphyre.core.Tracer;
 import yaphyre.films.ImageFile;
 import yaphyre.math.Point3D;
+import yaphyre.math.Transformation;
 import yaphyre.samplers.RegularSampler;
 import yaphyre.samplers.SingleValueSampler;
 import yaphyre.samplers.StratifiedSampler;
+import yaphyre.shapes.SimpleSphere;
 import yaphyre.shapes.Sphere;
 import yaphyre.tracers.DebuggingRayCaster;
 
@@ -108,7 +111,8 @@ public class YaPhyRe {
     private static Scene setupScene(Injector injector) {
 		Scene scene = injector.getInstance(Scene.class);
 
-		scene.addShape(Sphere.createSphere(Point3D.ORIGIN, 1d, null));
+        scene.addShape(new SimpleSphere(Transformation.IDENTITY, null));
+//		scene.addShape(Sphere.createSphere(Point3D.ORIGIN, 1d, null));
 //        scene.addShape(new Plane(Transformation.IDENTITY, null));
 
 		ImageFile film = new ImageFile(640, 480);
