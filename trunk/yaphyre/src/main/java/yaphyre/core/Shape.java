@@ -49,4 +49,8 @@ public interface Shape {
 
 	public BoundingBox getBoundingBox();
 
+    public default BoundingBox getAxisAlignedBoundingBox() {
+        return getBoundingBox();
+    }
+
 }

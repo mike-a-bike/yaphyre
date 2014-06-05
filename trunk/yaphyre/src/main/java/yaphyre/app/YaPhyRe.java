@@ -136,8 +136,12 @@ public class YaPhyRe {
         Sampler cameraSampler = createSampler(commandLine.getOptionValues(COMMANDLINE_OPTION_CAMERA_SAMPLER));
         Sampler lightSampler = new SingleValueSampler();
 		Sampler defaultSampler = new SingleValueSampler();
-		Tracer tracer = new DebuggingRayCaster();
-		return Guice.createInjector(new DefaultBindingModule(cameraSampler, lightSampler, defaultSampler, tracer));
+        return Guice.createInjector(new DefaultBindingModule(
+            () -> cameraSampler,
+            () -> lightSampler,
+            () -> defaultSampler,
+            new DebuggingRayCaster()
+        ));
     }
 
     private static void renderScene(Scene scene) {

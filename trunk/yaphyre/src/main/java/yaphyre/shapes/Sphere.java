@@ -238,9 +238,9 @@ public class Sphere extends AbstractShape {
 
 		for (double solution : solutions) {
 			if (solution < result && ray.getTRange().contains(solution)) {
-				Point3D intersectionPoint = ray.getPoint(solution);
 				if (isPartial) {
-					if (isInAngularRange(intersectionPoint)) {
+                    Point3D intersectionPoint = ray.getPoint(solution);
+                    if (isInAngularRange(intersectionPoint)) {
 						result = solution;
 					}
 				} else {

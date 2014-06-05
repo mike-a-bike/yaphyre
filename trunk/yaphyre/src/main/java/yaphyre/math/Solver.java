@@ -72,12 +72,21 @@ public enum Solver {
 				double[] result = new double[2];
 				result[0] = div(-c[1] - sqrtDet, 2 * c[2]);
 				result[1] = div(-c[1] + sqrtDet, 2 * c[2]);
-				return result;
+                orderResults(result);
+                return result;
 			} else {
 				return EMPTY_RESULT;
 			}
 		}
-	},
+
+        private void orderResults(double[] result) {
+            if (result[0] > result[1]) {
+                double tmp = result[0];
+                result[0] = result[1];
+                result[1] = tmp;
+            }
+        }
+    },
 	Cubic {
 		/**
 		 * Solve a cubic equation for:<br/>

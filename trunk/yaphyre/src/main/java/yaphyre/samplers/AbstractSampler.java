@@ -40,6 +40,7 @@ import static java.util.stream.Collectors.toList;
 public abstract class AbstractSampler implements Sampler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSampler.class);
+
     private List<Double> linearSamples;
 
     private List<Point2D> pointSamples;
@@ -77,7 +78,7 @@ public abstract class AbstractSampler implements Sampler {
     public Iterable<Point2D> getUnitCircleSamples() {
         if (discSamples == null) {
             discSamples = pointSamples.stream()
-                                      .peek((p) -> LOGGER.trace("converting: {}", p))
+                                      .peek(p -> LOGGER.trace("converting: {}", p))
                                       .map(AbstractSampler::mapUnitSquarePointToUnitDisc)
                                       .collect(toList());
         }
@@ -111,7 +112,7 @@ public abstract class AbstractSampler implements Sampler {
     public Iterable<Point3D> getUnitSphereSamples() {
         if (sphereSamples == null) {
             sphereSamples = pointSamples.stream()
-                                        .peek((p) -> LOGGER.trace("converting: {}", p))
+                                        .peek(p -> LOGGER.trace("converting: {}", p))
                                         .map(AbstractSampler::mapUnitSquarePointToUnitSphere)
                                         .collect(toList());
         }

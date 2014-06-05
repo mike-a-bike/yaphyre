@@ -16,6 +16,7 @@
 
 package yaphyre.shapes;
 
+import javax.annotation.Nonnull;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import yaphyre.core.CollisionInformation;
@@ -49,10 +50,10 @@ public abstract class AbstractShape implements Shape {
 	 * order of the {@link yaphyre.math.Transformation} matters. It is not the same if the object is rotated an then translated or
 	 * first translated and then rotated.
 	 *
-	 * @param objectToWorld The {@link yaphyre.geometry.Transformation} used to map world coordinates to object coordinates.
+	 * @param objectToWorld The {@link yaphyre.math.Transformation} used to map world coordinates to object coordinates.
 	 * @param shader        The {@link yaphyre.core.Shader} instance to use when rendering this {@link yaphyre.core.Shape}.
 	 */
-	protected AbstractShape(Transformation objectToWorld, Shader shader) {
+	protected AbstractShape(@Nonnull Transformation objectToWorld, @Nonnull Shader shader) {
 		Preconditions.checkNotNull(objectToWorld);
 //		Preconditions.checkNotNull(shader);
 
@@ -98,8 +99,12 @@ public abstract class AbstractShape implements Shape {
 	@Override
 	public abstract CollisionInformation intersect(Ray ray);
 
-	protected Ray transformToObjectSpace(Ray ray) {
+	protected Ray transformToObjectSpace(@Nonnull Ray ray) {
 		return worldToObject.transform(ray);
 	}
+
+    protected Ray transformToWorldSpace(Ray ray) {
+        return objectToWorld.transform(ray);
+    }
 
 }
