@@ -16,10 +16,9 @@
 
 package yaphyre.math;
 
-import com.google.common.base.Objects;
-
-import javax.annotation.concurrent.Immutable;
 import java.io.Serializable;
+import javax.annotation.concurrent.Immutable;
+import com.google.common.base.Objects;
 
 import static java.lang.Math.abs;
 
@@ -139,6 +138,10 @@ public class Vector3D implements Comparable<Vector3D>, Serializable {
 	public boolean isSameDirection(Vector3D v) {
 		return this.dot(v) >= 0d;
 	}
+
+    public boolean isSameDirection(Normal3D n) {
+        return this.dot(n) >= 0d;
+    }
 
 	@Override
 	public int compareTo(Vector3D vector3D) {

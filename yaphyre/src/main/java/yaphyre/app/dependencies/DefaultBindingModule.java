@@ -16,6 +16,7 @@
 
 package yaphyre.app.dependencies;
 
+import java.util.function.Supplier;
 import com.google.inject.Exposed;
 import com.google.inject.PrivateModule;
 import com.google.inject.Provides;
@@ -40,16 +41,18 @@ public class DefaultBindingModule extends PrivateModule {
 
     private final Logger LOGGER = LoggerFactory.getLogger(DefaultBindingModule.class);
 
-    private final Sampler cameraSampler;
-    private final Sampler lightSampler;
-    private final Sampler defaultSampler;
+    private final Supplier<Sampler> cameraSamplerSupplier;
+    private final Supplier<Sampler> lightSamplerSupplier;
+    private final Supplier<Sampler> defaultSamplerSupplier;
     private final Tracer tracer;
 
-    public DefaultBindingModule(@Nonnull Sampler cameraSampler, @Nonnull Sampler lightSampler,
-                                @Nonnull Sampler defaultSampler, @Nonnull Tracer tracer) {
-        this.cameraSampler = cameraSampler;
-        this.lightSampler = lightSampler;
-        this.defaultSampler = defaultSampler;
+    public DefaultBindingModule(@Nonnull Supplier<Sampler> cameraSamplerSupplier,
+                                @Nonnull Supplier<Sampler> lightSamplerSupplier,
+                                @Nonnull Supplier<Sampler> defaultSamplerSupplier,
+                                @Nonnull Tracer tracer) {
+        this.cameraSamplerSupplier = cameraSamplerSupplier;
+        this.lightSamplerSupplier = lightSamplerSupplier;
+        this.defaultSamplerSupplier = defaultSamplerSupplier;
         this.tracer = tracer;
     }
 
@@ -63,7 +66,7 @@ public class DefaultBindingModule extends PrivateModule {
 	@CameraSampler
 	public Sampler providesCameraSampler() {
 		LOGGER.debug("Creating instance for Camera Sampler");
-		return cameraSampler;
+		return cameraSamplerSupplier.get();
 	}
 
 	@Nonnull
@@ -72,7 +75,7 @@ public class DefaultBindingModule extends PrivateModule {
 	@LightSampler
 	public Sampler providesLightSampler() {
 		LOGGER.debug("Creating instance for Light Sampler");
-		return lightSampler;
+		return lightSamplerSupplier.get();
 	}
 
 	@Nonnull
@@ -80,7 +83,7 @@ public class DefaultBindingModule extends PrivateModule {
 	@Provides
 	public Sampler providesDefaultSampler() {
 		LOGGER.debug("Creating new general purpose Sampler");
-		return defaultSampler;
+		return defaultSamplerSupplier.get();
 	}
 
 	@Nonnull
