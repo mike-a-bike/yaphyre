@@ -25,6 +25,7 @@ import yaphyre.core.Tracer;
 import yaphyre.math.Color;
 import yaphyre.math.MathUtils;
 import yaphyre.math.Ray;
+import yaphyre.shapes.SimpleSphere;
 import yaphyre.shapes.Sphere;
 
 /**
@@ -56,11 +57,11 @@ public class DebuggingRayCaster implements Tracer {
 		if (collisionInformation == null) {
 			// Sky hit
 			result = BLUE;
-		} else if (collisionInformation.getShape() instanceof Sphere) {
+		} else if (collisionInformation.getShape() instanceof SimpleSphere) {
 			// Sphere hit
 			result = RED;
 		} else {
-			// Plane hit
+			// Other hit
 			result = GREEN;
 		}
 
