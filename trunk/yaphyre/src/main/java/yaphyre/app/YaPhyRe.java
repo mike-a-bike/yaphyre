@@ -18,7 +18,6 @@ package yaphyre.app;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.sun.management.jmx.Trace;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.OptionBuilder;
@@ -29,21 +28,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import yaphyre.app.dependencies.DefaultBindingModule;
 import yaphyre.cameras.FilmBasedCamera;
-import yaphyre.cameras.OrthographicCamera;
+import yaphyre.cameras.PerspectiveCamera;
 import yaphyre.core.Camera;
 import yaphyre.core.Film;
 import yaphyre.core.Sampler;
 import yaphyre.core.Scene;
-import yaphyre.core.Tracer;
 import yaphyre.films.ImageFile;
+import yaphyre.math.FovCalculator;
+import yaphyre.math.Normal3D;
 import yaphyre.math.Point3D;
 import yaphyre.math.Transformation;
 import yaphyre.samplers.RegularSampler;
 import yaphyre.samplers.SingleValueSampler;
 import yaphyre.samplers.StratifiedSampler;
 import yaphyre.shapes.SimpleSphere;
-import yaphyre.shapes.Sphere;
 import yaphyre.tracers.DebuggingRayCaster;
+
+import static yaphyre.math.MathUtils.EPSILON;
 
 /**
  * YaPhyRe: Renderer application class. This reads the commandline for the sampler to use and sets up a simple,
@@ -117,21 +118,21 @@ public class YaPhyRe {
 
 		ImageFile film = new ImageFile(640, 480);
 
-//        final double hFov = FovCalculator.FullFrame35mm.calculateHorizontalFov(50d);
-//        final double aspectRatio = ((double) film.getNativeResolution().getFirst()) / ((double) film.getNativeResolution().getSecond());
-//
-//        final Camera camera = new PerspectiveCamera(
-//                film,
-//                new Point3D(2, 2, -2),
-//                Point3D.ORIGIN,
-//                Normal3D.NORMAL_Y,
-//                hFov,
-//                aspectRatio,
-//                MathUtils.EPSILON,
-//                1d / MathUtils.EPSILON);
+        final double hFov = FovCalculator.FullFrame35mm.calculateHorizontalFov(50d);
+        final double aspectRatio = ((double) film.getNativeResolution().getFirst()) / ((double) film.getNativeResolution().getSecond());
 
-		Camera camera = new OrthographicCamera(film, 8d, 6d, 100d);
-		scene.addCamera(camera);
+        final Camera camera = new PerspectiveCamera(
+            film,
+            new Point3D(2, 2, -2),
+            Point3D.ORIGIN,
+            Normal3D.NORMAL_Y,
+            hFov,
+            aspectRatio,
+            EPSILON,
+            1d / EPSILON);
+
+//		Camera camera = new OrthographicCamera(film, 8d, 6d, 100d);
+        scene.addCamera(camera);
 
 		return scene;
 	}

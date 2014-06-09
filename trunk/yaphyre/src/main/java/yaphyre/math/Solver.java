@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Michael Bieri
+ * Copyright 2014 Michael Bieri
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package yaphyre.math;
 
 import com.google.common.primitives.Doubles;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -72,22 +73,14 @@ public enum Solver {
 				double[] result = new double[2];
 				result[0] = div(-c[1] - sqrtDet, 2 * c[2]);
 				result[1] = div(-c[1] + sqrtDet, 2 * c[2]);
-                orderResults(result);
+                Arrays.sort(result);
                 return result;
 			} else {
 				return EMPTY_RESULT;
 			}
 		}
-
-        private void orderResults(double[] result) {
-            if (result[0] > result[1]) {
-                double tmp = result[0];
-                result[0] = result[1];
-                result[1] = tmp;
-            }
-        }
     },
-	Cubic {
+    Cubic {
 		/**
 		 * Solve a cubic equation for:<br/>
 		 * c<sub>3</sub>*x<sup>3</sup> + c<sub>2</sub>*x<sup>2</sup> + c<sub>1</sub>*x + c<sub>0</sub> = 0 <br/>
@@ -115,17 +108,18 @@ public enum Solver {
 					results.add(value);
 				}
 
-				return Doubles.toArray(results);
-			}
+                final double[] solutions = Doubles.toArray(results);
+                Arrays.sort(solutions);
+                return solutions;
+            }
 
 			double k, p, q;
 
 			if (c[2] != 0) {
 				k = div(-c[2], 3 * c[3]);
 				p = div(3 * c[3] * c[1] - c[2] * c[2], -3 * c[3] * c[3]);
-				q = div(2 * c[2] * c[2] * c[2] - 9 * c[3] * c[2] * c[1] + 27 * c[3] * c[3] * c[0],
-						27 * c[3] * c[3] * c[3]);
-			} else {
+                q = div(2 * c[2] * c[2] * c[2] - 9 * c[3] * c[2] * c[1] + 27 * c[3] * c[3] * c[0], 27 * c[3] * c[3] * c[3]);
+            } else {
 				k = 0;
 				p = div(-c[1], c[3]);
 				q = div(-c[0], c[3]);
@@ -142,8 +136,9 @@ public enum Solver {
 				results[0] = t * cos(a) + k;
 				results[1] = t * cos(a + 2 * PI / 3) + k;
 				results[2] = t * cos(a + 2 * (2 * PI / 3)) + k;
-				return results;
-			}
+                Arrays.sort(results);
+                return results;
+            }
 
 			if (w == 0) {
 				return new double[]{2 * cbrt(q / 2) + k};
@@ -156,8 +151,8 @@ public enum Solver {
 	Quartic {
 		/**
 		 * Solve a quartic equation for:<br/>
-		 * c<sub>4</sub>*x<sub>4</sub> + c<sub>3</sub>*x<sup>3</sup> + c<sub>2</sub>*x<sup>2</sup> + c<sub>1</sub>*x + c<sub>0</sub> = 0<br/>
-		 * Lodovico Ferraria (1522 - 1565): http://www.sosmath.com/algebra/factor/fac12/fac12.html
+         * c<sub>4</sub>*x<sup>4</sup> + c<sub>3</sub>*x<sup>3</sup> + c<sub>2</sub>*x<sup>2</sup> + c<sub>1</sub>*x + c<sub>0</sub> = 0<br/>
+         * Lodovico Ferraria (1522 - 1565): http://www.sosmath.com/algebra/factor/fac12/fac12.html
 		 */
 		@Override
 		public double[] solve(double... c) throws IllegalArgumentException {

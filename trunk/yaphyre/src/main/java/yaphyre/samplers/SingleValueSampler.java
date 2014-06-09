@@ -16,14 +16,15 @@
 
 package yaphyre.samplers;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import javax.annotation.Nonnegative;
-import javax.annotation.Nonnull;
 import yaphyre.core.Sampler;
 import yaphyre.math.Point2D;
 import yaphyre.math.Point3D;
+
+import javax.annotation.Nonnegative;
+import javax.annotation.Nonnull;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Simple sampler. It only returns one value (0.5) which represents the mean value of the range (0-1).
@@ -33,16 +34,24 @@ import yaphyre.math.Point3D;
  */
 public class SingleValueSampler implements Sampler {
 
-    /** An unmodifiable collection containing the one sample of this sampler. */
+    /**
+     * An unmodifiable collection containing the one sample of this sampler.
+     */
     private static final List<Double> SAMPLES = Collections.unmodifiableList(Arrays.asList(0.5d));
 
-    /** Single sample for a unit square (0.5, 0.5). */
+    /**
+     * Single sample for a unit square (0.5, 0.5).
+     */
     private static final List<Point2D> UNIT_SQUARE_SAMPLE = Collections.unmodifiableList(Arrays.asList(new Point2D(0.5d, 0.5d)));
 
-    /** Single sample for the unit circle (origin: 0, 0). */
+    /**
+     * Single sample for the unit circle (origin: 0, 0).
+     */
     private static final List<Point2D> UNIT_CIRCLE_SAMPLE = Collections.unmodifiableList(Arrays.asList(Point2D.ZERO));
 
-    /** Single sample for a hemisphere (straight up along the y axis: 0, 1, 0). */
+    /**
+     * Single sample for a hemisphere (straight up along the y axis: 0, 1, 0).
+     */
     private static final List<Point3D> UNIT_HEMISPHERE_SAMPLE = Collections.unmodifiableList(Arrays.asList(new Point3D(0d, 1d, 0d)));
 
     /**
@@ -76,11 +85,6 @@ public class SingleValueSampler implements Sampler {
     @Override
     public Iterable<Point3D> getUnitHemisphereSamples(@Nonnegative double cosinePower) {
         return UNIT_HEMISPHERE_SAMPLE;
-    }
-
-    @Override
-    public void shuffle() {
-        // NOP -> Makes no sense in a sampler with one sample...
     }
 
 }
