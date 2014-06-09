@@ -16,10 +16,11 @@
 
 package yaphyre.core;
 
-import javax.annotation.Nonnegative;
-import javax.annotation.Nonnull;
 import yaphyre.math.Point2D;
 import yaphyre.math.Point3D;
+
+import javax.annotation.Nonnegative;
+import javax.annotation.Nonnull;
 
 /**
  * Common interface for all samplers. The idea is that it can deliver continuously values within the range (0,1). If
@@ -73,7 +74,7 @@ public interface Sampler {
      * Implementation is optional. If the sampler holds an internal collection of samples,
      * this call shuffles them to prevent aliasing effects.
      */
-    public default void shuffle() {
+    public default void resample(int numberOfSamples) {
         // NOP, ignore this call by default.
     }
 }

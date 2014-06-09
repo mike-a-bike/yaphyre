@@ -16,15 +16,15 @@
 
 package yaphyre.samplers;
 
-import java.util.Collections;
-import java.util.List;
-import javax.annotation.Nonnegative;
-import javax.annotation.Nonnull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import yaphyre.core.Sampler;
 import yaphyre.math.Point2D;
 import yaphyre.math.Point3D;
+
+import javax.annotation.Nonnegative;
+import javax.annotation.Nonnull;
+import java.util.List;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.cos;
@@ -78,9 +78,9 @@ public abstract class AbstractSampler implements Sampler {
     public Iterable<Point2D> getUnitCircleSamples() {
         if (discSamples == null) {
             discSamples = pointSamples.stream()
-                                      .peek(p -> LOGGER.trace("converting: {}", p))
-                                      .map(AbstractSampler::mapUnitSquarePointToUnitDisc)
-                                      .collect(toList());
+                .peek(p -> LOGGER.trace("converting: {}", p))
+                .map(AbstractSampler::mapUnitSquarePointToUnitDisc)
+                .collect(toList());
         }
         return discSamples;
     }
@@ -112,9 +112,9 @@ public abstract class AbstractSampler implements Sampler {
     public Iterable<Point3D> getUnitSphereSamples() {
         if (sphereSamples == null) {
             sphereSamples = pointSamples.stream()
-                                        .peek(p -> LOGGER.trace("converting: {}", p))
-                                        .map(AbstractSampler::mapUnitSquarePointToUnitSphere)
-                                        .collect(toList());
+                .peek(p -> LOGGER.trace("converting: {}", p))
+                .map(AbstractSampler::mapUnitSquarePointToUnitSphere)
+                .collect(toList());
         }
         return sphereSamples;
     }
@@ -131,20 +131,8 @@ public abstract class AbstractSampler implements Sampler {
     @Override
     public Iterable<Point3D> getUnitHemisphereSamples(@Nonnegative double cosinePower) {
         return pointSamples.stream()
-                           .map((p) -> Point3D.ORIGIN)
-                           .collect(toList());
-    }
-
-    @Override
-    public void shuffle() {
-        shuffleCollection(linearSamples);
-        shuffleCollection(pointSamples);
-        discSamples = null;
-        sphereSamples = null;
-    }
-
-    private <T> void shuffleCollection(List<T> collection) {
-        Collections.shuffle(collection);
+            .map((p) -> Point3D.ORIGIN)
+            .collect(toList());
     }
 
     @Nonnull
