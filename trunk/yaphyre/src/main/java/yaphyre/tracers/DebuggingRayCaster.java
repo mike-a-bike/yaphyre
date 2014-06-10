@@ -26,7 +26,6 @@ import yaphyre.math.Color;
 import yaphyre.math.MathUtils;
 import yaphyre.math.Ray;
 import yaphyre.shapes.SimpleSphere;
-import yaphyre.shapes.Sphere;
 
 /**
  * Straightforward implementation of a {@link yaphyre.core.Tracer}. Just some basic functionality. Use this for
@@ -52,7 +51,7 @@ public class DebuggingRayCaster implements Tracer {
 
 		Color result;
 
-		final CollisionInformation collisionInformation = scene.hitObject(ray, rayRange);
+		final CollisionInformation collisionInformation = scene.hitObject(ray);
 
 		if (collisionInformation == null) {
 			// Sky hit
