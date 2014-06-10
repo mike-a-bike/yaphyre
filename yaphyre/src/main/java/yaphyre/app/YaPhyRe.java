@@ -28,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import yaphyre.app.dependencies.DefaultBindingModule;
 import yaphyre.cameras.FilmBasedCamera;
+import yaphyre.cameras.OrthographicCamera;
 import yaphyre.cameras.PerspectiveCamera;
 import yaphyre.core.Camera;
 import yaphyre.core.Film;
@@ -35,6 +36,7 @@ import yaphyre.core.Sampler;
 import yaphyre.core.Scene;
 import yaphyre.films.ImageFile;
 import yaphyre.math.FovCalculator;
+import yaphyre.math.MathUtils;
 import yaphyre.math.Normal3D;
 import yaphyre.math.Point3D;
 import yaphyre.math.Transformation;
@@ -113,17 +115,21 @@ public class YaPhyRe {
 		Scene scene = injector.getInstance(Scene.class);
 
         scene.addShape(new SimpleSphere(Transformation.IDENTITY, null));
-//		scene.addShape(Sphere.createSphere(Point3D.ORIGIN, 1d, null));
+//        scene.addShape(Sphere.createSphere(Point3D.ORIGIN, 1d, null));
 //        scene.addShape(new Plane(Transformation.IDENTITY, null));
 
-		ImageFile film = new ImageFile(640, 480);
+        FovCalculator fovCalculator = FovCalculator.FullFrame35mm;
+        double aspectRatio = fovCalculator.getAspectRatio();
 
-        final double hFov = FovCalculator.FullFrame35mm.calculateHorizontalFov(50d);
-        final double aspectRatio = ((double) film.getNativeResolution().getFirst()) / ((double) film.getNativeResolution().getSecond());
+        int yResolution = 6;
+        int xResolution = (int) (yResolution * aspectRatio);
+        ImageFile film = new ImageFile(xResolution, yResolution);
+
+        double hFov = FovCalculator.FullFrame35mm.calculateHorizontalFov(50d);
 
         final Camera camera = new PerspectiveCamera(
             film,
-            new Point3D(2, 2, -2),
+            new Point3D(0, 0, -10),
             Point3D.ORIGIN,
             Normal3D.NORMAL_Y,
             hFov,
@@ -131,7 +137,10 @@ public class YaPhyRe {
             EPSILON,
             1d / EPSILON);
 
-//		Camera camera = new OrthographicCamera(film, 8d, 6d, 100d);
+//        double vDimension = 6d;
+//        double uDimension = vDimension * aspectRatio;
+//        Camera camera = new OrthographicCamera(film, uDimension, vDimension, 100d);
+
         scene.addCamera(camera);
 
 		return scene;
@@ -140,7 +149,7 @@ public class YaPhyRe {
 	private static Injector setupInjector(CommandLine commandLine) {
         Sampler cameraSampler = createSampler(commandLine.getOptionValues(COMMANDLINE_OPTION_CAMERA_SAMPLER));
         Sampler lightSampler = new SingleValueSampler();
-		Sampler defaultSampler = new SingleValueSampler();
+        Sampler defaultSampler = new SingleValueSampler();
         return Guice.createInjector(new DefaultBindingModule(
             () -> cameraSampler,
             () -> lightSampler,

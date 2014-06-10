@@ -99,11 +99,13 @@ public abstract class AbstractShape implements Shape {
 	@Override
 	public abstract CollisionInformation intersect(Ray ray);
 
+    @Nonnull
 	protected Ray transformToObjectSpace(@Nonnull Ray ray) {
 		return worldToObject.transform(ray);
 	}
 
-    protected Ray transformToWorldSpace(Ray ray) {
+    @Nonnull
+    protected Ray transformToWorldSpace(@Nonnull Ray ray) {
         return objectToWorld.transform(ray);
     }
 
