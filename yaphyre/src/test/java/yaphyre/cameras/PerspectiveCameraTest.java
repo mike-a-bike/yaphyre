@@ -65,5 +65,21 @@ public class PerspectiveCameraTest {
         cameraRay = camera.createCameraRay(new Point2D(1d, .5d));
         direction = cameraRay.getDirection();
         assertEquals(1d, direction.length(), EPSILON);
+
+        cameraRay = camera.createCameraRay(new Point2D(.5d, .0d));
+        direction = cameraRay.getDirection();
+        assertEquals(1d, direction.length(), EPSILON);
+
+        cameraRay = camera.createCameraRay(new Point2D(.5d, 1d));
+        direction = cameraRay.getDirection();
+        assertEquals(1d, direction.length(), EPSILON);
+
+        cameraRay = camera.createCameraRay(new Point2D(0d, 0d));
+        direction = cameraRay.getDirection();
+        assertEquals(1d, direction.length(), EPSILON);
+
+        cameraRay = camera.createCameraRay(new Point2D(1d, 1d));
+        direction = cameraRay.getDirection();
+        assertEquals(1d, direction.length(), EPSILON);
     }
 }
