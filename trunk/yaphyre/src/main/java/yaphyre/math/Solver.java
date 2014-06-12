@@ -55,24 +55,28 @@ public enum Solver {
 		 * c<sub>2</sub>*x<sup>2</sup> + c<sub>1</sub>*x + c<sub>0</sub> = 0
 		 */
 		@Override
-		public double[] solve(double... c) throws IllegalArgumentException {
+		public double[] solve(double... coefficients) throws IllegalArgumentException {
 
-			checkArgument(c.length == 3, ORDER_ERROR_MESSAGE);
+			checkArgument(coefficients.length == 3, ORDER_ERROR_MESSAGE);
 
-			if (c[2] == 0) {
-				return Solver.Linear.solve(c[0], c[1]);
+            final double a = coefficients[2];
+            final double b = coefficients[1];
+            final double c = coefficients[0];
+
+            if (a == 0) {
+				return Solver.Linear.solve(c, b);
 			}
 
-			double det = c[1] * c[1] - 4 * c[2] * c[0];
+			double det = b * b - 4 * a * c;
 			if (det == 0) {
-				return new double[]{div(-c[1], 2 * c[2])};
+				return new double[]{div(-b, 2 * a)};
 			}
 
 			if (det > 0) {
 				double sqrtDet = sqrt(det);
 				double[] result = new double[2];
-				result[0] = div(-c[1] - sqrtDet, 2 * c[2]);
-				result[1] = div(-c[1] + sqrtDet, 2 * c[2]);
+				result[0] = div(-b - sqrtDet, 2 * a);
+				result[1] = div(-b + sqrtDet, 2 * a);
                 Arrays.sort(result);
                 return result;
 			} else {
@@ -89,14 +93,14 @@ public enum Solver {
 		 * hyperbolic) method or http://www.1728.org/cubic.htm
 		 */
 		@Override
-		public double[] solve(double... xx) throws IllegalArgumentException {
+		public double[] solve(double... coefficients) throws IllegalArgumentException {
 
-			checkArgument(xx.length == 4, ORDER_ERROR_MESSAGE);
+			checkArgument(coefficients.length == 4, ORDER_ERROR_MESSAGE);
 
-            final double a = xx[3];
-            final double b = xx[2];
-            final double c = xx[1];
-            final double d = xx[0];
+            final double a = coefficients[3];
+            final double b = coefficients[2];
+            final double c = coefficients[1];
+            final double d = coefficients[0];
 
             if (a == 0) {
 				return Solver.Quadratic.solve(d, c, b);
@@ -126,7 +130,7 @@ public enum Solver {
             if (h <= 0d) {
                 // all three roots are real
 
-                if (f == 0d && g == 0d && h == 0d) {
+                if (isZero(f) && isZero(g) && isZero(h)) {
                     // all three roots are real AND equal
                     final double solution = cbrt(d / a) * -1d;
                     return new double[]{solution, solution, solution};
