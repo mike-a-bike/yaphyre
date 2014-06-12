@@ -42,7 +42,7 @@ public enum Solver {
 
 			checkArgument(c.length == 2, ORDER_ERROR_MESSAGE);
 
-			if (c[1] == 0) {
+			if (isZero(c[1])) {
 				return EMPTY_RESULT;
 			}
 			return new double[]{div(-c[0], c[1])};
@@ -63,12 +63,12 @@ public enum Solver {
             final double b = coefficients[1];
             final double c = coefficients[0];
 
-            if (a == 0) {
+            if (isZero(a)) {
 				return Solver.Linear.solve(c, b);
 			}
 
 			double det = b * b - 4 * a * c;
-			if (det == 0) {
+			if (isZero(det)) {
 				return new double[]{div(-b, 2 * a)};
 			}
 
@@ -102,15 +102,15 @@ public enum Solver {
             final double c = coefficients[1];
             final double d = coefficients[0];
 
-            if (a == 0) {
+            if (isZero(a)) {
 				return Solver.Quadratic.solve(d, c, b);
 			}
 
-			if (b == 0 && c == 0) {
+			if (isZero(b) && isZero(c)) {
 				return new double[]{cbrt(div(-d, a))};
 			}
 
-			if (d == 0) {
+			if (isZero(d)) {
 				double[] quadResults = Solver.Quadratic.solve(c, b, a);
 				Set<Double> results = new HashSet<>();
 				results.add(0d);
