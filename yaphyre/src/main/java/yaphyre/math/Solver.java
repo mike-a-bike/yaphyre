@@ -22,11 +22,15 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.math3.util.FastMath;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.lang.Math.PI;
 import static java.lang.Math.acos;
 import static java.lang.Math.cbrt;
 import static java.lang.Math.cos;
+import static java.lang.Math.pow;
+import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
 import static yaphyre.math.MathUtils.div;
 import static yaphyre.math.MathUtils.isZero;
@@ -113,38 +117,38 @@ public enum Solver {
                 return solutions;
             }
 
-			double k, p, q;
+            final double f = (((3d * c[1]) / c[3]) - (pow(c[2], 2d) / pow(c[3], 2d))) / 3d;
+            final double g = ((((2d * pow(c[2], 3)) / pow(c[3], 3)) - ((9d * c[2] * c[1]) / pow(c[3], 2d))) + ((27d * c[0]) / c[3])) / 27d;
+            final double h = pow(g, 2) / 4 + pow(f, 3) / 27;
 
-			if (c[2] != 0) {
-				k = div(-c[2], 3 * c[3]);
-				p = div(3 * c[3] * c[1] - c[2] * c[2], -3 * c[3] * c[3]);
-                q = div(2 * c[2] * c[2] * c[2] - 9 * c[3] * c[2] * c[1] + 27 * c[3] * c[3] * c[0], 27 * c[3] * c[3] * c[3]);
-            } else {
-				k = 0;
-				p = div(-c[1], c[3]);
-				q = div(-c[0], c[3]);
-			}
+            if (h <= 0d) {
+                // all three roots are real
 
-			double p_d3_e3 = p * p / 27 * p;
-			double w = q / 4 * q - p_d3_e3;
+                if (f == 0d && g == 0d && h == 0d) {
+                    // all three roots are real AND equal
+                    final double solution = pow(c[0] / c[3], 1d / 3d) * -1d;
+                    return new double[]{solution, solution, solution};
+                }
 
-			if (w < 0) {
-				double cos3a = div(q, 2 * sqrt(p_d3_e3));
-				double a = acos(cos3a) / 3;
-				double t = sqrt(p * (4 / 3));
-				double[] results = new double[3];
-				results[0] = t * cos(a) + k;
-				results[1] = t * cos(a + 2 * PI / 3) + k;
-				results[2] = t * cos(a + 2 * (2 * PI / 3)) + k;
-                Arrays.sort(results);
-                return results;
+                final double i = pow(pow(g, 2d) / 4d - h, 1d / 2d);
+                final double j = pow(i, 1d / 3d);
+                final double K = acos(-g / (2d * i));
+                final double M = cos(K / 3d);
+                final double N = sqrt(3d) * sin(K / 3d);
+                final double P = -(c[2] / (3d * c[3]));
+
+                final double x1 = 2d * j * cos(K / 3d) - (c[2] / (c[3] * 3d));
+                final double x2 = -j * (M + N) + P;
+                final double x3 = -j * (M - N) + P;
+
+                final double[] solutions = new double[]{x1, x2, x3};
+                Arrays.sort(solutions);
+                return solutions;
+
             }
 
-			if (w == 0) {
-				return new double[]{2 * cbrt(q / 2) + k};
-			}
-
-			return new double[]{cbrt(q / 2 + sqrt(w)) + cbrt(q / 2 - sqrt(w)) + k};
+            // only one real solution
+            return EMPTY_RESULT;
 
 		}
 	},
