@@ -16,22 +16,17 @@
 
 package yaphyre.math;
 
-import com.google.common.primitives.Doubles;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.apache.commons.math3.util.FastMath;
+import com.google.common.primitives.Doubles;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static java.lang.Math.PI;
-import static java.lang.Math.acos;
-import static java.lang.Math.cbrt;
-import static java.lang.Math.cos;
-import static java.lang.Math.pow;
-import static java.lang.Math.sin;
-import static java.lang.Math.sqrt;
+import static org.apache.commons.math3.util.FastMath.acos;
+import static org.apache.commons.math3.util.FastMath.cbrt;
+import static org.apache.commons.math3.util.FastMath.cos;
+import static org.apache.commons.math3.util.FastMath.sin;
+import static org.apache.commons.math3.util.FastMath.sqrt;
 import static yaphyre.math.MathUtils.div;
 import static yaphyre.math.MathUtils.isZero;
 
@@ -53,6 +48,7 @@ public enum Solver {
 			return new double[]{div(-c[0], c[1])};
 		}
 	},
+
 	Quadratic {
 		/**
 		 * Solve a quadratic equation for:<br/>
@@ -84,29 +80,35 @@ public enum Solver {
 			}
 		}
     },
+
     Cubic {
 		/**
 		 * Solve a cubic equation for:<br/>
 		 * c<sub>3</sub>*x<sup>3</sup> + c<sub>2</sub>*x<sup>2</sup> + c<sub>1</sub>*x + c<sub>0</sub> = 0 <br/>
 		 * http://en.wikipedia.org/wiki/Cubic_function under Trigonometric (and
-		 * hyperbolic) method
+		 * hyperbolic) method or http://www.1728.org/cubic.htm
 		 */
 		@Override
-		public double[] solve(double... c) throws IllegalArgumentException {
+		public double[] solve(double... xx) throws IllegalArgumentException {
 
-			checkArgument(c.length == 4, ORDER_ERROR_MESSAGE);
+			checkArgument(xx.length == 4, ORDER_ERROR_MESSAGE);
 
-			if (c[3] == 0) {
-				return Solver.Quadratic.solve(c[0], c[1], c[2]);
+            final double a = xx[3];
+            final double b = xx[2];
+            final double c = xx[1];
+            final double d = xx[0];
+
+            if (a == 0) {
+				return Solver.Quadratic.solve(d, c, b);
 			}
 
-			if (c[2] == 0 && c[1] == 0) {
-				return new double[]{cbrt(div(-c[0], c[3]))};
+			if (b == 0 && c == 0) {
+				return new double[]{cbrt(div(-d, a))};
 			}
 
-			if (c[0] == 0) {
-				double[] quadResults = Solver.Quadratic.solve(c[1], c[2], c[3]);
-				Set<Double> results = new HashSet<Double>();
+			if (d == 0) {
+				double[] quadResults = Solver.Quadratic.solve(c, b, a);
+				Set<Double> results = new HashSet<>();
 				results.add(0d);
 				for (double value : quadResults) {
 					results.add(value);
@@ -117,27 +119,27 @@ public enum Solver {
                 return solutions;
             }
 
-            final double f = (((3d * c[1]) / c[3]) - (pow(c[2], 2d) / pow(c[3], 2d))) / 3d;
-            final double g = ((((2d * pow(c[2], 3)) / pow(c[3], 3)) - ((9d * c[2] * c[1]) / pow(c[3], 2d))) + ((27d * c[0]) / c[3])) / 27d;
-            final double h = pow(g, 2) / 4 + pow(f, 3) / 27;
+            final double f = (((3d * c) / a) - ((b * b) / (a * a))) / 3d;
+            final double g = ((((2d * (b * b * b)) / (a * a * a)) - ((9d * b * c) / (a * a))) + ((27d * d) / a)) / 27d;
+            final double h = (g * g) / 4 + (f * f * f) / 27;
 
             if (h <= 0d) {
                 // all three roots are real
 
                 if (f == 0d && g == 0d && h == 0d) {
                     // all three roots are real AND equal
-                    final double solution = pow(c[0] / c[3], 1d / 3d) * -1d;
+                    final double solution = cbrt(d / a) * -1d;
                     return new double[]{solution, solution, solution};
                 }
 
-                final double i = pow(pow(g, 2d) / 4d - h, 1d / 2d);
-                final double j = pow(i, 1d / 3d);
+                final double i = sqrt(g * g / 4d - h);
+                final double j = cbrt(i);
                 final double K = acos(-g / (2d * i));
                 final double M = cos(K / 3d);
                 final double N = sqrt(3d) * sin(K / 3d);
-                final double P = -(c[2] / (3d * c[3]));
+                final double P = -(b / (3d * a));
 
-                final double x1 = 2d * j * cos(K / 3d) - (c[2] / (c[3] * 3d));
+                final double x1 = 2d * j * cos(K / 3d) - (b / (a * 3d));
                 final double x2 = -j * (M + N) + P;
                 final double x3 = -j * (M - N) + P;
 
@@ -147,16 +149,22 @@ public enum Solver {
 
             }
 
-            // only one real solution
-            return EMPTY_RESULT;
+            final double R = -(g / 2d) + sqrt(h);
+            final double S = cbrt(R);
+            final double T = -(g / 2d) - sqrt(h);
+            final double U = cbrt(T);
+
+            return new double[]{(S + U) - (b / (a * 3d))};
 
 		}
 	},
+
 	Quartic {
 		/**
 		 * Solve a quartic equation for:<br/>
          * c<sub>4</sub>*x<sup>4</sup> + c<sub>3</sub>*x<sup>3</sup> + c<sub>2</sub>*x<sup>2</sup> + c<sub>1</sub>*x + c<sub>0</sub> = 0<br/>
          * Lodovico Ferraria (1522 - 1565): http://www.sosmath.com/algebra/factor/fac12/fac12.html
+         * also http://www.1728.org/quartic.htm
 		 */
 		@Override
 		public double[] solve(double... c) throws IllegalArgumentException {
@@ -194,7 +202,7 @@ public enum Solver {
 
 			} else {
 
-				Set<Double> resultSet = new HashSet<Double>();
+				Set<Double> resultSet = new HashSet<>();
 
 				// solve the resolvent qubic
 				double[] coefficients = new double[4];
