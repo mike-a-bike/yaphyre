@@ -23,6 +23,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static yaphyre.math.MathUtils.EPSILON;
 
 /**
@@ -92,17 +93,20 @@ public class SolverTest {
     @Test
     public void testCubicSolver() {
 
+        double[] solutions;
+
         // test x^3 - 4x^2 - 17x + 60 = 0 (-4 / 3 / 5)
-//        double[] solutions = Solver.Cubic.solve(60, -17, -4, 1);
-//        System.out.println(Arrays.toString(solutions));
-//        assertNotNull(solutions);
-//        assertTrue(solutions.length == 3);
-//        assertEquals(-4d, solutions[0], EPSILON);
-//        assertEquals(3d, solutions[1], EPSILON);
-//        assertEquals(5d, solutions[2], EPSILON);
+        solutions = Solver.Cubic.solve(60, -17, -4, 1);
+        System.out.println(Arrays.toString(solutions));
+        assertNotNull(solutions);
+        assertTrue(solutions.length == 3);
+        assertEquals(-4d, solutions[0], EPSILON);
+        assertEquals(3d, solutions[1], EPSILON);
+        assertEquals(5d, solutions[2], EPSILON);
+
 
         // test 2x^3 - 4x^2 - 22x + 24 = 0 (-3, 1, 4)
-        double[] solutions = Solver.Cubic.solve(24, -22, -4, 2);
+        solutions = Solver.Cubic.solve(24, -22, -4, 2);
         System.out.println(Arrays.toString(solutions));
         assertNotNull(solutions);
         assertTrue(solutions.length == 3);
@@ -112,7 +116,25 @@ public class SolverTest {
 
 
         // test 3x^3 - 10x^2 + 14x + 27 = 0 (-1)
+        solutions = Solver.Cubic.solve(27, 14, -10, 3);
+        System.out.println(Arrays.toString(solutions));
+        assertNotNull(solutions);
+        assertTrue(solutions.length == 1);
+        assertEquals(-1d, solutions[0], EPSILON);
 
         // test x^3 + 6x^2 + 12x + 8 = 0 (-2, -2, -2)
+        solutions = Solver.Cubic.solve(8, 12, 6, 1);
+        System.out.println(Arrays.toString(solutions));
+        assertNotNull(solutions);
+        assertTrue(solutions.length == 3);
+        assertEquals(-2d, solutions[0], EPSILON);
+        assertEquals(-2d, solutions[1], EPSILON);
+        assertEquals(-2d, solutions[2], EPSILON);
+    }
+
+    @Test
+    @Ignore
+    public void testQuarticSolver() throws Exception {
+        fail("NOT IMPLEMENTED");
     }
 }
