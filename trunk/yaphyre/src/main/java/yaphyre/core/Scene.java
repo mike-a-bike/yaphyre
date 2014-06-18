@@ -18,9 +18,12 @@ package yaphyre.core;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import javax.inject.Inject;
 import com.google.common.base.Objects;
+import com.google.common.primitives.Doubles;
 import com.google.inject.Injector;
 import org.apache.commons.lang3.Range;
 import yaphyre.math.Ray;
@@ -86,19 +89,13 @@ public class Scene {
 	}
 
 	public CollisionInformation hitObject(Ray ray) {
-
-		double nearestCollisionDistance = Double.MAX_VALUE;
-		CollisionInformation result = null;
-
-		for (Shape shape : getShapes()) {
-			CollisionInformation collisionInformation = shape.intersect(ray);
-			if (collisionInformation != null && collisionInformation.getDistance() < nearestCollisionDistance) {
-				nearestCollisionDistance = collisionInformation.getDistance();
-				result = collisionInformation;
-			}
-		}
-
-		return result;
+        return getShapes().stream()
+            .filter(shape -> shape.getBoundingBox().isHitBy(ray))
+            .map(shape -> shape.intersect(ray))
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .min(Comparator.comparingDouble(CollisionInformation::getDistance))
+            .orElse(null);
 	}
 
 }

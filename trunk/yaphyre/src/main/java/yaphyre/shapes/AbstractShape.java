@@ -16,12 +16,14 @@
 
 package yaphyre.shapes;
 
+import java.util.Optional;
 import javax.annotation.Nonnull;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import yaphyre.core.CollisionInformation;
 import yaphyre.core.Shader;
 import yaphyre.core.Shape;
+import yaphyre.math.BoundingBox;
 import yaphyre.math.Ray;
 import yaphyre.math.Transformation;
 
@@ -97,7 +99,7 @@ public abstract class AbstractShape implements Shape {
 	}
 
 	@Override
-	public abstract CollisionInformation intersect(Ray ray);
+	public abstract Optional<CollisionInformation> intersect(@Nonnull Ray ray);
 
     @Nonnull
 	protected Ray transformToObjectSpace(@Nonnull Ray ray) {
@@ -109,4 +111,9 @@ public abstract class AbstractShape implements Shape {
         return objectToWorld.transform(ray);
     }
 
+    @Override
+    @Nonnull
+    public BoundingBox getAxisAlignedBoundingBox() {
+        return getBoundingBox();
+    }
 }

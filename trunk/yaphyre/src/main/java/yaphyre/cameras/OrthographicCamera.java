@@ -85,14 +85,18 @@ public class OrthographicCamera extends FilmBasedCamera {
         for (int x = 0; x < xResolution; x++) {
             for (int y = 0; y < yResolution; y++) {
                 final Point2D filmPoint = new Point2D(x, y);
-                for (Point2D sample : getSampler().getUnitSquareSamples()) {
-                    final Point2D sampledFilmPoint = filmPoint.add(sample);
-                    final Point2D filmSamplePoint = new Point2D(sampledFilmPoint.getU() * xStep, sampledFilmPoint.getV() * yStep);
-                    final Ray cameraRay = createCameraRay(filmSamplePoint);
-                    final Color sampledColor = getTracer().traceRay(cameraRay, scene);
-                    getFilm().addCameraSample(new CameraSample(filmPoint, sampledColor));
-                }
+                getSampler().getUnitSquareSamples().forEach(
+                    sample -> this.renderPoint(scene, xStep, yStep, filmPoint, sample)
+                );
             }
         }
+    }
+
+    private void renderPoint(Scene scene, double xStep, double yStep, Point2D filmPoint, Point2D sample) {
+        final Point2D sampledFilmPoint = filmPoint.add(sample);
+        final Point2D filmSamplePoint = new Point2D(sampledFilmPoint.getU() * xStep, sampledFilmPoint.getV() * yStep);
+        final Ray cameraRay = createCameraRay(filmSamplePoint);
+        final Color sampledColor = getTracer().traceRay(cameraRay, scene);
+        getFilm().addCameraSample(new CameraSample(filmPoint, sampledColor));
     }
 }

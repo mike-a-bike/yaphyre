@@ -121,25 +121,25 @@ public class YaPhyRe {
         FovCalculator fovCalculator = FovCalculator.FullFrame35mm;
         double aspectRatio = fovCalculator.getAspectRatio();
 
-        int yResolution = 6;
+        int yResolution = 480;
         int xResolution = (int) (yResolution * aspectRatio);
         ImageFile film = new ImageFile(xResolution, yResolution);
 
-        double hFov = FovCalculator.FullFrame35mm.calculateHorizontalFov(50d);
+//        double hFov = FovCalculator.FullFrame35mm.calculateHorizontalFov(50d);
 
-        final Camera camera = new PerspectiveCamera(
-            film,
-            new Point3D(0, 0, -10),
-            Point3D.ORIGIN,
-            Normal3D.NORMAL_Y,
-            hFov,
-            aspectRatio,
-            EPSILON,
-            1d / EPSILON);
+//        final Camera camera = new PerspectiveCamera(
+//            film,
+//            new Point3D(0, 0, -10),
+//            Point3D.ORIGIN,
+//            Normal3D.NORMAL_Y,
+//            hFov,
+//            aspectRatio,
+//            EPSILON,
+//            1d / EPSILON);
 
-//        double vDimension = 6d;
-//        double uDimension = vDimension * aspectRatio;
-//        Camera camera = new OrthographicCamera(film, uDimension, vDimension, 100d);
+        double vDimension = 6d;
+        double uDimension = vDimension * aspectRatio;
+        Camera camera = new OrthographicCamera(film, uDimension, vDimension, 100d);
 
         scene.addCamera(camera);
 
@@ -159,9 +159,7 @@ public class YaPhyRe {
     }
 
     private static void renderScene(Scene scene) {
-		for (Camera camera : scene.getCameras()) {
-			camera.renderScene(scene);
-		}
+        scene.getCameras().stream().forEach(cam -> cam.renderScene(scene));
 	}
 
 	private static void saveImages(Scene scene, double gamma) {

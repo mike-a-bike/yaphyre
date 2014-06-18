@@ -16,6 +16,9 @@
 
 package yaphyre.shapes;
 
+import java.text.MessageFormat;
+import java.util.Optional;
+import javax.annotation.Nonnull;
 import yaphyre.core.CollisionInformation;
 import yaphyre.core.Shader;
 import yaphyre.math.BoundingBox;
@@ -24,8 +27,6 @@ import yaphyre.math.Point2D;
 import yaphyre.math.Point3D;
 import yaphyre.math.Ray;
 import yaphyre.math.Transformation;
-
-import java.text.MessageFormat;
 
 /**
  * Plane represented by a point on the plane and the normal. Since on a plane the normal does not change, it does not
@@ -75,22 +76,28 @@ public class Plane extends AbstractShape {
 	}
 
 	@Override
-	public CollisionInformation intersect(final Ray ray) {
-		final CollisionInformation result;
+	public Optional<CollisionInformation> intersect(@Nonnull final Ray ray) {
+		final Optional<CollisionInformation> result;
 		final double intersectionDistance = calculateIntersectDistance(ray);
 
 		if (intersectionDistance == NO_INTERSECTION) {
-			result = null;
+			result = Optional.empty();
 		} else {
 			final Point3D intersectionPoint = ray.getPoint(intersectionDistance);
-			result = new CollisionInformation(ray, this, intersectionDistance, intersectionPoint, getNormal(),
-					getMappedSurfacePoint(intersectionPoint));
-		}
+            result = Optional.of(new CollisionInformation(
+                ray,
+                this,
+                intersectionDistance,
+                intersectionPoint,
+                getNormal(),
+                getMappedSurfacePoint(intersectionPoint)));
+        }
 
 		return result;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public BoundingBox getBoundingBox() {
 		return BoundingBox.INFINITE_BOUNDING_BOX;
 	}

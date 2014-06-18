@@ -16,6 +16,10 @@
 
 package yaphyre.shapes;
 
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import javax.annotation.Nonnull;
 import yaphyre.core.CollisionInformation;
 import yaphyre.core.Shader;
 import yaphyre.math.BoundingBox;
@@ -68,7 +72,7 @@ public class SimpleSphere extends AbstractShape {
     }
 
     @Override
-    public CollisionInformation intersect(Ray ray) {
+    public Optional<CollisionInformation> intersect(@Nonnull Ray ray) {
         final Ray objectSpaceRay = transformToObjectSpace(ray);
         final Vector3D originPositionVector = objectSpaceRay.getOrigin().asVector();
         final Vector3D direction = objectSpaceRay.getDirection();
@@ -79,30 +83,37 @@ public class SimpleSphere extends AbstractShape {
 
         final double[] solutions = Solver.Quadratic.solve(c0, c1, c2);
 
-        for (double solution : solutions) {
-            if (ray.getTRange().contains(solution)) {
-                Transformation objectToWorld = getObjectToWorld();
-                Point3D intersectionPoint = objectSpaceRay.getPoint(solution);
-                Normal3D normal3D = calculateNormal(intersectionPoint, objectSpaceRay);
+        final OptionalDouble minSolution = Arrays.stream(solutions)
+            .filter(d -> ray.getTRange().contains(d))
+            .min();
 
-                return new CollisionInformation(
-                    ray,
-                    this,
-                    solution,
-                    objectToWorld.transform(intersectionPoint),
-                    objectToWorld.transform(normal3D),
-                    mapToLocalUV(intersectionPoint));
-            }
+        if (minSolution.isPresent() && !Double.isNaN(minSolution.getAsDouble())) {
+            final double distance = minSolution.getAsDouble();
+            final Point3D intersectionPoint = objectSpaceRay.getPoint(distance);
+
+            return Optional.of(new CollisionInformation(
+                ray,
+                this,
+                distance,
+                getObjectToWorld().transform(intersectionPoint),
+                getObjectToWorld().transform(calculateNormal(intersectionPoint, objectSpaceRay)),
+                mapToLocalUV(intersectionPoint)));
+
+        } else {
+
+            return Optional.empty();
+
         }
 
-        return null;
     }
 
+    @Nonnull
     @Override
     public BoundingBox getBoundingBox() {
         return transformedLocalBoundingBox;
     }
 
+    @Nonnull
     @Override
     public BoundingBox getAxisAlignedBoundingBox() {
         return axisAlignedBoundingBox;

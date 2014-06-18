@@ -16,6 +16,9 @@
 
 package yaphyre.shapes;
 
+import java.text.MessageFormat;
+import java.util.Optional;
+import javax.annotation.Nonnull;
 import yaphyre.core.CollisionInformation;
 import yaphyre.core.Shader;
 import yaphyre.math.BoundingBox;
@@ -26,8 +29,6 @@ import yaphyre.math.Ray;
 import yaphyre.math.Solver;
 import yaphyre.math.Transformation;
 import yaphyre.math.Vector3D;
-
-import java.text.MessageFormat;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -181,19 +182,20 @@ public class Sphere extends AbstractShape {
 	}
 
 	@Override
-	public CollisionInformation intersect(final Ray ray) {
+	public Optional<CollisionInformation> intersect(@Nonnull final Ray ray) {
 		double intersectDistance = this.getIntersectDistance(ray);
 		if (intersectDistance == NO_INTERSECTION) {
-			return null;
+			return Optional.empty();
 		}
 		Point3D intersectionPoint = ray.getPoint(intersectDistance);
 
-		return new CollisionInformation(ray, this,
-				intersectDistance, intersectionPoint,
-				getNormal(intersectionPoint), getMappedSurfacePoint(intersectionPoint));
-	}
+        return Optional.of(new CollisionInformation(ray, this,
+            intersectDistance, intersectionPoint,
+            getNormal(intersectionPoint), getMappedSurfacePoint(intersectionPoint)));
+    }
 
-	@Override
+	@Nonnull
+    @Override
 	public BoundingBox getBoundingBox() {
 		return null;
 	}
