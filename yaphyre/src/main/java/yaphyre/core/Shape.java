@@ -16,6 +16,8 @@
 
 package yaphyre.core;
 
+import java.util.Optional;
+import javax.annotation.Nonnull;
 import yaphyre.math.BoundingBox;
 import yaphyre.math.Ray;
 
@@ -36,21 +38,23 @@ public interface Shape {
 	public Shader getShader();
 
 	/**
-	 * Create the intersection informations for the given {@link yaphyre.math.Ray} and this shape. If the {@link yaphyre.math.Ray} does not
-	 * intersect this shape at all, then <code>null</code> is returned. Otherwise the collision informations are returned.
-	 * The results created by this method are as accurate as possible.
+	 * Create the intersection informations for the given {@link yaphyre.math.Ray} and this shape.
+     * If the {@link yaphyre.math.Ray} does not intersect this shape at all, then {@link java.util.Optional#empty()} is
+     * returned. Otherwise the collision information are returned. The results created by this method are as accurate
+     * as possible.
 	 *
 	 * @param ray The {@link yaphyre.math.Ray} to check for intersection.
 	 *
-	 * @return The {@link yaphyre.core.CollisionInformation} instance describing the intersection between the {@link yaphyre.math.Ray} and this
-	 * {@link yaphyre.core.Shape} instance. <code>null</code> if no intersection happens.
+	 * @return An {@link java.util.Optional} of {@link yaphyre.core.CollisionInformation} instance describing the
+     * intersection between the {@link yaphyre.math.Ray} and this {@link yaphyre.core.Shape} instance.
+     * {@link java.util.Optional#empty()} if the ray misses the Shape.
 	 */
-	public CollisionInformation intersect(Ray ray);
+	public Optional<CollisionInformation> intersect(@Nonnull Ray ray);
 
+    @Nonnull
 	public BoundingBox getBoundingBox();
 
-    public default BoundingBox getAxisAlignedBoundingBox() {
-        return getBoundingBox();
-    }
+    @Nonnull
+    public BoundingBox getAxisAlignedBoundingBox();
 
 }
