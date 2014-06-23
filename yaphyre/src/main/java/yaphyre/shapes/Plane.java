@@ -75,7 +75,8 @@ public class Plane extends AbstractShape {
 		return true;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public Optional<CollisionInformation> intersect(@Nonnull final Ray ray) {
 		final Optional<CollisionInformation> result;
 		final double intersectionDistance = calculateIntersectDistance(ray);

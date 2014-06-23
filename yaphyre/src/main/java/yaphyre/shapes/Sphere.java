@@ -181,7 +181,8 @@ public class Sphere extends AbstractShape {
 		return super.hashCode();
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public Optional<CollisionInformation> intersect(@Nonnull final Ray ray) {
 		double intersectDistance = this.getIntersectDistance(ray);
 		if (intersectDistance == NO_INTERSECTION) {

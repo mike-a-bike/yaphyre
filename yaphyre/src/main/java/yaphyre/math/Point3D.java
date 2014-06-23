@@ -21,6 +21,11 @@ import com.google.common.base.Objects;
 import javax.annotation.concurrent.Immutable;
 import java.io.Serializable;
 
+import static org.apache.commons.math3.util.FastMath.PI;
+import static org.apache.commons.math3.util.FastMath.acos;
+import static org.apache.commons.math3.util.FastMath.atan2;
+import static yaphyre.math.MathUtils.isZero;
+
 /**
  * Abstraction of a point in a 3d Cartesian coordinate system.
  *
@@ -40,11 +45,14 @@ public class Point3D implements Serializable {
 	final double y;
 	final double z;
 
+    double[] polarCoordinates;
+
 	public Point3D(double x, double y, double z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
-	}
+        polarCoordinates = null;
+    }
 
 	@Override
 	public String toString() {
@@ -132,4 +140,33 @@ public class Point3D implements Serializable {
 		return z;
 	}
 
+    public double getR() {
+        return toPolar()[0];
+    }
+
+    public double getPhi() {
+        return toPolar()[1];
+    }
+
+    public double getTheta() {
+        return toPolar()[2];
+    }
+
+    /**
+     * Polar coordinate representation with the following value ranges: r (0, oo), phi [0, 2PI), theta [0, PI)
+     * @return An array {r, phi, theta}
+     */
+    private double[] toPolar() {
+        if (polarCoordinates == null) {
+            if (isZero(lengthSquared())) {
+                polarCoordinates = new double[]{0d, 0d, 0d};
+            } else {
+                double r = length();
+                double phi = (atan2(y, x) + PI);
+                double theta = acos(z / r);
+                polarCoordinates = new double[]{r, phi, theta};
+            }
+        }
+        return polarCoordinates;
+    }
 }

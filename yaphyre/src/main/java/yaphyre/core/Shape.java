@@ -35,6 +35,7 @@ public interface Shape {
 	 *
 	 * @return The {@link Shader} for this shape.
 	 */
+    @Nonnull
 	public Shader getShader();
 
 	/**
@@ -49,6 +50,7 @@ public interface Shape {
      * intersection between the {@link yaphyre.math.Ray} and this {@link yaphyre.core.Shape} instance.
      * {@link java.util.Optional#empty()} if the ray misses the Shape.
 	 */
+    @Nonnull
 	public Optional<CollisionInformation> intersect(@Nonnull Ray ray);
 
     @Nonnull
