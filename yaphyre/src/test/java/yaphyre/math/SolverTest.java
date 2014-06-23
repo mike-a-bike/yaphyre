@@ -16,14 +16,13 @@
 
 package yaphyre.math;
 
-import java.util.Arrays;
-import org.junit.Ignore;
 import org.junit.Test;
+
+import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static yaphyre.math.MathUtils.EPSILON;
 
 /**
@@ -133,8 +132,23 @@ public class SolverTest {
     }
 
     @Test
-    @Ignore
     public void testQuarticSolver() throws Exception {
-        fail("NOT IMPLEMENTED");
+
+        double[] solutions;
+
+        // test 3x^4 + 6x^3 - 123x^2 - 126x + 1080 = 0 (-6, -4, 3, 5)
+        solutions = Solver.Quartic.solve(1080, -126, -123, 6, 3);
+        System.out.println(Arrays.toString(solutions));
+        assertNotNull(solutions);
+        assertEquals(-6, solutions[0], EPSILON);
+        assertEquals(-4, solutions[1], EPSILON);
+        assertEquals(3, solutions[2], EPSILON);
+        assertEquals(5, solutions[3], EPSILON);
+
+        solutions = Solver.Quartic.solve(87, 29, 17, 5, -20);
+        System.out.println(Arrays.toString(solutions));
+        assertNotNull(solutions);
+        assertEquals(-1.68200392658, solutions[0], EPSILON);
+        assertEquals(1.48758311033, solutions[1], EPSILON);
     }
 }
