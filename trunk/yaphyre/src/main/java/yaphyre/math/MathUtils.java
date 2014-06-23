@@ -16,11 +16,13 @@
 
 package yaphyre.math;
 
-import static java.lang.Math.PI;
-import static java.lang.Math.abs;
-import static java.lang.Math.pow;
-import static java.lang.Math.signum;
-import static java.lang.Math.sqrt;
+import java.util.Arrays;
+
+import static org.apache.commons.math3.util.FastMath.PI;
+import static org.apache.commons.math3.util.FastMath.abs;
+import static org.apache.commons.math3.util.FastMath.pow;
+import static org.apache.commons.math3.util.FastMath.signum;
+import static org.apache.commons.math3.util.FastMath.sqrt;
 import static org.apache.commons.math3.util.ArithmeticUtils.binomialCoefficient;
 
 /**
@@ -98,11 +100,7 @@ public class MathUtils {
 	}
 
 	public static double calculateLengthSquared(double... values) {
-		double result = 0d;
-		for (double value : values) {
-			result += value * value;
-		}
-		return result;
+        return Arrays.stream(values).map(v -> v * v).sum();
 	}
 
 	public static boolean isZero(double value) {

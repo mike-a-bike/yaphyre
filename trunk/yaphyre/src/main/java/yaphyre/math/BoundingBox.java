@@ -20,6 +20,10 @@ import com.google.common.base.Objects;
 
 import java.io.Serializable;
 
+import javax.annotation.concurrent.Immutable;
+
+import yaphyre.core.Shape;
+
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
 import static java.lang.Math.max;
@@ -28,14 +32,15 @@ import static yaphyre.math.MathUtils.EPSILON;
 
 /**
  * Bounding boxes are used to speed up the rendering process. Complex {@link Shape}s are wrapped by such a {@link
- * yaphyre.math.BoundingBox} to which simplifies the task of determining if a {@link yaphyre.math.Ray} potentially intersects with a shape. If
- * the {@link yaphyre.math.Ray} intersects the bounding box, the more expensive check must be performed to check if the {@link yaphyre.math.Ray}
+ * BoundingBox} to which simplifies the task of determining if a {@link Ray} potentially intersects with a shape. If
+ * the {@link Ray} intersects the bounding box, the more expensive check must be performed to check if the {@link Ray}
  * also intersects with the wrapped {@link Shape}.
  *
  * @author Michael Bieri
  * @author $LastChangedBy: mike0041@gmail.com $
  * @version $Revision: 91 $
  */
+@Immutable
 public class BoundingBox implements Serializable {
 
 	public static final BoundingBox INFINITE_BOUNDING_BOX = new BoundingBox(new Point3D(Double.NEGATIVE_INFINITY,

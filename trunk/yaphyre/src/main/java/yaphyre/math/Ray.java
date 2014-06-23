@@ -51,10 +51,10 @@ public class Ray implements Serializable {
 		this(origin, direction, EPSILON, Double.MAX_VALUE);
 	}
 
-	public Ray(Point3D origin, Vector3D direction, double mint, double maxt) {
+	public Ray(Point3D origin, Vector3D direction, double tmin, double tmax) {
 		this.origin = origin;
 		this.direction = direction;
-		this.tRange = Range.between(mint, maxt);
+		this.tRange = Range.between(tmin, tmax);
 	}
 
 	public Ray(Point3D origin, Vector3D direction, Range<Double> tRange) {
@@ -62,6 +62,10 @@ public class Ray implements Serializable {
 		this.direction = direction;
 		this.tRange = tRange;
 	}
+
+    public Ray(double ox, double oy, double oz, double dx, double dy, double dz, double tmin, double tmax) {
+        this(new Point3D(ox, oy, oz), new Vector3D(dx, dy, dz), tmin, tmax);
+    }
 
 	@Override
 	public String toString() {

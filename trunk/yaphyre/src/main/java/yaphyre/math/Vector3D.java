@@ -20,7 +20,11 @@ import java.io.Serializable;
 import javax.annotation.concurrent.Immutable;
 import com.google.common.base.Objects;
 
-import static java.lang.Math.abs;
+import static org.apache.commons.math3.util.FastMath.PI;
+import static org.apache.commons.math3.util.FastMath.abs;
+import static org.apache.commons.math3.util.FastMath.acos;
+import static org.apache.commons.math3.util.FastMath.atan2;
+import static yaphyre.math.MathUtils.isZero;
 
 /**
  * Represent an arithmetical vector within a 3 dimensional Cartesian coordinate space. This class also provides the
@@ -46,7 +50,9 @@ public class Vector3D implements Comparable<Vector3D>, Serializable {
 
 	final double x, y, z;
 
-	/**
+    private double[] polarCoordinates = null;
+
+    /**
 	 * Creates a new instance of {@link yaphyre.math.Vector3D} so that P<sub>start</sub> + V = P<sub>end</sub>
 	 *
 	 * @param start The start point for the calculation (P<sub>start</sub>)
@@ -203,4 +209,34 @@ public class Vector3D implements Comparable<Vector3D>, Serializable {
 	public double getZ() {
 		return z;
 	}
+
+    public double getR() {
+        return toPolar()[0];
+    }
+
+    public double getPhi() {
+        return toPolar()[1];
+    }
+
+    public double getTheta() {
+        return toPolar()[2];
+    }
+
+    /**
+     * Polar coordinate representation with the following value ranges: r (0, oo), phi [0, 2PI), theta [0, PI)
+     * @return An array {r, phi, theta}
+     */
+    private double[] toPolar() {
+        if (polarCoordinates == null) {
+            if (isZero(lengthSquared())) {
+                polarCoordinates = new double[]{0d, 0d, 0d};
+            } else {
+                double r = length();
+                double phi = (atan2(y, x) + PI);
+                double theta = acos(z / r);
+                polarCoordinates = new double[]{r, phi, theta};
+            }
+        }
+        return polarCoordinates;
+    }
 }

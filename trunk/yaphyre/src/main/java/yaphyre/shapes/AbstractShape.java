@@ -85,7 +85,8 @@ public abstract class AbstractShape implements Shape {
 				&& Objects.equal(objectToWorld, other.objectToWorld);
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public Shader getShader() {
 		return shader;
 	}
@@ -98,7 +99,8 @@ public abstract class AbstractShape implements Shape {
 		return objectToWorld;
 	}
 
-	@Override
+	@Nonnull
+    @Override
 	public abstract Optional<CollisionInformation> intersect(@Nonnull Ray ray);
 
     @Nonnull

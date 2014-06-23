@@ -22,6 +22,7 @@ import java.util.OptionalDouble;
 import javax.annotation.Nonnull;
 import yaphyre.core.CollisionInformation;
 import yaphyre.core.Shader;
+import yaphyre.core.Shape;
 import yaphyre.math.BoundingBox;
 import yaphyre.math.Normal3D;
 import yaphyre.math.Point2D;
@@ -31,8 +32,12 @@ import yaphyre.math.Solver;
 import yaphyre.math.Transformation;
 import yaphyre.math.Vector3D;
 
+import static yaphyre.math.MathUtils.INV_PI;
+import static yaphyre.math.MathUtils.INV_TWO_PI;
+
 /**
- * YaPhyRe
+ * Like the name suggests, this is a very basic implementation of a sphere. It represents the unit sphere. So its radius
+ * is one and its center is at the origin. Using transformations, simple changes are possible.
  *
  * @author axmbi03
  * @since 03.06.2014
@@ -51,15 +56,15 @@ public class SimpleSphere extends AbstractShape {
     private final BoundingBox axisAlignedBoundingBox;
 
     /**
-     * Initialize the common fields for all {@link yaphyre.core.Shape}s. Each {@link yaphyre.core.Shape} defines a
+     * Initialize the common fields for all {@link Shape}s. Each {@link Shape} defines a
      * point of origin for its own, which is translated to the world coordinate space using the given transformation.
-     * {@link yaphyre.math.Ray}s are translated by the inverse of the {@link yaphyre.math.Transformation} to calculate
+     * {@link Ray}s are translated by the inverse of the {@link Transformation} to calculate
      * an eventual intersection.</br>
-     * Please remember, that the order of the {@link yaphyre.math.Transformation} matters. It is not the same if
+     * Please remember, that the order of the {@link Transformation} matters. It is not the same if
      * the object is rotated an then translated or first translated and then rotated.
      *
-     * @param objectToWorld The {@link yaphyre.math.Transformation} used to map world coordinates to object coordinates.
-     * @param shader The {@link yaphyre.core.Shader} instance to use when rendering this {@link yaphyre.core.Shape}.
+     * @param objectToWorld The {@link Transformation} used to map world coordinates to object coordinates.
+     * @param shader The {@link Shader} instance to use when rendering this {@link Shape}.
      */
     public SimpleSphere(Transformation objectToWorld, Shader shader) {
         super(objectToWorld, shader);
@@ -72,16 +77,17 @@ public class SimpleSphere extends AbstractShape {
     }
 
     @Override
+    @Nonnull
     public Optional<CollisionInformation> intersect(@Nonnull Ray ray) {
         final Ray objectSpaceRay = transformToObjectSpace(ray);
         final Vector3D originPositionVector = objectSpaceRay.getOrigin().asVector();
         final Vector3D direction = objectSpaceRay.getDirection();
 
-        final double c2 = direction.dot(direction);
-        final double c1 = originPositionVector.dot(direction) * 2;
-        final double c0 = originPositionVector.dot(originPositionVector) - 1; // 1 = radius^2
+        final double a = direction.dot(direction);
+        final double b = originPositionVector.dot(direction) * 2;
+        final double c = originPositionVector.dot(originPositionVector) - 1; // 1 = radius^2
 
-        final double[] solutions = Solver.Quadratic.solve(c0, c1, c2);
+        final double[] solutions = Solver.Quadratic.solve(c, b, a);
 
         final OptionalDouble minSolution = Arrays.stream(solutions)
             .filter(d -> ray.getTRange().contains(d))
@@ -127,8 +133,17 @@ public class SimpleSphere extends AbstractShape {
         return result;
     }
 
-    private Point2D mapToLocalUV(Point3D surfacePoint) {
-        return null;
+    /**
+     * Simple orthographic to spherical coordinate mapping. This represents the 2D-coordinates on the surface of this
+     * sphere. Please note: There is no sanity check. so if the point is not on the surface of the sphere it is
+     * simply projected onto its surface by not caring at all about this fact...
+     *
+     * @param surfacePoint A point on the surface.
+     * @return The U/V coordinates of <code>surfacePoint</code>.
+     */
+    @Nonnull
+    private Point2D mapToLocalUV(@Nonnull Point3D surfacePoint) {
+        return new Point2D(surfacePoint.getPhi() * INV_TWO_PI, surfacePoint.getTheta() * INV_PI);
     }
 
 }
