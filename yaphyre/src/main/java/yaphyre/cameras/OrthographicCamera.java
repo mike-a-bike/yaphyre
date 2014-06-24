@@ -16,6 +16,7 @@
 
 package yaphyre.cameras;
 
+import java.util.stream.IntStream;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import yaphyre.core.CameraSample;
@@ -82,14 +83,12 @@ public class OrthographicCamera extends FilmBasedCamera {
         final double xStep = 1d / xResolution;
         final double yStep = 1d / yResolution;
 
-        for (int x = 0; x < xResolution; x++) {
-            for (int y = 0; y < yResolution; y++) {
-                final Point2D filmPoint = new Point2D(x, y);
-                getSampler().getUnitSquareSamples().forEach(
-                    sample -> this.renderPoint(scene, xStep, yStep, filmPoint, sample)
-                );
-            }
-        }
+        IntStream.range(0, xResolution)
+            .forEach(x -> IntStream.range(0, yResolution)
+                .mapToObj(y -> new Point2D(x, y))
+                .forEach(p -> getSampler().getUnitSquareSamples()
+                    .forEach(s -> renderPoint(scene, xStep, yStep, p, s))));
+        
     }
 
     private void renderPoint(Scene scene, double xStep, double yStep, Point2D filmPoint, Point2D sample) {
