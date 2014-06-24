@@ -16,6 +16,7 @@
 
 package yaphyre.math;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -132,6 +133,7 @@ public class SolverTest {
     }
 
     @Test
+    @Ignore
     public void testQuarticSolver() throws Exception {
 
         double[] solutions;
