@@ -24,6 +24,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static yaphyre.math.MathUtils.EPSILON;
 
 public class VectorTest {
 
@@ -148,22 +149,22 @@ public class VectorTest {
 		v = new Vector3D(1d, 1d, 1d);
 		result = v.normalize();
 		System.out.println("Unit vector of " + v + " is: " + result);
-		assertEquals(1d, result.length(), 0);
+		assertEquals(1d, result.length(), EPSILON);
 
 		v = new Vector3D(100d, 100d, 100d);
 		result = v.normalize();
 		System.out.println("Unit vector of " + v + " is: " + result);
-		assertEquals(1d, result.length(), 0);
+		assertEquals(1d, result.length(), EPSILON);
 
 		v = new Vector3D(1d, 2d, 3d);
 		result = v.normalize();
 		System.out.println("Unit vector of " + v + " is: " + result);
-		assertEquals(1d, result.length(), 0);
+		assertEquals(1d, result.length(), EPSILON);
 
 		v = new Vector3D(12.323d, 88.831d, -45.1235d);
 		result = v.normalize();
 		System.out.println("Unit vector of " + v + " is: " + result);
-		assertEquals(1d, result.length(), 0);
+		assertEquals(1d, result.length(), EPSILON);
 	}
 
 	@Test(expected = ArithmeticException.class)
