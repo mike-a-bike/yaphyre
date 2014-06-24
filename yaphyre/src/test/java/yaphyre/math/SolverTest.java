@@ -133,7 +133,6 @@ public class SolverTest {
     }
 
     @Test
-    @Ignore
     public void testQuarticSolver() throws Exception {
 
         double[] solutions;
@@ -147,10 +146,11 @@ public class SolverTest {
         assertEquals(3, solutions[2], EPSILON);
         assertEquals(5, solutions[3], EPSILON);
 
-        solutions = Solver.Quartic.solve(87, 29, 17, 5, -20);
+        // test x^4 + x^3 - 17x^2 + 3x - 60 = 0 (-5, 4)
+        solutions = Solver.Quartic.solve(-60, 3, -17, 1, 1);
         System.out.println(Arrays.toString(solutions));
         assertNotNull(solutions);
-        assertEquals(-1.68200392658, solutions[0], EPSILON);
-        assertEquals(1.48758311033, solutions[1], EPSILON);
+        assertEquals(-5, solutions[0], EPSILON);
+        assertEquals(4, solutions[1], EPSILON);
     }
 }
