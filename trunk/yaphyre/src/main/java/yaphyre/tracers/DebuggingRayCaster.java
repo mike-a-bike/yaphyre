@@ -16,6 +16,7 @@
 
 package yaphyre.tracers;
 
+import java.util.Optional;
 import org.apache.commons.lang3.Range;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,35 +37,13 @@ import yaphyre.shapes.SimpleSphere;
  */
 public class DebuggingRayCaster implements Tracer {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DebuggingRayCaster.class);
-
-    private static final Range<Double> rayRange = Range.between(MathUtils.EPSILON, 1d / MathUtils.EPSILON);
-
 	private static final Color BLUE = new Color(0, 0, .9d);
-
 	private static final Color RED = new Color(.9d, 0, 0);
-
 	private static final Color GREEN = new Color(0, .9d, 0);
 
 	@Override
 	public Color traceRay(Ray ray, Scene scene) {
-
-		Color result;
-
-		final CollisionInformation collisionInformation = scene.hitObject(ray);
-
-		if (collisionInformation == null) {
-			// Sky hit
-			result = BLUE;
-		} else if (collisionInformation.getShape() instanceof SimpleSphere) {
-			// Sphere hit
-			result = RED;
-		} else {
-			// Other hit
-			result = GREEN;
-		}
-
-		return result;
+        return scene.hitObject(ray).map((c) -> (c.getShape() instanceof SimpleSphere) ? RED : GREEN).orElse(BLUE);
 	}
 
 }

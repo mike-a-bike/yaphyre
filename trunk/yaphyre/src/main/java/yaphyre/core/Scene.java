@@ -88,14 +88,13 @@ public class Scene {
 				.add("lightsources", lightsources.size()).toString();
 	}
 
-	public CollisionInformation hitObject(Ray ray) {
+	public Optional<CollisionInformation> hitObject(Ray ray) {
         return getShapes().stream()
             .filter(shape -> shape.getBoundingBox().isHitBy(ray))
             .map(shape -> shape.intersect(ray))
             .filter(Optional::isPresent)
             .map(Optional::get)
-            .min(Comparator.comparingDouble(CollisionInformation::getDistance))
-            .orElse(null);
-	}
+            .min(Comparator.comparingDouble(CollisionInformation::getDistance));
+    }
 
 }
