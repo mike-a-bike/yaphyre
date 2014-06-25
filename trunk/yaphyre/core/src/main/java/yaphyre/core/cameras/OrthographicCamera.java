@@ -31,7 +31,7 @@ import yaphyre.core.math.Vector3D;
  * @author Michael Bieri
  * @since 18.02.14
  */
-public class OrthographicCamera extends FilmBasedCamera {
+public class OrthographicCamera extends AbstractCamera {
 
     /** The cameras size in the u dimension. */
     private final double uDimension;

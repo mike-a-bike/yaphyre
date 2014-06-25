@@ -17,7 +17,6 @@
 package yaphyre.app;
 
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Function;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.apache.commons.cli.CommandLine;
@@ -30,10 +29,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import yaphyre.app.dependencies.DefaultBindingModule;
 import yaphyre.core.api.Camera;
-import yaphyre.core.api.Film;
 import yaphyre.core.api.Sampler;
 import yaphyre.core.api.Scene;
-import yaphyre.core.cameras.FilmBasedCamera;
 import yaphyre.core.cameras.OrthographicCamera;
 import yaphyre.core.films.ImageFile;
 import yaphyre.core.math.FovCalculator;
@@ -158,14 +155,10 @@ public class YaPhyRe {
 	}
 
     private static void saveImages(Scene scene, double gamma) {
-        final Function<Camera, FilmBasedCamera> castCamera = FilmBasedCamera.class::cast;
-        final Function<FilmBasedCamera, Film> getFilm = FilmBasedCamera::getFilm;
-
         final AtomicInteger cameraIndex = new AtomicInteger(0);
 
         scene.getCameras().stream()
-            .filter(camera -> camera instanceof FilmBasedCamera)
-            .map(castCamera.andThen(getFilm))
+            .map(Camera::getFilm)
             .filter(film -> film instanceof ImageFile)
             .map(ImageFile.class::cast)
             .forEach(imageFileFilm -> {
