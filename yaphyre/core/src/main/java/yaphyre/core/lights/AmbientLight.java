@@ -25,4 +25,8 @@ import yaphyre.core.api.Light;
  * @since 05.07.13
  */
 public class AmbientLight implements Light {
+    @Override
+    public boolean isDelta() {
+        return false;
+    }
 }

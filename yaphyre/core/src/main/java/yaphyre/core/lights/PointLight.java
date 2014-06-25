@@ -25,4 +25,8 @@ import yaphyre.core.api.Light;
  * @since 08.07.13
  */
 public class PointLight implements Light {
+    @Override
+    public boolean isDelta() {
+        return true;
+    }
 }
