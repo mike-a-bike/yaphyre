@@ -77,7 +77,7 @@ public class ImageFile implements Film {
                     sampleColor = sampleColor.add(color);
                 }
                 sampleColor = sampleColor.multiply(1d / colorSamples.size());
-                sampleColor = (gamma != 1d) ? sampleColor.powc(gamma).clip() : sampleColor;
+                sampleColor = (gamma != 1d) ? sampleColor.pow(gamma).clip() : sampleColor;
             }
             int imageX = (int) (sample.getU());
 			int imageY = (int) (sample.getV());
@@ -106,7 +106,8 @@ public class ImageFile implements Film {
 		samples.put(sample.getSamplePoint(), sample.getSampleColor());
 	}
 
-	public static enum ImageFormat {
+	@SuppressWarnings("UnusedDeclaration")
+    public static enum ImageFormat {
 		GIF("gif"),
 		JPEG("jpg"),
 		PNG("png"),;
