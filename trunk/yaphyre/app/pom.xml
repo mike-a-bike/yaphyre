@@ -27,6 +27,30 @@
 
     <artifactId>yaphyre-app</artifactId>
     <name>${project.artifactId}</name>
+    <packaging>jar</packaging>
+
+    <build>
+        <plugins>
+            <!--<plugin>-->
+            <!--<groupId>org.codehaus.mojo</groupId>-->
+            <!--<artifactId>jaxb2-maven-plugin</artifactId>-->
+            <!--<version>1.6</version>-->
+            <!--<executions>-->
+            <!--<execution>-->
+            <!--<id>xjc</id>-->
+            <!--<goals>-->
+            <!--<goal>xjc</goal>-->
+            <!--</goals>-->
+            <!--</execution>-->
+            <!--</executions>-->
+            <!--<configuration>-->
+            <!--<packageName></packageName>-->
+            <!--<schemaDirectory></schemaDirectory>-->
+            <!--</configuration>-->
+            <!--</plugin>-->
+
+        </plugins>
+    </build>
 
     <dependencies>
 

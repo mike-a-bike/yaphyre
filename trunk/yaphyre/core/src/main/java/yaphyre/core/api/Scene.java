@@ -18,13 +18,14 @@ package yaphyre.core.api;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import javax.inject.Inject;
 import com.google.common.base.Objects;
 import com.google.inject.Injector;
 import yaphyre.core.math.Ray;
+
+import static java.util.Comparator.comparingDouble;
 
 /**
  * YaPhyRe
@@ -92,7 +93,7 @@ public class Scene {
             .map(shape -> shape.intersect(ray))
             .filter(Optional::isPresent)
             .map(Optional::get)
-            .min(Comparator.comparingDouble(CollisionInformation::getDistance));
+            .min(comparingDouble(CollisionInformation::getDistance));
     }
 
 }
