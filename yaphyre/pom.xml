@@ -39,6 +39,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <!-- children -->
     <modules>
         <module>core</module>
         <module>app</module>
@@ -48,6 +49,9 @@
 
         <!-- Default file encoding -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- project version -->
+        <yaphyre.version>${project.version}</yaphyre.version>
 
         <!-- language additions -->
         <intellij.annotations.version>13.0</intellij.annotations.version>
@@ -63,7 +67,6 @@
         <mockito-all.version>1.9.5</mockito-all.version>
         <junit.version>4.11</junit.version>
 
-        <yaphyre.version>${project.version}</yaphyre.version>
     </properties>
 
     <!-- build settings -->
@@ -79,23 +82,6 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <!--<plugin>-->
-            <!--<groupId>org.codehaus.mojo</groupId>-->
-            <!--<artifactId>jaxb2-maven-plugin</artifactId>-->
-            <!--<version>1.6</version>-->
-            <!--<executions>-->
-            <!--<execution>-->
-            <!--<id>xjc</id>-->
-            <!--<goals>-->
-            <!--<goal>xjc</goal>-->
-            <!--</goals>-->
-            <!--</execution>-->
-            <!--</executions>-->
-            <!--<configuration>-->
-            <!--<packageName></packageName>-->
-            <!--<schemaDirectory></schemaDirectory>-->
-            <!--</configuration>-->
-            <!--</plugin>-->
         </plugins>
     </build>
 
