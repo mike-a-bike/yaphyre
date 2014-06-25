@@ -28,6 +28,6 @@ import static org.junit.runners.Suite.SuiteClasses;
  * @since 10.03.14
  */
 @RunWith(Suite.class)
-@SuiteClasses({OrthographicCameraTest.class})
+@SuiteClasses({OrthographicCameraTest.class, PerspectiveCameraTest.class})
 public class CameraTests {
 }

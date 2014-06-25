@@ -16,6 +16,8 @@
 
 package yaphyre.app;
 
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.apache.commons.cli.CommandLine;
@@ -29,24 +31,18 @@ import org.slf4j.LoggerFactory;
 import yaphyre.app.dependencies.DefaultBindingModule;
 import yaphyre.cameras.FilmBasedCamera;
 import yaphyre.cameras.OrthographicCamera;
-import yaphyre.cameras.PerspectiveCamera;
 import yaphyre.core.Camera;
 import yaphyre.core.Film;
 import yaphyre.core.Sampler;
 import yaphyre.core.Scene;
 import yaphyre.films.ImageFile;
 import yaphyre.math.FovCalculator;
-import yaphyre.math.MathUtils;
-import yaphyre.math.Normal3D;
-import yaphyre.math.Point3D;
 import yaphyre.math.Transformation;
 import yaphyre.samplers.RegularSampler;
 import yaphyre.samplers.SingleValueSampler;
 import yaphyre.samplers.StratifiedSampler;
 import yaphyre.shapes.SimpleSphere;
 import yaphyre.tracers.DebuggingRayCaster;
-
-import static yaphyre.math.MathUtils.EPSILON;
 
 /**
  * YaPhyRe: Renderer application class. This reads the commandline for the sampler to use and sets up a simple,
@@ -60,10 +56,9 @@ public class YaPhyRe {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(YaPhyRe.class);
 
-    public static final String COMMANDLINE_OPTION_CAMERA_SAMPLER = "cameraSampler";
-    public static final String COMMANDLINE_OPTION_GAMMA = "gamma";
-
-    public static final double DEFAULT_GAMMA = 1d;
+    private static final String COMMANDLINE_OPTION_CAMERA_SAMPLER = "cameraSampler";
+    private static final String COMMANDLINE_OPTION_GAMMA = "gamma";
+    private static final double DEFAULT_GAMMA = 1d;
 
     public static void main(String... arguments) {
 
@@ -162,22 +157,24 @@ public class YaPhyRe {
         scene.getCameras().stream().forEach(cam -> cam.renderScene(scene));
 	}
 
-	private static void saveImages(Scene scene, double gamma) {
-		int cameraIndex = 0;
-		for (Camera camera : scene.getCameras()) {
-			if (camera instanceof FilmBasedCamera) {
-				FilmBasedCamera filmBasedCamera = (FilmBasedCamera) camera;
-				final Film film = filmBasedCamera.getFilm();
-				if (film instanceof ImageFile) {
-					ImageFile imageFileFilm = (ImageFile) film;
-					String fileName = String.format("color_%d.%s",
-							cameraIndex++,
-							ImageFile.ImageFormat.PNG.getDefaultFileExtension());
-                    imageFileFilm.safeAsImage(fileName, ImageFile.ImageFormat.PNG, gamma);
-				}
-			}
-		}
-	}
+    private static void saveImages(Scene scene, double gamma) {
+        final Function<Camera, FilmBasedCamera> castCamera = FilmBasedCamera.class::cast;
+        final Function<FilmBasedCamera, Film> getFilm = FilmBasedCamera::getFilm;
+
+        final AtomicInteger cameraIndex = new AtomicInteger(0);
+
+        scene.getCameras().stream()
+            .filter(camera -> camera instanceof FilmBasedCamera)
+            .map(castCamera.andThen(getFilm))
+            .filter(film -> film instanceof ImageFile)
+            .map(ImageFile.class::cast)
+            .forEach(imageFileFilm -> {
+                final int cameraNumber = cameraIndex.getAndIncrement();
+                final String imageFileExtension = ImageFile.ImageFormat.PNG.getDefaultFileExtension();
+                final String fileName = String.format("color_%d.%s", cameraNumber, imageFileExtension);
+                imageFileFilm.safeAsImage(fileName, ImageFile.ImageFormat.PNG, gamma);
+            });
+    }
 
 	private static CommandLine parseCommandLine(String[] arguments) {
 		CommandLine commandLine = null;

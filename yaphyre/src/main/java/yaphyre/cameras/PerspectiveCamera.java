@@ -96,29 +96,4 @@ public class PerspectiveCamera extends FilmBasedCamera {
         return cameraToWorld.inverse().transform(samplingRay);
     }
 
-    @Override
-    public void renderScene(@Nonnull Scene scene) {
-
-        if (LOGGER.isTraceEnabled()) {
-            LOGGER.trace("entering renderScene: " + scene);
-        }
-
-        final int xResolution = this.getFilm().getNativeResolution().getFirst();
-        final int yResolution = this.getFilm().getNativeResolution().getSecond();
-
-        final double xStep = 1d / xResolution;
-        final double yStep = 1d / yResolution;
-
-        for (int xCoordinate = 0; xCoordinate < xResolution; xCoordinate++) {
-            for (int yCoordinate = 0; yCoordinate < yResolution; yCoordinate++) {
-                final Point2D filmPoint = new Point2D(xCoordinate, yCoordinate);
-                final Point2D samplePoint = new Point2D(xCoordinate * xStep, yCoordinate * yStep);
-                final Ray cameraRay = createCameraRay(samplePoint);
-                final Color sampleColor = getTracer().traceRay(cameraRay, scene);
-                getFilm().addCameraSample(new CameraSample(filmPoint, sampleColor));
-            }
-        }
-
-        LOGGER.trace("exiting renderScene");
-    }
 }

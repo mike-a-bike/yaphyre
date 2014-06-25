@@ -23,7 +23,6 @@ import java.io.Serializable;
 
 import static com.google.common.primitives.Doubles.max;
 import static com.google.common.primitives.Doubles.min;
-import static java.lang.Math.pow;
 
 /**
  * Represents a color by its three components of red, green and blue with a value between zero and one. Each instance
@@ -42,10 +41,12 @@ public class Color implements Serializable {
 	private static final long serialVersionUID = 6104986207165257901L;
 
 	/** Represent the value of black. */
+    @SuppressWarnings("UnusedDeclaration")
 	public static final Color BLACK = new Color(0d, 0d, 0d);
 
 	/** White */
-	public static final Color WHITE = new Color(1d, 1d, 1d);
+	@SuppressWarnings("UnusedDeclaration")
+    public static final Color WHITE = new Color(1d, 1d, 1d);
 
 	private final double red;
 
@@ -180,15 +181,15 @@ public class Color implements Serializable {
 	}
 
 	/**
-	 * Creates a new color instance with each component raised to the power of <code>pow</code>. This can be used for
+	 * Creates a new color instance with each component raised to the power of <code>power</code>. This can be used for
 	 * gamma correction.
 	 *
-	 * @param pow The power to which each component is raised.
+	 * @param power The power to which each component is raised.
 	 *
 	 * @return A new {@link yaphyre.math.Color} with the scaled values.
 	 */
-	public Color powc(double pow) {
-		return new Color(pow(red, pow), pow(green, pow), pow(blue, pow));
+	public Color pow(double power) {
+		return new Color(Math.pow(red, power), Math.pow(green, power), Math.pow(blue, power));
 	}
 
 }
