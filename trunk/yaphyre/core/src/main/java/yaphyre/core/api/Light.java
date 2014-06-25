@@ -34,6 +34,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 public interface Light {
 
+    public boolean isDelta();
+
 	@BindingAnnotation
 	@Target({FIELD, METHOD, PARAMETER})
 	@Retention(RUNTIME)
