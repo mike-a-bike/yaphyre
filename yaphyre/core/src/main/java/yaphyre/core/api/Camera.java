@@ -45,6 +45,14 @@ public interface Camera {
 	public void renderScene(@Nonnull Scene scene);
 
     /**
+     * Access the {@link Film} instance.
+     *
+     * @return The {@link Film} instance associated with this camera.
+     */
+    @Nonnull
+    public Film getFilm();
+
+    /**
      * Marker interface used for wiring. Use this in an injection context to mark a sampler as camera specific.
      */
 	@BindingAnnotation

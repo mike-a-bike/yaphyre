@@ -38,7 +38,7 @@ import static java.lang.Math.tan;
  * @author Michael Bieri
  * @since 05.07.13
  */
-public class PerspectiveCamera extends FilmBasedCamera {
+public class PerspectiveCamera extends AbstractCamera {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PerspectiveCamera.class);
 
