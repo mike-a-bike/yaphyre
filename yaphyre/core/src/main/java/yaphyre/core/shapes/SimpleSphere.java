@@ -16,10 +16,6 @@
 
 package yaphyre.core.shapes;
 
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.OptionalDouble;
-import javax.annotation.Nonnull;
 import yaphyre.core.api.CollisionInformation;
 import yaphyre.core.api.Shader;
 import yaphyre.core.math.BoundingBox;
@@ -30,6 +26,11 @@ import yaphyre.core.math.Ray;
 import yaphyre.core.math.Solver;
 import yaphyre.core.math.Transformation;
 import yaphyre.core.math.Vector3D;
+
+import javax.annotation.Nonnull;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.OptionalDouble;
 
 import static yaphyre.core.math.MathUtils.INV_PI;
 import static yaphyre.core.math.MathUtils.INV_TWO_PI;
@@ -43,9 +44,11 @@ import static yaphyre.core.math.MathUtils.INV_TWO_PI;
  */
 public class SimpleSphere extends AbstractShape {
 
-    public static final Vector3D RADIUS_VECTOR = new Vector3D(1, 1, 1);
+    private static final Vector3D RADIUS_VECTOR = new Vector3D(1, 1, 1);
 
     private static final BoundingBox LOCAL_INSTANCE_BOUNDING_BOX;
+
+    private static final int RADIUS = 1;
 
     static {
         LOCAL_INSTANCE_BOUNDING_BOX = new BoundingBox(new Point3D(-1, -1, -1), new Point3D(1, 1, 1));
@@ -84,7 +87,7 @@ public class SimpleSphere extends AbstractShape {
 
         final double a = direction.dot(direction);
         final double b = originPositionVector.dot(direction) * 2;
-        final double c = originPositionVector.dot(originPositionVector) - 1; // 1 = radius^2
+        final double c = originPositionVector.dot(originPositionVector) - (RADIUS * RADIUS);
 
         final double[] solutions = Solver.Quadratic.solve(c, b, a);
 
