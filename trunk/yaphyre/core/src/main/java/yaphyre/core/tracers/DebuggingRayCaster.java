@@ -31,9 +31,9 @@ import yaphyre.core.shapes.SimpleSphere;
  */
 public class DebuggingRayCaster implements Tracer {
 
-	private static final Color BLUE = new Color(0, 0, .9d);
-	private static final Color RED = new Color(.9d, 0, 0);
-	private static final Color GREEN = new Color(0, .9d, 0);
+    private static final Color BLUE = new Color(0, 0, .95d);
+    private static final Color RED = new Color(.95d, 0, 0);
+    private static final Color GREEN = new Color(0, .95d, 0);
 
 	@Override
 	public Color traceRay(Ray ray, Scene scene) {
