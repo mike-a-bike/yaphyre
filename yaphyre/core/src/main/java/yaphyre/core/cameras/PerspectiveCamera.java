@@ -16,8 +16,6 @@
 
 package yaphyre.core.cameras;
 
-import javax.annotation.Nonnegative;
-import javax.annotation.Nonnull;
 import org.apache.commons.lang3.Range;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +26,9 @@ import yaphyre.core.math.Point3D;
 import yaphyre.core.math.Ray;
 import yaphyre.core.math.Transformation;
 import yaphyre.core.math.Vector3D;
+
+import javax.annotation.Nonnegative;
+import javax.annotation.Nonnull;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.lang.Math.tan;
@@ -51,7 +52,6 @@ public class PerspectiveCamera extends AbstractCamera {
     private final double farDistance;
 
     private Transformation cameraToWorld;
-    private Transformation worldToCamera;
     private Point3D virtualOrigin;
     public static final Range<Double> VALID_COORDINATE_RANGE = Range.between(0d, 1d);
 
@@ -73,8 +73,7 @@ public class PerspectiveCamera extends AbstractCamera {
     }
 
     private void setupCamera() {
-        worldToCamera = Transformation.lookAt(position, lookAt, up.asVector());
-        cameraToWorld = worldToCamera.inverse();
+        cameraToWorld = Transformation.lookAt(position, lookAt, up.asVector()).inverse();
         double virtualZ = 1d / (2d * tan(fieldOfView / 2d));
         virtualOrigin = new Point3D(0d, 0d, -virtualZ);
     }
@@ -85,11 +84,11 @@ public class PerspectiveCamera extends AbstractCamera {
         checkArgument(VALID_COORDINATE_RANGE.contains(samplePoint.getU()));
         checkArgument(VALID_COORDINATE_RANGE.contains(samplePoint.getV()));
 
-        final Point3D samplePoint3D = new Point3D(samplePoint.getU() - 1d / 2d, samplePoint.getV() - 1d / 2d, 0d);
+        final Point3D samplePoint3D = new Point3D((samplePoint.getU() - (1d / 2d)) * aspectRatio, samplePoint.getV() - 1d / 2d, 0d);
         final Vector3D direction = new Vector3D(virtualOrigin, samplePoint3D).normalize();
-        final Ray samplingRay = new Ray(virtualOrigin, direction);
+        final Ray samplingRay = new Ray(virtualOrigin, direction, nearDistance, farDistance);
 
-        return cameraToWorld.inverse().transform(samplingRay);
+        return cameraToWorld.transform(samplingRay);
     }
 
 }

@@ -16,7 +16,6 @@
 
 package yaphyre.app;
 
-import java.util.concurrent.atomic.AtomicInteger;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.apache.commons.cli.CommandLine;
@@ -31,15 +30,22 @@ import yaphyre.app.dependencies.DefaultBindingModule;
 import yaphyre.core.api.Camera;
 import yaphyre.core.api.Sampler;
 import yaphyre.core.api.Scene;
-import yaphyre.core.cameras.OrthographicCamera;
+import yaphyre.core.cameras.PerspectiveCamera;
 import yaphyre.core.films.ImageFile;
 import yaphyre.core.math.FovCalculator;
+import yaphyre.core.math.Normal3D;
+import yaphyre.core.math.Point3D;
 import yaphyre.core.math.Transformation;
 import yaphyre.core.samplers.RegularSampler;
 import yaphyre.core.samplers.SingleValueSampler;
 import yaphyre.core.samplers.StratifiedSampler;
+import yaphyre.core.shapes.Plane;
 import yaphyre.core.shapes.SimpleSphere;
 import yaphyre.core.tracers.DebuggingRayCaster;
+
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static yaphyre.core.math.MathUtils.EPSILON;
 
 /**
  * YaPhyRe: Renderer application class. This reads the commandline for the sampler to use and sets up a simple,
@@ -108,7 +114,7 @@ public class YaPhyRe {
 
         scene.addShape(new SimpleSphere(Transformation.IDENTITY, null));
 //        scene.addShape(Sphere.createSphere(Point3D.ORIGIN, 1d, null));
-//        scene.addShape(new Plane(Transformation.IDENTITY, null));
+        scene.addShape(new Plane(Transformation.IDENTITY, null));
 
         FovCalculator fovCalculator = FovCalculator.FullFrame35mm;
         double aspectRatio = fovCalculator.getAspectRatio();
@@ -117,21 +123,21 @@ public class YaPhyRe {
         int xResolution = (int) (yResolution * aspectRatio);
         ImageFile film = new ImageFile(xResolution, yResolution);
 
-//        double hFov = FovCalculator.FullFrame35mm.calculateHorizontalFov(50d);
+        double hFov = FovCalculator.FullFrame35mm.calculateHorizontalFov(50d);
 
-//        final Camera camera = new PerspectiveCamera(
-//            film,
-//            new Point3D(0, 0, -10),
-//            Point3D.ORIGIN,
-//            Normal3D.NORMAL_Y,
-//            hFov,
-//            aspectRatio,
-//            EPSILON,
-//            1d / EPSILON);
+        final Camera camera = new PerspectiveCamera(
+            film,
+            new Point3D(10, 10, -10),
+            Point3D.ORIGIN,
+            Normal3D.NORMAL_Y,
+            hFov,
+            aspectRatio,
+            EPSILON,
+            1d / EPSILON);
 
-        double vDimension = 6d;
-        double uDimension = vDimension * aspectRatio;
-        Camera camera = new OrthographicCamera(film, uDimension, vDimension, 100d);
+//        double vDimension = 6d;
+//        double uDimension = vDimension * aspectRatio;
+//        Camera camera = new OrthographicCamera(film, uDimension, vDimension, 100d);
 
         scene.addCamera(camera);
 
