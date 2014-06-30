@@ -16,7 +16,6 @@
 
 package yaphyre.core.samplers;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +37,7 @@ public class StratifiedSampler extends AbstractSampler {
     private static final Random RANDOM = new Random();
 
     private static final Map<Integer, double[]> STRATIFIED_SAMPLES = new HashMap<>();
-    private static final Map<Integer, Point2D[]> STRATIFIED_POINT_SAMPLES = new HashMap<>();
+    private static final Map<Integer, List<Point2D>> STRATIFIED_POINT_SAMPLES = new HashMap<>();
 
     public StratifiedSampler(int numberOfSamples) {
         super(numberOfSamples);
@@ -47,21 +46,20 @@ public class StratifiedSampler extends AbstractSampler {
     @Nonnull
     @Override
     protected Stream<Point2D> createUnitSquareSamples(int numberOfSamples) {
-        return Arrays.stream(STRATIFIED_POINT_SAMPLES.computeIfAbsent(numberOfSamples,
+        return STRATIFIED_POINT_SAMPLES.computeIfAbsent(numberOfSamples,
             n -> {
                 double[] uSamples = createStratifiedSamples(n);
                 double[] vSamples = createStratifiedSamples(n);
-                List<Point2D> points = IntStream.range(0, n)
+                return IntStream.range(0, n)
                     .mapToObj(i -> new Point2D(uSamples[i], vSamples[i]))
                     .collect(Collectors.toList());
-                return points.toArray(new Point2D[points.size()]);
             }
-        ));
+        ).stream();
     }
 
     private double[] createStratifiedSamples(int numberOfSamples) {
         return STRATIFIED_SAMPLES.computeIfAbsent(numberOfSamples, n -> {
-            double stepSize = 1d / numberOfSamples;
+            double stepSize = 1d / n;
             double stepSizeHalf = stepSize / 2d;
 
             double[] result = new double[n];
