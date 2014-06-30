@@ -16,11 +16,11 @@
 
 package yaphyre.core.samplers;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 import yaphyre.core.math.Point2D;
@@ -36,7 +36,7 @@ import static java.util.stream.Collectors.toList;
  */
 public class RegularSampler extends AbstractSampler {
 
-    private static final Map<Integer, Point2D[]> SAMPLES = new HashMap<>();
+    private static final Map<Integer, List<Point2D>> SAMPLES = new HashMap<>();
 
     List<Point2D> samples = null;
 
@@ -47,20 +47,16 @@ public class RegularSampler extends AbstractSampler {
     @Nonnull
     private DoubleStream createLinearSamples(int numberOfSamples) {
         final double stepSize = 1d / numberOfSamples;
-        return DoubleStream.iterate((stepSize / 2d), sample -> sample + stepSize).limit(numberOfSamples);
+        final double stepSizeHalf = stepSize / 2d;
+        return IntStream.range(0, numberOfSamples).mapToDouble(step -> stepSizeHalf + step * stepSize);
     }
 
     @Nonnull
     @Override
     protected Stream<Point2D> createUnitSquareSamples(int numberOfSamples) {
-        return Arrays.stream(
-            SAMPLES.computeIfAbsent(numberOfSamples,
-                n -> {
-                    List<Point2D> points = createLinearSamples(numberOfSamples).mapToObj((d) -> new Point2D(d, d)).collect(toList());
-                    return points.toArray(new Point2D[points.size()]);
-                }
-            )
-        );
+        return SAMPLES.computeIfAbsent(numberOfSamples,
+            sampleCount -> createLinearSamples(sampleCount).mapToObj(value -> new Point2D(value, value)).collect(toList())
+        ).stream();
     }
 
 }

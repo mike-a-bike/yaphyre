@@ -33,7 +33,6 @@ import yaphyre.core.math.Point2D;
  */
 public class HaltonSampler extends AbstractSampler {
 
-    private List<Double> linearSamples;
     private List<Point2D> unitSquareSamples;
 
     public HaltonSampler(int numberOfSamples) {
@@ -42,15 +41,11 @@ public class HaltonSampler extends AbstractSampler {
     }
 
     private void setupSampler(int numberOfSamples) {
-        RandomVectorGenerator sampleGenerator = new HaltonSequenceGenerator(1);
         RandomVectorGenerator vectorGenerator = new HaltonSequenceGenerator(2);
-        linearSamples = Lists.newArrayListWithCapacity(numberOfSamples);
         unitSquareSamples = Lists.newArrayListWithCapacity(numberOfSamples);
         for (int i = 0; i < numberOfSamples; i++) {
-            linearSamples.add(sampleGenerator.nextVector()[0]);
             unitSquareSamples.add(Point2D.of(vectorGenerator.nextVector()));
         }
-        linearSamples = Collections.unmodifiableList(linearSamples);
         unitSquareSamples = Collections.unmodifiableList(unitSquareSamples);
     }
 
