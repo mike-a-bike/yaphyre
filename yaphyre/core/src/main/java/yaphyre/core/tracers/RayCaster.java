@@ -16,6 +16,7 @@
 
 package yaphyre.core.tracers;
 
+import java.util.Optional;
 import yaphyre.core.api.Scene;
 import yaphyre.core.api.Tracer;
 import yaphyre.core.math.Color;
@@ -29,16 +30,14 @@ import yaphyre.core.math.Ray;
  */
 public class RayCaster implements Tracer {
 
-    private static final Color NO_HIT = Color.BLACK;
-
     @Override
-    public Color traceRay(Ray ray, Scene scene) {
+    public Optional<Color> traceRay(Ray ray, Scene scene) {
         return scene.hitObject(ray).map(
-            collition -> {
-                final double cosPhi = ray.getDirection().normalize().neg().dot(collition.getNormal());
-                return NO_HIT;
+            collision -> {
+                final double cosPhi = collision.getIncidentRay().getDirection().normalize().neg().dot(collision.getNormal());
+                return collision.getShape().getShader().getColor(collision.getUVCoordinate()).multiply(cosPhi);
             }
-        ).orElse(NO_HIT);
+        );
     }
 
 }

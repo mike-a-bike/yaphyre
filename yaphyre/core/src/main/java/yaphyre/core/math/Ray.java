@@ -17,7 +17,7 @@
 package yaphyre.core.math;
 
 import com.google.common.base.Objects;
-import org.apache.commons.lang3.Range;
+import com.google.common.collect.Range;
 
 import javax.annotation.concurrent.Immutable;
 import java.io.Serializable;
@@ -55,7 +55,7 @@ public class Ray implements Serializable {
 	public Ray(Point3D origin, Vector3D direction, double tmin, double tmax) {
 		this.origin = origin;
 		this.direction = direction;
-		this.tRange = Range.between(tmin, tmax);
+		this.tRange = Range.closedOpen(tmin, tmax);
 	}
 
 	public Ray(Point3D origin, Vector3D direction, Range<Double> tRange) {

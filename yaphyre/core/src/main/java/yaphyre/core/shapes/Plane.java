@@ -134,10 +134,10 @@ public class Plane extends AbstractShape {
 		double denominator = ray.getDirection().dot(normal);
 
 		if (numerator == 0 && denominator == 0) {
-			// The ray starts on the plane and is parallel to the plane, so it
-			// intersects everywhere.
-			return ray.getTRange().getMinimum();
-		} else if (numerator != 0 && denominator == 0) {
+            // The ray starts on the plane and is parallel to the plane, so it
+            // intersects everywhere.
+            return ray.getTRange().lowerEndpoint();
+        } else if (numerator != 0 && denominator == 0) {
 			// The ray starts outside the plane and is parallel to the plane, so no
 			// intersection, ever...
 			return NO_INTERSECTION;

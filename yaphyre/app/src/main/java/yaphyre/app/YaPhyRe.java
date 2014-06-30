@@ -16,6 +16,7 @@
 
 package yaphyre.app;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.apache.commons.cli.CommandLine;
@@ -30,8 +31,10 @@ import yaphyre.app.dependencies.DefaultBindingModule;
 import yaphyre.core.api.Camera;
 import yaphyre.core.api.Sampler;
 import yaphyre.core.api.Scene;
+import yaphyre.core.cameras.OrthographicCamera;
 import yaphyre.core.cameras.PerspectiveCamera;
 import yaphyre.core.films.ImageFile;
+import yaphyre.core.math.Color;
 import yaphyre.core.math.FovCalculator;
 import yaphyre.core.math.Normal3D;
 import yaphyre.core.math.Point3D;
@@ -39,11 +42,10 @@ import yaphyre.core.math.Transformation;
 import yaphyre.core.samplers.RegularSampler;
 import yaphyre.core.samplers.SingleValueSampler;
 import yaphyre.core.samplers.StratifiedSampler;
+import yaphyre.core.shaders.ColorShader;
 import yaphyre.core.shapes.Plane;
 import yaphyre.core.shapes.SimpleSphere;
-import yaphyre.core.tracers.DebuggingRayCaster;
-
-import java.util.concurrent.atomic.AtomicInteger;
+import yaphyre.core.tracers.RayCaster;
 
 import static yaphyre.core.math.MathUtils.EPSILON;
 
@@ -112,20 +114,21 @@ public class YaPhyRe {
     private static Scene setupScene(Injector injector) {
 		Scene scene = injector.getInstance(Scene.class);
 
-        scene.addShape(new SimpleSphere(Transformation.IDENTITY, null));
-//        scene.addShape(Sphere.createSphere(Point3D.ORIGIN, 1d, null));
-        scene.addShape(new Plane(Transformation.IDENTITY, null));
+        // add primitives
+        scene.addShape(new SimpleSphere(Transformation.IDENTITY, new ColorShader(new Color(.9d, 0d, 0d))));
+        scene.addShape(new Plane(Transformation.IDENTITY, new ColorShader(new Color(0d, .9d, 0d))));
 
-        FovCalculator fovCalculator = FovCalculator.FullFrame35mm;
-        double aspectRatio = fovCalculator.getAspectRatio();
+        // add cameras
+        double aspectRatio = FovCalculator.FullFrame35mm.getAspectRatio();
 
         int yResolution = 480;
         int xResolution = (int) (yResolution * aspectRatio);
-        ImageFile film = new ImageFile(xResolution, yResolution);
 
+
+        // add perspective camera
         double hFov = FovCalculator.FullFrame35mm.calculateHorizontalFov(50d);
-
-        final Camera camera = new PerspectiveCamera(
+        ImageFile film = new ImageFile(xResolution, yResolution);
+        Camera camera = new PerspectiveCamera(
             film,
             new Point3D(10, 10, -10),
             Point3D.ORIGIN,
@@ -134,11 +137,13 @@ public class YaPhyRe {
             aspectRatio,
             EPSILON,
             1d / EPSILON);
+        scene.addCamera(camera);
 
-//        double vDimension = 6d;
-//        double uDimension = vDimension * aspectRatio;
-//        Camera camera = new OrthographicCamera(film, uDimension, vDimension, 100d);
-
+        // add orthographic camera
+        film = new ImageFile(xResolution, yResolution);
+        double vDimension = 6d;
+        double uDimension = vDimension * aspectRatio;
+        camera = new OrthographicCamera(film, uDimension, vDimension, 100d);
         scene.addCamera(camera);
 
 		return scene;
@@ -152,7 +157,7 @@ public class YaPhyRe {
             () -> cameraSampler,
             () -> lightSampler,
             () -> defaultSampler,
-            new DebuggingRayCaster()
+            new RayCaster()
         ));
     }
 
@@ -167,15 +172,16 @@ public class YaPhyRe {
             .map(Camera::getFilm)
             .filter(film -> film instanceof ImageFile)
             .map(ImageFile.class::cast)
-            .forEach(imageFileFilm -> {
-                final int cameraNumber = cameraIndex.getAndIncrement();
-                final String imageFileExtension = ImageFile.ImageFormat.PNG.getDefaultFileExtension();
-                final String fileName = String.format("color_%d.%s", cameraNumber, imageFileExtension);
-                imageFileFilm.safeAsImage(fileName, ImageFile.ImageFormat.PNG, gamma);
-            });
+            .forEach(imageFileFilm -> saveFilmToFile(gamma, cameraIndex.getAndIncrement(), imageFileFilm, ImageFile.ImageFormat.PNG));
     }
 
-	private static CommandLine parseCommandLine(String[] arguments) {
+    private static void saveFilmToFile(double gamma, int cameraNumber, ImageFile imageFileFilm, ImageFile.ImageFormat imageFormat) {
+        final String imageFileExtension = imageFormat.getDefaultFileExtension();
+        final String fileName = String.format("color_%d.%s", cameraNumber, imageFileExtension);
+        imageFileFilm.safeAsImage(fileName, imageFormat, gamma);
+    }
+
+    private static CommandLine parseCommandLine(String[] arguments) {
 		CommandLine commandLine = null;
 		Options commandLineOptions = createCommandLineOptions();
 		try {

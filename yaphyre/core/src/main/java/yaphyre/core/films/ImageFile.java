@@ -69,20 +69,15 @@ public class ImageFile implements Film {
 
 		BufferedImage image = new BufferedImage(xResolution, yResolution, BufferedImage.TYPE_INT_RGB);
 
-		for (Point2D sample : samples.keySet()) {
-			Color sampleColor = Color.BLACK;
-			Collection<Color> colorSamples = samples.get(sample);
-            if (colorSamples != null && colorSamples.size() > 0) {
-                for (Color color : colorSamples) {
-                    sampleColor = sampleColor.add(color);
-                }
-                sampleColor = sampleColor.multiply(1d / colorSamples.size());
+        samples.asMap().entrySet().stream().forEach(
+            entry -> {
+                final Collection<Color> colorSamples = entry.getValue();
+                Color sampleColor = colorSamples.stream().reduce(Color.BLACK, (c1, c2) -> c1.add(c2.multiply(1d / colorSamples.size())));
                 sampleColor = (gamma != 1d) ? sampleColor.pow(gamma).clip() : sampleColor;
+                final Point2D samplePoint = entry.getKey();
+                image.setRGB((int) (samplePoint.getU()), (int) (samplePoint.getV()), createARGBfromColor(sampleColor));
             }
-            int imageX = (int) (sample.getU());
-			int imageY = (int) (sample.getV());
-			image.setRGB(imageX, imageY, createARGBfromColor(sampleColor));
-		}
+        );
 
 		return image;
 	}
