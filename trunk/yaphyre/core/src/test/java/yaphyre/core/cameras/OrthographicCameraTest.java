@@ -16,7 +16,6 @@
 
 package yaphyre.core.cameras;
 
-import java.util.Arrays;
 import java.util.Optional;
 import org.apache.commons.math3.util.Pair;
 import org.junit.Before;
@@ -30,6 +29,7 @@ import yaphyre.core.math.Color;
 import yaphyre.core.math.Point2D;
 import yaphyre.core.math.Ray;
 import yaphyre.core.math.Vector3D;
+import yaphyre.core.samplers.SingleValueSampler;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
@@ -80,8 +80,7 @@ public class OrthographicCameraTest {
         when(film.getNativeResolution()).thenReturn(new Pair<>(X_SIZE, Y_SIZE));
         tracer = mock(Tracer.class);
         when(tracer.traceRay(any(Ray.class), any(Scene.class))).thenReturn(Optional.of(Color.BLACK));
-        sampler = mock(Sampler.class);
-        when(sampler.getUnitSquareSamples()).thenReturn(Arrays.asList(new Point2D(.5d, .5d)));
+        sampler = new SingleValueSampler();
         testCamera = new OrthographicCamera(film, DIMENSION, DIMENSION, Z_COORDINATE);
         testCamera.setTracer(tracer);
         testCamera.setSampler(sampler);
@@ -113,7 +112,6 @@ public class OrthographicCameraTest {
     public void testRenderScene() throws Exception {
         Scene scene = mock(Scene.class);
         testCamera.renderScene(scene);
-        verify(sampler, times(X_SIZE * Y_SIZE)).getUnitSquareSamples();
         verify(tracer, times(X_SIZE * Y_SIZE)).traceRay(any(Ray.class), any(Scene.class));
         verify(film, times(X_SIZE * Y_SIZE)).addCameraSample(any(CameraSample.class));
     }

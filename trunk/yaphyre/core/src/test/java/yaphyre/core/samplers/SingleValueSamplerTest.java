@@ -16,14 +16,14 @@
 
 package yaphyre.core.samplers;
 
+import java.util.stream.Stream;
+import javax.annotation.Nonnull;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import yaphyre.core.math.Point2D;
 import yaphyre.core.math.Point3D;
-
-import javax.annotation.Nonnull;
 
 import static org.junit.Assert.assertEquals;
 
@@ -43,14 +43,6 @@ public class SingleValueSamplerTest {
     @Before
     public void setUp() {
         singleValueSampler = new SingleValueSampler();
-    }
-
-    /**
-     * Checks the number of samples (one) and its value (0.5).
-     */
-    @Test
-    public void testGetSamples() {
-	    validateSingleSample(0.5d, singleValueSampler.getSamples());
     }
 
 	/**
@@ -85,15 +77,12 @@ public class SingleValueSamplerTest {
      * method check also, if the total number of samples is exactly one.
      *
      * @param reference The value reference to compare against using equals(...).
-     * @param sampleList The collection of samples.
+     * @param samples The collection of samples.
      * @param <T> The type of expected samples.
      */
-    private static <T> void validateSingleSample(@Nonnull T reference, @Nonnull Iterable<T> sampleList) {
-        int sampleCount = 0;
-        for (T sample : sampleList) {
-            sampleCount++;
-            assertEquals(reference, sample);
-        }
+    private static <T> void validateSingleSample(@Nonnull T reference, @Nonnull Stream<T> samples) {
+        long sampleCount = 0;
+        sampleCount = samples.peek(sample -> assertEquals(reference, sample)).count();
         assertEquals(1, sampleCount);
     }
 

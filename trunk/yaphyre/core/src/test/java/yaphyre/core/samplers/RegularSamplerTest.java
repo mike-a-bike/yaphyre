@@ -33,15 +33,6 @@ import static org.junit.Assert.assertFalse;
 public class RegularSamplerTest {
     
     @Test
-    public void testGetSamples() throws Exception {
-        RegularSampler sampler = new RegularSampler(2);
-        validateSamples(sampler.getSamples().iterator(), 0.25d, 0.75d);
-
-        sampler = new RegularSampler(4);
-        validateSamples(sampler.getSamples().iterator(), 0.125d, 0.375d, 0.625d, 0.875d);
-    }
-
-    @Test
     public void testGetUnitSquareSamples() throws Exception {
         RegularSampler sampler = new RegularSampler(2);
         validateSamples(sampler.getUnitSquareSamples().iterator(),

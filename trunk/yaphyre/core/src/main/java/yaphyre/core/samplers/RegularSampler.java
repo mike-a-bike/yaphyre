@@ -16,10 +16,13 @@
 
 package yaphyre.core.samplers;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.DoubleStream;
+import java.util.stream.Stream;
 import javax.annotation.Nonnull;
-
 import yaphyre.core.math.Point2D;
 
 import static java.util.stream.Collectors.toList;
@@ -33,31 +36,31 @@ import static java.util.stream.Collectors.toList;
  */
 public class RegularSampler extends AbstractSampler {
 
+    private static final Map<Integer, Point2D[]> SAMPLES = new HashMap<>();
+
+    List<Point2D> samples = null;
+
     public RegularSampler(int numberOfSamples) {
         super(numberOfSamples);
     }
 
     @Nonnull
-    @Override
-    protected List<Double> createLinearSamples(int numberOfSamples) {
-        List<Double> backingSamples = new ArrayList<>();
+    private DoubleStream createLinearSamples(int numberOfSamples) {
         final double stepSize = 1d / numberOfSamples;
-        final double start = stepSize / 2d;
-        for (int sampleCount = 0; sampleCount < numberOfSamples; sampleCount++) {
-            final double sample = start + sampleCount * stepSize;
-            backingSamples.add(sample);
-        }
-        return backingSamples;
+        return DoubleStream.iterate((stepSize / 2d), sample -> sample + stepSize).limit(numberOfSamples);
     }
 
     @Nonnull
     @Override
-    protected List<Point2D> createUnitSquareSamples(int numberOfSamples) {
-
-        return createLinearSamples(numberOfSamples).stream()
-                                                   .map((d) -> new Point2D(d, d))
-                                                   .collect(toList());
-
+    protected Stream<Point2D> createUnitSquareSamples(int numberOfSamples) {
+        return Arrays.stream(
+            SAMPLES.computeIfAbsent(numberOfSamples,
+                n -> {
+                    List<Point2D> points = createLinearSamples(numberOfSamples).mapToObj((d) -> new Point2D(d, d)).collect(toList());
+                    return points.toArray(new Point2D[points.size()]);
+                }
+            )
+        );
     }
 
 }

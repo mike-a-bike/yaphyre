@@ -34,17 +34,19 @@ public class ColorShader implements Shader {
 
     private final Color color;
 
-    public ColorShader(Color color) {
+    public ColorShader(@Nonnull Color color) {
         this.color = color;
     }
 
+    @Nonnull
     @Override
-    public Color getColor(Point2D uvCoordinate) {
+    public Color getColor(@Nonnull Point2D uvCoordinate) {
         return color;
     }
 
+    @Nonnull
     @Override
-    public Material getMaterial(Point2D uvCoordinate) {
+    public Material getMaterial(@Nonnull Point2D uvCoordinate) {
         return null;
     }
 
