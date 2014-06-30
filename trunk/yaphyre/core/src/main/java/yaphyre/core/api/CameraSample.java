@@ -16,8 +16,7 @@
 
 package yaphyre.core.api;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+import com.google.common.base.Objects;
 import yaphyre.core.math.Color;
 import yaphyre.core.math.Point2D;
 
@@ -56,11 +55,7 @@ public class CameraSample {
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder()
-				.append(this.samplePoint)
-				.append(this.lensCoordinates)
-				.append(this.sampleColor)
-				.toHashCode();
+        return Objects.hashCode(samplePoint, lensCoordinates, sampleColor);
 	}
 
 	@Override
@@ -75,11 +70,9 @@ public class CameraSample {
 			return false;
 		}
 		final CameraSample other = (CameraSample) obj;
-		return new EqualsBuilder()
-				.append(this.samplePoint, other.samplePoint)
-				.append(this.lensCoordinates, other.lensCoordinates)
-				.append(this.sampleColor, other.sampleColor)
-				.isEquals();
+        return Objects.equal(samplePoint, other.samplePoint) &&
+            Objects.equal(lensCoordinates, other.lensCoordinates) &&
+            Objects.equal(sampleColor, other.sampleColor);
 	}
 
 }

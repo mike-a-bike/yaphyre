@@ -18,12 +18,12 @@ package yaphyre.core.math;
 
 import java.util.Arrays;
 
+import static org.apache.commons.math3.util.CombinatoricsUtils.binomialCoefficient;
 import static org.apache.commons.math3.util.FastMath.PI;
 import static org.apache.commons.math3.util.FastMath.abs;
 import static org.apache.commons.math3.util.FastMath.pow;
 import static org.apache.commons.math3.util.FastMath.signum;
 import static org.apache.commons.math3.util.FastMath.sqrt;
-import static org.apache.commons.math3.util.ArithmeticUtils.binomialCoefficient;
 
 /**
  * Some useful mathematical helper functions.

@@ -17,6 +17,7 @@
 package yaphyre.core.cameras;
 
 import java.util.Arrays;
+import java.util.Optional;
 import org.apache.commons.math3.util.Pair;
 import org.junit.Before;
 import org.junit.Test;
@@ -78,7 +79,7 @@ public class OrthographicCameraTest {
         film = mock(Film.class);
         when(film.getNativeResolution()).thenReturn(new Pair<>(X_SIZE, Y_SIZE));
         tracer = mock(Tracer.class);
-        when(tracer.traceRay(any(Ray.class), any(Scene.class))).thenReturn(Color.BLACK);
+        when(tracer.traceRay(any(Ray.class), any(Scene.class))).thenReturn(Optional.of(Color.BLACK));
         sampler = mock(Sampler.class);
         when(sampler.getUnitSquareSamples()).thenReturn(Arrays.asList(new Point2D(.5d, .5d)));
         testCamera = new OrthographicCamera(film, DIMENSION, DIMENSION, Z_COORDINATE);

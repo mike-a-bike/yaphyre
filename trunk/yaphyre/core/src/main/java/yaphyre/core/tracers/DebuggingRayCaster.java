@@ -16,6 +16,7 @@
 
 package yaphyre.core.tracers;
 
+import java.util.Optional;
 import yaphyre.core.api.Scene;
 import yaphyre.core.api.Tracer;
 import yaphyre.core.math.Color;
@@ -35,9 +36,23 @@ public class DebuggingRayCaster implements Tracer {
     private static final Color RED = new Color(.95d, 0, 0);
     private static final Color GREEN = new Color(0, .95d, 0);
 
-	@Override
-	public Color traceRay(Ray ray, Scene scene) {
-        return scene.hitObject(ray).map((c) -> (c.getShape() instanceof SimpleSphere) ? RED : GREEN).orElse(BLUE);
-	}
+    private final boolean useShading;
+
+    public DebuggingRayCaster(boolean useShading) {
+        this.useShading = useShading;
+    }
+
+    @Override
+	public Optional<Color> traceRay(Ray ray, Scene scene) {
+        return scene.hitObject(ray).map((collision) -> {
+            final Color color = (collision.getShape() instanceof SimpleSphere) ? RED : GREEN;
+            if (useShading) {
+                final double cosPhi = ray.getDirection().neg().normalize().dot(collision.getNormal());
+                return color.multiply(cosPhi);
+            }
+            return color;
+        });
+    }
+
 
 }
