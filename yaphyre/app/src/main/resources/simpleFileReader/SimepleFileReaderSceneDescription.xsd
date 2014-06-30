@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2014 Michael Bieri
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:yaphyre="http://www.zweivelo.ch/yaphyre/simple"
+           targetNamespace="http://www.zweivelo.ch/yaphyre/simple"
+           elementFormDefault="qualified">
+    <xs:element name="simpleScene">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="origin" type="yaphyre:vector3d"/>
+                <xs:element name="camera" minOccurs="1" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:choice>
+                            <xs:element name="persp" type="yaphyre:perspectiveCamera"/>
+                            <xs:element name="ortho" type="yaphyre:orthographicCamera"/>
+                        </xs:choice>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+            <xs:attribute name="color" type="yaphyre:color"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="camera" abstract="true">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="filetype" type="yaphyre:fileType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="orthographicCamera">
+        <xs:complexContent>
+            <xs:extension base="yaphyre:camera">
+                <xs:sequence>
+                    <xs:element name="uDimension" type="yaphyre:nonNegativeDouble"/>
+                    <xs:element name="vDimension" type="yaphyre:nonNegativeDouble"/>
+                    <xs:element name="zCoordinate" type="xs:double"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="perspectiveCamera">
+        <xs:complexContent>
+            <xs:extension base="yaphyre:camera">
+                <xs:sequence>
+                    <xs:element name="position" type="yaphyre:point3d"/>
+                    <xs:element name="lookAt" type="yaphyre:point3d"/>
+                    <xs:element name="up" type="yaphyre:normal3d" minOccurs="0"/>
+                    <xs:element name="fov" type="yaphyre:nonNegativeDouble"/>
+                    <xs:element name="aspectRatio" type="yaphyre:nonNegativeDouble"/>
+                    <xs:element name="near" type="yaphyre:nonNegativeDouble" minOccurs="0"/>
+                    <xs:element name="far" type="yaphyre:nonNegativeDouble" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:simpleType name="fileType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="PNG"/>
+            <xs:enumeration value="JPG"/>
+            <xs:enumeration value="GIF"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="color">
+        <xs:restriction base="yaphyre:listOfDoubles">
+            <xs:length value="3"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="vector3d">
+        <xs:restriction base="yaphyre:listOfDoubles">
+            <xs:length value="3"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="point3d">
+        <xs:restriction base="yaphyre:listOfDoubles">
+            <xs:length value="3"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="normal3d">
+        <xs:restriction base="yaphyre:listOfDoubles">
+            <xs:length value="3"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="nonNegativeDouble">
+        <xs:restriction base="xs:double">
+            <xs:minInclusive value="0"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="nonNegativeInt">
+        <xs:restriction base="xs:int">
+            <xs:minInclusive value="0"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="listOfInts">
+        <xs:list itemType="xs:int"/>
+    </xs:simpleType>
+    <xs:simpleType name="listOfDoubles">
+        <xs:list itemType="xs:double"/>
+    </xs:simpleType>
+</xs:schema>
