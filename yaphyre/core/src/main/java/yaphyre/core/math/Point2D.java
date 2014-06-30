@@ -16,10 +16,12 @@
 
 package yaphyre.core.math;
 
+import java.io.Serializable;
+import javax.annotation.concurrent.Immutable;
 import com.google.common.base.Objects;
 
-import javax.annotation.concurrent.Immutable;
-import java.io.Serializable;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Abstraction of a point in a 2 dimensional space. This uses u and v as coordinates since its major usage will be the
@@ -114,4 +116,11 @@ public class Point2D implements Serializable {
 	public double getV() {
 		return v;
 	}
+
+    public static Point2D of(double[] uvComponents) {
+        checkNotNull(uvComponents);
+        checkArgument(uvComponents.length == 2);
+
+        return new Point2D(uvComponents[0], uvComponents[1]);
+    }
 }

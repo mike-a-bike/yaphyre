@@ -77,11 +77,8 @@ public class Material {
 		if (Double.doubleToLongBits(refraction) != Double.doubleToLongBits(other.refraction)) {
 			return false;
 		}
-		if (Double.doubleToLongBits(specular) != Double.doubleToLongBits(other.specular)) {
-			return false;
-		}
-		return true;
-	}
+        return Double.doubleToLongBits(specular) == Double.doubleToLongBits(other.specular);
+    }
 
 	public double getAmbient() {
 		return ambient;

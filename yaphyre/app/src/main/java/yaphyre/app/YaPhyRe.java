@@ -39,6 +39,7 @@ import yaphyre.core.math.FovCalculator;
 import yaphyre.core.math.Normal3D;
 import yaphyre.core.math.Point3D;
 import yaphyre.core.math.Transformation;
+import yaphyre.core.samplers.HaltonSampler;
 import yaphyre.core.samplers.RegularSampler;
 import yaphyre.core.samplers.SingleValueSampler;
 import yaphyre.core.samplers.StratifiedSampler;
@@ -209,7 +210,10 @@ public class YaPhyRe {
 				case "stratified":
 					sampler = new StratifiedSampler(sampleCount);
 					break;
-				default:
+                case "halton":
+                    sampler = new HaltonSampler(sampleCount);
+                    break;
+                default:
 					throw new IllegalArgumentException("Unknown type for  sampler: " + samplerName);
 			}
 		}
@@ -220,7 +224,7 @@ public class YaPhyRe {
 		Options options = new Options();
 
         OptionBuilder.withArgName("<sampler name> [number of samples]");
-        OptionBuilder.withDescription("The Sampler to use for the camera (single, regular, stratified, random)");
+        OptionBuilder.withDescription("The Sampler to use for the camera (single, regular, stratified, halton)");
         OptionBuilder.hasArgs(2);
         OptionBuilder.isRequired();
         options.addOption(OptionBuilder.create(COMMANDLINE_OPTION_CAMERA_SAMPLER));

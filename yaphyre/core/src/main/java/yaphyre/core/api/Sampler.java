@@ -16,6 +16,7 @@
 
 package yaphyre.core.api;
 
+import java.util.stream.Stream;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import yaphyre.core.math.Point2D;
@@ -36,19 +37,10 @@ import yaphyre.core.math.Point3D;
 public interface Sampler {
 
     /**
-     * Get an Iterable instance representing all the samples of this sampler. This represents values generated using
-     * the implemented method. The samples are not sorted.
-     *
-     * @return An Iterable to use in foreach loops.
-     */
-    @Nonnull
-    public Iterable<Double> getSamples();
-
-    /**
      * @return An Iterable representing samples within the unit square.
      */
     @Nonnull
-    public Iterable<Point2D> getUnitSquareSamples();
+    public Stream<Point2D> getUnitSquareSamples();
 
     /**
      * Access a collection of samples within a unit circle.
@@ -56,7 +48,7 @@ public interface Sampler {
      * @return An Iterable of samples within the unit circle.
      */
     @Nonnull
-    public Iterable<Point2D> getUnitCircleSamples();
+    public Stream<Point2D> getUnitCircleSamples();
 
     /**
      * Get a collection of samples lying on the surface of the unit sphere.
@@ -64,16 +56,9 @@ public interface Sampler {
      * @return An Iterable of samples on the unit sphere.
      */
     @Nonnull
-    public Iterable<Point3D> getUnitSphereSamples();
+    public Stream<Point3D> getUnitSphereSamples();
 
     @Nonnull
-    public Iterable<Point3D> getUnitHemisphereSamples(@Nonnegative double cosinePower);
+    public Stream<Point3D> getUnitHemisphereSamples(@Nonnegative double cosinePower);
 
-    /**
-     * Implementation is optional. If the sampler holds an internal collection of samples,
-     * this call shuffles them to prevent aliasing effects.
-     */
-    public default void resample(int numberOfSamples) {
-        // NOP, ignore this call by default.
-    }
 }

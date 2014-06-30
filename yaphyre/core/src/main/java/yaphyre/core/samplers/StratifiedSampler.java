@@ -16,10 +16,14 @@
 
 package yaphyre.core.samplers;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import javax.annotation.Nonnull;
 import yaphyre.core.math.Point2D;
 
@@ -33,40 +37,39 @@ public class StratifiedSampler extends AbstractSampler {
 
     private static final Random RANDOM = new Random();
 
+    private static final Map<Integer, double[]> STRATIFIED_SAMPLES = new HashMap<>();
+    private static final Map<Integer, Point2D[]> STRATIFIED_POINT_SAMPLES = new HashMap<>();
+
     public StratifiedSampler(int numberOfSamples) {
         super(numberOfSamples);
     }
 
     @Nonnull
     @Override
-    protected List<Double> createLinearSamples(int numberOfSamples) {
-        List<Double> result = createStratifiedSamples(numberOfSamples);
-        Collections.shuffle(result, RANDOM);
-        return result;
+    protected Stream<Point2D> createUnitSquareSamples(int numberOfSamples) {
+        return Arrays.stream(STRATIFIED_POINT_SAMPLES.computeIfAbsent(numberOfSamples,
+            n -> {
+                double[] uSamples = createStratifiedSamples(n);
+                double[] vSamples = createStratifiedSamples(n);
+                List<Point2D> points = IntStream.range(0, n)
+                    .mapToObj(i -> new Point2D(uSamples[i], vSamples[i]))
+                    .collect(Collectors.toList());
+                return points.toArray(new Point2D[points.size()]);
+            }
+        ));
     }
 
-    @Nonnull
-    @Override
-    protected List<Point2D> createUnitSquareSamples(int numberOfSamples) {
-        List<Point2D> pointSamples = new ArrayList<>();
-        List<Double> uSamples = createStratifiedSamples(numberOfSamples);
-        List<Double> vSamples = createStratifiedSamples(numberOfSamples);
-        for (int sampleIndex = 0; sampleIndex < uSamples.size(); sampleIndex++) {
-            pointSamples.add(new Point2D(uSamples.get(sampleIndex), vSamples.get(sampleIndex)));
-        }
-        Collections.shuffle(pointSamples, RANDOM);
-        return pointSamples;
-    }
+    private double[] createStratifiedSamples(int numberOfSamples) {
+        return STRATIFIED_SAMPLES.computeIfAbsent(numberOfSamples, n -> {
+            double stepSize = 1d / numberOfSamples;
+            double stepSizeHalf = stepSize / 2d;
 
-    private List<Double> createStratifiedSamples(int numberOfSamples) {
-        List<Double> result = new ArrayList<>();
-        double stepSize = 1d / numberOfSamples;
-        double stepSizeHalf = stepSize / 2d;
-        for (int sampleIndex = 0; sampleIndex < numberOfSamples; sampleIndex++) {
-            double sample = stepSizeHalf + sampleIndex * stepSize;
-            double offset = RANDOM.nextDouble() * stepSize - stepSizeHalf;
-            result.add(sample + offset);
-        }
-        return result;
+            double[] result = new double[n];
+            for (int index = 0; index < n; index++) {
+                result[index] = stepSizeHalf + index * stepSize + (RANDOM.nextDouble() * stepSize - stepSizeHalf);
+            }
+
+            return result;
+        });
     }
 }

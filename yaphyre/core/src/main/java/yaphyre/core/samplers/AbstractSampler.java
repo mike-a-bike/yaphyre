@@ -17,11 +17,11 @@
 package yaphyre.core.samplers;
 
 import java.util.List;
+import java.util.stream.Stream;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import yaphyre.core.api.Sampler;
 import yaphyre.core.math.Point2D;
 import yaphyre.core.math.Point3D;
@@ -41,31 +41,19 @@ public abstract class AbstractSampler implements Sampler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSampler.class);
 
-    private List<Double> linearSamples;
-
-    private List<Point2D> pointSamples;
+    private final int numberOfSamples;
 
     private List<Point2D> discSamples;
-
     private List<Point3D> sphereSamples;
 
     public AbstractSampler(int numberOfSamples) {
-        linearSamples = createLinearSamples(numberOfSamples);
-        pointSamples = createUnitSquareSamples(numberOfSamples);
-        discSamples = null;
-        sphereSamples = null;
+        this.numberOfSamples = numberOfSamples;
     }
 
     @Nonnull
     @Override
-    public Iterable<Double> getSamples() {
-        return linearSamples;
-    }
-
-    @Nonnull
-    @Override
-    public Iterable<Point2D> getUnitSquareSamples() {
-        return pointSamples;
+    public Stream<Point2D> getUnitSquareSamples() {
+        return createUnitSquareSamples(numberOfSamples);
     }
 
     /**
@@ -75,14 +63,14 @@ public abstract class AbstractSampler implements Sampler {
      */
     @Nonnull
     @Override
-    public Iterable<Point2D> getUnitCircleSamples() {
+    public Stream<Point2D> getUnitCircleSamples() {
         if (discSamples == null) {
-            discSamples = pointSamples.stream()
+            discSamples = createUnitSquareSamples(numberOfSamples)
                 .peek(p -> LOGGER.trace("converting: {}", p))
                 .map(AbstractSampler::mapUnitSquarePointToUnitDisc)
                 .collect(toList());
         }
-        return discSamples;
+        return discSamples.stream();
     }
 
     private static Point2D mapUnitSquarePointToUnitDisc(Point2D p) {
@@ -109,14 +97,14 @@ public abstract class AbstractSampler implements Sampler {
 
     @Nonnull
     @Override
-    public Iterable<Point3D> getUnitSphereSamples() {
+    public Stream<Point3D> getUnitSphereSamples() {
         if (sphereSamples == null) {
-            sphereSamples = pointSamples.stream()
+            sphereSamples = createUnitSquareSamples(numberOfSamples)
                 .peek(p -> LOGGER.trace("converting: {}", p))
                 .map(AbstractSampler::mapUnitSquarePointToUnitSphere)
                 .collect(toList());
         }
-        return sphereSamples;
+        return sphereSamples.stream();
     }
 
     private static Point3D mapUnitSquarePointToUnitSphere(Point2D p) {
@@ -129,16 +117,12 @@ public abstract class AbstractSampler implements Sampler {
 
     @Nonnull
     @Override
-    public Iterable<Point3D> getUnitHemisphereSamples(@Nonnegative double cosinePower) {
-        return pointSamples.stream()
-            .map((p) -> Point3D.ORIGIN)
-            .collect(toList());
+    public Stream<Point3D> getUnitHemisphereSamples(@Nonnegative double cosinePower) {
+        return createUnitSquareSamples(numberOfSamples)
+            .map((p) -> Point3D.ORIGIN);
     }
 
     @Nonnull
-    protected abstract List<Double> createLinearSamples(int numberOfSamples);
-
-    @Nonnull
-    protected abstract List<Point2D> createUnitSquareSamples(int numberOfSamples);
+    protected abstract Stream<Point2D> createUnitSquareSamples(int numberOfSamples);
 
 }
