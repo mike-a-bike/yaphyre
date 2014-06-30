@@ -111,7 +111,9 @@ public abstract class AbstractCamera implements Camera {
         final Point2D sampledFilmPoint = filmPoint.add(sample);
         final Point2D filmSamplePoint = new Point2D(sampledFilmPoint.getU() * xStep, sampledFilmPoint.getV() * yStep);
         final Ray cameraRay = createCameraRay(filmSamplePoint);
+
         final Color sampledColor = getTracer().traceRay(cameraRay, scene).orElse(Color.BLACK);
+
         getFilm().addCameraSample(new CameraSample(filmPoint, sampledColor));
     }
 }

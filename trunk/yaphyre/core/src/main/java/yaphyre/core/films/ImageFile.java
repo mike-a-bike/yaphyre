@@ -33,7 +33,9 @@ import yaphyre.core.math.Color;
 import yaphyre.core.math.Point2D;
 
 /**
- * YaPhyRe
+ * Film implementation representing an image file. The resulting image can be saved to a file using
+ * {@link #safeAsImage(String, yaphyre.core.films.ImageFile.ImageFormat, double)}. A public enumeration contains
+ * all valid file formats.
  *
  * @author Michael Bieri
  * @since 27.07.13
@@ -54,6 +56,13 @@ public class ImageFile implements Film {
 		samples = ArrayListMultimap.create(xResolution * yResolution, 1);
 	}
 
+    /**
+     * Saves the image represented by the recorded data to a file. An optional gamma correction is applied beforehand.
+     *
+     * @param filename The name of the file. This must contain the extension.
+     * @param format The format in which to save the file in. {@link ImageFormat}
+     * @param gamma An optional gamma correction. If this value equals 1, no correction is applied.
+     */
     public void safeAsImage(String filename, ImageFormat format, double gamma) {
 		BufferedImage bufferedImage = createImageFromSamples(gamma);
 
@@ -75,7 +84,10 @@ public class ImageFile implements Film {
                 Color sampleColor = colorSamples.stream().reduce(Color.BLACK, (c1, c2) -> c1.add(c2.multiply(1d / colorSamples.size())));
                 sampleColor = (gamma != 1d) ? sampleColor.pow(gamma).clip() : sampleColor;
                 final Point2D samplePoint = entry.getKey();
-                image.setRGB((int) (samplePoint.getU()), (int) (samplePoint.getV()), createARGBfromColor(sampleColor));
+                final int imageX = (int) samplePoint.getU();
+                // flip the image camera: 0,0 is bottom left, BufferedImage: 0,0 is top left
+                final int imageY = (yResolution - 1) - ((int) samplePoint.getV());
+                image.setRGB(imageX, imageY, createARGBfromColor(sampleColor));
             }
         );
 
@@ -83,10 +95,10 @@ public class ImageFile implements Film {
 	}
 
 	private int createARGBfromColor(Color color) {
-		int red = (int) (color.getRed() * 255);
-		int green = (int) (color.getGreen() * 255);
-		int blue = (int) (color.getBlue() * 255);
-		int alpha = 0xff;
+        final int red = Color.toByteValue(color.getRed());
+		final int green = Color.toByteValue(color.getGreen());
+		final int blue = Color.toByteValue(color.getBlue());
+        final int alpha = 0xff;
         return ((alpha << 24) | (red << 16) | (green << 8) | blue);
 	}
 
@@ -101,6 +113,10 @@ public class ImageFile implements Film {
 		samples.put(sample.getSamplePoint(), sample.getSampleColor());
 	}
 
+    /**
+     * An enumeration representing the currently supported image file types. Each enum value represents a certain
+     * format and as a helper method the default file extension can be requested.
+     */
 	@SuppressWarnings("UnusedDeclaration")
     public static enum ImageFormat {
 		GIF("gif"),
