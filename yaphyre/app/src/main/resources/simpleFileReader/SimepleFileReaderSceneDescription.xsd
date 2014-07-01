@@ -21,54 +21,59 @@
     <xs:element name="simpleScene">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="origin" type="yaphyre:vector3d"/>
-                <xs:element name="camera" minOccurs="1" maxOccurs="unbounded">
-                    <xs:complexType>
-                        <xs:choice>
-                            <xs:element name="persp" type="yaphyre:perspectiveCamera"/>
-                            <xs:element name="ortho" type="yaphyre:orthographicCamera"/>
-                        </xs:choice>
-                    </xs:complexType>
-                </xs:element>
+                <xs:element name="cameras" type="yaphyre:cameraList"/>
+                <xs:element name="geometry" type="yaphyre:geometryList"/>
+                <xs:element name="shaders" type="yaphyre:shaderList"/>
             </xs:sequence>
-            <xs:attribute name="color" type="yaphyre:color"/>
         </xs:complexType>
     </xs:element>
 
+    <xs:complexType name="cameraList">
+        <xs:choice minOccurs="1" maxOccurs="unbounded">
+            <xs:element ref="yaphyre:orthographicCamera"/>
+            <xs:element ref="yaphyre:perspectiveCamera"/>
+        </xs:choice>
+    </xs:complexType>
+
     <xs:complexType name="camera" abstract="true">
         <xs:sequence>
-            <xs:element name="name" type="xs:string"/>
             <xs:element name="filetype" type="yaphyre:fileType"/>
+            <xs:element name="position" type="yaphyre:point3d"/>
+            <xs:element name="lookAt" type="yaphyre:point3d"/>
+            <xs:element name="up" type="yaphyre:normal3d" minOccurs="0"/>
+            <xs:element name="skycolor" type="yaphyre:color" minOccurs="0"/>
         </xs:sequence>
+        <xs:attribute name="name" type="xs:token" use="required"/>
+        <xs:attribute name="id" type="xs:ID"/>
     </xs:complexType>
 
-    <xs:complexType name="orthographicCamera">
-        <xs:complexContent>
-            <xs:extension base="yaphyre:camera">
-                <xs:sequence>
-                    <xs:element name="uDimension" type="yaphyre:nonNegativeDouble"/>
-                    <xs:element name="vDimension" type="yaphyre:nonNegativeDouble"/>
-                    <xs:element name="zCoordinate" type="xs:double"/>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
+    <xs:element name="orthographicCamera">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="yaphyre:camera">
+                    <xs:sequence>
+                        <xs:element name="uDimension" type="yaphyre:nonNegativeDouble"/>
+                        <xs:element name="vDimension" type="yaphyre:nonNegativeDouble"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
 
-    <xs:complexType name="perspectiveCamera">
-        <xs:complexContent>
-            <xs:extension base="yaphyre:camera">
-                <xs:sequence>
-                    <xs:element name="position" type="yaphyre:point3d"/>
-                    <xs:element name="lookAt" type="yaphyre:point3d"/>
-                    <xs:element name="up" type="yaphyre:normal3d" minOccurs="0"/>
-                    <xs:element name="fov" type="yaphyre:nonNegativeDouble"/>
-                    <xs:element name="aspectRatio" type="yaphyre:nonNegativeDouble"/>
-                    <xs:element name="near" type="yaphyre:nonNegativeDouble" minOccurs="0"/>
-                    <xs:element name="far" type="yaphyre:nonNegativeDouble" minOccurs="0"/>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
+    <xs:element name="perspectiveCamera">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="yaphyre:camera">
+                    <xs:sequence>
+                        <xs:element name="fov" type="yaphyre:nonNegativeDouble"/>
+                        <xs:element name="aspectRatio" type="yaphyre:nonNegativeDouble"/>
+                        <xs:element name="near" type="yaphyre:nonNegativeDouble" minOccurs="0"/>
+                        <xs:element name="far" type="yaphyre:nonNegativeDouble" minOccurs="0"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
 
     <xs:simpleType name="fileType">
         <xs:restriction base="xs:string">
@@ -78,30 +83,91 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:complexType name="geometryList">
+        <xs:choice minOccurs="1" maxOccurs="unbounded">
+            <xs:element ref="yaphyre:simpleSphere"/>
+            <xs:element ref="yaphyre:plane"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:element name="simpleSphere">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="yaphyre:geometryBase"/>
+            </xs:complexContent>
+        </xs:complexType>
+
+    </xs:element>
+
+    <xs:element name="plane">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="yaphyre:geometryBase"/>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="geometryBase" abstract="true">
+        <xs:sequence>
+            <xs:element name="transformation" type="xs:IDREF"/>
+            <xs:element name="shader" type="xs:IDREF"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:token" use="required"/>
+        <xs:attribute name="id" type="xs:ID"/>
+    </xs:complexType>
+
+    <xs:complexType name="shaderList">
+        <xs:choice minOccurs="1" maxOccurs="unbounded">
+            <xs:element ref="yaphyre:colorShader"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:element name="colorShader">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="yaphyre:namedType">
+                    <xs:sequence>
+                        <xs:element name="color" type="yaphyre:color"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="namedType">
+        <xs:attribute name="name" type="xs:token" use="required"/>
+        <xs:attribute name="id" type="xs:ID" use="required"/>
+    </xs:complexType>
+
     <xs:simpleType name="color">
-        <xs:restriction base="yaphyre:listOfDoubles">
+        <xs:restriction base="yaphyre:listOnNonNegativeDoubles">
             <xs:length value="3"/>
         </xs:restriction>
     </xs:simpleType>
-
     <xs:simpleType name="vector3d">
         <xs:restriction base="yaphyre:listOfDoubles">
             <xs:length value="3"/>
         </xs:restriction>
     </xs:simpleType>
-
     <xs:simpleType name="point3d">
         <xs:restriction base="yaphyre:listOfDoubles">
             <xs:length value="3"/>
         </xs:restriction>
     </xs:simpleType>
-
     <xs:simpleType name="normal3d">
         <xs:restriction base="yaphyre:listOfDoubles">
             <xs:length value="3"/>
         </xs:restriction>
     </xs:simpleType>
-
+    <xs:simpleType name="listOfInts">
+        <xs:list itemType="xs:int"/>
+    </xs:simpleType>
+    <xs:simpleType name="listOfDoubles">
+        <xs:list itemType="xs:double"/>
+    </xs:simpleType>
+    <xs:simpleType name="listOnNonNegativeDoubles">
+        <xs:list itemType="yaphyre:nonNegativeDouble"/>
+    </xs:simpleType>
     <xs:simpleType name="nonNegativeDouble">
         <xs:restriction base="xs:double">
             <xs:minInclusive value="0"/>
@@ -111,11 +177,5 @@
         <xs:restriction base="xs:int">
             <xs:minInclusive value="0"/>
         </xs:restriction>
-    </xs:simpleType>
-    <xs:simpleType name="listOfInts">
-        <xs:list itemType="xs:int"/>
-    </xs:simpleType>
-    <xs:simpleType name="listOfDoubles">
-        <xs:list itemType="xs:double"/>
     </xs:simpleType>
 </xs:schema>
