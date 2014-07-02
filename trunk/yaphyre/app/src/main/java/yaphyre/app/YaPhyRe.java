@@ -120,17 +120,19 @@ public class YaPhyRe {
         scene.addShape(new Plane(Transformation.IDENTITY, new ColorShader(new Color(0d, .9d, 0d))));
 
         // add cameras
-        double aspectRatio = FovCalculator.FullFrame35mm.getAspectRatio();
+        final double aspectRatio = FovCalculator.FullFrame35mm.getAspectRatio();
 
-        int yResolution = 480;
-        int xResolution = (int) (yResolution * aspectRatio);
+        final int yResolution = 480;
+        final int xResolution = (int) (yResolution * aspectRatio);
+        final Color skyColor = new Color(0d, 0d, .25d);
 
 
         // add perspective camera
-        double hFov = FovCalculator.FullFrame35mm.calculateHorizontalFov(50d);
+        final double hFov = FovCalculator.FullFrame35mm.calculateHorizontalFov(50d);
         ImageFile film = new ImageFile(xResolution, yResolution);
         Camera camera = new PerspectiveCamera(
             film,
+            skyColor,
             new Point3D(10, 10, -10),
             Point3D.ORIGIN,
             Normal3D.NORMAL_Y,
@@ -144,7 +146,7 @@ public class YaPhyRe {
         film = new ImageFile(xResolution, yResolution);
         double vDimension = 6d;
         double uDimension = vDimension * aspectRatio;
-        camera = new OrthographicCamera(film, uDimension, vDimension, 100d);
+        camera = new OrthographicCamera(film, skyColor, uDimension, vDimension, 100d);
         scene.addCamera(camera);
 
 		return scene;

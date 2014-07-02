@@ -18,15 +18,52 @@
            xmlns:yaphyre="http://www.zweivelo.ch/yaphyre/simple"
            targetNamespace="http://www.zweivelo.ch/yaphyre/simple"
            elementFormDefault="qualified">
+
     <xs:element name="simpleScene">
         <xs:complexType>
             <xs:sequence>
+                <xs:element ref="yaphyre:globalSettings"/>
                 <xs:element name="cameras" type="yaphyre:cameraList"/>
                 <xs:element name="geometry" type="yaphyre:geometryList"/>
                 <xs:element name="shaders" type="yaphyre:shaderList"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+
+    <xs:element name="globalSettings">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="surfaceIntegrator" type="yaphyre:surfaceIntegratorType"/>
+                <xs:element name="cameraSampler" type="yaphyre:sampler"/>
+                <xs:element name="lightSampler" type="yaphyre:sampler"/>
+                <xs:element name="defaultSampler" type="yaphyre:sampler"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="sampler">
+        <xs:sequence>
+            <xs:element name="method" type="yaphyre:samplingMethod"/>
+            <xs:element name="samples" type="xs:positiveInteger" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="singleInstance" type="xs:boolean" default="false"/>
+    </xs:complexType>
+
+    <xs:simpleType name="samplingMethod">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="single"/>
+            <xs:enumeration value="regular"/>
+            <xs:enumeration value="stratified"/>
+            <xs:enumeration value="halton"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="surfaceIntegratorType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="RayCaster"/>
+            <xs:enumeration value="DebuggingRayCaster"/> <!-- For debugging purposes -->
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:complexType name="cameraList">
         <xs:choice minOccurs="1" maxOccurs="unbounded">
@@ -38,6 +75,7 @@
     <xs:complexType name="camera" abstract="true">
         <xs:sequence>
             <xs:element name="filetype" type="yaphyre:fileType"/>
+            <xs:element name="resolution" type="yaphyre:int2"/>
             <xs:element name="position" type="yaphyre:point3d"/>
             <xs:element name="lookAt" type="yaphyre:point3d"/>
             <xs:element name="up" type="yaphyre:normal3d" minOccurs="0"/>
@@ -54,6 +92,7 @@
                     <xs:sequence>
                         <xs:element name="uDimension" type="yaphyre:nonNegativeDouble"/>
                         <xs:element name="vDimension" type="yaphyre:nonNegativeDouble"/>
+                        <xs:element name="zPosition" type="xs:double"/>
                     </xs:sequence>
                 </xs:extension>
             </xs:complexContent>
@@ -96,7 +135,6 @@
                 <xs:extension base="yaphyre:geometryBase"/>
             </xs:complexContent>
         </xs:complexType>
-
     </xs:element>
 
     <xs:element name="plane">
@@ -110,17 +148,32 @@
     <xs:complexType name="geometryBase" abstract="true">
         <xs:sequence>
             <xs:element name="transformation" type="xs:IDREF"/>
-            <xs:element name="shader" type="xs:IDREF"/>
+            <xs:choice>
+                <xs:element name="shaderRef" type="xs:IDREF"/>
+                <xs:element name="shader">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:group ref="yaphyre:shaderGroup"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:choice>
         </xs:sequence>
-        <xs:attribute name="name" type="xs:token" use="required"/>
+        <xs:attribute name="name" type="xs:token"/>
         <xs:attribute name="id" type="xs:ID"/>
     </xs:complexType>
 
     <xs:complexType name="shaderList">
         <xs:choice minOccurs="1" maxOccurs="unbounded">
-            <xs:element ref="yaphyre:colorShader"/>
+            <xs:group ref="yaphyre:shaderGroup"/>
         </xs:choice>
     </xs:complexType>
+
+    <xs:group name="shaderGroup">
+        <xs:choice>
+            <xs:element ref="yaphyre:colorShader"/>
+        </xs:choice>
+    </xs:group>
 
     <xs:element name="colorShader">
         <xs:complexType>
@@ -135,9 +188,16 @@
     </xs:element>
 
     <xs:complexType name="namedType">
-        <xs:attribute name="name" type="xs:token" use="required"/>
-        <xs:attribute name="id" type="xs:ID" use="required"/>
+        <xs:attribute name="name" type="xs:token"/>
+        <xs:attribute name="id" type="xs:ID"/>
     </xs:complexType>
+
+    <xs:simpleType name="int2">
+        <xs:restriction base="yaphyre:listOfInts">
+            <xs:minLength value="2"/>
+            <xs:maxLength value="2"/>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:simpleType name="color">
         <xs:restriction base="yaphyre:listOnNonNegativeDoubles">

@@ -44,6 +44,7 @@ public abstract class AbstractCamera implements Camera {
      * film field.
      */
     protected final Film film;
+    protected final Color skyColor;
     /**
      * Tracer used for integrating a camera ray.
      */
@@ -53,8 +54,9 @@ public abstract class AbstractCamera implements Camera {
      */
     private Sampler sampler;
 
-    public AbstractCamera(@Nonnull Film film) {
+    public AbstractCamera(@Nonnull Film film, @Nonnull Color skyColor) {
         this.film = film;
+        this.skyColor = skyColor;
     }
 
     @Nonnull
@@ -75,6 +77,11 @@ public abstract class AbstractCamera implements Camera {
     @Inject
     public void setTracer(@Nonnull Tracer tracer) {
         this.tracer = tracer;
+    }
+
+    @Nonnull
+    public Color getSkyColor() {
+        return skyColor;
     }
 
     @Nonnull
@@ -112,7 +119,7 @@ public abstract class AbstractCamera implements Camera {
         final Point2D filmSamplePoint = new Point2D(sampledFilmPoint.getU() * xStep, sampledFilmPoint.getV() * yStep);
         final Ray cameraRay = createCameraRay(filmSamplePoint);
 
-        final Color sampledColor = getTracer().traceRay(cameraRay, scene).orElse(Color.BLACK);
+        final Color sampledColor = getTracer().traceRay(cameraRay, scene).orElse(skyColor);
 
         getFilm().addCameraSample(new CameraSample(filmPoint, sampledColor));
     }

@@ -16,9 +16,9 @@
 
 package yaphyre.core.math;
 
-import javax.annotation.concurrent.Immutable;
 import java.io.Serializable;
 import java.text.MessageFormat;
+import javax.annotation.concurrent.Immutable;
 
 /**
  * Represents a normal in the 3d Cartesian coordinate system.
@@ -49,7 +49,7 @@ public class Normal3D implements Serializable {
 
 	@Override
 	public String toString() {
-		return MessageFormat.format("|{0,number,0.000}, {1,number,0.000}, {2,number,0.000}|", x, y, z);
+		return MessageFormat.format("Normal3D|{0,number,0.000}, {1,number,0.000}, {2,number,0.000}|", x, y, z);
 	}
 
 	@Override
