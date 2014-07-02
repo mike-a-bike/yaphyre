@@ -81,7 +81,7 @@ public class OrthographicCameraTest {
         tracer = mock(Tracer.class);
         when(tracer.traceRay(any(Ray.class), any(Scene.class))).thenReturn(Optional.of(Color.BLACK));
         sampler = new SingleValueSampler();
-        testCamera = new OrthographicCamera(film, DIMENSION, DIMENSION, Z_COORDINATE);
+        testCamera = new OrthographicCamera(film, null, DIMENSION, DIMENSION, Z_COORDINATE);
         testCamera.setTracer(tracer);
         testCamera.setSampler(sampler);
     }

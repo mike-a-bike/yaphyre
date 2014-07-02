@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2014 Michael Bieri
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<simpleScene xmlns="http://www.zweivelo.ch/yaphyre/simple">
+
+    <globalSettings>
+        <surfaceIntegrator>RayCaster</surfaceIntegrator>
+        <cameraSampler>
+            <method>halton</method>
+            <samples>16</samples>
+        </cameraSampler>
+        <lightSampler>
+            <method>stratified</method>
+            <samples>4</samples>
+        </lightSampler>
+        <defaultSampler>
+            <method>single</method>
+        </defaultSampler>
+    </globalSettings>
+
+    <cameras>
+        <perspectiveCamera name="persp1">
+            <filetype>PNG</filetype>
+            <resolution>640 480</resolution>
+            <position>10 10 -10</position>
+            <lookAt>0 0 0</lookAt>
+            <up>0 1 0</up>
+            <skycolor>0 0 .25</skycolor>
+            <fov>.5482</fov>
+            <aspectRatio>1.33333</aspectRatio>
+        </perspectiveCamera>
+    </cameras>
+
+    <geometry>
+        <simpleSphere name="sphere">
+            <transformation>green</transformation>
+            <shader>
+                <colorShader>
+                    <color>.9 0 0</color>
+                </colorShader>
+            </shader>
+        </simpleSphere>
+        <plane name="plane">
+            <transformation>green</transformation>
+            <shaderRef>green</shaderRef>
+        </plane>
+    </geometry>
+
+    <shaders>
+        <colorShader name="colorGreen" id="green">
+            <color>0 .9 0</color>
+        </colorShader>
+    </shaders>
+
+</simpleScene>

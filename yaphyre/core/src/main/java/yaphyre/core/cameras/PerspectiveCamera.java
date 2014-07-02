@@ -16,20 +16,19 @@
 
 package yaphyre.core.cameras;
 
+import javax.annotation.Nonnegative;
+import javax.annotation.Nonnull;
+import com.google.common.collect.Range;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import yaphyre.core.api.Film;
+import yaphyre.core.math.Color;
 import yaphyre.core.math.Normal3D;
 import yaphyre.core.math.Point2D;
 import yaphyre.core.math.Point3D;
 import yaphyre.core.math.Ray;
 import yaphyre.core.math.Transformation;
 import yaphyre.core.math.Vector3D;
-
-import javax.annotation.Nonnegative;
-import javax.annotation.Nonnull;
-
-import com.google.common.collect.Range;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.lang.Math.tan;
@@ -56,11 +55,11 @@ public class PerspectiveCamera extends AbstractCamera {
     private Point3D virtualOrigin;
     public static final Range<Double> VALID_COORDINATE_RANGE = Range.closed(0d, 1d);
 
-    public PerspectiveCamera(@Nonnull Film film,
+    public PerspectiveCamera(@Nonnull Film film, Color skyColor,
                              @Nonnull Point3D position, @Nonnull Point3D lookAt, @Nonnull Normal3D up,
                              @Nonnegative double fieldOfView, @Nonnegative double aspectRatio,
                              @Nonnegative double nearDistance, @Nonnegative double farDistance) {
-        super(film);
+        super(film, skyColor);
 
         this.position = position;
         this.lookAt = lookAt;
