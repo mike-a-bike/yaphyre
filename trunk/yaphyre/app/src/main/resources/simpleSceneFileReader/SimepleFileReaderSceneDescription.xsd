@@ -25,6 +25,7 @@
             <xs:sequence>
                 <xs:element ref="yaphyre:globalSettings"/>
                 <xs:element name="cameras" type="yaphyre:cameraList"/>
+                <xs:element name="lights" type="yaphyre:lightList"/>
                 <xs:element name="geometry" type="yaphyre:geometryList"/>
                 <xs:element name="shaders" type="yaphyre:shaderList" minOccurs="0"/>
                 <xs:element name="transformations" type="yaphyre:transformationList" minOccurs="0"/>
@@ -102,6 +103,41 @@
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
+
+    <!-- Lights -->
+    <xs:complexType name="lightList">
+        <xs:choice minOccurs="1" maxOccurs="unbounded">
+            <xs:element ref="yaphyre:ambientLight"/>
+            <xs:element ref="yaphyre:pointLight"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:element name="ambientLight">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="yaphyre:lightBase"/>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="pointLight">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="yaphyre:lightBase">
+                    <xs:sequence>
+                        <xs:element name="position" type="yaphyre:point3d"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="lightBase">
+        <xs:sequence>
+            <xs:element name="power" type="yaphyre:nonNegativeDouble"/>
+            <xs:element name="color" type="yaphyre:color" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
 
     <!-- Geometry -->
     <xs:complexType name="geometryList">

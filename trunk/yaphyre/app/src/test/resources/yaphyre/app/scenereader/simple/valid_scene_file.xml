@@ -45,6 +45,20 @@
         </perspectiveCamera>
     </cameras>
 
+    <lights>
+        <ambientLight>
+            <power>.002</power>
+        </ambientLight>
+        <pointLight>
+            <power>10</power>
+            <position>15 15 15</position>
+        </pointLight>
+        <pointLight>
+            <power>7.5</power>
+            <position>-15 15 15</position>
+        </pointLight>
+    </lights>
+
     <geometry>
         <simpleSphere name="sphere">
             <transformation>

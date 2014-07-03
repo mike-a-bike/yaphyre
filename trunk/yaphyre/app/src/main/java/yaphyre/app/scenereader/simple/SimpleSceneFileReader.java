@@ -38,6 +38,7 @@ import org.xml.sax.SAXException;
 import yaphyre.app.dependencies.DefaultBindingModule;
 import yaphyre.app.scenereader.SceneReader;
 import yaphyre.app.scenereader.simple.jaxb.Camera;
+import yaphyre.app.scenereader.simple.jaxb.GeometryBase;
 import yaphyre.app.scenereader.simple.jaxb.GlobalSettings;
 import yaphyre.app.scenereader.simple.jaxb.OrthographicCamera;
 import yaphyre.app.scenereader.simple.jaxb.PerspectiveCamera;
@@ -45,12 +46,14 @@ import yaphyre.app.scenereader.simple.jaxb.Sampler;
 import yaphyre.app.scenereader.simple.jaxb.SimpleScene;
 import yaphyre.core.api.Film;
 import yaphyre.core.api.Scene;
+import yaphyre.core.api.Shape;
 import yaphyre.core.api.Tracer;
 import yaphyre.core.films.ImageFile;
 import yaphyre.core.math.Color;
 import yaphyre.core.math.MathUtils;
 import yaphyre.core.math.Normal3D;
 import yaphyre.core.math.Point3D;
+import yaphyre.core.math.Vector3D;
 import yaphyre.core.samplers.HaltonSampler;
 import yaphyre.core.samplers.RegularSampler;
 import yaphyre.core.samplers.SingleValueSampler;
@@ -118,7 +121,16 @@ public class SimpleSceneFileReader implements SceneReader {
             .map(this::mapCamera)
             .forEach(result::addCamera);
 
+        simpleScene.getGeometry().getSimpleSphereOrPlane().stream()
+            .map(this::mapGeometry)
+            .forEach(result::addShape);
+
         return result;
+    }
+
+    @Nonnull
+    private Shape mapGeometry(@Nonnull GeometryBase geometryBase) {
+        return null;
     }
 
     @Nonnull
@@ -217,10 +229,10 @@ public class SimpleSceneFileReader implements SceneReader {
         throw new RuntimeException(errorMessage);
     }
 
-//    @Nonnull
-//    private Vector3D createVector3D(@Nonnull List<Double> components) {
-//        return createFromNumberTriplet(Vector3D.class, components);
-//    }
+    @Nonnull
+    private Vector3D createVector3D(@Nonnull List<Double> components) {
+        return createFromNumberTriplet(Vector3D.class, components);
+    }
 
     @Nonnull
     private Point3D createPoint3D(@Nonnull List<Double> components) {
