@@ -47,7 +47,20 @@
 
     <geometry>
         <simpleSphere name="sphere">
-            <transformation>green</transformation>
+            <transformation>
+                <scale>
+                    <factors>.5 .9 1.5</factors>
+                </scale>
+                <translate>
+                    <offsets>.5 0 0</offsets>
+                </translate>
+                <rotate>
+                    <axis>
+                        <axis>Z</axis>
+                        <amount>45</amount>
+                    </axis>
+                </rotate>
+            </transformation>
             <shader>
                 <colorShader>
                     <color>.9 0 0</color>
@@ -55,7 +68,7 @@
             </shader>
         </simpleSphere>
         <plane name="plane">
-            <transformation>green</transformation>
+            <transformationRef>translatePlane</transformationRef>
             <shaderRef>green</shaderRef>
         </plane>
     </geometry>
@@ -65,5 +78,11 @@
             <color>0 .9 0</color>
         </colorShader>
     </shaders>
+
+    <transformations>
+        <translate id="translatePlane">
+            <offsets>0 -1 0</offsets>
+        </translate>
+    </transformations>
 
 </simpleScene>

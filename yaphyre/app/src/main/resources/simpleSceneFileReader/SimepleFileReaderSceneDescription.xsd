@@ -19,17 +19,20 @@
            targetNamespace="http://www.zweivelo.ch/yaphyre/simple"
            elementFormDefault="qualified">
 
+    <!-- Base element -->
     <xs:element name="simpleScene">
         <xs:complexType>
             <xs:sequence>
                 <xs:element ref="yaphyre:globalSettings"/>
                 <xs:element name="cameras" type="yaphyre:cameraList"/>
                 <xs:element name="geometry" type="yaphyre:geometryList"/>
-                <xs:element name="shaders" type="yaphyre:shaderList"/>
+                <xs:element name="shaders" type="yaphyre:shaderList" minOccurs="0"/>
+                <xs:element name="transformations" type="yaphyre:transformationList" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
+    <!-- Global Settings -->
     <xs:element name="globalSettings">
         <xs:complexType>
             <xs:sequence>
@@ -41,6 +44,7 @@
         </xs:complexType>
     </xs:element>
 
+    <!-- Samplers -->
     <xs:complexType name="sampler">
         <xs:sequence>
             <xs:element name="method" type="yaphyre:samplingMethod"/>
@@ -49,22 +53,7 @@
         <xs:attribute name="singleInstance" type="xs:boolean" default="false"/>
     </xs:complexType>
 
-    <xs:simpleType name="samplingMethod">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="single"/>
-            <xs:enumeration value="regular"/>
-            <xs:enumeration value="stratified"/>
-            <xs:enumeration value="halton"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="surfaceIntegratorType">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="RayCaster"/>
-            <xs:enumeration value="DebuggingRayCaster"/> <!-- For debugging purposes -->
-        </xs:restriction>
-    </xs:simpleType>
-
+    <!-- Cameras -->
     <xs:complexType name="cameraList">
         <xs:choice minOccurs="1" maxOccurs="unbounded">
             <xs:element ref="yaphyre:orthographicCamera"/>
@@ -114,14 +103,7 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:simpleType name="fileType">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="PNG"/>
-            <xs:enumeration value="JPG"/>
-            <xs:enumeration value="GIF"/>
-        </xs:restriction>
-    </xs:simpleType>
-
+    <!-- Geometry -->
     <xs:complexType name="geometryList">
         <xs:choice minOccurs="1" maxOccurs="unbounded">
             <xs:element ref="yaphyre:simpleSphere"/>
@@ -147,7 +129,17 @@
 
     <xs:complexType name="geometryBase" abstract="true">
         <xs:sequence>
-            <xs:element name="transformation" type="xs:IDREF"/>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="transformationRef" type="xs:IDREF"/>
+                <xs:element name="transformation">
+                    <xs:complexType>
+                        <xs:choice minOccurs="1" maxOccurs="unbounded">
+                            <xs:group ref="yaphyre:transformationGroup"/>
+                        </xs:choice>
+                    </xs:complexType>
+                </xs:element>
+            </xs:choice>
+
             <xs:choice>
                 <xs:element name="shaderRef" type="xs:IDREF"/>
                 <xs:element name="shader">
@@ -163,6 +155,87 @@
         <xs:attribute name="id" type="xs:ID"/>
     </xs:complexType>
 
+    <!-- Transformations -->
+    <xs:complexType name="transformationList">
+        <xs:choice minOccurs="1" maxOccurs="unbounded">
+            <xs:group ref="yaphyre:transformationGroup"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:group name="transformationGroup">
+        <xs:choice>
+            <xs:element ref="yaphyre:identity"/>
+            <xs:element ref="yaphyre:scale"/>
+            <xs:element ref="yaphyre:translate"/>
+            <xs:element ref="yaphyre:rotate"/>
+        </xs:choice>
+    </xs:group>
+
+    <xs:complexType name="transformationBase">
+        <xs:attribute name="name" type="xs:token"/>
+        <xs:attribute name="id" type="xs:ID"/>
+    </xs:complexType>
+
+    <xs:element name="identity">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="yaphyre:transformationBase"/>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="scale">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="yaphyre:transformationBase">
+                    <xs:sequence>
+                        <xs:element name="factors" type="yaphyre:double3"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="translate">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="yaphyre:transformationBase">
+                    <xs:sequence>
+                        <xs:element name="offsets" type="yaphyre:double3"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="rotate">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="yaphyre:transformationBase">
+                    <xs:choice minOccurs="1" maxOccurs="1">
+                        <xs:element name="axis">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="axis" type="yaphyre:axisNames"/>
+                                    <xs:element name="amount" type="yaphyre:nonNegativeDouble"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                        <xs:element name="free">
+                            <xs:complexType>
+                                <xs:sequence>
+                                    <xs:element name="axis" type="yaphyre:vector3d"/>
+                                    <xs:element name="amount" type="yaphyre:nonNegativeDouble"/>
+                                </xs:sequence>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:choice>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Shaders -->
     <xs:complexType name="shaderList">
         <xs:choice minOccurs="1" maxOccurs="unbounded">
             <xs:group ref="yaphyre:shaderGroup"/>
@@ -187,18 +260,58 @@
         </xs:complexType>
     </xs:element>
 
+    <!-- Generic base type -->
     <xs:complexType name="namedType">
         <xs:attribute name="name" type="xs:token"/>
         <xs:attribute name="id" type="xs:ID"/>
     </xs:complexType>
 
+    <!-- Enumerations -->
+    <xs:simpleType name="samplingMethod">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="single"/>
+            <xs:enumeration value="regular"/>
+            <xs:enumeration value="stratified"/>
+            <xs:enumeration value="halton"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="surfaceIntegratorType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="RayCaster"/>
+            <xs:enumeration value="DebuggingRayCaster"/> <!-- For debugging purposes -->
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="axisNames">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="X"/>
+            <xs:enumeration value="Y"/>
+            <xs:enumeration value="Z"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="fileType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="PNG"/>
+            <xs:enumeration value="JPG"/>
+            <xs:enumeration value="GIF"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- Base types -->
     <xs:simpleType name="int2">
         <xs:restriction base="yaphyre:listOfInts">
             <xs:minLength value="2"/>
             <xs:maxLength value="2"/>
         </xs:restriction>
     </xs:simpleType>
-
+    <xs:simpleType name="double3">
+        <xs:restriction base="yaphyre:listOfDoubles">
+            <xs:minLength value="3"/>
+            <xs:maxLength value="3"/>
+        </xs:restriction>
+    </xs:simpleType>
     <xs:simpleType name="color">
         <xs:restriction base="yaphyre:listOnNonNegativeDoubles">
             <xs:length value="3"/>
