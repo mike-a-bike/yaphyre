@@ -16,20 +16,6 @@
 
 package yaphyre.app.scenereader.simple;
 
-import java.io.File;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.math.BigInteger;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Supplier;
-import javax.annotation.Nonnull;
-import javax.xml.XMLConstants;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.slf4j.Logger;
@@ -46,6 +32,7 @@ import yaphyre.app.scenereader.simple.jaxb.Sampler;
 import yaphyre.app.scenereader.simple.jaxb.SimpleScene;
 import yaphyre.core.api.Film;
 import yaphyre.core.api.Scene;
+import yaphyre.core.api.Shader;
 import yaphyre.core.api.Shape;
 import yaphyre.core.api.Tracer;
 import yaphyre.core.films.ImageFile;
@@ -53,13 +40,33 @@ import yaphyre.core.math.Color;
 import yaphyre.core.math.MathUtils;
 import yaphyre.core.math.Normal3D;
 import yaphyre.core.math.Point3D;
+import yaphyre.core.math.Transformation;
 import yaphyre.core.math.Vector3D;
 import yaphyre.core.samplers.HaltonSampler;
 import yaphyre.core.samplers.RegularSampler;
 import yaphyre.core.samplers.SingleValueSampler;
 import yaphyre.core.samplers.StratifiedSampler;
+import yaphyre.core.shaders.ColorShader;
+import yaphyre.core.shapes.Plane;
+import yaphyre.core.shapes.SimpleSphere;
 import yaphyre.core.tracers.DebuggingRayCaster;
 import yaphyre.core.tracers.RayCaster;
+
+import javax.annotation.Nonnull;
+import javax.xml.XMLConstants;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import java.io.File;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.math.BigInteger;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -130,6 +137,42 @@ public class SimpleSceneFileReader implements SceneReader {
 
     @Nonnull
     private Shape mapGeometry(@Nonnull GeometryBase geometryBase) {
+
+        final String geometryTypeName = geometryBase.getClass().getSimpleName();
+
+        Shader shader = mapShader(Optional.ofNullable(geometryBase.getShader()).orElse(((GeometryBase.Shader) geometryBase.getShaderRef())));
+        Transformation transformation = Transformation.IDENTITY;
+//        Transformation transformation = mapTransformationCollection(geometryBase.getTransformationRefOrTransformation());
+
+        switch (geometryTypeName) {
+            case "SimpleSphere":
+                return new SimpleSphere(transformation, shader);
+
+            case "Plane":
+                return new Plane(transformation, shader);
+        }
+
+        final String errorMessage = "Unknown geometry type: '" + geometryTypeName + "'";
+        LOGGER.error(errorMessage);
+        throw new RuntimeException(errorMessage);
+    }
+
+
+    @Nonnull
+    private Shader mapShader(@Nonnull GeometryBase.Shader shader) {
+        return new ColorShader(createColor(shader.getColorShader().getColor()));
+    }
+
+    @Nonnull
+    private Transformation mapTransformationCollection(@Nonnull List<JAXBElement<?>> transformationRefOrTransformation) {
+        return transformationRefOrTransformation.stream()
+            .map(element -> ((GeometryBase.Transformation) element.getValue()))
+            .map(this::mapTransformation)
+            .reduce(Transformation.IDENTITY, (t1, t2) -> t2.mul(t1));
+    }
+
+    @Nonnull
+    private Transformation mapTransformation(@Nonnull GeometryBase.Transformation transformation) {
         return null;
     }
 
