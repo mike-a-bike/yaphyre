@@ -16,7 +16,9 @@
 
 package yaphyre.core.lights;
 
-import yaphyre.core.api.Light;
+import javax.annotation.Nonnull;
+import yaphyre.core.math.Color;
+import yaphyre.core.math.Ray;
 
 /**
  * YaPhyRe
@@ -24,9 +26,19 @@ import yaphyre.core.api.Light;
  * @author Michael Bieri
  * @since 05.07.13
  */
-public class AmbientLight implements Light {
+public class AmbientLight extends AbstractLight {
+
+    public AmbientLight(double power) {
+        super(power, Color.WHITE);
+    }
+
     @Override
     public boolean isDelta() {
-        return false;
+        return true;
+    }
+
+    @Override
+    public double calculateIntensityForShadowRay(@Nonnull Ray shadowRay) {
+        return getPower();
     }
 }

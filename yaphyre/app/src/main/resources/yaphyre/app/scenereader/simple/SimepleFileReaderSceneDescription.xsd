@@ -166,13 +166,13 @@
 
     <xs:complexType name="geometryBase" abstract="true">
         <xs:sequence>
-            <xs:choice maxOccurs="unbounded">
-            <xs:element name="transformationRef" type="xs:IDREF"/>
+            <xs:choice>
+                <xs:element name="transformationRef" type="xs:IDREF"/>
                 <xs:element name="transformation">
                     <xs:complexType>
-                        <xs:choice minOccurs="1" maxOccurs="unbounded">
+                        <xs:sequence minOccurs="1" maxOccurs="unbounded">
                             <xs:group ref="yaphyre:transformationGroup"/>
-                        </xs:choice>
+                        </xs:sequence>
                     </xs:complexType>
                 </xs:element>
             </xs:choice>

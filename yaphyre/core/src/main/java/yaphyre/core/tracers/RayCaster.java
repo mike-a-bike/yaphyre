@@ -17,10 +17,14 @@
 package yaphyre.core.tracers;
 
 import java.util.Optional;
+import yaphyre.core.api.Light;
 import yaphyre.core.api.Scene;
 import yaphyre.core.api.Tracer;
 import yaphyre.core.math.Color;
+import yaphyre.core.math.MathUtils;
+import yaphyre.core.math.Point3D;
 import yaphyre.core.math.Ray;
+import yaphyre.core.math.Vector3D;
 
 /**
  * YaPhyRe
@@ -35,7 +39,23 @@ public class RayCaster implements Tracer {
         return scene.hitObject(ray).map(
             collision -> {
                 final double cosPhi = collision.getIncidentRay().getDirection().normalize().neg().dot(collision.getNormal());
-                return collision.getShape().getShader().getColor(collision.getUVCoordinate()).multiply(cosPhi);
+                final Color collisionColor = collision.getShape().getShader().getColor(collision.getUVCoordinate());
+                final double intensity = scene.getLights()
+                    .stream()
+                    .filter(Light::isDelta)
+                    .map(light -> {
+                        final Point3D collisionPoint = collision.getPoint();
+                        final Vector3D direction = light.getPosition().sub(collisionPoint);
+                        return light.calculateIntensityForShadowRay(
+                            new Ray(
+                                collisionPoint,
+                                direction,
+                                MathUtils.EPSILON,
+                                collision.getDistance()
+                            ));
+                    })
+                    .reduce(0d, (d1, d2) -> d1 + d2);
+                return collisionColor.multiply(intensity * cosPhi);
             }
         );
     }

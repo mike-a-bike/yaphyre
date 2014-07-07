@@ -38,7 +38,7 @@ public class Scene {
 
 	private final List<Shape> shapes;
 
-	private final List<Light> lightsources;
+	private final List<Light> lights;
 
 	private final List<Camera> cameras;
 
@@ -48,7 +48,7 @@ public class Scene {
 	public Scene(Injector injector) {
         this.injector = injector;
         shapes = new ArrayList<>();
-		lightsources = new ArrayList<>();
+		lights = new ArrayList<>();
 		cameras = new ArrayList<>();
 	}
 
@@ -70,13 +70,13 @@ public class Scene {
 		return Collections.unmodifiableList(shapes);
 	}
 
-	public void addLightsource(Light lightsource) {
+	public void addLight(Light lightsource) {
         injector.injectMembers(lightsource);
-		lightsources.add(lightsource);
+		lights.add(lightsource);
 	}
 
-	public List<Light> getLightsources() {
-		return Collections.unmodifiableList(lightsources);
+	public List<Light> getLights() {
+		return Collections.unmodifiableList(lights);
 	}
 
 	@Override
@@ -84,7 +84,7 @@ public class Scene {
 		return Objects.toStringHelper(getClass())
 				.add("cameras", cameras.size())
 				.add("shapes", shapes.size())
-				.add("lightsources", lightsources.size()).toString();
+				.add("lights", lights.size()).toString();
 	}
 
 	public Optional<CollisionInformation> hitObject(Ray ray) {
@@ -93,6 +93,7 @@ public class Scene {
             .map(shape -> shape.intersect(ray))
             .filter(Optional::isPresent)
             .map(Optional::get)
+            .filter(collision -> ray.getTRange().contains(collision.getDistance()))
             .min(comparingDouble(CollisionInformation::getDistance));
     }
 
