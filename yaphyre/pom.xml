@@ -122,13 +122,13 @@
 
             <!-- project dependencies -->
             <dependency>
-                <groupId>zweivelo</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>yaphyre-core</artifactId>
                 <version>${yaphyre.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>zweivelo</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>yaphyre-app</artifactId>
                 <version>${yaphyre.version}</version>
             </dependency>

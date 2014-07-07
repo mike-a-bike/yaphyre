@@ -43,7 +43,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <schemaDirectory>src/main/resources/simpleSceneFileReader</schemaDirectory>
+                    <schemaDirectory>src/main/resources/yaphyre/app/scenereader/simple</schemaDirectory>
                     <outputDirectory>${project.build.directory}/generated-sources/jaxb</outputDirectory>
                     <packageName>yaphyre.app.scenereader.simple.jaxb</packageName>
                 </configuration>

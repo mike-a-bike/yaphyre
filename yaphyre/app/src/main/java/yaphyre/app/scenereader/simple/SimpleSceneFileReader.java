@@ -16,6 +16,21 @@
 
 package yaphyre.app.scenereader.simple;
 
+import java.io.File;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.math.BigInteger;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Supplier;
+import javax.annotation.Nonnull;
+import javax.xml.XMLConstants;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.slf4j.Logger;
@@ -51,22 +66,6 @@ import yaphyre.core.shapes.Plane;
 import yaphyre.core.shapes.SimpleSphere;
 import yaphyre.core.tracers.DebuggingRayCaster;
 import yaphyre.core.tracers.RayCaster;
-
-import javax.annotation.Nonnull;
-import javax.xml.XMLConstants;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import java.io.File;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.math.BigInteger;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Supplier;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -106,7 +105,9 @@ public class SimpleSceneFileReader implements SceneReader {
             final JAXBContext context = JAXBContext.newInstance(SimpleScene.class);
             final Unmarshaller unmarshaller = context.createUnmarshaller();
             final SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            final Schema schema = schemaFactory.newSchema(ClassLoader.getSystemResource("simpleSceneFileReader/SimepleFileReaderSceneDescription.xsd"));
+            final Schema schema = schemaFactory.newSchema(
+                ClassLoader.getSystemResource("yaphyre/app/scenereader/simple/SimepleFileReaderSceneDescription.xsd")
+            );
 
             unmarshaller.setSchema(schema);
 
