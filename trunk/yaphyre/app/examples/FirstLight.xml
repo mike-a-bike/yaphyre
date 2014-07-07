@@ -21,11 +21,10 @@
         <surfaceIntegrator>RayCaster</surfaceIntegrator>
         <cameraSampler>
             <method>halton</method>
-            <samples>16</samples>
+            <samples>4</samples>
         </cameraSampler>
         <lightSampler>
-            <method>stratified</method>
-            <samples>4</samples>
+            <method>single</method>
         </lightSampler>
         <defaultSampler>
             <method>single</method>
@@ -33,7 +32,7 @@
     </globalSettings>
 
     <cameras>
-        <perspectiveCamera name="persp1">
+        <perspectiveCamera name="FirstLight">
             <filetype>PNG</filetype>
             <resolution>640 480</resolution>
             <position>10 10 -10</position>
@@ -47,58 +46,36 @@
 
     <lights>
         <ambientLight>
-            <power>.002</power>
+            <power>.025</power>
         </ambientLight>
         <pointLight>
             <power>10</power>
             <color>.95 .95 .95</color>
             <position>15 15 15</position>
         </pointLight>
-        <pointLight>
-            <power>7.5</power>
-            <color>.95 .95 .95</color>
-            <position>-15 15 15</position>
-        </pointLight>
     </lights>
 
     <geometry>
         <simpleSphere name="sphere">
             <transformation>
-                <scale>
-                    <factors>.5 .9 1.5</factors>
-                </scale>
                 <translate>
-                    <offsets>.5 0 0</offsets>
+                    <offsets>0 1.1 0</offsets>
                 </translate>
-                <rotate>
-                    <axis>
-                        <axis>Z</axis>
-                        <amount>45</amount>
-                    </axis>
-                </rotate>
             </transformation>
-            <shader>
-                <colorShader>
-                    <color>.9 0 0</color>
-                </colorShader>
-            </shader>
+            <shaderRef>white</shaderRef>
         </simpleSphere>
         <plane name="plane">
-            <transformationRef>translatePlane</transformationRef>
-            <shaderRef>green</shaderRef>
+            <transformation>
+                <identity/>
+            </transformation>
+            <shaderRef>white</shaderRef>
         </plane>
     </geometry>
 
     <shaders>
-        <colorShader name="colorGreen" id="green">
-            <color>0 .9 0</color>
+        <colorShader name="colorWhite" id="white">
+            <color>.95 .95 .95</color>
         </colorShader>
     </shaders>
-
-    <transformations>
-        <translate id="translatePlane">
-            <offsets>0 -1 0</offsets>
-        </translate>
-    </transformations>
 
 </simpleScene>

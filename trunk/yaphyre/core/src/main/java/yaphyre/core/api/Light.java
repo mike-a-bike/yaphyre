@@ -16,10 +16,12 @@
 
 package yaphyre.core.api;
 
-import com.google.inject.BindingAnnotation;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+import javax.annotation.Nonnull;
+import com.google.inject.BindingAnnotation;
+import yaphyre.core.math.Point3D;
+import yaphyre.core.math.Ray;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
@@ -34,7 +36,20 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 public interface Light {
 
+    /**
+     * Flag signaling that this light source has no physical size. Useful for mathematical light
+     * sources like point lights. It's sampling response follows a delta function, hence the name.
+     * @return true if the light has no physical size.
+     */
     public boolean isDelta();
+
+    /**
+     * For mathematical lights their position is relevant.
+     * @return
+     */
+    public Point3D getPosition();
+
+    public double calculateIntensityForShadowRay(@Nonnull Ray shadowRay);
 
 	@BindingAnnotation
 	@Target({FIELD, METHOD, PARAMETER})

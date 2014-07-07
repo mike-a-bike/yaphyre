@@ -16,7 +16,13 @@
 
 package yaphyre.core.lights;
 
-import yaphyre.core.api.Light;
+import javax.annotation.Nonnull;
+import yaphyre.core.api.CollisionInformation;
+import yaphyre.core.math.Color;
+import yaphyre.core.math.Point3D;
+import yaphyre.core.math.Ray;
+
+import static org.apache.commons.math3.util.FastMath.pow;
 
 /**
  * YaPhyRe
@@ -24,9 +30,35 @@ import yaphyre.core.api.Light;
  * @author Michael Bieri
  * @since 08.07.13
  */
-public class PointLight implements Light {
+public class PointLight extends AbstractLight {
+
+    private final Point3D position;
+
+    public PointLight(double power, Color color, Point3D position) {
+        super(power, color);
+        this.position = position;
+    }
+
+    public Point3D getPosition() {
+        return position;
+    }
+
+    /**
+     * This class models a mathematical light source which exists as a point and thus has no physical size
+     * whatsoever.
+     */
     @Override
     public boolean isDelta() {
         return true;
     }
+
+    @Override
+    public double calculateIntensityForShadowRay(@Nonnull Ray shadowRay) {
+        return getScene().hitObject(shadowRay)
+            .map(CollisionInformation::getDistance)
+            .filter(d -> d < getPosition().sub(shadowRay.getOrigin()).length())
+            .map(d -> 1d / pow((1d + d), 3))
+            .orElse(0d);
+    }
+
 }

@@ -26,11 +26,11 @@ import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
+import com.google.common.collect.Lists;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.slf4j.Logger;
@@ -41,16 +41,25 @@ import yaphyre.app.scenereader.SceneReader;
 import yaphyre.app.scenereader.simple.jaxb.Camera;
 import yaphyre.app.scenereader.simple.jaxb.GeometryBase;
 import yaphyre.app.scenereader.simple.jaxb.GlobalSettings;
+import yaphyre.app.scenereader.simple.jaxb.LightBase;
+import yaphyre.app.scenereader.simple.jaxb.NamedType;
 import yaphyre.app.scenereader.simple.jaxb.OrthographicCamera;
 import yaphyre.app.scenereader.simple.jaxb.PerspectiveCamera;
+import yaphyre.app.scenereader.simple.jaxb.Rotate;
 import yaphyre.app.scenereader.simple.jaxb.Sampler;
+import yaphyre.app.scenereader.simple.jaxb.Scale;
 import yaphyre.app.scenereader.simple.jaxb.SimpleScene;
+import yaphyre.app.scenereader.simple.jaxb.TransformationBase;
+import yaphyre.app.scenereader.simple.jaxb.Translate;
 import yaphyre.core.api.Film;
+import yaphyre.core.api.Light;
 import yaphyre.core.api.Scene;
 import yaphyre.core.api.Shader;
 import yaphyre.core.api.Shape;
 import yaphyre.core.api.Tracer;
 import yaphyre.core.films.ImageFile;
+import yaphyre.core.lights.AmbientLight;
+import yaphyre.core.lights.PointLight;
 import yaphyre.core.math.Color;
 import yaphyre.core.math.MathUtils;
 import yaphyre.core.math.Normal3D;
@@ -133,7 +142,32 @@ public class SimpleSceneFileReader implements SceneReader {
             .map(this::mapGeometry)
             .forEach(result::addShape);
 
+        simpleScene.getLights().getAmbientLightOrPointLight().stream()
+            .map(this::mapLight)
+            .forEach(result::addLight);
+
         return result;
+    }
+
+    @Nonnull
+    private Light mapLight(@Nonnull LightBase lightBase) {
+        final double power = lightBase.getPower();
+        final String lightTypeName = lightBase.getClass().getSimpleName();
+
+        switch (lightTypeName) {
+            case "PointLight":
+                final Color color = createColor(lightBase.getColor());
+                final Point3D position = createPoint3D(yaphyre.app.scenereader.simple.jaxb.PointLight.class.cast(lightBase).getPosition());
+                return new PointLight(power, color, position);
+
+            case "AmbientLight":
+                return new AmbientLight(power);
+
+        }
+
+        final String errorMessage = "Unknown light type: '" + lightTypeName + "'";
+        LOGGER.error(errorMessage);
+        throw new RuntimeException(errorMessage);
     }
 
     @Nonnull
@@ -141,9 +175,21 @@ public class SimpleSceneFileReader implements SceneReader {
 
         final String geometryTypeName = geometryBase.getClass().getSimpleName();
 
-        Shader shader = mapShader(Optional.ofNullable(geometryBase.getShader()).orElse(((GeometryBase.Shader) geometryBase.getShaderRef())));
-        Transformation transformation = Transformation.IDENTITY;
-//        Transformation transformation = mapTransformationCollection(geometryBase.getTransformationRefOrTransformation());
+        Shader shader = mapShader(
+            Optional.ofNullable(geometryBase.getShader())
+                .<NamedType>map(GeometryBase.Shader::getColorShader) // Cast no longer needed when more than one shader type is known
+                .orElseGet(() -> ((NamedType) geometryBase.getShaderRef()))
+        );
+
+        Transformation transformation = Optional
+            .ofNullable(geometryBase.getTransformationRef())
+            .map(ref -> mapTransformation((TransformationBase) ref))
+            .orElseGet(
+                () -> Lists.reverse(geometryBase.getTransformation().getIdentityOrScaleOrTranslate())
+                    .stream()
+                    .map(this::mapTransformation)
+                    .reduce(Transformation.IDENTITY, (t1, t2) -> t1.mul(t2))
+            );
 
         switch (geometryTypeName) {
             case "SimpleSphere":
@@ -158,23 +204,59 @@ public class SimpleSceneFileReader implements SceneReader {
         throw new RuntimeException(errorMessage);
     }
 
-
     @Nonnull
-    private Shader mapShader(@Nonnull GeometryBase.Shader shader) {
-        return new ColorShader(createColor(shader.getColorShader().getColor()));
+    private Shader mapShader(@Nonnull NamedType shader) {
+        final String shaderName = shader.getClass().getSimpleName();
+
+        switch (shaderName) {
+            case "ColorShader":
+                Color color = createColor(((yaphyre.app.scenereader.simple.jaxb.ColorShader) shader).getColor());
+                return new ColorShader(color);
+        }
+
+        final String errorMessage = "Unknown shader type: '" + shaderName + "'";
+        LOGGER.error(errorMessage);
+        throw new RuntimeException(errorMessage);
     }
 
     @Nonnull
-    private Transformation mapTransformationCollection(@Nonnull List<JAXBElement<?>> transformationRefOrTransformation) {
-        return transformationRefOrTransformation.stream()
-            .map(element -> ((GeometryBase.Transformation) element.getValue()))
-            .map(this::mapTransformation)
-            .reduce(Transformation.IDENTITY, (t1, t2) -> t2.mul(t1));
-    }
+    private Transformation mapTransformation(@Nonnull TransformationBase transformation) {
+        final String transformationName = transformation.getClass().getSimpleName();
 
-    @Nonnull
-    private Transformation mapTransformation(@Nonnull GeometryBase.Transformation transformation) {
-        return null;
+        switch (transformationName) {
+            case "Identity":
+                return Transformation.IDENTITY;
+
+            case "Translate":
+                final List<Double> offsets = ((Translate) transformation).getOffsets();
+                return Transformation.translate(offsets.get(0), offsets.get(1), offsets.get(2));
+
+            case "Scale":
+                final List<Double> factors = ((Scale) transformation).getFactors();
+                return Transformation.scale(factors.get(0), factors.get(1), factors.get(2));
+
+            case "Rotate":
+                final Rotate rotate = (Rotate) transformation;
+                if (rotate.getAxis() != null) {
+                    final Rotate.Axis rotateAxis = rotate.getAxis();
+                    switch (rotateAxis.getAxis()) {
+                        case X:
+                            return Transformation.rotateX(rotateAxis.getAmount());
+                        case Y:
+                            return Transformation.rotateY(rotateAxis.getAmount());
+                        case Z:
+                            return Transformation.rotateZ(rotateAxis.getAmount());
+                    }
+                } else {
+                    final Rotate.Free rotateFree = rotate.getFree();
+                    return Transformation.rotate(rotateFree.getAmount(), createVector3D(rotateFree.getAxis()));
+                }
+
+        }
+
+        final String errorMessage = "Unknown transformation type: '" + transformationName + "'";
+        LOGGER.error(errorMessage);
+        throw new RuntimeException(errorMessage);
     }
 
     @Nonnull

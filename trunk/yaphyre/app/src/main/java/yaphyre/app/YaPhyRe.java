@@ -34,6 +34,8 @@ import yaphyre.core.api.Scene;
 import yaphyre.core.cameras.OrthographicCamera;
 import yaphyre.core.cameras.PerspectiveCamera;
 import yaphyre.core.films.ImageFile;
+import yaphyre.core.lights.AmbientLight;
+import yaphyre.core.lights.PointLight;
 import yaphyre.core.math.Color;
 import yaphyre.core.math.FovCalculator;
 import yaphyre.core.math.Normal3D;
@@ -119,13 +121,16 @@ public class YaPhyRe {
         scene.addShape(new SimpleSphere(Transformation.IDENTITY, new ColorShader(new Color(.9d, 0d, 0d))));
         scene.addShape(new Plane(Transformation.IDENTITY, new ColorShader(new Color(0d, .9d, 0d))));
 
+        // add lights
+        scene.addLight(new AmbientLight(.025d));
+        scene.addLight(new PointLight(10d, Color.WHITE, new Point3D(1.5, 1.5, -1.5)));
+
         // add cameras
         final double aspectRatio = FovCalculator.FullFrame35mm.getAspectRatio();
 
         final int yResolution = 480;
         final int xResolution = (int) (yResolution * aspectRatio);
         final Color skyColor = new Color(0d, 0d, .25d);
-
 
         // add perspective camera
         final double hFov = FovCalculator.FullFrame35mm.calculateHorizontalFov(50d);
