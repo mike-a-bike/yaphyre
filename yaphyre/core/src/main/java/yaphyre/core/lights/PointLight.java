@@ -17,6 +17,7 @@
 package yaphyre.core.lights;
 
 import javax.annotation.Nonnull;
+
 import yaphyre.core.api.CollisionInformation;
 import yaphyre.core.math.Color;
 import yaphyre.core.math.Point3D;
@@ -54,7 +55,8 @@ public class PointLight extends AbstractLight {
 
     @Override
     public double calculateIntensityForShadowRay(@Nonnull Ray shadowRay) {
-        return getScene().hitObject(shadowRay)
+        return getScene()
+            .hitObject(shadowRay)
             .map(CollisionInformation::getDistance)
             .filter(d -> d < getPosition().sub(shadowRay.getOrigin()).length())
             .map(d -> 1d / pow((1d + d), 3))

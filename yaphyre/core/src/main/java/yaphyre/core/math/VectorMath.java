@@ -16,6 +16,8 @@
 
 package yaphyre.core.math;
 
+import java.util.Optional;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -57,7 +59,7 @@ public abstract class VectorMath {
 	 * @return The refracted ray or null if the angle is so bigger than the critical angle and total internal reflection
 	 *         occurs.
 	 */
-	public static Vector3D refract(final Vector3D incident, final Normal3D normal, final double n1, final double n2) {
+	public static Optional<Vector3D> refract(final Vector3D incident, final Normal3D normal, final double n1, final double n2) {
 
 		checkNotNull(incident, "incident vector is null");
 		checkNotNull(normal, "normal is null");
@@ -68,18 +70,18 @@ public abstract class VectorMath {
 		final double n = n1 / n2;
 
 		if (Double.compare(n, 1d) == 0) {
-			return incident;
+			return Optional.of(incident);
 		}
 
 		final double cosPhi = -normal.dot(incident);
 		final double sinT2 = normal.dot(normal) * (1d - cosPhi * cosPhi);
 
-		if (sinT2 > 1d) return null; // Total Internal Reflection
+		if (sinT2 > 1d) return Optional.empty(); // Total Internal Reflection
 
 		final double cosT = Math.sqrt(1d - sinT2);
 
-		return incident.scale(n).add(normal.scale(n * cosPhi - cosT));
-	}
+        return Optional.of(incident.scale(n).add(normal.scale(n * cosPhi - cosT)));
+    }
 
 	/**
 	 * Calculate the amount of light which is reflected on a surface. If the angle is smaller than the critical angle,

@@ -17,8 +17,10 @@
 package yaphyre.app;
 
 import java.util.concurrent.atomic.AtomicInteger;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.OptionBuilder;
@@ -27,6 +29,7 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import yaphyre.app.dependencies.DefaultBindingModule;
 import yaphyre.core.api.Camera;
 import yaphyre.core.api.Sampler;
@@ -122,7 +125,7 @@ public class YaPhyRe {
         scene.addShape(new Plane(Transformation.IDENTITY, new ColorShader(new Color(0d, .9d, 0d))));
 
         // add lights
-        scene.addLight(new AmbientLight(.025d));
+        scene.addLight(new AmbientLight(.25d));
         scene.addLight(new PointLight(10d, Color.WHITE, new Point3D(1.5, 1.5, -1.5)));
 
         // add cameras
