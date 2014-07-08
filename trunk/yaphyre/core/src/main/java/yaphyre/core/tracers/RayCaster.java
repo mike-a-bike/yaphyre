@@ -17,6 +17,7 @@
 package yaphyre.core.tracers;
 
 import java.util.Optional;
+
 import yaphyre.core.api.Light;
 import yaphyre.core.api.Scene;
 import yaphyre.core.api.Tracer;
@@ -38,12 +39,12 @@ public class RayCaster implements Tracer {
     public Optional<Color> traceRay(Ray ray, Scene scene) {
         return scene.hitObject(ray).map(
             collision -> {
-                final double cosPhi = collision.getIncidentRay().getDirection().normalize().neg().dot(collision.getNormal());
                 final Color collisionColor = collision.getShape().getShader().getColor(collision.getUVCoordinate());
-                final double intensity = scene.getLights()
+                final double cosPhi = collision.getIncidentRay().getDirection().normalize().neg().dot(collision.getNormal());
+                final double deltaLightIntensity = scene.getLights()
                     .stream()
-                    .filter(Light::isDelta)
-                    .map(light -> {
+                    .filter(light -> light.isDelta() && !light.isOmnidirectional())
+                    .mapToDouble(light -> {
                         final Point3D collisionPoint = collision.getPoint();
                         final Vector3D direction = light.getPosition().sub(collisionPoint);
                         return light.calculateIntensityForShadowRay(
@@ -55,7 +56,12 @@ public class RayCaster implements Tracer {
                             ));
                     })
                     .reduce(0d, (d1, d2) -> d1 + d2);
-                return collisionColor.multiply(intensity * cosPhi);
+                final double omnidirectionalIntensity = scene.getLights()
+                    .stream()
+                    .filter(light -> light.isOmnidirectional() && !light.isDelta())
+                    .mapToDouble(Light::getPower)
+                    .reduce(0d, (d1, d2) -> d1 + d2);
+                return collisionColor.multiply(deltaLightIntensity * cosPhi + omnidirectionalIntensity);
             }
         );
     }

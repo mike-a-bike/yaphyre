@@ -19,7 +19,9 @@ package yaphyre.core.api;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import javax.annotation.Nonnull;
+
 import com.google.inject.BindingAnnotation;
+
 import yaphyre.core.math.Point3D;
 import yaphyre.core.math.Ray;
 
@@ -44,14 +46,24 @@ public interface Light {
     public boolean isDelta();
 
     /**
-     * For mathematical lights their position is relevant.
-     * @return
+     * Flag signaling an omnidirectional light source. Ambient light is a valid example for this.
+     * No intersection is calculated ever, but the intensity is applied to each point at the end of the
+     * light calculation.
+     * @return true if the represented light source is omnidirectional.
+     */
+    public boolean isOmnidirectional();
+
+    /**
+     * For delta light sources their exact position is relevant.
+     * @return A position in world coordinates representing the mathematical point emitting light.
      */
     public Point3D getPosition();
 
     public double calculateIntensityForShadowRay(@Nonnull Ray shadowRay);
 
-	@BindingAnnotation
+    public double getPower();
+
+    @BindingAnnotation
 	@Target({FIELD, METHOD, PARAMETER})
 	@Retention(RUNTIME)
 	public @interface LightSampler {}

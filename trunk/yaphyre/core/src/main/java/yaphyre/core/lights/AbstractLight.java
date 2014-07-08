@@ -18,6 +18,7 @@ package yaphyre.core.lights;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+
 import yaphyre.core.api.Light;
 import yaphyre.core.api.Sampler;
 import yaphyre.core.api.Scene;
@@ -54,6 +55,11 @@ public abstract class AbstractLight implements Light {
     }
 
     @Override
+    public boolean isOmnidirectional() {
+        return false;
+    }
+
+    @Override
     public Point3D getPosition() {
         return Point3D.ORIGIN;
     }
@@ -80,6 +86,7 @@ public abstract class AbstractLight implements Light {
         return color;
     }
 
+    @Override
     public double getPower() {
         return power;
     }

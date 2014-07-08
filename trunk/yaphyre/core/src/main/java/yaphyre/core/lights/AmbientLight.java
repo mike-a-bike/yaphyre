@@ -17,6 +17,7 @@
 package yaphyre.core.lights;
 
 import javax.annotation.Nonnull;
+
 import yaphyre.core.math.Color;
 import yaphyre.core.math.Ray;
 
@@ -33,8 +34,13 @@ public class AmbientLight extends AbstractLight {
     }
 
     @Override
-    public boolean isDelta() {
+    public boolean isOmnidirectional() {
         return true;
+    }
+
+    @Override
+    public boolean isDelta() {
+        return false;
     }
 
     @Override
