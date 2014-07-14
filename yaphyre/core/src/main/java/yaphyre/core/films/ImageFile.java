@@ -16,12 +16,6 @@
 
 package yaphyre.core.films;
 
-import java.awt.image.BufferedImage;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Collection;
-import javax.annotation.Nonnull;
-import javax.imageio.ImageIO;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import org.apache.commons.math3.util.Pair;
@@ -31,6 +25,13 @@ import yaphyre.core.api.CameraSample;
 import yaphyre.core.api.Film;
 import yaphyre.core.math.Color;
 import yaphyre.core.math.Point2D;
+
+import javax.annotation.Nonnull;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Collection;
 
 /**
  * Film implementation representing an image file. The resulting image can be saved to a file using
@@ -78,18 +79,20 @@ public class ImageFile implements Film {
 
 		BufferedImage image = new BufferedImage(xResolution, yResolution, BufferedImage.TYPE_INT_RGB);
 
-        samples.asMap().entrySet().stream().forEach(
-            entry -> {
-                final Collection<Color> colorSamples = entry.getValue();
-                Color sampleColor = colorSamples.stream().reduce(Color.BLACK, (c1, c2) -> c1.add(c2.multiply(1d / colorSamples.size())));
-                sampleColor = (gamma != 1d) ? sampleColor.pow(gamma).clip() : sampleColor;
-                final Point2D samplePoint = entry.getKey();
-                final int imageX = (int) samplePoint.getU();
-                // flip the image camera: 0,0 is bottom left, BufferedImage: 0,0 is top left
-                final int imageY = (yResolution - 1) - ((int) samplePoint.getV());
-                image.setRGB(imageX, imageY, createARGBfromColor(sampleColor));
-            }
-        );
+        samples.asMap().entrySet()
+            .stream()
+            .forEach(
+                entry -> {
+                    final Collection<Color> colorSamples = entry.getValue();
+                    Color sampleColor = colorSamples.stream().reduce(Color.BLACK, (c1, c2) -> c1.add(c2.multiply(1d / colorSamples.size())));
+                    sampleColor = (gamma != 1d) ? sampleColor.pow(gamma).clip() : sampleColor;
+                    final Point2D samplePoint = entry.getKey();
+                    final int imageX = (int) samplePoint.getU();
+                    // flip the image camera: 0,0 is bottom left, BufferedImage: 0,0 is top left
+                    final int imageY = (yResolution - 1) - ((int) samplePoint.getV());
+                    image.setRGB(imageX, imageY, createARGBfromColor(sampleColor));
+                }
+            );
 
 		return image;
 	}
