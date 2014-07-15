@@ -16,6 +16,12 @@
 
 package yaphyre.core.shapes;
 
+import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import javax.annotation.Nonnull;
+
 import yaphyre.core.api.CollisionInformation;
 import yaphyre.core.api.Shader;
 import yaphyre.core.math.BoundingBox;
@@ -26,11 +32,6 @@ import yaphyre.core.math.Ray;
 import yaphyre.core.math.Solver;
 import yaphyre.core.math.Transformation;
 import yaphyre.core.math.Vector3D;
-
-import javax.annotation.Nonnull;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.OptionalDouble;
 
 import static yaphyre.core.math.MathUtils.INV_PI;
 import static yaphyre.core.math.MathUtils.INV_TWO_PI;
@@ -148,4 +149,8 @@ public class SimpleSphere extends AbstractShape {
         return new Point2D(surfacePoint.getPhi() * INV_TWO_PI, surfacePoint.getTheta() * INV_PI);
     }
 
+    @Override
+    public String toString() {
+        return MessageFormat.format("SimpleSphere[{0}]", super.getObjectToWorld());
+    }
 }

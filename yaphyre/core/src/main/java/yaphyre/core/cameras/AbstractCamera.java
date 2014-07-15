@@ -19,6 +19,7 @@ package yaphyre.core.cameras;
 import java.util.stream.IntStream;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+
 import yaphyre.core.api.Camera;
 import yaphyre.core.api.CameraSample;
 import yaphyre.core.api.Film;
@@ -106,9 +107,9 @@ public abstract class AbstractCamera implements Camera {
         final double xStep = 1d / xResolution;
         final double yStep = 1d / yResolution;
 
-        IntStream.range(0, xResolution)
-            .forEach(x -> IntStream.range(0, yResolution)
-                .mapToObj(y -> new Point2D(x, y))
+        IntStream.range(0, yResolution)
+            .forEach(y -> IntStream.range(0, xResolution)
+                .mapToObj(x -> new Point2D(x, y))
                 .forEach(p -> getSampler().getUnitSquareSamples()
                     .forEach(s -> renderPoint(scene, xStep, yStep, p, s))));
 

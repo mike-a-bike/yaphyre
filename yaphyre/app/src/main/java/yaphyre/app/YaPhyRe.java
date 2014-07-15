@@ -16,8 +16,11 @@
 
 package yaphyre.app;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.OptionBuilder;
@@ -26,6 +29,7 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import yaphyre.app.dependencies.DefaultBindingModule;
 import yaphyre.core.api.Camera;
 import yaphyre.core.api.Sampler;
@@ -48,8 +52,6 @@ import yaphyre.core.shaders.ColorShader;
 import yaphyre.core.shapes.Plane;
 import yaphyre.core.shapes.SimpleSphere;
 import yaphyre.core.tracers.RayCaster;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static yaphyre.core.math.MathUtils.EPSILON;
 
@@ -129,7 +131,7 @@ public class YaPhyRe {
         // add cameras
         final double aspectRatio = FovCalculator.FullFrame35mm.getAspectRatio();
 
-        final int yResolution = 4;
+        final int yResolution = 8;
         final int xResolution = (int) (yResolution * aspectRatio);
         final Color skyColor = new Color(0d, 0d, .25d);
 
@@ -166,6 +168,7 @@ public class YaPhyRe {
             () -> cameraSampler,
             () -> lightSampler,
             () -> defaultSampler,
+//            new DebuggingRayCaster(false)
             new RayCaster()
         ));
     }
