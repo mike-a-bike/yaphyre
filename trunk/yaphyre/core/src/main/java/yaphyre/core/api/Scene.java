@@ -16,15 +16,19 @@
 
 package yaphyre.core.api;
 
-import com.google.common.base.Objects;
-import com.google.inject.Injector;
-import yaphyre.core.math.Ray;
-
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import javax.inject.Inject;
+
+import com.google.common.base.Objects;
+import com.google.inject.Injector;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import yaphyre.core.math.Ray;
 
 import static java.util.Comparator.comparingDouble;
 
@@ -37,7 +41,9 @@ import static java.util.Comparator.comparingDouble;
  */
 public class Scene {
 
-	private final List<Shape> shapes;
+    private static final Logger LOGGER = LoggerFactory.getLogger(Scene.class);
+
+    private final List<Shape> shapes;
 
 	private final List<Light> lights;
 
@@ -90,17 +96,11 @@ public class Scene {
 
 	public Optional<CollisionInformation> hitObject(Ray ray) {
         return getShapes().stream()
-            .peek(System.out::println)
             .filter(shape -> shape.getBoundingBox().isHitBy(ray))
-            .peek(System.out::println)
             .map(shape -> shape.intersect(ray))
-            .peek(System.out::println)
             .filter(Optional::isPresent)
-            .peek(System.out::println)
             .map(Optional::get)
-            .peek(System.out::println)
             .filter(collision -> ray.getTRange().contains(collision.getDistance()))
-            .peek(System.out::println)
             .min(comparingDouble(CollisionInformation::getDistance));
     }
 

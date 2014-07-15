@@ -16,8 +16,11 @@
 
 package yaphyre.core.tracers;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import yaphyre.core.api.CollisionInformation;
 import yaphyre.core.api.Light;
 import yaphyre.core.api.Scene;
@@ -27,8 +30,6 @@ import yaphyre.core.math.MathUtils;
 import yaphyre.core.math.Point3D;
 import yaphyre.core.math.Ray;
 import yaphyre.core.math.Vector3D;
-
-import java.util.Optional;
 
 /**
  * YaPhyRe
@@ -47,7 +48,7 @@ public class RayCaster implements Tracer {
             .map(
                 collision -> {
 
-                    double deltaLightIntensity = calculateIncidentLightIntesity(scene, collision);
+                    double deltaLightIntensity = calculateIncidentLightIntensity(scene, collision);
                     double omnidirectionalIntensity = calculateOmnidirectionalLightIntensity(scene);
 
                     Color collisionColor = collision.getShape().getShader().getColor(collision.getUVCoordinate());
@@ -58,7 +59,7 @@ public class RayCaster implements Tracer {
             );
     }
 
-    private double calculateIncidentLightIntesity(Scene scene, CollisionInformation collision) {
+    private double calculateIncidentLightIntensity(Scene scene, CollisionInformation collision) {
         return scene.getLights()
             .stream()
             .filter(light -> light.isDelta() && !light.isOmnidirectional())
