@@ -16,14 +16,12 @@
 
 package yaphyre.core.lights;
 
+import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 
-import yaphyre.core.api.CollisionInformation;
 import yaphyre.core.math.Color;
 import yaphyre.core.math.Point3D;
 import yaphyre.core.math.Ray;
-
-import static org.apache.commons.math3.util.FastMath.pow;
 
 /**
  * YaPhyRe
@@ -54,13 +52,12 @@ public class PointLight extends AbstractLight {
     }
 
     @Override
+    @Nonnegative
     public double calculateIntensityForShadowRay(@Nonnull Ray shadowRay) {
         return getScene()
             .hitObject(shadowRay)
-            .map(CollisionInformation::getDistance)
-            .filter(d -> d < getPosition().sub(shadowRay.getOrigin()).length())
-            .map(d -> 1d / pow((1d + d), 3))
-            .orElse(0d);
+            .map(collisionFound -> 0d)
+            .orElse(attenuationForDistance(shadowRay.getTRange().upperEndpoint()) * getPower());
     }
 
 }

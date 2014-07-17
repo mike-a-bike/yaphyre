@@ -16,6 +16,7 @@
 
 package yaphyre.core.lights;
 
+import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
@@ -89,5 +90,11 @@ public abstract class AbstractLight implements Light {
     @Override
     public double getPower() {
         return power;
+    }
+
+    @Nonnegative
+    protected double attenuationForDistance(@Nonnegative double distance) {
+        double attenuationFactor = 1 + distance;
+        return 1d / (attenuationFactor * attenuationFactor);
     }
 }

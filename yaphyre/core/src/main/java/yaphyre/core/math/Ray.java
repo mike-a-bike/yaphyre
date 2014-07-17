@@ -16,11 +16,11 @@
 
 package yaphyre.core.math;
 
+import java.io.Serializable;
+import javax.annotation.concurrent.Immutable;
+
 import com.google.common.base.Objects;
 import com.google.common.collect.Range;
-
-import javax.annotation.concurrent.Immutable;
-import java.io.Serializable;
 
 import static yaphyre.core.math.MathUtils.EPSILON;
 
@@ -55,7 +55,7 @@ public class Ray implements Serializable {
 	public Ray(Point3D origin, Vector3D direction, double tmin, double tmax) {
 		this.origin = origin;
 		this.direction = direction;
-		this.tRange = Range.closedOpen(tmin, tmax);
+		this.tRange = Range.closed(tmin, tmax);
 	}
 
 	public Ray(Point3D origin, Vector3D direction, Range<Double> tRange) {

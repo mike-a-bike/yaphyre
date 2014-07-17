@@ -121,17 +121,17 @@ public class YaPhyRe {
 		Scene scene = injector.getInstance(Scene.class);
 
         // add primitives
-        scene.addShape(new SimpleSphere(Transformation.IDENTITY, new ColorShader(new Color(.9d, 0d, 0d))));
-        scene.addShape(new Plane(Transformation.IDENTITY, new ColorShader(new Color(0d, .9d, 0d))));
+        scene.addShape(new SimpleSphere(Transformation.translate(0, 1.2, 0), new ColorShader(new Color(.95d, .95d, .95d))));
+        scene.addShape(new Plane(Transformation.IDENTITY, new ColorShader(new Color(.95d, .95d, .95d))));
 
         // add lights
         scene.addLight(new AmbientLight(.25d));
-        scene.addLight(new PointLight(10d, Color.WHITE, new Point3D(1.5, 1.5, -1.5)));
+        scene.addLight(new PointLight(5d, Color.WHITE, new Point3D(1.5, 1.5, -1.5)));
 
         // add cameras
         final double aspectRatio = FovCalculator.FullFrame35mm.getAspectRatio();
 
-        final int yResolution = 8;
+        final int yResolution = 480;
         final int xResolution = (int) (yResolution * aspectRatio);
         final Color skyColor = new Color(0d, 0d, .25d);
 
@@ -141,21 +141,21 @@ public class YaPhyRe {
         Camera camera = new PerspectiveCamera(
             film,
             skyColor,
-            new Point3D(10, 10, -10),
+            new Point3D(0, 10, -10),
             Point3D.ORIGIN,
             Normal3D.NORMAL_Y,
             hFov,
             aspectRatio,
             EPSILON,
             1d / EPSILON);
-//        scene.addCamera(camera);
+        scene.addCamera(camera);
 
         // add orthographic camera
         film = new ImageFile(xResolution, yResolution);
         double vDimension = 6d;
         double uDimension = vDimension * aspectRatio;
         camera = new OrthographicCamera(film, skyColor, uDimension, vDimension, 100d);
-        scene.addCamera(camera);
+//        scene.addCamera(camera);
 
 		return scene;
 	}

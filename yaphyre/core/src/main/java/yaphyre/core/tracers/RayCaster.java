@@ -85,9 +85,9 @@ public class RayCaster implements Tracer {
         return light.calculateIntensityForShadowRay(
             new Ray(
                 collisionPoint,
-                direction,
+                direction.normalize(),
                 MathUtils.EPSILON,
-                collision.getDistance()
+                direction.length()
             ));
     }
 
