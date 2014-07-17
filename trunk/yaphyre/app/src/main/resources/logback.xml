@@ -23,11 +23,11 @@
         </encoder>
     </appender>
 
-    <logger name="yaphyre.core.films" level="trace"/>
+    <!--<logger name="yaphyre.core.films" level="debug"/>-->
 
-    <logger name="yaphyre.core.api" level="trace"/>
+    <!--<logger name="yaphyre.core.api" level="debug"/>-->
 
-    <logger name="yaphyre.core.tracers" level="trace"/>
+    <!--<logger name="yaphyre.core.tracers" level="debug"/>-->
 
     <root level="debug">
         <appender-ref ref="STDOUT"/>
