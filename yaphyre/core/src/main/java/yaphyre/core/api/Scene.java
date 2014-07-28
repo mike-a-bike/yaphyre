@@ -20,20 +20,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 import javax.inject.Inject;
 
 import com.google.common.base.Objects;
 import com.google.inject.Injector;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import yaphyre.core.math.Ray;
 
 import static java.util.Comparator.comparingDouble;
 
 /**
- * YaPhyRe
+ * Scene holding all the relevant objects. This is also responsible for intersection a ray with the objects
+ * contained within the scene.
  *
  * @author Michael Bieri
  * @author $LastChangedBy: $
@@ -41,66 +40,62 @@ import static java.util.Comparator.comparingDouble;
  */
 public class Scene {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Scene.class);
-
     private final List<Shape> shapes;
 
-	private final List<Light> lights;
+    private final List<Light> lights;
 
-	private final List<Camera> cameras;
+    private final List<Camera> cameras;
 
     private final Injector injector;
 
     @Inject
-	public Scene(Injector injector) {
+    public Scene(Injector injector) {
         this.injector = injector;
         shapes = new ArrayList<>();
-		lights = new ArrayList<>();
-		cameras = new ArrayList<>();
-	}
+        lights = new ArrayList<>();
+        cameras = new ArrayList<>();
+    }
 
-	public void addCamera(Camera camera) {
+    public void addCamera(Camera camera) {
         injector.injectMembers(camera);
-		cameras.add(camera);
-	}
+        cameras.add(camera);
+    }
 
-	public List<Camera> getCameras() {
-		return Collections.unmodifiableList(cameras);
-	}
+    public List<Camera> getCameras() {
+        return Collections.unmodifiableList(cameras);
+    }
 
-	public void addShape(Shape shape) {
+    public void addShape(Shape shape) {
         injector.injectMembers(shape);
-		shapes.add(shape);
-	}
+        shapes.add(shape);
+    }
 
-	public List<Shape> getShapes() {
-		return Collections.unmodifiableList(shapes);
-	}
+    public List<Shape> getShapes() {
+        return Collections.unmodifiableList(shapes);
+    }
 
-	public void addLight(Light lightsource) {
-        injector.injectMembers(lightsource);
-		lights.add(lightsource);
-	}
+    public void addLight(Light light) {
+        injector.injectMembers(light);
+        lights.add(light);
+    }
 
-	public List<Light> getLights() {
-		return Collections.unmodifiableList(lights);
-	}
+    public List<Light> getLights() {
+        return Collections.unmodifiableList(lights);
+    }
 
-	@Override
-	public String toString() {
-		return Objects.toStringHelper(getClass())
-				.add("cameras", cameras.size())
-				.add("shapes", shapes.size())
-				.add("lights", lights.size()).toString();
-	}
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(getClass())
+            .add("cameras", cameras.size())
+            .add("shapes", shapes.size())
+            .add("lights", lights.size()).toString();
+    }
 
-	public Optional<CollisionInformation> hitObject(Ray ray) {
+    public Optional<CollisionInformation> hitObject(Ray ray) {
         return getShapes().stream()
             .filter(shape -> shape.getBoundingBox().isHitBy(ray))
             .map(shape -> shape.intersect(ray))
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .filter(collision -> ray.getTRange().contains(collision.getDistance()))
+            .flatMap(optional -> optional.map(Stream::of).orElseGet(Stream::empty))
             .min(comparingDouble(CollisionInformation::getDistance));
     }
 

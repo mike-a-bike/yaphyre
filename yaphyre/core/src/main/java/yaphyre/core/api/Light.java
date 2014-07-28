@@ -22,6 +22,7 @@ import javax.annotation.Nonnull;
 
 import com.google.inject.BindingAnnotation;
 
+import yaphyre.core.math.Color;
 import yaphyre.core.math.Point3D;
 import yaphyre.core.math.Ray;
 
@@ -59,10 +60,27 @@ public interface Light {
      */
     public Point3D getPosition();
 
-    public double calculateIntensityForShadowRay(@Nonnull Ray shadowRay);
+    /**
+     * @return Gets the spectrum of the light source. This is useful for omnidirectional and delta light sources.
+     */
+    public Color getColor();
 
+    /**
+     * @return The total power output of the light source.
+     */
     public double getPower();
 
+    /**
+     * Calculate the intensity of the spectrum for the given shadow Ray. If the ray is blocked, no light is contributed.
+     *
+     * @param shadowRay The shadow ray to calculate the intensity for.
+     * @return The spectrum of the light contribution.
+     */
+    public Color calculateIntensityForShadowRay(@Nonnull Ray shadowRay);
+
+    /**
+     * Marker interface to denote which type of sampler is to be injected.
+     */
     @BindingAnnotation
 	@Target({FIELD, METHOD, PARAMETER})
 	@Retention(RUNTIME)

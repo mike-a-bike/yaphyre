@@ -24,7 +24,8 @@ import yaphyre.core.math.Point3D;
 import yaphyre.core.math.Ray;
 
 /**
- * YaPhyRe
+ * Point light implementation. A mathematical (delta) light source having no physical size and sending an
+ * equal amount of light in all directions.
  *
  * @author Michael Bieri
  * @since 08.07.13
@@ -53,11 +54,21 @@ public class PointLight extends AbstractLight {
 
     @Override
     @Nonnegative
-    public double calculateIntensityForShadowRay(@Nonnull Ray shadowRay) {
+    public Color calculateIntensityForShadowRay(@Nonnull Ray shadowRay) {
         return getScene()
             .hitObject(shadowRay)
-            .map(collisionFound -> 0d)
-            .orElse(attenuationForDistance(shadowRay.getTRange().upperEndpoint()) * getPower());
+            .map(collisionFound -> {
+                // return black spectrum -> zero intensity for all wavelengths
+                return Color.BLACK;
+            })
+            .orElse(
+                getColor().multiply(calculateIntensityForDistance(shadowRay.getTRange().upperEndpoint()))
+            );
+    }
+
+    @Nonnegative
+    private double calculateIntensityForDistance(@Nonnegative double distance) {
+        return attenuationForDistance(distance) * getPower();
     }
 
 }

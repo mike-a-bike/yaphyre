@@ -17,6 +17,8 @@
 package yaphyre.core.api;
 
 import java.util.Optional;
+import javax.annotation.Nonnull;
+
 import yaphyre.core.math.Color;
 import yaphyre.core.math.Ray;
 
@@ -28,6 +30,7 @@ import yaphyre.core.math.Ray;
  */
 public interface Tracer {
 
-	Optional<Color> traceRay(final Ray ray, final Scene scene);
+    @Nonnull
+	Optional<Color> traceRay(@Nonnull final Ray ray, @Nonnull final Scene scene);
 
 }

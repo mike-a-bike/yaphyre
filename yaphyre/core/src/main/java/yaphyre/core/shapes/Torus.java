@@ -16,14 +16,14 @@
 
 package yaphyre.core.shapes;
 
+import java.util.Optional;
+import javax.annotation.Nonnull;
+
 import yaphyre.core.api.CollisionInformation;
 import yaphyre.core.api.Shader;
 import yaphyre.core.math.BoundingBox;
 import yaphyre.core.math.Ray;
 import yaphyre.core.math.Transformation;
-
-import javax.annotation.Nonnull;
-import java.util.Optional;
 
 /**
  * YaPhyRe
@@ -55,12 +55,12 @@ public class Torus extends AbstractShape {
     @Nonnull
     @Override
     public Optional<CollisionInformation> intersect(@Nonnull Ray ray) {
-        return null;
+        return Optional.empty();
     }
 
     @Nonnull
     @Override
     public BoundingBox getBoundingBox() {
-        return null;
+        return BoundingBox.INFINITE_BOUNDING_BOX;
     }
 }

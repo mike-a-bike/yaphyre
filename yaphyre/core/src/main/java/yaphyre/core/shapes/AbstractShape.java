@@ -16,11 +16,11 @@
 
 package yaphyre.core.shapes;
 
-import java.util.Optional;
 import javax.annotation.Nonnull;
+
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-import yaphyre.core.api.CollisionInformation;
+
 import yaphyre.core.api.Shader;
 import yaphyre.core.api.Shape;
 import yaphyre.core.math.BoundingBox;
@@ -36,12 +36,16 @@ import yaphyre.core.math.Transformation;
  */
 public abstract class AbstractShape implements Shape {
 
-	/**
-	 * Constant for signaling that there is no intersection.
+    private static final long serialVersionUID = 6078311087267053881L;
+
+    /**
+	 * Constant for signaling that there is no intersection. Should be removed and replaced with
+     * {@link java.util.OptionalDouble} instances.
 	 */
+    @Deprecated
 	protected static final double NO_INTERSECTION = Double.POSITIVE_INFINITY;
-	private static final long serialVersionUID = 6078311087267053881L;
-	private final Shader shader;
+
+    private final Shader shader;
 	private final Transformation worldToObject;
 	private final Transformation objectToWorld;
 
@@ -98,10 +102,6 @@ public abstract class AbstractShape implements Shape {
 	protected Transformation getObjectToWorld() {
 		return objectToWorld;
 	}
-
-	@Nonnull
-    @Override
-	public abstract Optional<CollisionInformation> intersect(@Nonnull Ray ray);
 
     @Nonnull
 	protected Ray transformToObjectSpace(@Nonnull Ray ray) {

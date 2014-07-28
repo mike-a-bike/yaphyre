@@ -16,6 +16,8 @@
 
 package yaphyre.core.math;
 
+import com.google.common.collect.Range;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static yaphyre.core.math.MathUtils.calculateBernsteinPolynomialFactor;
 
@@ -29,7 +31,7 @@ public enum BezierCurve {
 		@Override
 		public Point3D calculatePoint(final double t, final Point3D... controlPoints) {
 			checkArgument(controlPoints.length == 2, "Wrong number of control points. Expected: 2");
-			checkArgument(0d <= t && t <= 1d, "t is out of range: 0 <= t <= 1");
+			checkArgument(validTRange.contains(t), "t is out of range: 0 <= t <= 1");
 
 			final Point3D p0 = controlPoints[0];
 			final Point3D p1 = controlPoints[1];
@@ -47,7 +49,7 @@ public enum BezierCurve {
 		@Override
 		public Point3D calculatePoint(final double t, final Point3D... controlPoints) {
 			checkArgument(controlPoints.length == 3, "Wrong number of control points. Expected: 3");
-			checkArgument(0d <= t && t <= 1d, "t is out of range: 0 <= t <= 1");
+			checkArgument(validTRange.contains(t), "t is out of range: 0 <= t <= 1");
 
 			final Point3D p0 = controlPoints[0];
 			final Point3D p1 = controlPoints[1];
@@ -70,7 +72,7 @@ public enum BezierCurve {
 		@Override
 		public Point3D calculatePoint(final double t, final Point3D... controlPoints) {
 			checkArgument(controlPoints.length == 4, "Wrong number of control points. Expected: 4");
-			checkArgument(0d <= t && t <= 1d, "t is out of range: 0 <= t <= 1");
+			checkArgument(validTRange.contains(t), "t is out of range: 0 <= t <= 1");
 
 			final Point3D p0 = controlPoints[0];
 			final Point3D p1 = controlPoints[1];
@@ -97,7 +99,7 @@ public enum BezierCurve {
 		@Override
 		public Point3D calculatePoint(final double t, final Point3D... controlPoints) {
 			checkArgument(controlPoints.length == 5, "Wrong number of control points. Expected: 5");
-			checkArgument(0d <= t && t <= 1d, "t is out of range: 0 <= t <= 1");
+			checkArgument(validTRange.contains(t), "t is out of range: 0 <= t <= 1");
 
 			final Point3D p0 = controlPoints[0];
 			final Point3D p1 = controlPoints[1];
@@ -119,7 +121,7 @@ public enum BezierCurve {
 		@Override
 		public Point3D calculatePoint(final double t, final Point3D... controlPoints) {
 			checkArgument(controlPoints.length >= 2, "Too few control points. At least two control points are needed");
-			checkArgument(0d <= t && t <= 1d, "t is out of range: 0 <= t <= 1");
+			checkArgument(validTRange.contains(t), "t is out of range: 0 <= t <= 1");
 
 			if (t == 0d) {
 				return controlPoints[0];
@@ -152,6 +154,8 @@ public enum BezierCurve {
 
 	};
 
-	public abstract Point3D calculatePoint(double t, final Point3D... controlPoints);
+    private static final Range<Double> validTRange = Range.closed(0d, 1d);
+
+    public abstract Point3D calculatePoint(double t, final Point3D... controlPoints);
 
 }

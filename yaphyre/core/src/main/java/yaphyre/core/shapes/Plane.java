@@ -18,7 +18,9 @@ package yaphyre.core.shapes;
 
 import java.text.MessageFormat;
 import java.util.Optional;
+import java.util.OptionalDouble;
 import javax.annotation.Nonnull;
+
 import yaphyre.core.api.CollisionInformation;
 import yaphyre.core.api.Shader;
 import yaphyre.core.math.BoundingBox;
@@ -44,127 +46,117 @@ import yaphyre.core.math.Transformation;
  */
 public class Plane extends AbstractShape {
 
-	private static final long serialVersionUID = 6001965721771220664L;
-	private final Point3D origin;
-	private final Normal3D normal;
-	private final BoundingBox boundingBox;
+    private static final long serialVersionUID = 6001965721771220664L;
 
-	public Plane(Transformation planeToWorld, Shader shader) {
-		super(planeToWorld, shader);
-		origin = Point3D.ORIGIN;
-		normal = Normal3D.NORMAL_Y;
-		boundingBox = BoundingBox.INFINITE_BOUNDING_BOX;
-	}
+    private final Point3D origin;
+    private final Normal3D normal;
 
-	@Override
-	public String toString() {
-		return MessageFormat.format("Plane[{0}]", super.getObjectToWorld());
-	}
+    public Plane(Transformation planeToWorld, Shader shader) {
+        super(planeToWorld, shader);
+        origin = Point3D.ORIGIN;
+        normal = Normal3D.NORMAL_Y;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!(obj instanceof Plane)) {
-			return false;
-		}
-		if (!super.equals(obj)) {
-			return false;
-		}
-		return true;
-	}
-
-	@Nonnull
     @Override
-	public Optional<CollisionInformation> intersect(@Nonnull final Ray ray) {
-		final Optional<CollisionInformation> result;
-		final double intersectionDistance = calculateIntersectDistance(ray);
+    public String toString() {
+        return MessageFormat.format("Plane[{0}]", super.getObjectToWorld());
+    }
 
-		if (intersectionDistance == NO_INTERSECTION) {
-			result = Optional.empty();
-		} else {
-			final Point3D intersectionPoint = ray.getPoint(intersectionDistance);
-            result = Optional.of(new CollisionInformation(
+    @Override
+    public boolean equals(Object obj) {
+        return this == obj || obj instanceof Plane && super.equals(obj);
+    }
+
+    @Nonnull
+    @Override
+    public Optional<CollisionInformation> intersect(@Nonnull final Ray ray) {
+        final OptionalDouble intersectionDistance = calculateIntersectDistance(ray);
+
+        if (intersectionDistance.isPresent()) {
+
+            double distance = intersectionDistance.getAsDouble();
+            final Point3D intersectionPoint = ray.getPoint(distance);
+            return Optional.of(new CollisionInformation(
                 ray,
                 this,
-                intersectionDistance,
+                distance,
                 intersectionPoint,
                 getNormal(),
                 getMappedSurfacePoint(intersectionPoint)));
+
+
         }
 
-		return result;
-	}
+        return Optional.empty();
+    }
 
-	@Nonnull
+
+    @Nonnull
     @Override
-	public BoundingBox getBoundingBox() {
-		return BoundingBox.INFINITE_BOUNDING_BOX;
-	}
+    public BoundingBox getBoundingBox() {
+        return BoundingBox.INFINITE_BOUNDING_BOX;
+    }
 
-	@Override
-	public int hashCode() {
-		return super.hashCode();
-	}
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 
-	/**
-	 * Intersect the plane with a ray. We use the parametric form of the line equation to determine the distance in which
-	 * the line intersects this plane.<br/>
-	 * Using the two equations:<br/>
-	 * Plane: (p - p<sub>0</sub>) &sdot; n = 0<br/>
-	 * Line: p(t) = l<sub>0</sub> + (t * d)<br/>
-	 * we get:<br/>
-	 * t = ((p<sub>0</sub> - l<sub>0</sub>) &sdot; n) / (d &sdot; n)<br/>
-	 * If the line starts outside the plane and is parallel to it there is no intersection, then the denominator
-	 * is zero and the numerator is non-zero.<br/>
-	 * If the line starts on the plane and is parallel to it so every point on the line intersects with the plane, the
-	 * denominator and the numerator are zero<br/>
-	 * If the result is negative, the line intersects with the plane behind the origin of the ray, so there is no
-	 * visible intersection.
-	 *
-	 * @param ray The {@link Ray} to intersect with this plane.
-	 *
-	 * @return The distance in which the ray intersects this plane or {@link AbstractShape#NO_INTERSECTION} if there is no
-	 * intersection.
-	 */
-	private double calculateIntersectDistance(Ray ray) {
-		ray = super.transformToObjectSpace(ray);
-		double numerator = origin.sub(ray.getOrigin()).dot(normal);
-		double denominator = ray.getDirection().dot(normal);
+    /**
+     * Intersect the plane with a ray. We use the parametric form of the line equation to determine the distance in which
+     * the line intersects this plane.<br/>
+     * Using the two equations:<br/>
+     * Plane: (p - p<sub>0</sub>) &sdot; n = 0<br/>
+     * Line: p(t) = l<sub>0</sub> + (t * d)<br/>
+     * we get:<br/>
+     * t = ((p<sub>0</sub> - l<sub>0</sub>) &sdot; n) / (d &sdot; n)<br/>
+     * If the line starts outside the plane and is parallel to it there is no intersection, then the denominator
+     * is zero and the numerator is non-zero.<br/>
+     * If the line starts on the plane and is parallel to it so every point on the line intersects with the plane, the
+     * denominator and the numerator are zero<br/>
+     * If the result is negative, the line intersects with the plane behind the origin of the ray, so there is no
+     * visible intersection.
+     *
+     * @param ray The {@link Ray} to intersect with this plane.
+     * @return The optional distance in which the ray intersects this plane. This may be empty to signal that no intersection takes place
+     */
+    private OptionalDouble calculateIntersectDistance(Ray ray) {
+        ray = super.transformToObjectSpace(ray);
+        double numerator = origin.sub(ray.getOrigin()).dot(normal);
+        double denominator = ray.getDirection().dot(normal);
 
-		if (numerator == 0 && denominator == 0) {
+        if (numerator == 0 && denominator == 0) {
             // The ray starts on the plane and is parallel to the plane, so it
             // intersects everywhere.
-            return ray.getTRange().lowerEndpoint();
+            return OptionalDouble.of(ray.getTRange().lowerEndpoint());
         } else if (numerator != 0 && denominator == 0) {
-			// The ray starts outside the plane and is parallel to the plane, so no
-			// intersection, ever...
-			return NO_INTERSECTION;
-		}
+            // The ray starts outside the plane and is parallel to the plane, so no
+            // intersection, ever...
+            return OptionalDouble.empty();
+        }
 
-		double distance = numerator / denominator;
+        double distance = numerator / denominator;
 
-		return ray.getTRange().contains(distance) ? distance : NO_INTERSECTION;
+        return ray.getTRange().contains(distance) ? OptionalDouble.of(distance) : OptionalDouble.empty();
 
-	}
+    }
 
-	/**
-	 * The normal of a plane is independent from the position on the plane, so always the defining normal is returned.
-	 *
-	 * @return The normal of the plane (position independent)
-	 */
-	private Normal3D getNormal() {
-		return super.getObjectToWorld().transform(normal);
-	}
+    /**
+     * The normal of a plane is independent from the position on the plane, so always the defining normal is returned.
+     *
+     * @return The normal of the plane (position independent)
+     */
+    private Normal3D getNormal() {
+        return super.getObjectToWorld().transform(normal);
+    }
 
-	/**
-	 * Maps the given point to the planes u/v coordinates. Since each surface point lies on the x/z plane, the y component
-	 * can be ignored. So [u, v] = [x, z].
-	 */
-	private Point2D getMappedSurfacePoint(Point3D surfacePoint) {
-		surfacePoint = super.getWorldToObject().transform(surfacePoint);
-		return new Point2D(surfacePoint.getX(), surfacePoint.getZ());
-	}
+    /**
+     * Maps the given point to the planes u/v coordinates. Since each surface point lies on the x/z plane, the y component
+     * can be ignored. So [u, v] = [x, z].
+     */
+    private Point2D getMappedSurfacePoint(Point3D surfacePoint) {
+        surfacePoint = super.getWorldToObject().transform(surfacePoint);
+        return new Point2D(surfacePoint.getX(), surfacePoint.getZ());
+    }
 
 }

@@ -22,7 +22,8 @@ import yaphyre.core.math.Color;
 import yaphyre.core.math.Ray;
 
 /**
- * YaPhyRe
+ * Ambient light implementation. This source contributes an equal amount if light regardless of its incident
+ * direction and/or occlusion of other objects.
  *
  * @author Michael Bieri
  * @since 05.07.13
@@ -43,8 +44,14 @@ public class AmbientLight extends AbstractLight {
         return false;
     }
 
+    /**
+     * An ambient light contributes the same amount of light regardless of its direction.
+     *
+     * @param shadowRay The shadow ray to calculate the intensity for.
+     * @return The color multiplied by the light sources power.
+     */
     @Override
-    public double calculateIntensityForShadowRay(@Nonnull Ray shadowRay) {
-        return getPower();
+    public Color calculateIntensityForShadowRay(@Nonnull Ray shadowRay) {
+        return getColor().multiply(getPower());
     }
 }
