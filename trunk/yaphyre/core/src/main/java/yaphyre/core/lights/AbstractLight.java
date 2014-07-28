@@ -70,7 +70,7 @@ public abstract class AbstractLight implements Light {
     }
 
     @Inject
-    public void setSampler(@LightSampler @Nonnull Sampler sampler) {
+    public void setSampler(@Nonnull @LightSampler Sampler sampler) {
         this.sampler = sampler;
     }
 
@@ -83,6 +83,7 @@ public abstract class AbstractLight implements Light {
         this.scene = scene;
     }
 
+    @Override
     public Color getColor() {
         return color;
     }

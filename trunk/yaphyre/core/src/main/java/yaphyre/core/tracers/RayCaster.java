@@ -17,6 +17,7 @@
 package yaphyre.core.tracers;
 
 import java.util.Optional;
+import javax.annotation.Nonnull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +33,7 @@ import yaphyre.core.math.Ray;
 import yaphyre.core.math.Vector3D;
 
 /**
- * YaPhyRe
+ * A simple ray caster algorithm. Taking into account omnidirectional and mathematical lights.
  *
  * @author Michael Bieri
  * @since 28.06.14
@@ -41,51 +42,74 @@ public class RayCaster implements Tracer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RayCaster.class);
 
+    /** 'Empty' ray for usage when the position and/or direction does not matter. */
+    public static final Ray DUMMY_RAY = new Ray(Point3D.ORIGIN, Vector3D.Y);
+
+    /**
+     * Trace the given ray through the given scene. This includes the interaction of all objects and materials within
+     * the scene.
+     *
+     * @param ray The ray to calculate the shading for.
+     * @param scene The scene holding the light sources and objects.
+     * @return The exitance spectrum for the given ray and scene.
+     */
     @Override
-    public Optional<Color> traceRay(Ray ray, Scene scene) {
+    @Nonnull
+    public Optional<Color> traceRay(@Nonnull Ray ray, @Nonnull Scene scene) {
         LOGGER.trace("trace ray: " + ray);
         return scene.hitObject(ray)
             .map(
                 collision -> {
 
-                    double deltaLightIntensity = calculateIncidentLightIntensity(scene, collision);
-                    double omnidirectionalIntensity = calculateOmnidirectionalLightIntensity(scene);
+                    Color deltaLightIntensity = calculateIncidentLightIntensity(scene, collision);
+                    Color omnidirectionalIntensity = calculateOmnidirectionalLightIntensity(scene);
 
                     Color collisionColor = collision.getShape().getShader().getColor(collision.getUVCoordinate());
                     double cosPhi = collision.getIncidentRay().getDirection().normalize().neg().dot(collision.getNormal());
 
-                    return collisionColor.multiply(deltaLightIntensity * cosPhi + omnidirectionalIntensity);
+                    return collisionColor.multiply(deltaLightIntensity.multiply(cosPhi).add(omnidirectionalIntensity));
                 }
             );
     }
 
-    private double calculateIncidentLightIntensity(Scene scene, CollisionInformation collision) {
-        return scene.getLights()
-            .stream()
-            .filter(light -> light.isDelta() && !light.isOmnidirectional())
-            .peek(l -> LOGGER.trace("Sampling delta light: " + l))
-            .mapToDouble(light -> calculateDirectLightIntensity(collision, light))
-            .peek(d -> LOGGER.trace("Intensity: " + d))
-            .sum();
-    }
-
-    private double calculateOmnidirectionalLightIntensity(Scene scene) {
+    /**
+     * Calculate the contribution of the omnidirectional (ambient) lights.
+     *
+     * @param scene The scene holding the light sources.
+     * @return The contributed light.
+     */
+    private Color calculateOmnidirectionalLightIntensity(Scene scene) {
         return scene.getLights()
             .stream()
             .filter(light -> light.isOmnidirectional() && !light.isDelta())
-            .peek(l -> LOGGER.trace("Sampling omnidirectional light: " + l))
-            .mapToDouble(Light::getPower)
-            .peek(d -> LOGGER.trace("Intensity: " + d))
-            .sum();
+            .map(light -> light.calculateIntensityForShadowRay(DUMMY_RAY))
+            .reduce(Color.BLACK, (color1, color2) -> color1.add(color2));
     }
 
-    private double calculateDirectLightIntensity(CollisionInformation collision, Light light) {
-        final Point3D collisionPoint = collision.getPoint();
-        final Vector3D direction = light.getPosition().sub(collisionPoint);
+    /**
+     * Calculate the contribution of the delta (mathematical) modeled lights.
+     *
+     * @param scene The scene holding the light sources.
+     * @param collision The collision point of the view ray with a shape. This represents the point to calculate the
+     * light contribution for.
+     * @return The incident light for the sampling point.
+     */
+    private Color calculateIncidentLightIntensity(Scene scene, CollisionInformation collision) {
+        return scene.getLights()
+            .stream()
+            .filter(light -> light.isDelta() && !light.isOmnidirectional())
+            .map(light -> calculateDirectLightIntensity(collision, light))
+            .reduce(Color.BLACK, (color1, color2) -> color1.add(color2));
+    }
+
+    private Color calculateDirectLightIntensity(CollisionInformation collision, Light light) {
+        Point3D collisionPoint = collision.getPoint();
+        Vector3D direction = light.getPosition().sub(collisionPoint);
+        Vector3D directionNormalized = direction.normalize();
         return light.calculateIntensityForShadowRay(
             new Ray(
-                collisionPoint,
-                direction.normalize(),
+                collisionPoint.add(directionNormalized.scale(MathUtils.EPSILON)), // prevent self-shadowing
+                directionNormalized,
                 MathUtils.EPSILON,
                 direction.length()
             ));

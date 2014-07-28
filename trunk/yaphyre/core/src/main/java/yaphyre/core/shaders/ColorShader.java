@@ -18,6 +18,7 @@ package yaphyre.core.shaders;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
+
 import yaphyre.core.api.Material;
 import yaphyre.core.api.Shader;
 import yaphyre.core.math.Color;
@@ -47,7 +48,7 @@ public class ColorShader implements Shader {
     @Nonnull
     @Override
     public Material getMaterial(@Nonnull Point2D uvCoordinate) {
-        return null;
+        throw new RuntimeException("Material not supported");
     }
 
 }

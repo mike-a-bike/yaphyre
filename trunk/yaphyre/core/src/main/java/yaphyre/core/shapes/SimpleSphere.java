@@ -22,6 +22,11 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import javax.annotation.Nonnull;
 
+import com.google.common.collect.Range;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import yaphyre.core.api.CollisionInformation;
 import yaphyre.core.api.Shader;
 import yaphyre.core.math.BoundingBox;
@@ -54,6 +59,8 @@ public class SimpleSphere extends AbstractShape {
     static {
         LOCAL_INSTANCE_BOUNDING_BOX = new BoundingBox(new Point3D(-1, -1, -1), new Point3D(1, 1, 1));
     }
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleSphere.class);
 
     private final BoundingBox transformedLocalBoundingBox;
     private final BoundingBox axisAlignedBoundingBox;
@@ -93,8 +100,14 @@ public class SimpleSphere extends AbstractShape {
         final double[] solutions = Solver.Quadratic.solve(c, b, a);
 
         final OptionalDouble minSolution = Arrays.stream(solutions)
-            .filter(d -> ray.getTRange().contains(d))
+            .filter(distance -> {
+                Range<Double> tRange = ray.getTRange();
+                LOGGER.trace(String.format("testing solution %.3f against range %s", distance, tRange));
+                return tRange.contains(distance);
+            })
             .min();
+
+        LOGGER.trace("result: " + minSolution);
 
         if (minSolution.isPresent() && !Double.isNaN(minSolution.getAsDouble())) {
             final double distance = minSolution.getAsDouble();

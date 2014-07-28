@@ -34,7 +34,6 @@ import yaphyre.app.dependencies.DefaultBindingModule;
 import yaphyre.core.api.Camera;
 import yaphyre.core.api.Sampler;
 import yaphyre.core.api.Scene;
-import yaphyre.core.cameras.OrthographicCamera;
 import yaphyre.core.cameras.PerspectiveCamera;
 import yaphyre.core.films.ImageFile;
 import yaphyre.core.lights.AmbientLight;
@@ -126,12 +125,12 @@ public class YaPhyRe {
 
         // add lights
         scene.addLight(new AmbientLight(.25d));
-        scene.addLight(new PointLight(5d, Color.WHITE, new Point3D(1.5, 1.5, -1.5)));
+        scene.addLight(new PointLight(50d, Color.WHITE, new Point3D(5, 5, -5)));
 
         // add cameras
         final double aspectRatio = FovCalculator.FullFrame35mm.getAspectRatio();
 
-        final int yResolution = 480;
+        final int yResolution = 120;
         final int xResolution = (int) (yResolution * aspectRatio);
         final Color skyColor = new Color(0d, 0d, .25d);
 
@@ -151,10 +150,10 @@ public class YaPhyRe {
         scene.addCamera(camera);
 
         // add orthographic camera
-        film = new ImageFile(xResolution, yResolution);
-        double vDimension = 6d;
-        double uDimension = vDimension * aspectRatio;
-        camera = new OrthographicCamera(film, skyColor, uDimension, vDimension, 100d);
+//        film = new ImageFile(xResolution, yResolution);
+//        double vDimension = 6d;
+//        double uDimension = vDimension * aspectRatio;
+//        camera = new OrthographicCamera(film, skyColor, uDimension, vDimension, 100d);
 //        scene.addCamera(camera);
 
 		return scene;
