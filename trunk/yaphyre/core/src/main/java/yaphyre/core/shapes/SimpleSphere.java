@@ -41,6 +41,7 @@ import yaphyre.core.math.Vector3D;
 
 import static yaphyre.core.math.MathUtils.INV_PI;
 import static yaphyre.core.math.MathUtils.INV_TWO_PI;
+import static yaphyre.core.math.Solver.Quadratic;
 
 /**
  * Like the name suggests, this is a very basic implementation of a sphere. It represents the unit sphere. So its radius
@@ -63,8 +64,6 @@ public class SimpleSphere extends AbstractShape {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleSphere.class);
 
-    @Inject
-    @Solver.Quadratic
     private Solver quadraticSolver;
 
     private final BoundingBox transformedLocalBoundingBox;
@@ -89,6 +88,11 @@ public class SimpleSphere extends AbstractShape {
         Point3D center = getObjectToWorld().transform(Point3D.ORIGIN);
         Vector3D radiusVector = getObjectToWorld().transform(RADIUS_VECTOR);
         axisAlignedBoundingBox = new BoundingBox(center.sub(radiusVector), center.add(radiusVector));
+    }
+
+    @Inject
+    public void setQuadraticSolver(@Quadratic Solver quadraticSolver) {
+        this.quadraticSolver = quadraticSolver;
     }
 
     @Override
