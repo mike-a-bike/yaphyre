@@ -31,14 +31,14 @@ public class SolverBindingModule extends PrivateModule {
 
     @Override
     protected void configure() {
-        bind(Solvers.class).annotatedWith(Solver.Linear.class).toInstance(Solvers.Linear);
-        bind(Solvers.class).annotatedWith(Solver.Quadratic.class).toInstance(Solvers.Quadratic);
-        bind(Solvers.class).annotatedWith(Solver.Cubic.class).toInstance(Solvers.Cubic);
-        bind(Solvers.class).annotatedWith(Solver.Quartic.class).toInstance(Solvers.Quartic);
+        bind(Solver.class).annotatedWith(Solver.Linear.class).toInstance(Solvers.Linear);
+        bind(Solver.class).annotatedWith(Solver.Quadratic.class).toInstance(Solvers.Quadratic);
+        bind(Solver.class).annotatedWith(Solver.Cubic.class).toInstance(Solvers.Cubic);
+        bind(Solver.class).annotatedWith(Solver.Quartic.class).toInstance(Solvers.Quartic);
 
-        expose(Solvers.class).annotatedWith(Solver.Linear.class);
-        expose(Solvers.class).annotatedWith(Solver.Quadratic.class);
-        expose(Solvers.class).annotatedWith(Solver.Cubic.class);
-        expose(Solvers.class).annotatedWith(Solver.Quartic.class);
+        expose(Solver.class).annotatedWith(Solver.Linear.class);
+        expose(Solver.class).annotatedWith(Solver.Quadratic.class);
+        expose(Solver.class).annotatedWith(Solver.Cubic.class);
+        expose(Solver.class).annotatedWith(Solver.Quartic.class);
     }
 }

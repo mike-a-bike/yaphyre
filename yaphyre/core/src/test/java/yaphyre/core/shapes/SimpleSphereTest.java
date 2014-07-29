@@ -18,11 +18,6 @@ package yaphyre.core.shapes;
 
 import java.util.Optional;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.PrivateModule;
-
-import org.junit.Before;
 import org.junit.Test;
 
 import yaphyre.core.api.CollisionInformation;
@@ -41,35 +36,12 @@ import static org.mockito.Mockito.mock;
 
 public class SimpleSphereTest {
 
-    private Injector mockedInjector;
-    private Injector solverInjector;
-
-    private TestSolver quadraticSolver;
-
-    @Before
-    public void setUp() throws Exception {
-        quadraticSolver = new TestSolver();
-        mockedInjector = Guice.createInjector(new PrivateModule() {
-            @Override
-            protected void configure() {
-                bind(Solver.class).annotatedWith(Solver.Quadratic.class).toInstance(quadraticSolver);
-                expose(Solver.class).annotatedWith(Solver.Quadratic.class);
-            }
-        });
-        solverInjector = Guice.createInjector(new PrivateModule() {
-            @Override
-            protected void configure() {
-                bind(Solver.class).annotatedWith(Solver.Quadratic.class).toInstance(Solvers.Quadratic);
-                expose(Solver.class).annotatedWith(Solver.Quadratic.class);
-            }
-        });
-    }
-
     @Test
     public void testIntersectsRejectedByRangeConstraints() throws Exception {
 
+        TestSolver quadraticSolver = new TestSolver();
         SimpleSphere sphere = new SimpleSphere(Transformation.IDENTITY, mock(Shader.class));
-        mockedInjector.injectMembers(sphere);
+        sphere.setQuadraticSolver(quadraticSolver);
 
         Point3D rayOrigin = new Point3D(10, 0, 0);
         Vector3D direction = Point3D.ORIGIN.sub(rayOrigin).normalize();
@@ -92,7 +64,7 @@ public class SimpleSphereTest {
     public void testIntersect() throws Exception {
 
         SimpleSphere sphere = new SimpleSphere(Transformation.IDENTITY, mock(Shader.class));
-        solverInjector.injectMembers(sphere);
+        sphere.setQuadraticSolver(Solvers.Quadratic);
 
         Point3D rayOrigin = new Point3D(10, 0, 0);
         Vector3D direction = Point3D.ORIGIN.sub(rayOrigin).normalize();
