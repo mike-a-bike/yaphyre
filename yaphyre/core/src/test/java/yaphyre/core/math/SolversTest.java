@@ -16,10 +16,9 @@
 
 package yaphyre.core.math;
 
-import org.junit.Ignore;
-import org.junit.Test;
-
 import java.util.Arrays;
+
+import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -32,7 +31,7 @@ import static yaphyre.core.math.MathUtils.EPSILON;
  * @author Michael Bieri
  * @since 30.05.14
  */
-public class SolverTest {
+public class SolversTest {
 
     @Test
     public void testLinearSolver() {
@@ -40,14 +39,14 @@ public class SolverTest {
         double[] solutions;
 
         // test x - 3 = 0 ( 3 )
-        solutions = Solver.Linear.solve(-3, 1);
+        solutions = Solvers.Linear.solve(-3, 1);
         System.out.println(Arrays.toString(solutions));
         assertNotNull(solutions);
         assertTrue(solutions.length == 1);
         assertEquals(3, solutions[0], EPSILON);
 
         // test 3 = 0 (no solution)
-        solutions = Solver.Linear.solve(3, 0);
+        solutions = Solvers.Linear.solve(3, 0);
         System.out.println(Arrays.toString(solutions));
         assertNotNull(solutions);
         assertTrue(solutions.length == 0);
@@ -60,7 +59,7 @@ public class SolverTest {
         double[] solutions;
 
         // test x^2 + x - 12 = 0 (-4 / 3)
-        solutions = Solver.Quadratic.solve(-12, 1, 1);
+        solutions = Solvers.Quadratic.solve(-12, 1, 1);
         assertNotNull(solutions);
         System.out.println(Arrays.toString(solutions));
         assertNotNull(solutions);
@@ -69,7 +68,7 @@ public class SolverTest {
         assertEquals(3d, solutions[1], EPSILON);
 
         // test -2x^2 + 10x - 12 = 0 (2 / 3)
-        solutions = Solver.Quadratic.solve(-12, 10, -2);
+        solutions = Solvers.Quadratic.solve(-12, 10, -2);
         System.out.println(Arrays.toString(solutions));
         assertNotNull(solutions);
         assertTrue(solutions.length == 2);
@@ -77,14 +76,14 @@ public class SolverTest {
         assertEquals(3d, solutions[1], EPSILON);
 
         // test x^2 = 0 (0)
-        solutions = Solver.Quadratic.solve(0, 0, 1);
+        solutions = Solvers.Quadratic.solve(0, 0, 1);
         System.out.println(Arrays.toString(solutions));
         assertNotNull(solutions);
         assertTrue(solutions.length == 1);
         assertEquals(0d, solutions[0], EPSILON);
 
         // solve x^2 + x + 100 = 0 (no solution)
-        solutions = Solver.Quadratic.solve(100, 1, 1);
+        solutions = Solvers.Quadratic.solve(100, 1, 1);
         System.out.println(Arrays.toString(solutions));
         assertNotNull(solutions);
         assertTrue(solutions.length == 0);
@@ -96,7 +95,7 @@ public class SolverTest {
         double[] solutions;
 
         // test x^3 - 4x^2 - 17x + 60 = 0 (-4 / 3 / 5)
-        solutions = Solver.Cubic.solve(60, -17, -4, 1);
+        solutions = Solvers.Cubic.solve(60, -17, -4, 1);
         System.out.println(Arrays.toString(solutions));
         assertNotNull(solutions);
         assertTrue(solutions.length == 3);
@@ -106,7 +105,7 @@ public class SolverTest {
 
 
         // test 2x^3 - 4x^2 - 22x + 24 = 0 (-3, 1, 4)
-        solutions = Solver.Cubic.solve(24, -22, -4, 2);
+        solutions = Solvers.Cubic.solve(24, -22, -4, 2);
         System.out.println(Arrays.toString(solutions));
         assertNotNull(solutions);
         assertTrue(solutions.length == 3);
@@ -116,14 +115,14 @@ public class SolverTest {
 
 
         // test 3x^3 - 10x^2 + 14x + 27 = 0 (-1)
-        solutions = Solver.Cubic.solve(27, 14, -10, 3);
+        solutions = Solvers.Cubic.solve(27, 14, -10, 3);
         System.out.println(Arrays.toString(solutions));
         assertNotNull(solutions);
         assertTrue(solutions.length == 1);
         assertEquals(-1d, solutions[0], EPSILON);
 
         // test x^3 + 6x^2 + 12x + 8 = 0 (-2, -2, -2)
-        solutions = Solver.Cubic.solve(8, 12, 6, 1);
+        solutions = Solvers.Cubic.solve(8, 12, 6, 1);
         System.out.println(Arrays.toString(solutions));
         assertNotNull(solutions);
         assertTrue(solutions.length == 3);
@@ -138,7 +137,7 @@ public class SolverTest {
         double[] solutions;
 
         // test 3x^4 + 6x^3 - 123x^2 - 126x + 1080 = 0 (-6, -4, 3, 5)
-        solutions = Solver.Quartic.solve(1080, -126, -123, 6, 3);
+        solutions = Solvers.Quartic.solve(1080, -126, -123, 6, 3);
         System.out.println(Arrays.toString(solutions));
         assertNotNull(solutions);
         assertEquals(-6, solutions[0], EPSILON);
@@ -147,7 +146,7 @@ public class SolverTest {
         assertEquals(5, solutions[3], EPSILON);
 
         // test x^4 + x^3 - 17x^2 + 3x - 60 = 0 (-5, 4)
-        solutions = Solver.Quartic.solve(-60, 3, -17, 1, 1);
+        solutions = Solvers.Quartic.solve(-60, 3, -17, 1, 1);
         System.out.println(Arrays.toString(solutions));
         assertNotNull(solutions);
         assertEquals(-5, solutions[0], EPSILON);

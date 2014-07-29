@@ -27,7 +27,7 @@ import yaphyre.core.math.Normal3D;
 import yaphyre.core.math.Point2D;
 import yaphyre.core.math.Point3D;
 import yaphyre.core.math.Ray;
-import yaphyre.core.math.Solver;
+import yaphyre.core.math.Solvers;
 import yaphyre.core.math.Transformation;
 import yaphyre.core.math.Vector3D;
 
@@ -38,7 +38,9 @@ import static java.lang.Math.acos;
 import static java.lang.Math.atan2;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
-import static yaphyre.core.math.MathUtils.*;
+import static yaphyre.core.math.MathUtils.EPSILON;
+import static yaphyre.core.math.MathUtils.TWO_PI;
+import static yaphyre.core.math.MathUtils.isInRangeWithTolerance;
 
 /**
  * A sphere in the three dimensional space is defined as:<br/> (p - p<sub>0</sub>) &sdot; (p - p<sub>0</sub>) =
@@ -234,7 +236,7 @@ public class Sphere extends AbstractShape {
 		final double c1 = 2 * oc.dot(ray.getDirection());
 		final double c0 = oc.dot(oc) - RADIUS_SQUARED;
 
-		final double[] solutions = Solver.Quadratic.solve(c0, c1, c2);
+		final double[] solutions = Solvers.Quadratic.solve(c0, c1, c2);
 
 		double result = NO_INTERSECTION;
 

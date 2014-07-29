@@ -30,13 +30,17 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
+
 import com.google.common.collect.Lists;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
+
 import yaphyre.app.dependencies.DefaultBindingModule;
+import yaphyre.app.dependencies.SolverBindingModule;
 import yaphyre.app.scenereader.SceneReader;
 import yaphyre.app.scenereader.simple.jaxb.Camera;
 import yaphyre.app.scenereader.simple.jaxb.GeometryBase;
@@ -261,12 +265,14 @@ public class SimpleSceneFileReader implements SceneReader {
 
     @Nonnull
     private Scene setupScene(GlobalSettings globalSettings) {
-        final Injector injector = Guice.createInjector(new DefaultBindingModule(
-            createSamplerSupplier(globalSettings.getCameraSampler()),
-            createSamplerSupplier(globalSettings.getLightSampler()),
-            createSamplerSupplier(globalSettings.getDefaultSampler()),
-            createTracer(globalSettings)
-        ));
+        final Injector injector = Guice.createInjector(
+            new DefaultBindingModule(
+                createSamplerSupplier(globalSettings.getCameraSampler()),
+                createSamplerSupplier(globalSettings.getLightSampler()),
+                createSamplerSupplier(globalSettings.getDefaultSampler()),
+                createTracer(globalSettings)
+            ),
+            new SolverBindingModule());
         return injector.getInstance(Scene.class);
     }
 

@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import javax.annotation.Nonnull;
+import javax.inject.Inject;
 
 import com.google.common.collect.Range;
 
@@ -62,6 +63,10 @@ public class SimpleSphere extends AbstractShape {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleSphere.class);
 
+    @Inject
+    @Solver.Quadratic
+    private Solver quadraticSolver;
+
     private final BoundingBox transformedLocalBoundingBox;
     private final BoundingBox axisAlignedBoundingBox;
 
@@ -97,7 +102,7 @@ public class SimpleSphere extends AbstractShape {
         final double b = originPositionVector.dot(direction) * 2;
         final double c = originPositionVector.dot(originPositionVector) - (RADIUS * RADIUS);
 
-        final double[] solutions = Solver.Quadratic.solve(c, b, a);
+        final double[] solutions = quadraticSolver.solve(c, b, a);
 
         final OptionalDouble minSolution = Arrays.stream(solutions)
             .filter(distance -> {
