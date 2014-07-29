@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import yaphyre.app.dependencies.DefaultBindingModule;
+import yaphyre.app.dependencies.SolverBindingModule;
 import yaphyre.core.api.Camera;
 import yaphyre.core.api.Sampler;
 import yaphyre.core.api.Scene;
@@ -120,12 +121,12 @@ public class YaPhyRe {
 		Scene scene = injector.getInstance(Scene.class);
 
         // add primitives
-        scene.addShape(new SimpleSphere(Transformation.translate(0, 1.2, 0), new ColorShader(new Color(.95d, .95d, .95d))));
+        scene.addShape(new SimpleSphere(Transformation.translate(0, 2, 0), new ColorShader(new Color(.95d, .95d, .95d))));
         scene.addShape(new Plane(Transformation.IDENTITY, new ColorShader(new Color(.95d, .95d, .95d))));
 
         // add lights
         scene.addLight(new AmbientLight(.25d));
-        scene.addLight(new PointLight(50d, Color.WHITE, new Point3D(5, 5, -5)));
+        scene.addLight(new PointLight(25d, Color.WHITE, new Point3D(0, 5, 0)));
 
         // add cameras
         final double aspectRatio = FovCalculator.FullFrame35mm.getAspectRatio();
@@ -140,8 +141,8 @@ public class YaPhyRe {
         Camera camera = new PerspectiveCamera(
             film,
             skyColor,
-            new Point3D(0, 10, -10),
-            Point3D.ORIGIN,
+            new Point3D(0, 2, -10),
+            new Point3D(0, 0, 0),
             Normal3D.NORMAL_Y,
             hFov,
             aspectRatio,
@@ -159,17 +160,18 @@ public class YaPhyRe {
 		return scene;
 	}
 
-	private static Injector setupInjector(CommandLine commandLine) {
+    private static Injector setupInjector(CommandLine commandLine) {
         Sampler cameraSampler = createSampler(commandLine.getOptionValues(COMMANDLINE_OPTION_CAMERA_SAMPLER));
         Sampler lightSampler = new SingleValueSampler();
         Sampler defaultSampler = new SingleValueSampler();
         return Guice.createInjector(new DefaultBindingModule(
-            () -> cameraSampler,
-            () -> lightSampler,
-            () -> defaultSampler,
-//            new DebuggingRayCaster(false)
-            new RayCaster()
-        ));
+                () -> cameraSampler,
+                () -> lightSampler,
+                () -> defaultSampler,
+                //            new DebuggingRayCaster(false)
+                new RayCaster()
+            ),
+            new SolverBindingModule());
     }
 
     private static void renderScene(Scene scene) {
