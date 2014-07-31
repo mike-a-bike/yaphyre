@@ -92,11 +92,18 @@ public class Scene {
     }
 
     public Optional<CollisionInformation> hitObject(Ray ray) {
+        return getCollisionInformationStream(ray).min(comparingDouble(CollisionInformation::getDistance));
+    }
+
+    public Optional<CollisionInformation> hitObjectForShadowRay(Ray ray) {
+        return getCollisionInformationStream(ray).findFirst();
+    }
+
+    private Stream<CollisionInformation> getCollisionInformationStream(Ray ray) {
         return getShapes().stream()
             .filter(shape -> shape.getBoundingBox().isHitBy(ray))
             .map(shape -> shape.intersect(ray))
-            .flatMap(optional -> optional.map(Stream::of).orElseGet(Stream::empty))
-            .min(comparingDouble(CollisionInformation::getDistance));
+            .flatMap(optional -> optional.map(Stream::of).orElseGet(Stream::empty));
     }
 
 }

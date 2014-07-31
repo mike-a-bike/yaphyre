@@ -51,6 +51,7 @@ public class AmbientLight extends AbstractLight {
      * @return The color multiplied by the light sources power.
      */
     @Override
+    @Nonnull
     public Color calculateIntensityForShadowRay(@Nonnull Ray shadowRay) {
         return getColor().multiply(getPower());
     }
