@@ -76,6 +76,7 @@ public interface Light {
      * @param shadowRay The shadow ray to calculate the intensity for.
      * @return The spectrum of the light contribution.
      */
+    @Nonnull
     public Color calculateIntensityForShadowRay(@Nonnull Ray shadowRay);
 
     /**
