@@ -16,11 +16,8 @@
 
 package yaphyre.app;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.OptionBuilder;
@@ -29,7 +26,6 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import yaphyre.app.dependencies.DefaultBindingModule;
 import yaphyre.app.dependencies.SolverBindingModule;
 import yaphyre.core.api.Camera;
@@ -53,6 +49,8 @@ import yaphyre.core.shapes.Plane;
 import yaphyre.core.shapes.SimpleSphere;
 import yaphyre.core.tracers.RayCaster;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import static yaphyre.core.math.MathUtils.EPSILON;
 
 /**
@@ -75,33 +73,33 @@ public class YaPhyRe {
 
         final double gamma;
 
-		LOGGER.info("------------------------");
-		LOGGER.info("-- Welcome to YaPhyRe --");
-		LOGGER.info("------------------------");
+        LOGGER.info("------------------------");
+        LOGGER.info("-- Welcome to YaPhyRe --");
+        LOGGER.info("------------------------");
 
-		// Parsing the commandline
-		LOGGER.info("Reading CommandLine");
-		final CommandLine commandLine = parseCommandLine(arguments);
+        // Parsing the commandline
+        LOGGER.info("Reading CommandLine");
+        final CommandLine commandLine = parseCommandLine(arguments);
         gamma = evaluateGamma(commandLine);
 
         // Setup the injector
-		LOGGER.info("Setting up Injector");
+        LOGGER.info("Setting up Injector");
         final Injector injector = setupInjector(commandLine);
 
-		// Preparing the scene
-		LOGGER.info("Setting up Scene");
+        // Preparing the scene
+        LOGGER.info("Setting up Scene");
         final Scene scene = setupScene(injector);
 
-		// Render the scene
-		LOGGER.info("Render Scene");
-		renderScene(scene);
+        // Render the scene
+        LOGGER.info("Render Scene");
+        renderScene(scene);
 
-		// Save the result
-		LOGGER.info("Save Result");
-		saveImages(scene, gamma);
+        // Save the result
+        LOGGER.info("Save Result");
+        saveImages(scene, gamma);
 
-		LOGGER.info("Finished");
-	}
+        LOGGER.info("Finished");
+    }
 
     private static double evaluateGamma(CommandLine commandLine) {
         double gamma;
@@ -118,7 +116,7 @@ public class YaPhyRe {
     }
 
     private static Scene setupScene(Injector injector) {
-		Scene scene = injector.getInstance(Scene.class);
+        Scene scene = injector.getInstance(Scene.class);
 
         // add primitives
         scene.addShape(new SimpleSphere(Transformation.translate(0, 2, 0), new ColorShader(new Color(.95d, .95d, .95d))));
@@ -157,8 +155,8 @@ public class YaPhyRe {
 //        camera = new OrthographicCamera(film, skyColor, uDimension, vDimension, 100d);
 //        scene.addCamera(camera);
 
-		return scene;
-	}
+        return scene;
+    }
 
     private static Injector setupInjector(CommandLine commandLine) {
         Sampler cameraSampler = createSampler(commandLine.getOptionValues(COMMANDLINE_OPTION_CAMERA_SAMPLER));
@@ -175,15 +173,15 @@ public class YaPhyRe {
     }
 
     private static void renderScene(Scene scene) {
-        scene.getCameras().stream().forEach(cam -> cam.renderScene(scene));
-	}
+        scene.getCameras().forEach(cam -> cam.renderScene(scene));
+    }
 
     private static void saveImages(Scene scene, double gamma) {
         final AtomicInteger cameraIndex = new AtomicInteger(0);
 
         scene.getCameras().stream()
             .map(Camera::getFilm)
-            .filter(film -> film instanceof ImageFile)
+            .filter(film -> ImageFile.class.isAssignableFrom(film.getClass()))
             .map(ImageFile.class::cast)
             .forEach(imageFileFilm -> saveFilmToFile(gamma, cameraIndex.getAndIncrement(), imageFileFilm, ImageFile.ImageFormat.PNG));
     }
@@ -195,45 +193,45 @@ public class YaPhyRe {
     }
 
     private static CommandLine parseCommandLine(String[] arguments) {
-		CommandLine commandLine = null;
-		Options commandLineOptions = createCommandLineOptions();
-		try {
-			commandLine = new PosixParser().parse(commandLineOptions, arguments);
-		} catch (ParseException e) {
-			LOGGER.error("Invalid program call. See usage below.");
-			printHelp(commandLineOptions);
-			System.exit(1);
-		}
-		return commandLine;
-	}
+        CommandLine commandLine = null;
+        Options commandLineOptions = createCommandLineOptions();
+        try {
+            commandLine = new PosixParser().parse(commandLineOptions, arguments);
+        } catch (ParseException e) {
+            LOGGER.error("Invalid program call. See usage below.");
+            printHelp(commandLineOptions);
+            System.exit(1);
+        }
+        return commandLine;
+    }
 
-	private static Sampler createSampler(String[] commandlineArguments) {
-		LOGGER.debug("Creating sampler for: {}", (Object) commandlineArguments);
-		String samplerName = commandlineArguments[0];
-		Sampler sampler;
-		if (samplerName.equalsIgnoreCase("single")) {
-			sampler = new SingleValueSampler();
-		} else {
-			int sampleCount = Integer.parseInt(commandlineArguments[1]);
-			switch (samplerName.toLowerCase()) {
-				case "regular":
-					sampler = new RegularSampler(sampleCount);
-					break;
-				case "stratified":
-					sampler = new StratifiedSampler(sampleCount);
-					break;
+    private static Sampler createSampler(String[] commandlineArguments) {
+        LOGGER.debug("Creating sampler for: {}", (Object) commandlineArguments);
+        String samplerName = commandlineArguments[0];
+        Sampler sampler;
+        if (samplerName.equalsIgnoreCase("single")) {
+            sampler = new SingleValueSampler();
+        } else {
+            int sampleCount = Integer.parseInt(commandlineArguments[1]);
+            switch (samplerName.toLowerCase()) {
+                case "regular":
+                    sampler = new RegularSampler(sampleCount);
+                    break;
+                case "stratified":
+                    sampler = new StratifiedSampler(sampleCount);
+                    break;
                 case "halton":
                     sampler = new HaltonSampler(sampleCount);
                     break;
                 default:
-					throw new IllegalArgumentException("Unknown type for  sampler: " + samplerName);
-			}
-		}
-		return sampler;
-	}
+                    throw new IllegalArgumentException("Unknown type for  sampler: " + samplerName);
+            }
+        }
+        return sampler;
+    }
 
-	private static Options createCommandLineOptions() {
-		Options options = new Options();
+    private static Options createCommandLineOptions() {
+        Options options = new Options();
 
         OptionBuilder.withArgName("<sampler name> [number of samples]");
         OptionBuilder.withDescription("The Sampler to use for the camera (single, regular, stratified, halton)");
@@ -248,11 +246,11 @@ public class YaPhyRe {
         options.addOption(OptionBuilder.create(COMMANDLINE_OPTION_GAMMA));
 
         return options;
-	}
+    }
 
-	private static void printHelp(Options commandLineOptions) {
-		HelpFormatter formatter = new HelpFormatter();
-		formatter.printHelp(999, "java -jar YaPhyRe.jar", null, commandLineOptions, null, true);
-	}
+    private static void printHelp(Options commandLineOptions) {
+        HelpFormatter formatter = new HelpFormatter();
+        formatter.printHelp(999, "java -jar YaPhyRe.jar", null, commandLineOptions, null, true);
+    }
 
 }

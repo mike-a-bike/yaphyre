@@ -16,12 +16,8 @@
 
 package yaphyre.core.tracers;
 
-import java.util.Optional;
-import javax.annotation.Nonnull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import yaphyre.core.api.CollisionInformation;
 import yaphyre.core.api.Light;
 import yaphyre.core.api.Scene;
@@ -31,6 +27,12 @@ import yaphyre.core.math.MathUtils;
 import yaphyre.core.math.Point3D;
 import yaphyre.core.math.Ray;
 import yaphyre.core.math.Vector3D;
+
+import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * A simple ray caster algorithm. Taking into account omnidirectional and mathematical lights.
@@ -61,8 +63,19 @@ public class RayCaster implements Tracer {
             .map(
                 collision -> {
 
-                    Color deltaLightIntensity = calculateIncidentLightIntensity(scene, collision);
-                    Color omnidirectionalIntensity = calculateOmnidirectionalLightIntensity(scene);
+                    List<Light> sceneLights = scene.getLights();
+
+                    Color deltaLightIntensity = calculateLightContribution(
+                        sceneLights,
+                        light -> light.isDelta() && !light.isOmnidirectional(),
+                        light -> calculateDirectLightIntensity(collision, light)
+                    );
+
+                    Color omnidirectionalIntensity = calculateLightContribution(
+                        sceneLights,
+                        light -> light.isOmnidirectional() && !light.isDelta(),
+                        light -> light.calculateIntensityForShadowRay(DUMMY_RAY)
+                    );
 
                     Color collisionColor = collision.getShape().getShader().getColor(collision.getUVCoordinate());
                     double cosPhi = collision.getIncidentRay().getDirection().normalize().neg().dot(collision.getNormal());
@@ -73,32 +86,20 @@ public class RayCaster implements Tracer {
     }
 
     /**
-     * Calculate the contribution of the omnidirectional (ambient) lights.
+     * Calculate the contribution of the selected collection of lights.
      *
-     * @param scene The scene holding the light sources.
+     * @param lights The collection of lights to consider.
+     * @param lightPredicate Filter selecting the light collection to calculate the contribution for.
+     * @param lightColorFunction Mapping function calculating the contribution of a single light source.
      * @return The contributed light.
      */
-    private Color calculateOmnidirectionalLightIntensity(Scene scene) {
-        return scene.getLights()
-            .stream()
-            .filter(light -> light.isOmnidirectional() && !light.isDelta())
-            .map(light -> light.calculateIntensityForShadowRay(DUMMY_RAY))
-            .reduce(Color.BLACK, (color1, color2) -> color1.add(color2));
-    }
-
-    /**
-     * Calculate the contribution of the delta (mathematical) modeled lights.
-     *
-     * @param scene The scene holding the light sources.
-     * @param collision The collision point of the view ray with a shape. This represents the point to calculate the
-     * light contribution for.
-     * @return The incident light for the sampling point.
-     */
-    private Color calculateIncidentLightIntensity(Scene scene, CollisionInformation collision) {
-        return scene.getLights()
-            .stream()
-            .filter(light -> light.isDelta() && !light.isOmnidirectional())
-            .map(light -> calculateDirectLightIntensity(collision, light))
+    @Nonnull
+    private Color calculateLightContribution(@Nonnull List<Light> lights,
+                                             @Nonnull Predicate<Light> lightPredicate,
+                                             @Nonnull Function<Light, Color> lightColorFunction) {
+        return lights.stream()
+            .filter(lightPredicate)
+            .map(lightColorFunction)
             .reduce(Color.BLACK, (color1, color2) -> color1.add(color2));
     }
 
