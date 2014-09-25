@@ -32,6 +32,12 @@ import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+/**
+ * Unit tests for the PointLight class.
+ *
+ * @author Michael Bieri
+ * @since 25.09.2014
+ */
 public class PointLightTest {
 
     // mocks
