@@ -63,8 +63,8 @@ public class PointLight extends AbstractLight {
             .map(
                 coll -> Color.BLACK
             )
-            .orElse(
-                getColor().multiply(calculateIntensityForDistance(getPosition().sub(shadowRay.getOrigin()).length()))
+            .orElseGet(
+                () -> getColor().multiply(calculateIntensityForDistance(getPosition().sub(shadowRay.getOrigin()).length()))
             );
     }
 
