@@ -16,16 +16,15 @@
 
 package yaphyre.core.shapes;
 
-import javax.annotation.Nonnull;
-
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-
 import yaphyre.core.api.Shader;
 import yaphyre.core.api.Shape;
 import yaphyre.core.math.BoundingBox;
 import yaphyre.core.math.Ray;
 import yaphyre.core.math.Transformation;
+
+import javax.annotation.Nonnull;
 
 /**
  * Implementation of common methods for most {@link yaphyre.core.api.Shape}.
@@ -61,7 +60,7 @@ public abstract class AbstractShape implements Shape {
 	 */
 	protected AbstractShape(@Nonnull Transformation objectToWorld, @Nonnull Shader shader) {
 		Preconditions.checkNotNull(objectToWorld);
-//		Preconditions.checkNotNull(shader);
+        Preconditions.checkNotNull(shader);
 
 		this.shader = shader;
 		this.objectToWorld = objectToWorld;
