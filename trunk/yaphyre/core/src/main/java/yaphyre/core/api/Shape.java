@@ -16,10 +16,11 @@
 
 package yaphyre.core.api;
 
-import java.util.Optional;
-import javax.annotation.Nonnull;
 import yaphyre.core.math.BoundingBox;
 import yaphyre.core.math.Ray;
+
+import javax.annotation.Nonnull;
+import java.util.Optional;
 
 /**
  * Interface implemented by all {@link Shape} of the rendering system.
@@ -47,7 +48,7 @@ public interface Shape {
 	 * @param ray The {@link yaphyre.core.math.Ray} to check for intersection.
 	 *
 	 * @return An {@link java.util.Optional} of {@link CollisionInformation} instance describing the
-     * intersection between the {@link yaphyre.core.math.Ray} and this {@link Shape} instance.
+     * nearest intersection between the {@link yaphyre.core.math.Ray} and this {@link Shape} instance.
      * {@link java.util.Optional#empty()} if the ray misses the Shape.
 	 */
     @Nonnull
