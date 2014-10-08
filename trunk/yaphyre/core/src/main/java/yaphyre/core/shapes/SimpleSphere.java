@@ -91,7 +91,7 @@ public class SimpleSphere extends AbstractShape {
     }
 
     @Inject
-    public void setQuadraticSolver(@Quadratic Solver quadraticSolver) {
+    public void setSolver(@Quadratic Solver quadraticSolver) {
         this.quadraticSolver = quadraticSolver;
     }
 
@@ -114,7 +114,7 @@ public class SimpleSphere extends AbstractShape {
                 LOGGER.trace(String.format("testing solution %.3f against range %s", distance, tRange));
                 return tRange.contains(distance);
             })
-            .min();
+            .reduce(Math::min);
 
         LOGGER.trace("result: " + minSolution);
 
