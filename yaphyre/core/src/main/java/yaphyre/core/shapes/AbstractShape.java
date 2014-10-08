@@ -16,15 +16,16 @@
 
 package yaphyre.core.shapes;
 
+import javax.annotation.Nonnull;
+
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+
 import yaphyre.core.api.Shader;
 import yaphyre.core.api.Shape;
 import yaphyre.core.math.BoundingBox;
 import yaphyre.core.math.Ray;
 import yaphyre.core.math.Transformation;
-
-import javax.annotation.Nonnull;
 
 /**
  * Implementation of common methods for most {@link yaphyre.core.api.Shape}.
@@ -117,4 +118,5 @@ public abstract class AbstractShape implements Shape {
     public BoundingBox getAxisAlignedBoundingBox() {
         return getBoundingBox();
     }
+
 }

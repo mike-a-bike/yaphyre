@@ -19,6 +19,9 @@ package yaphyre.core.shapes;
 import java.util.Optional;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import yaphyre.core.api.CollisionInformation;
 import yaphyre.core.api.Shader;
@@ -32,31 +35,42 @@ import yaphyre.core.math.Vector3D;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyVararg;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.class)
 public class SimpleSphereTest {
+
+    @Mock
+    private Solver solver;
 
     @Test
     public void testIntersectsRejectedByRangeConstraints() throws Exception {
 
-        TestSolver quadraticSolver = new TestSolver();
         SimpleSphere sphere = new SimpleSphere(Transformation.IDENTITY, mock(Shader.class));
-        sphere.setQuadraticSolver(quadraticSolver);
+        sphere.setSolver(solver);
 
         Point3D rayOrigin = new Point3D(10, 0, 0);
         Vector3D direction = Point3D.ORIGIN.sub(rayOrigin).normalize();
         Ray testRay = new Ray(rayOrigin, direction, 10d, 20d);
 
-        quadraticSolver.setExpectedResults(100d, 110d);
+        when(solver.solve(anyVararg())).thenReturn(new double[]{100d, 110d});
         assertFalse("No intersection is expected", sphere.intersect(testRay).isPresent());
 
-        quadraticSolver.setExpectedResults(1d, 2d);
+        when(solver.solve(anyVararg())).thenReturn(new double[]{1d, 2d});
         assertFalse("No intersection is expected", sphere.intersect(testRay).isPresent());
 
-        quadraticSolver.setExpectedResults(1d, 15d);
+        when(solver.solve(anyVararg())).thenReturn(new double[]{-1d, -2d});
+        assertFalse("No intersection is expected", sphere.intersect(testRay).isPresent());
+
+        when(solver.solve(anyVararg())).thenReturn(new double[]{1d, 15d});
         assertTrue("Intersection expected", sphere.intersect(testRay).isPresent());
 
-        quadraticSolver.setExpectedResults(15d, 100d);
+        when(solver.solve(anyVararg())).thenReturn(new double[]{15d, 100d});
+        assertTrue("Intersection expected", sphere.intersect(testRay).isPresent());
+
+        when(solver.solve(anyVararg())).thenReturn(new double[]{15d});
         assertTrue("Intersection expected", sphere.intersect(testRay).isPresent());
     }
 
@@ -64,7 +78,7 @@ public class SimpleSphereTest {
     public void testIntersect() throws Exception {
 
         SimpleSphere sphere = new SimpleSphere(Transformation.IDENTITY, mock(Shader.class));
-        sphere.setQuadraticSolver(Solvers.Quadratic);
+        sphere.setSolver(Solvers.Quadratic);
 
         Point3D rayOrigin = new Point3D(10, 0, 0);
         Vector3D direction = Point3D.ORIGIN.sub(rayOrigin).normalize();
@@ -80,17 +94,4 @@ public class SimpleSphereTest {
 
     }
 
-    private static class TestSolver implements Solver {
-
-        private double[] expectedResults;
-
-        @Override
-        public double[] solve(double... c) throws IllegalArgumentException {
-            return expectedResults;
-        }
-
-        public void setExpectedResults(double... expectedResults) {
-            this.expectedResults = expectedResults;
-        }
-    }
 }

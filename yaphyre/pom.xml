@@ -66,8 +66,8 @@
         <guava.version>17.0</guava.version>
         <commons.cli.version>1.2</commons.cli.version>
         <commons.math3.version>3.3</commons.math3.version>
-        <mockito-all.version>1.9.5</mockito-all.version>
-        <junit.version>4.11</junit.version>
+        <mockito-core.version>1.9.5</mockito-core.version>
+        <junit.version>4.9</junit.version>
 
     </properties>
 
@@ -192,8 +192,8 @@
             <!-- Testing: Mockito -->
             <dependency>
                 <groupId>org.mockito</groupId>
-                <artifactId>mockito-all</artifactId>
-                <version>${mockito-all.version}</version>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito-core.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
