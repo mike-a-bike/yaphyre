@@ -67,7 +67,7 @@
         <commons.cli.version>1.2</commons.cli.version>
         <commons.math3.version>3.3</commons.math3.version>
         <mockito-core.version>1.9.5</mockito-core.version>
-        <junit.version>4.9</junit.version>
+        <junit.version>4.11</junit.version>
 
     </properties>
 
@@ -217,7 +217,16 @@
                 <artifactId>mockito-core</artifactId>
                 <version>${mockito-core.version}</version>
                 <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <!-- exclude hamcrest-core due to version conflicts with junit -->
+                        <groupId>org.hamcrest</groupId>
+                        <artifactId>hamcrest-core</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
+
+            <!-- Testing: JUnit -->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
