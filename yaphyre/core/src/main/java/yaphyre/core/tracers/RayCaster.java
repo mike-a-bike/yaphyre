@@ -16,8 +16,15 @@
 
 package yaphyre.core.tracers;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import javax.annotation.Nonnull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import yaphyre.core.api.CollisionInformation;
 import yaphyre.core.api.Light;
 import yaphyre.core.api.Scene;
@@ -27,12 +34,6 @@ import yaphyre.core.math.MathUtils;
 import yaphyre.core.math.Point3D;
 import yaphyre.core.math.Ray;
 import yaphyre.core.math.Vector3D;
-
-import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 /**
  * A simple ray caster algorithm. Taking into account omnidirectional and mathematical lights.
@@ -104,14 +105,14 @@ public class RayCaster implements Tracer {
     }
 
     private Color calculateDirectLightIntensity(CollisionInformation collision, Light light) {
-        Point3D collisionPoint = collision.getPoint();
-        Vector3D direction = light.getPosition().sub(collisionPoint);
+        Point3D shadowRayOrigin = collision.getPoint().add(collision.getNormal().scale(MathUtils.EPSILON)); // prevent self-shadowing
+        Vector3D direction = light.getPosition().sub(shadowRayOrigin);
         Vector3D directionNormalized = direction.normalize();
         return light.calculateIntensityForShadowRay(
             new Ray(
-                collisionPoint.add(directionNormalized.scale(MathUtils.EPSILON)), // prevent self-shadowing
+                shadowRayOrigin,
                 directionNormalized,
-                MathUtils.EPSILON,
+                0d, // start at zero to get correct results when the shape is convex.
                 direction.length()
             ));
     }

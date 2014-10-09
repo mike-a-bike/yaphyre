@@ -29,9 +29,9 @@
 
     <!--<logger name="yaphyre.core.tracers" level="debug"/>-->
 
-    <!--<logger name="yaphyre.core.lights" level="trace"/>-->
+    <logger name="yaphyre.core.lights" level="trace"/>
 
-    <logger name="yaphyre.core.shapes.SimpleSphere" level="trace"/>
+    <!--<logger name="yaphyre.core.shapes.SimpleSphere" level="trace"/>-->
 
     <root level="debug">
         <appender-ref ref="STDOUT"/>

@@ -16,16 +16,18 @@
 
 package yaphyre.core.api;
 
+import java.util.Optional;
+
 import com.google.inject.Injector;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
 import yaphyre.core.math.BoundingBox;
 import yaphyre.core.math.Ray;
-
-import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -34,6 +36,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -144,5 +147,19 @@ public class SceneTest {
         verify(boundingBox).isHitBy(ray);
         verify(shape, never()).intersect(ray);
 
+    }
+
+    @Test
+    public void testHitObjectForShadowRayAndHit() throws Exception {
+
+        when(boundingBox.isHitBy(any())).thenReturn(true);
+        when(shape.intersect(any())).thenReturn(Optional.of(collisionInformation));
+
+        Optional<CollisionInformation> hitObjectForShadowRay = scene.hitObjectForShadowRay(ray);
+
+        assertNotNull(hitObjectForShadowRay);
+        assertTrue(hitObjectForShadowRay.isPresent());
+        verify(boundingBox, times(1)).isHitBy(ray);
+        verify(shape, times(1)).intersect(ray);
     }
 }

@@ -18,6 +18,7 @@ package yaphyre.core.math;
 
 import java.io.Serializable;
 import javax.annotation.concurrent.Immutable;
+
 import com.google.common.base.Objects;
 
 import static org.apache.commons.math3.util.FastMath.PI;
@@ -77,6 +78,10 @@ public class Point3D implements Serializable {
 	public Point3D add(Vector3D v) {
 		return new Point3D(x + v.x, y + v.y, z + v.z);
 	}
+
+    public Point3D add(Normal3D n) {
+        return new Point3D(x + n.x, y + n.y, z + n.z);
+    }
 
 	public Point3D sub(Vector3D v) {
 		return new Point3D(x - v.x, y - v.y, z - v.z);

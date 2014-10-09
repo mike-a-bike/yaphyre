@@ -16,16 +16,17 @@
 
 package yaphyre.core.api;
 
-import com.google.common.base.Objects;
-import com.google.inject.Injector;
-import yaphyre.core.math.Ray;
-
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
+import javax.inject.Inject;
+
+import com.google.common.base.Objects;
+import com.google.inject.Injector;
+
+import yaphyre.core.math.Ray;
 
 import static java.util.Comparator.comparingDouble;
 
@@ -95,7 +96,7 @@ public class Scene {
     }
 
     public Optional<CollisionInformation> hitObjectForShadowRay(Ray ray) {
-        return prepareCollisionInformationStream(ray).unordered().findFirst();
+        return prepareCollisionInformationStream(ray).findFirst();
     }
 
     private Stream<CollisionInformation> prepareCollisionInformationStream(Ray ray) {

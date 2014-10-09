@@ -28,7 +28,7 @@ import yaphyre.core.math.Point3D;
 import yaphyre.core.math.Ray;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -73,7 +73,7 @@ public class PointLightTest {
         Color color = light.calculateIntensityForShadowRay(ray);
 
         // Then: The resulting color is not BLACK -> light contributes to the overall intensity
-        assertFalse(Color.BLACK.equals(color));
+        assertNotEquals(Color.BLACK, color);
 
     }
 

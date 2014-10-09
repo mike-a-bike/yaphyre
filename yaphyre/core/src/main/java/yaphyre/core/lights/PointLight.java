@@ -20,6 +20,9 @@ import java.util.Optional;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import yaphyre.core.api.CollisionInformation;
 import yaphyre.core.math.Color;
 import yaphyre.core.math.Point3D;
@@ -33,6 +36,8 @@ import yaphyre.core.math.Ray;
  * @since 08.07.13
  */
 public class PointLight extends AbstractLight {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(PointLight.class);
 
     private final Point3D position;
 
@@ -58,6 +63,10 @@ public class PointLight extends AbstractLight {
     @Nonnull
     public Color calculateIntensityForShadowRay(@Nonnull Ray shadowRay) {
         Optional<CollisionInformation> collisionInformationOptional = getScene().hitObjectForShadowRay(shadowRay);
+
+        if (LOGGER.isTraceEnabled() && collisionInformationOptional.isPresent()) {
+            LOGGER.trace("shadowRay collision: {}", collisionInformationOptional);
+        }
 
         return collisionInformationOptional
             .map(
