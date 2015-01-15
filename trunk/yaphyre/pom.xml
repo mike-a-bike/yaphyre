@@ -58,15 +58,15 @@
 
         <!-- language additions -->
         <intellij.annotations.version>13.0</intellij.annotations.version>
-        <jsr305.version>2.0.3</jsr305.version>
+        <jsr305.version>3.0.0</jsr305.version>
 
         <!-- Library versions -->
-        <logback.classic.version>1.1.1</logback.classic.version>
+        <logback.classic.version>1.1.2</logback.classic.version>
         <guice.version>3.0</guice.version>
-        <guava.version>17.0</guava.version>
+        <guava.version>18.0</guava.version>
         <commons.cli.version>1.2</commons.cli.version>
         <commons.math3.version>3.3</commons.math3.version>
-        <mockito-core.version>1.9.5</mockito-core.version>
+        <mockito-core.version>1.10.8</mockito-core.version>
         <junit.version>4.11</junit.version>
 
     </properties>

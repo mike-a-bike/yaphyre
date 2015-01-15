@@ -16,7 +16,8 @@
 
 package yaphyre.core.api;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
+
 import yaphyre.core.math.Normal3D;
 import yaphyre.core.math.Point2D;
 import yaphyre.core.math.Point3D;
@@ -59,14 +60,13 @@ public class CollisionInformation {
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(
-				getClass())
-				.add("incidentRay", incidentRay)
-				.add("shape", shape)
-				.add("distance", distance)
-				.add("point", point)
-				.add("normal", normal)
-				.add("uvCoordinate", uvCoordinate).toString();
+		return MoreObjects.toStringHelper(this)
+			.add("incidentRay", incidentRay)
+			.add("shape", shape)
+			.add("distance", distance)
+			.add("point", point)
+			.add("normal", normal)
+			.add("uvCoordinate", uvCoordinate).toString();
 	}
 
 	@Override
@@ -80,24 +80,14 @@ public class CollisionInformation {
 
 		final CollisionInformation that = (CollisionInformation) o;
 
-		if (Double.compare(that.distance, distance) != 0) {
-			return false;
-		}
-		if (!normal.equals(that.normal)) {
-			return false;
-		}
-		if (!point.equals(that.point)) {
-			return false;
-		}
-		if (!incidentRay.equals(that.incidentRay)) {
-			return false;
-		}
-		if (!shape.equals(that.shape)) {
-			return false;
-		}
-        return uvCoordinate.equals(that.uvCoordinate);
+		return Double.compare(that.distance, distance) == 0
+			&& normal.equals(that.normal)
+			&& point.equals(that.point)
+			&& incidentRay.equals(that.incidentRay)
+			&& shape.equals(that.shape)
+			&& uvCoordinate.equals(that.uvCoordinate);
 
-    }
+	}
 
 	@Override
 	public int hashCode() {

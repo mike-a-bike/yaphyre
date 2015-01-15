@@ -18,6 +18,8 @@ package yaphyre.core.math;
 
 import java.io.Serializable;
 import javax.annotation.concurrent.Immutable;
+
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 import static com.google.common.primitives.Doubles.max;
@@ -73,7 +75,7 @@ public class Color implements Serializable {
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(this).add("r", red).add("g", green).add("b", blue).toString();
+		return MoreObjects.toStringHelper(this).add("r", red).add("g", green).add("b", blue).toString();
 	}
 
 	/**

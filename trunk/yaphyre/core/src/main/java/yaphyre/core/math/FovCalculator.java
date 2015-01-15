@@ -41,7 +41,7 @@ public enum FovCalculator {
      * Calculate the vertical field of view for the given sensor size
      *
      * @param focalLength The focal length used (in mm). Please notice, the value must be greater than
-     *                    {@value yaphyre.math.MathUtils#EPSILON}.
+     *                    {@value yaphyre.core.math.MathUtils#EPSILON}.
      * @return The field of view in rad.
      */
     public double calculateVerticalFov(final double focalLength) {
@@ -53,7 +53,7 @@ public enum FovCalculator {
      * Calculate the horizontal field of view for the given sensor size
      *
      * @param focalLength The focal length used (in mm). Please notice, the value must be greater than
-     *                    {@value yaphyre.math.MathUtils#EPSILON}.
+     *                    {@value yaphyre.core.math.MathUtils#EPSILON}.
      * @return The field of view in rad.
      */
 	public double calculateHorizontalFov(final double focalLength) {

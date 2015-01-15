@@ -16,13 +16,15 @@
 
 package yaphyre.core.math;
 
+import java.io.Serializable;
+import java.util.Arrays;
+
+import com.google.common.base.MoreObjects;
+
 import org.apache.commons.math3.linear.LUDecomposition;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.SingularMatrixException;
-
-import java.io.Serializable;
-import java.util.Arrays;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static yaphyre.core.math.MathUtils.equalsWithTolerance;
@@ -58,7 +60,7 @@ public class Matrix implements Serializable {
 		for (double[] row : values) {
 			checkArgument(DIMENSION == row.length);
 		}
-		m = values;
+		m = values.clone();
 	}
 
 	public Matrix(double... values) {
@@ -75,7 +77,7 @@ public class Matrix implements Serializable {
 
 	@Override
 	public String toString() {
-		return Arrays.deepToString(m);
+		return MoreObjects.toStringHelper(this).add("coefficients", Arrays.deepToString(m)).toString();
 	}
 
 	@Override

@@ -114,7 +114,7 @@ public class SimpleSphere extends AbstractShape {
                 LOGGER.trace(String.format("testing solution %.3f against range %s", distance, tRange));
                 return tRange.contains(distance);
             })
-            .reduce(Math::min);
+            .min();
 
         LOGGER.trace("result: " + minSolution);
 
