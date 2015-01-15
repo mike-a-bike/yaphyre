@@ -17,8 +17,10 @@
 package yaphyre.core.math;
 
 import java.io.Serializable;
+import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
-import com.google.common.base.Objects;
+
+import com.google.common.base.MoreObjects;
 
 import static org.apache.commons.math3.util.FastMath.PI;
 import static org.apache.commons.math3.util.FastMath.abs;
@@ -53,7 +55,7 @@ public class Vector3D implements Comparable<Vector3D>, Serializable {
     private double[] polarCoordinates = null;
 
     /**
-	 * Creates a new instance of {@link yaphyre.math.Vector3D} so that P<sub>start</sub> + V = P<sub>end</sub>
+	 * Creates a new instance of {@link yaphyre.core.math.Vector3D} so that P<sub>start</sub> + V = P<sub>end</sub>
 	 *
 	 * @param start The start point for the calculation (P<sub>start</sub>)
 	 * @param end   The end point for tha calculation (P<sub>end</sub>)
@@ -63,7 +65,7 @@ public class Vector3D implements Comparable<Vector3D>, Serializable {
 	}
 
 	/**
-	 * Create a new {@link yaphyre.math.Vector3D} with the given components.
+	 * Create a new {@link yaphyre.core.math.Vector3D} with the given components.
 	 *
 	 * @param x The X axis component.
 	 * @param y The Y axis component.
@@ -150,10 +152,7 @@ public class Vector3D implements Comparable<Vector3D>, Serializable {
     }
 
 	@Override
-	public int compareTo(Vector3D vector3D) {
-		if (vector3D == null) {
-			return 1;
-		}
+	public int compareTo(@Nonnull Vector3D vector3D) {
 		return Double.compare(this.lengthSquared(), vector3D.lengthSquared());
 	}
 
@@ -195,7 +194,7 @@ public class Vector3D implements Comparable<Vector3D>, Serializable {
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(getClass()).add("x", x).add("y", y).add("z", z).toString();
+		return MoreObjects.toStringHelper(this).add("x", x).add("y", y).add("z", z).toString();
 	}
 
 	public double getX() {

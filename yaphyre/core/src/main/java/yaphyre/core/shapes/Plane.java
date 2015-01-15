@@ -46,8 +46,6 @@ import yaphyre.core.math.Transformation;
  */
 public class Plane extends AbstractShape {
 
-    private static final long serialVersionUID = 6001965721771220664L;
-
     private final Point3D origin;
     private final Normal3D normal;
 

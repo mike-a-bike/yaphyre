@@ -36,8 +36,6 @@ import yaphyre.core.math.Transformation;
  */
 public abstract class AbstractShape implements Shape {
 
-    private static final long serialVersionUID = 6078311087267053881L;
-
     /**
 	 * Constant for signaling that there is no intersection. Should be removed and replaced with
      * {@link java.util.OptionalDouble} instances.

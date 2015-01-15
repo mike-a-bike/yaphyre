@@ -18,6 +18,8 @@ package yaphyre.core.shapes;
 
 import java.text.MessageFormat;
 import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.stream.DoubleStream;
 import javax.annotation.Nonnull;
 
 import yaphyre.core.api.CollisionInformation;
@@ -51,7 +53,6 @@ import static yaphyre.core.math.MathUtils.isInRangeWithTolerance;
  */
 public class Sphere extends AbstractShape {
 
-	private static final long serialVersionUID = -8353927614531728405L;
 	/**
 	 * The radius of the unit sphere is 1.
 	 */
@@ -185,21 +186,22 @@ public class Sphere extends AbstractShape {
 	@Nonnull
     @Override
 	public Optional<CollisionInformation> intersect(@Nonnull final Ray ray) {
-		double intersectDistance = this.getIntersectDistance(ray);
-		if (intersectDistance == NO_INTERSECTION) {
+		OptionalDouble intersectDistance = this.getIntersectDistance(ray);
+		if (!intersectDistance.isPresent()) {
 			return Optional.empty();
 		}
-		Point3D intersectionPoint = ray.getPoint(intersectDistance);
+
+		Point3D intersectionPoint = ray.getPoint(intersectDistance.getAsDouble());
 
         return Optional.of(new CollisionInformation(ray, this,
-            intersectDistance, intersectionPoint,
+            intersectDistance.getAsDouble(), intersectionPoint,
             getNormal(intersectionPoint), getMappedSurfacePoint(intersectionPoint)));
     }
 
 	@Nonnull
     @Override
 	public BoundingBox getBoundingBox() {
-		return null;
+		return boundingBox;
 	}
 
 	/**
@@ -222,38 +224,25 @@ public class Sphere extends AbstractShape {
 	 * @param ray The {@link Ray} to intersect with this sphere.
 	 *
 	 * @return The distance in which the ray intersects this sphere, or if they do not intersect {@link
-	 * AbstractShape#NO_INTERSECTION}.
+	 * java.util.OptionalDouble#EMPTY}.
 	 */
-	double getIntersectDistance(Ray ray) {
+	OptionalDouble getIntersectDistance(Ray ray) {
 
 		// Transform the incoming ray from the world space into the object space.
-		ray = super.getWorldToObject().transform(ray);
+		final Ray objectRay = super.getWorldToObject().transform(ray);
 
 		// Transform the origin of the ray into the object space of the sphere.
-		Vector3D oc = ray.getOrigin().asVector();
+		Vector3D oc = objectRay.getOrigin().asVector();
 
-		final double c2 = ray.getDirection().dot(ray.getDirection());
-		final double c1 = 2 * oc.dot(ray.getDirection());
+		final double c2 = objectRay.getDirection().dot(objectRay.getDirection());
+		final double c1 = 2 * oc.dot(objectRay.getDirection());
 		final double c0 = oc.dot(oc) - RADIUS_SQUARED;
 
 		final double[] solutions = Solvers.Quadratic.solve(c0, c1, c2);
 
-		double result = NO_INTERSECTION;
-
-		for (double solution : solutions) {
-			if (solution < result && ray.getTRange().contains(solution)) {
-				if (isPartial) {
-                    Point3D intersectionPoint = ray.getPoint(solution);
-                    if (isInAngularRange(intersectionPoint)) {
-						result = solution;
-					}
-				} else {
-					result = solution;
-				}
-			}
-		}
-
-		return result;
+		return DoubleStream.of(solutions)
+			.filter(d -> objectRay.getTRange().contains(d) && (!isPartial || isInAngularRange(objectRay.getPoint(d))))
+			.min();
 	}
 
 	/**

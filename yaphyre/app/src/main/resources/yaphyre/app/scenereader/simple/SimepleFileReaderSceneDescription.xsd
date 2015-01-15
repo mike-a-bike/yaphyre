@@ -23,26 +23,26 @@
     <!-- Base element -->
     <xs:element name="simpleScene">
         <xs:complexType>
-            <xs:sequence>
+            <xs:all>
                 <xs:element ref="yaphyre:globalSettings"/>
                 <xs:element name="cameras" type="yaphyre:cameraList"/>
                 <xs:element name="lights" type="yaphyre:lightList"/>
                 <xs:element name="geometry" type="yaphyre:geometryList"/>
                 <xs:element name="shaders" type="yaphyre:shaderList" minOccurs="0"/>
                 <xs:element name="transformations" type="yaphyre:transformationList" minOccurs="0"/>
-            </xs:sequence>
+            </xs:all>
         </xs:complexType>
     </xs:element>
 
     <!-- Global Settings -->
     <xs:element name="globalSettings">
         <xs:complexType>
-            <xs:sequence>
+            <xs:all>
                 <xs:element name="surfaceIntegrator" type="yaphyre:surfaceIntegratorType"/>
                 <xs:element name="cameraSampler" type="yaphyre:sampler"/>
                 <xs:element name="lightSampler" type="yaphyre:sampler"/>
                 <xs:element name="defaultSampler" type="yaphyre:sampler"/>
-            </xs:sequence>
+            </xs:all>
         </xs:complexType>
     </xs:element>
 

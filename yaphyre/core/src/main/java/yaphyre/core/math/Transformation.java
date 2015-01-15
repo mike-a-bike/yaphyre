@@ -16,9 +16,9 @@
 
 package yaphyre.core.math;
 
-import com.google.common.base.Objects;
-
 import java.io.Serializable;
+
+import com.google.common.base.MoreObjects;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.lang.Math.cos;
@@ -283,7 +283,7 @@ public class Transformation implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(getClass()).add("matrix", matrix).toString();
+		return MoreObjects.toStringHelper(getClass()).add("matrix", matrix).toString();
 	}
 
 	@Override

@@ -18,7 +18,8 @@ package yaphyre.core.math;
 
 import java.io.Serializable;
 import javax.annotation.concurrent.Immutable;
-import com.google.common.base.Objects;
+
+import com.google.common.base.MoreObjects;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -82,7 +83,7 @@ public class Point2D implements Serializable {
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(getClass()).add("u", u).add("v", v).toString();
+		return MoreObjects.toStringHelper(this).add("u", u).add("v", v).toString();
 	}
 
 	public Point2D add(Point2D p) {

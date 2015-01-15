@@ -16,11 +16,11 @@
 
 package yaphyre.core.math;
 
-import com.google.common.base.Objects;
-
 import java.io.Serializable;
-
 import javax.annotation.concurrent.Immutable;
+
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
@@ -112,7 +112,7 @@ public class BoundingBox implements Serializable {
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(getClass()).add("pMin", pointMin).add("pMax", pointMax).toString();
+		return MoreObjects.toStringHelper(getClass()).add("pMin", pointMin).add("pMax", pointMax).toString();
 	}
 
 	@Override

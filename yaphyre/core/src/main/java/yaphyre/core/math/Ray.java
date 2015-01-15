@@ -19,7 +19,7 @@ package yaphyre.core.math;
 import java.io.Serializable;
 import javax.annotation.concurrent.Immutable;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.Range;
 
 import static yaphyre.core.math.MathUtils.EPSILON;
@@ -70,7 +70,7 @@ public class Ray implements Serializable {
 
 	@Override
 	public String toString() {
-		return Objects.toStringHelper(getClass()).add("origin", origin).add("direction", direction).toString();
+		return MoreObjects.toStringHelper(getClass()).add("origin", origin).add("direction", direction).toString();
 	}
 
 	@Override

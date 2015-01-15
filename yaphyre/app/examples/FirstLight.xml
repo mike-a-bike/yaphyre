@@ -17,7 +17,7 @@
 
 <simpleScene xmlns="http://www.zweivelo.ch/yaphyre/simple"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://www.zweivelo.ch/yaphyre/simple ">
+             xsi:schemaLocation="http://www.zweivelo.ch/yaphyre/simple http://www.zweivelo.ch/yaphyre/simple">
 
     <globalSettings>
         <surfaceIntegrator>RayCaster</surfaceIntegrator>

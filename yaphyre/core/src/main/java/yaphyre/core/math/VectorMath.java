@@ -76,7 +76,9 @@ public abstract class VectorMath {
 		final double cosPhi = -normal.dot(incident);
 		final double sinT2 = normal.dot(normal) * (1d - cosPhi * cosPhi);
 
-		if (sinT2 > 1d) return Optional.empty(); // Total Internal Reflection
+		if (sinT2 > 1d) {
+			return Optional.empty(); // Total Internal Reflection
+		}
 
 		final double cosT = Math.sqrt(1d - sinT2);
 
@@ -108,7 +110,9 @@ public abstract class VectorMath {
 		final double cosPhi = -normal.dot(incident);
 		final double sinT2 = normal.dot(normal) * (1d - cosPhi * cosPhi);
 
-		if (sinT2 > 1d) return 1d; // Total Internal Reflection
+		if (sinT2 > 1d) {
+			return 1d; // Total Internal Reflection
+		}
 
 		final double cosT = Math.sqrt(1d - sinT2);
 		final double r0rth = (n1 * cosPhi - n2 * cosT) / (n1 * cosPhi + n2 * cosT);

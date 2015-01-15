@@ -23,7 +23,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 import javax.inject.Inject;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.inject.Injector;
 
 import yaphyre.core.math.Ray;
@@ -85,7 +85,7 @@ public class Scene {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(getClass())
+        return MoreObjects.toStringHelper(this)
             .add("cameras", cameras.size())
             .add("shapes", shapes.size())
             .add("lights", lights.size()).toString();
