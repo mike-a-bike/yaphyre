@@ -18,10 +18,11 @@ package yaphyre.core.shapes;
 
 import java.util.Optional;
 
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import yaphyre.core.api.CollisionInformation;
 import yaphyre.core.api.Shader;
@@ -38,8 +39,10 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyVararg;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
 public class SimpleSphereTest {
+
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();
 
     @Mock
     private Solver solver;
