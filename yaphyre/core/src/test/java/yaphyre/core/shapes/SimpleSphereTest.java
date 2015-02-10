@@ -36,7 +36,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyVararg;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -45,10 +44,13 @@ public class SimpleSphereTest {
     @Mock
     private Solver solver;
 
+    @Mock
+    private Shader shader;
+
     @Test
     public void testIntersectsRejectedByRangeConstraints() throws Exception {
 
-        SimpleSphere sphere = new SimpleSphere(Transformation.IDENTITY, mock(Shader.class));
+        SimpleSphere sphere = new SimpleSphere(Transformation.IDENTITY, shader);
         sphere.setSolver(solver);
 
         Point3D rayOrigin = new Point3D(10, 0, 0);
@@ -77,7 +79,7 @@ public class SimpleSphereTest {
     @Test
     public void testIntersect() throws Exception {
 
-        SimpleSphere sphere = new SimpleSphere(Transformation.IDENTITY, mock(Shader.class));
+        SimpleSphere sphere = new SimpleSphere(Transformation.IDENTITY, shader);
         sphere.setSolver(Solvers.Quadratic);
 
         Point3D rayOrigin = new Point3D(10, 0, 0);

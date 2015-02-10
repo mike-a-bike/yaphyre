@@ -111,27 +111,20 @@ public class Point3D implements Serializable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		Point3D other = (Point3D) obj;
-		if (!MathUtils.equalsWithTolerance(x, other.x)) {
-			return false;
-		}
-		if (!MathUtils.equalsWithTolerance(y, other.y)) {
-			return false;
-		}
-		if (!MathUtils.equalsWithTolerance(z, other.z)) {
-			return false;
-		}
-		return true;
-	}
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Point3D other = (Point3D) obj;
+        return MathUtils.equalsWithTolerance(x, other.x) &&
+            MathUtils.equalsWithTolerance(y, other.y) &&
+            MathUtils.equalsWithTolerance(z, other.z);
+    }
 
 	public double getX() {
 		return x;
@@ -145,14 +138,17 @@ public class Point3D implements Serializable {
 		return z;
 	}
 
+    /** Length part of the polar coordinates. Range: (0, oo) */
     public double getR() {
         return toPolar()[0];
     }
 
+    /** Phi value of the polar coordinates. Range: [0, 2PI) */
     public double getPhi() {
         return toPolar()[1];
     }
 
+    /** Theta value of the polar coordinates. Range: [0, PI) */
     public double getTheta() {
         return toPolar()[2];
     }

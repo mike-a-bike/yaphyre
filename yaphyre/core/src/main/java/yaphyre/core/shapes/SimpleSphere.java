@@ -52,17 +52,17 @@ import static yaphyre.core.math.Solver.Quadratic;
  */
 public class SimpleSphere extends AbstractShape {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleSphere.class);
+
+    private static final int RADIUS = 1;
+
     private static final Vector3D RADIUS_VECTOR = new Vector3D(1, 1, 1);
 
     private static final BoundingBox LOCAL_INSTANCE_BOUNDING_BOX;
 
-    private static final int RADIUS = 1;
-
     static {
         LOCAL_INSTANCE_BOUNDING_BOX = new BoundingBox(new Point3D(-1, -1, -1), new Point3D(1, 1, 1));
     }
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleSphere.class);
 
     private Solver quadraticSolver;
 
@@ -160,7 +160,7 @@ public class SimpleSphere extends AbstractShape {
 
     /**
      * Simple orthographic to spherical coordinate mapping. This represents the 2D-coordinates on the surface of this
-     * sphere. Please note: There is no sanity check. so if the point is not on the surface of the sphere it is
+     * sphere. Please note: There is no sanity check. So if the point is not on the surface of the sphere it is
      * simply projected onto its surface by not caring at all about this fact...
      *
      * @param surfacePoint A point on the surface.
