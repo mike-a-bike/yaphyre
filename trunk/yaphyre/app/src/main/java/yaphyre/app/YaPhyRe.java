@@ -16,8 +16,11 @@
 
 package yaphyre.app;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.OptionBuilder;
@@ -26,6 +29,7 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import yaphyre.app.dependencies.DefaultBindingModule;
 import yaphyre.app.dependencies.SolverBindingModule;
 import yaphyre.core.api.Camera;
@@ -49,8 +53,6 @@ import yaphyre.core.shapes.Plane;
 import yaphyre.core.shapes.SimpleSphere;
 import yaphyre.core.tracers.RayCaster;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 import static yaphyre.core.math.MathUtils.EPSILON;
 
 /**
@@ -67,6 +69,8 @@ public class YaPhyRe {
 
     private static final String COMMANDLINE_OPTION_CAMERA_SAMPLER = "cameraSampler";
     private static final String COMMANDLINE_OPTION_GAMMA = "gamma";
+    private static final String COMMANDLINE_OPTION_SCENE_FILE = "scene";
+
     private static final double DEFAULT_GAMMA = 1d;
 
     public static void main(String... arguments) {
@@ -232,6 +236,12 @@ public class YaPhyRe {
 
     private static Options createCommandLineOptions() {
         Options options = new Options();
+
+        OptionBuilder.withArgName("scene file");
+        OptionBuilder.withDescription("Scene file to render");
+        OptionBuilder.hasArg();
+        OptionBuilder.isRequired();
+        options.addOption(OptionBuilder.create(COMMANDLINE_OPTION_SCENE_FILE));
 
         OptionBuilder.withArgName("<sampler name> [number of samples]");
         OptionBuilder.withDescription("The Sampler to use for the camera (single, regular, stratified, halton)");
