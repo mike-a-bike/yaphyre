@@ -56,7 +56,7 @@ public class RayCaster implements Tracer {
      *
      * @param ray   The ray to calculate the shading for.
      * @param scene The scene holding the light sources and objects.
-     * @return The exitance spectrum for the given ray and scene.
+     * @return The existence spectrum for the given ray and scene.
      */
     @Override
     @Nonnull
@@ -103,7 +103,7 @@ public class RayCaster implements Tracer {
         return lights.stream()
                 .filter(lightPredicate)
                 .map(lightColorFunction)
-                .reduce(Color.BLACK, (color1, color2) -> color1.add(color2));
+                .reduce(Color.BLACK, Color::add);
     }
 
     private Color calculateDirectLightIntensity(CollisionInformation collision, Light light) {
