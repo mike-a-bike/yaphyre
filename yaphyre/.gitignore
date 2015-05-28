@@ -8,3 +8,6 @@ core/target
 
 # Created by tests
 core/*.png
+
+# Rendered images
+*.png
