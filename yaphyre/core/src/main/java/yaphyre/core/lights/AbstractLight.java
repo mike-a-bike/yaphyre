@@ -29,10 +29,10 @@ import yaphyre.core.math.Point3D;
 /**
  * Base class for all light sources. This contains the following properties:
  * <ul>
- *     <li>color: The color of the light emited by this light.</li>
- *     <li>power: The power of the light source.</li>
- *     <li>sampler: The sampler used to sample light values.</li>
- *     <li>scene: A reference to the containing scene.</li>
+ * <li>color: The color of the light emited by this light.</li>
+ * <li>power: The power of the light source.</li>
+ * <li>sampler: The sampler used to sample light values.</li>
+ * <li>scene: A reference to the containing scene.</li>
  * </ul>
  *
  * @author axmbi03

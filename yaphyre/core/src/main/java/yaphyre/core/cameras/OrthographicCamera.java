@@ -18,6 +18,7 @@ package yaphyre.core.cameras;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
+
 import yaphyre.core.api.Film;
 import yaphyre.core.math.Color;
 import yaphyre.core.math.Point2D;
@@ -34,21 +35,28 @@ import yaphyre.core.math.Vector3D;
  */
 public class OrthographicCamera extends AbstractCamera {
 
-    /** The cameras size in the u dimension. */
+    /**
+     * The cameras size in the u dimension.
+     */
     private final double uDimension;
 
-    /** The cameras siz ein the v dimension. */
+    /**
+     * The cameras siz ein the v dimension.
+     */
     private final double vDimension;
 
-    /** The location of the camera on the z axis */
+    /**
+     * The location of the camera on the z axis
+     */
     private final double zCoordinate;
 
     /**
      * Creates a new orthographic camera with the given size. The resolution is taken from the used film.
-     * @param film The Film instance to use to record the image data.
-     * @param skyColor The color used if no color is provided by the tracer.
-     * @param uDimension The size of the sampling rectangle in the u direction.
-     * @param vDimension The size of the sampling rectangle in the v direction.
+     *
+     * @param film        The Film instance to use to record the image data.
+     * @param skyColor    The color used if no color is provided by the tracer.
+     * @param uDimension  The size of the sampling rectangle in the u direction.
+     * @param vDimension  The size of the sampling rectangle in the v direction.
      * @param zCoordinate The location of the camera on the z axis.
      */
     public OrthographicCamera(@Nonnull Film film, Color skyColor,

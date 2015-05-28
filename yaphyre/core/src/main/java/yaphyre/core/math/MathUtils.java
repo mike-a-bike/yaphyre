@@ -34,119 +34,117 @@ import static org.apache.commons.math3.util.FastMath.sqrt;
  */
 public class MathUtils {
 
-	/**
-	 * Small value. Used for tolerance calculations.
-	 */
-	public static final double EPSILON = 1e-10;
+    /**
+     * Small value. Used for tolerance calculations.
+     */
+    public static final double EPSILON = 1e-10;
 
-	/**
-	 * Inverse of &pi;. If division by &pi; is needed, use this and multiply.
-	 */
-	public static final double INV_PI = 1d / PI;
+    /**
+     * Inverse of &pi;. If division by &pi; is needed, use this and multiply.
+     */
+    public static final double INV_PI = 1d / PI;
 
-	/**
-	 * The numerical value of 2&pi;.
-	 */
-	public static final double TWO_PI = 2d * PI;
+    /**
+     * The numerical value of 2&pi;.
+     */
+    public static final double TWO_PI = 2d * PI;
 
-	/**
-	 * Inverse of 2&pi;. If division by 2&pi; is needed, use this and multiply.
-	 */
-	public static final double INV_TWO_PI = 1d / TWO_PI;
+    /**
+     * Inverse of 2&pi;. If division by 2&pi; is needed, use this and multiply.
+     */
+    public static final double INV_TWO_PI = 1d / TWO_PI;
 
-	/**
-	 * Use this (large value indeed) to handle division by zero.
-	 */
-	private static final double LARGE_VAL = Double.MAX_VALUE;
+    /**
+     * Use this (large value indeed) to handle division by zero.
+     */
+    private static final double LARGE_VAL = Double.MAX_VALUE;
 
-	private MathUtils() {
-	}
+    private MathUtils() {
+    }
 
-	/**
-	 * Safe division of two numerical values. If b is zero, than {@link #LARGE_VAL} is returned. The signs are maintained.
-	 * So this method never throws an error for dividing by zero. Since this application only solves numerical problems,
-	 * this is the preferred behavior.
-	 *
-	 * @param a The numerator.
-	 * @param b The denominator.
-	 *
-	 * @return a / b if b is not zero, {@link #LARGE_VAL} otherwise.
-	 */
-	public static double div(double a, double b) {
-		if (a == 0) {
-			return 0;
-		}
-		if (b == 0) {
-			return LARGE_VAL * signum(a);
-		}
-		if ((a + b) == a) {
-			return LARGE_VAL * signum(a) * signum(b);
-		}
-		return a / b;
-	}
+    /**
+     * Safe division of two numerical values. If b is zero, than {@link #LARGE_VAL} is returned. The signs are maintained.
+     * So this method never throws an error for dividing by zero. Since this application only solves numerical problems,
+     * this is the preferred behavior.
+     *
+     * @param a The numerator.
+     * @param b The denominator.
+     * @return a / b if b is not zero, {@link #LARGE_VAL} otherwise.
+     */
+    public static double div(double a, double b) {
+        if (a == 0) {
+            return 0;
+        }
+        if (b == 0) {
+            return LARGE_VAL * signum(a);
+        }
+        if ((a + b) == a) {
+            return LARGE_VAL * signum(a) * signum(b);
+        }
+        return a / b;
+    }
 
-	public static boolean equalsWithTolerance(double v1, double v2, double tolerance) {
-		double diff = abs(v1 - v2);
-		return diff <= tolerance;
-	}
+    public static boolean equalsWithTolerance(double v1, double v2, double tolerance) {
+        double diff = abs(v1 - v2);
+        return diff <= tolerance;
+    }
 
-	public static boolean equalsWithTolerance(double v1, double v2) {
-		return equalsWithTolerance(v1, v2, EPSILON);
-	}
+    public static boolean equalsWithTolerance(double v1, double v2) {
+        return equalsWithTolerance(v1, v2, EPSILON);
+    }
 
-	public static double calcLength(double... values) {
-		double lengthSquared = calculateLengthSquared(values);
-		return sqrt(lengthSquared);
-	}
+    public static double calcLength(double... values) {
+        double lengthSquared = calculateLengthSquared(values);
+        return sqrt(lengthSquared);
+    }
 
-	public static double calculateLengthSquared(double... values) {
+    public static double calculateLengthSquared(double... values) {
         return Arrays.stream(values).map(v -> v * v).sum();
-	}
+    }
 
-	public static boolean isZero(double value) {
-		return value >= -EPSILON && value <= EPSILON;
-	}
+    public static boolean isZero(double value) {
+        return value >= -EPSILON && value <= EPSILON;
+    }
 
-	public static boolean isInRange(double minValue, double maxValue, double value) {
-		return minValue <= value && maxValue >= value;
-	}
+    public static boolean isInRange(double minValue, double maxValue, double value) {
+        return minValue <= value && maxValue >= value;
+    }
 
-	public static boolean isInRangeWithTolerance(double minValue, double maxValue, double value) {
-		return isInRange(minValue - EPSILON, maxValue + EPSILON, value);
-	}
+    public static boolean isInRangeWithTolerance(double minValue, double maxValue, double value) {
+        return isInRange(minValue - EPSILON, maxValue + EPSILON, value);
+    }
 
-	public static double min(final double a, final double b, final double c) {
-		return Math.min(Math.min(a, b), c);
-	}
+    public static double min(final double a, final double b, final double c) {
+        return Math.min(Math.min(a, b), c);
+    }
 
-	public static double max(final double a, final double b, final double c) {
-		return Math.max(Math.max(a, b), c);
-	}
+    public static double max(final double a, final double b, final double c) {
+        return Math.max(Math.max(a, b), c);
+    }
 
-	public static double clamp(double value, double min, double max) {
-		if (value < min) {
-			return min;
-		}
-		if (value > max) {
-			return max;
-		}
-		return value;
-	}
+    public static double clamp(double value, double min, double max) {
+        if (value < min) {
+            return min;
+        }
+        if (value > max) {
+            return max;
+        }
+        return value;
+    }
 
-	public static double calculateBernsteinPolynomialFactor(final double t, final int order, final int k) {
-		return binomialCoefficient(order, k) * pow(t, k) * pow((1d - t), (order - k));
-	}
+    public static double calculateBernsteinPolynomialFactor(final double t, final int order, final int k) {
+        return binomialCoefficient(order, k) * pow(t, k) * pow((1d - t), (order - k));
+    }
 
-	/**
-	 * Calculate the index within a flat array starting at the given startIndex.
-	 *
-	 * @param startIndex The index of the first element
-	 * @param uIndex     The u-coordinate of the point
-	 * @param vIndex     The v-coordinate of the point
-	 *
-	 * @return The index within the array of the requested point
-	 */
-	public static int calculateIndex(final int startIndex, final int uIndex, final int vIndex) {
-		return startIndex + uIndex + (vIndex * uIndex);
-	}
+    /**
+     * Calculate the index within a flat array starting at the given startIndex.
+     *
+     * @param startIndex The index of the first element
+     * @param uIndex     The u-coordinate of the point
+     * @param vIndex     The v-coordinate of the point
+     * @return The index within the array of the requested point
+     */
+    public static int calculateIndex(final int startIndex, final int uIndex, final int vIndex) {
+        return startIndex + uIndex + (vIndex * uIndex);
+    }
 }

@@ -17,6 +17,7 @@
 package yaphyre.core.api;
 
 import javax.annotation.Nonnull;
+
 import yaphyre.core.math.Color;
 import yaphyre.core.math.Point2D;
 
@@ -31,9 +32,9 @@ import yaphyre.core.math.Point2D;
 public interface Shader {
 
     @Nonnull
-	public Color getColor(@Nonnull final Point2D uvCoordinate);
+    public Color getColor(@Nonnull final Point2D uvCoordinate);
 
     @Nonnull
-	public Material getMaterial(@Nonnull final Point2D uvCoordinate);
+    public Material getMaterial(@Nonnull final Point2D uvCoordinate);
 
 }

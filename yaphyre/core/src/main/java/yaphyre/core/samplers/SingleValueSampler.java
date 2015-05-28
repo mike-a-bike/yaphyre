@@ -19,6 +19,7 @@ package yaphyre.core.samplers;
 import java.util.stream.Stream;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
+
 import yaphyre.core.api.Sampler;
 import yaphyre.core.math.Point2D;
 import yaphyre.core.math.Point3D;

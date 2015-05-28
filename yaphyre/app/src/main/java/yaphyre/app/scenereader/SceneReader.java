@@ -18,6 +18,7 @@ package yaphyre.app.scenereader;
 
 import java.util.Optional;
 import javax.annotation.Nonnull;
+
 import yaphyre.core.api.Scene;
 
 /**

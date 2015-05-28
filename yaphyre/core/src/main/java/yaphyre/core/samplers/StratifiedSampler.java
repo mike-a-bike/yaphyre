@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import javax.annotation.Nonnull;
+
 import yaphyre.core.math.Point2D;
 
 /**
@@ -47,13 +48,13 @@ public class StratifiedSampler extends AbstractSampler {
     @Override
     protected Stream<Point2D> createUnitSquareSamples(int numberOfSamples) {
         return STRATIFIED_POINT_SAMPLES.computeIfAbsent(numberOfSamples,
-            n -> {
-                double[] uSamples = createStratifiedSamples(n);
-                double[] vSamples = createStratifiedSamples(n);
-                return IntStream.range(0, n)
-                    .mapToObj(i -> new Point2D(uSamples[i], vSamples[i]))
-                    .collect(Collectors.toList());
-            }
+                n -> {
+                    double[] uSamples = createStratifiedSamples(n);
+                    double[] vSamples = createStratifiedSamples(n);
+                    return IntStream.range(0, n)
+                            .mapToObj(i -> new Point2D(uSamples[i], vSamples[i]))
+                            .collect(Collectors.toList());
+                }
         ).stream();
     }
 

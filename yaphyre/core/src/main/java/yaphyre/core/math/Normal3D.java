@@ -32,117 +32,117 @@ import com.google.common.base.MoreObjects;
 @SuppressWarnings("PackageVisibleField")
 public class Normal3D implements Serializable {
 
-	private static final long serialVersionUID = 5210137820413107110L;
+    private static final long serialVersionUID = 5210137820413107110L;
 
-	public static final Normal3D NORMAL_X = new Normal3D(1d, 0d, 0d);
+    public static final Normal3D NORMAL_X = new Normal3D(1d, 0d, 0d);
 
-	public static final Normal3D NORMAL_Y = new Normal3D(0d, 1d, 0d);
+    public static final Normal3D NORMAL_Y = new Normal3D(0d, 1d, 0d);
 
-	public static final Normal3D NORMAL_Z = new Normal3D(0d, 0d, 1d);
+    public static final Normal3D NORMAL_Z = new Normal3D(0d, 0d, 1d);
 
-	final double x, y, z;
+    final double x, y, z;
 
-	public Normal3D(double x, double y, double z) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
-	}
+    public Normal3D(double x, double y, double z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
 
-	@Override
-	public String toString() {
-		return MoreObjects.toStringHelper(this).add("x", x).add("y", y).add("z", z).toString();
-	}
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this).add("x", x).add("y", y).add("z", z).toString();
+    }
 
-	@Override
-	public int hashCode() {
-		long temp = Double.doubleToLongBits(x);
-		int result = 1;
-		final int prime = 31;
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(y);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(z);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        long temp = Double.doubleToLongBits(x);
+        int result = 1;
+        final int prime = 31;
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(y);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(z);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		Normal3D other = (Normal3D) obj;
-		if (!MathUtils.equalsWithTolerance(x, other.x)) {
-			return false;
-		}
-		if (!MathUtils.equalsWithTolerance(y, other.y)) {
-			return false;
-		}
-		if (!MathUtils.equalsWithTolerance(z, other.z)) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Normal3D other = (Normal3D) obj;
+        if (!MathUtils.equalsWithTolerance(x, other.x)) {
+            return false;
+        }
+        if (!MathUtils.equalsWithTolerance(y, other.y)) {
+            return false;
+        }
+        if (!MathUtils.equalsWithTolerance(z, other.z)) {
+            return false;
+        }
+        return true;
+    }
 
-	public Vector3D asVector() {
-		return new Vector3D(x, y, z);
-	}
+    public Vector3D asVector() {
+        return new Vector3D(x, y, z);
+    }
 
-	public Point3D asPoint() {
-		return new Point3D(x, y, z);
-	}
+    public Point3D asPoint() {
+        return new Point3D(x, y, z);
+    }
 
-	public Normal3D neg() {
-		return new Normal3D(-x, -y, -z);
-	}
+    public Normal3D neg() {
+        return new Normal3D(-x, -y, -z);
+    }
 
-	public Normal3D add(Normal3D n) {
-		return new Normal3D(x + n.x, y + n.y, z + n.z);
-	}
+    public Normal3D add(Normal3D n) {
+        return new Normal3D(x + n.x, y + n.y, z + n.z);
+    }
 
-	public double dot(Vector3D v) {
-		return x * v.x + y * v.y + z * v.z;
-	}
+    public double dot(Vector3D v) {
+        return x * v.x + y * v.y + z * v.z;
+    }
 
-	public double dot(Normal3D n) {
-		return x * n.x + y * n.y + z * n.z;
-	}
+    public double dot(Normal3D n) {
+        return x * n.x + y * n.y + z * n.z;
+    }
 
-	public Normal3D scale(double s) {
-		return new Normal3D(x * s, y * s, z * s);
-	}
+    public Normal3D scale(double s) {
+        return new Normal3D(x * s, y * s, z * s);
+    }
 
-	public Vector3D add(Vector3D v) {
-		return new Vector3D(x + v.x, y + v.y, z + v.z);
-	}
+    public Vector3D add(Vector3D v) {
+        return new Vector3D(x + v.x, y + v.y, z + v.z);
+    }
 
-	public double length() {
-		return MathUtils.calcLength(x, y, z);
-	}
+    public double length() {
+        return MathUtils.calcLength(x, y, z);
+    }
 
-	public double lengthSquared() {
-		return MathUtils.calculateLengthSquared(x, y, z);
-	}
+    public double lengthSquared() {
+        return MathUtils.calculateLengthSquared(x, y, z);
+    }
 
-	public double getX() {
-		return x;
-	}
+    public double getX() {
+        return x;
+    }
 
-	public double getY() {
-		return y;
-	}
+    public double getY() {
+        return y;
+    }
 
-	public double getZ() {
-		return z;
-	}
+    public double getZ() {
+        return z;
+    }
 
-	public Normal3D faceForward(final Ray collisionRay) {
-		return (asVector().dot(collisionRay.getDirection()) >= 0) ? this : neg();
-	}
+    public Normal3D faceForward(final Ray collisionRay) {
+        return (asVector().dot(collisionRay.getDirection()) >= 0) ? this : neg();
+    }
 }

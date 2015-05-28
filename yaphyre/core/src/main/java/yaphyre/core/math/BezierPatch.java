@@ -23,29 +23,29 @@ package yaphyre.core.math;
  * curve in the v-direction which is evaluated for the given v-value. The result is the point in question.
  */
 public enum BezierPatch {
-	GENERIC {
-		@Override
-		public Point3D calculateMeshPoint(final double u, final double v, final int uOrder, final int vOrder,
-		                                  final int startIndex, final Point3D... controlPoints) {
+    GENERIC {
+        @Override
+        public Point3D calculateMeshPoint(final double u, final double v, final int uOrder, final int vOrder,
+                                          final int startIndex, final Point3D... controlPoints) {
 
-			final Point3D[] vControlPoints = new Point3D[vOrder];
+            final Point3D[] vControlPoints = new Point3D[vOrder];
 
-			// calculate the new v-control points by evaluating the u bezier curves for the u value
-			for (int vIndex = 0; vIndex < vOrder; vIndex++) {
-				final Point3D[] uControlPoints = new Point3D[uOrder];
-				for (int uIndex = 0; uIndex < uOrder; uIndex++) {
-					uControlPoints[uIndex] = controlPoints[MathUtils.calculateIndex(startIndex, uIndex, vIndex)];
-				}
-				vControlPoints[vIndex] = BezierCurve.GENERIC.calculatePoint(u, uControlPoints);
-			}
+            // calculate the new v-control points by evaluating the u bezier curves for the u value
+            for (int vIndex = 0; vIndex < vOrder; vIndex++) {
+                final Point3D[] uControlPoints = new Point3D[uOrder];
+                for (int uIndex = 0; uIndex < uOrder; uIndex++) {
+                    uControlPoints[uIndex] = controlPoints[MathUtils.calculateIndex(startIndex, uIndex, vIndex)];
+                }
+                vControlPoints[vIndex] = BezierCurve.GENERIC.calculatePoint(u, uControlPoints);
+            }
 
-			// evaluate the new bezier curve for the calculated control points for v
-			return BezierCurve.GENERIC.calculatePoint(v, vControlPoints);
-		}
+            // evaluate the new bezier curve for the calculated control points for v
+            return BezierCurve.GENERIC.calculatePoint(v, vControlPoints);
+        }
 
-	};
+    };
 
-	public abstract Point3D calculateMeshPoint(final double u, final double v, final int uOrder, final int vOrder,
-	                                           final int startIndex, final Point3D... controlPoints);
+    public abstract Point3D calculateMeshPoint(final double u, final double v, final int uOrder, final int vOrder,
+                                               final int startIndex, final Point3D... controlPoints);
 
 }

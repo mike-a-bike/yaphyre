@@ -22,9 +22,9 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-		Point2DTest.class, VectorTest.class, MatrixTest.class, TransformationTest.class, RayTest.class,
-		FovCalculatorTest.class, BezierCurveTest.class, BoundingBoxTest.class, MathUtilsTest.class,
-		VectorMathTest.class, ColorTest.class})
+        Point2DTest.class, VectorTest.class, MatrixTest.class, TransformationTest.class, RayTest.class,
+        FovCalculatorTest.class, BezierCurveTest.class, BoundingBoxTest.class, MathUtilsTest.class,
+        VectorMathTest.class, ColorTest.class})
 public class GeometryTests {
 
 }

@@ -29,96 +29,93 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public abstract class VectorMath {
 
-	/**
-	 * Calculate the reflected ray for the given incident ray and normal.
-	 *
-	 * @param incident The incoming incident ray
-	 * @param normal   The surface normal
-	 *
-	 * @return The reflected, outgoing ray.
-	 */
-	public static Vector3D reflect(final Vector3D incident, final Normal3D normal) {
-		checkNotNull(incident, "incident vetcor is null");
-		checkNotNull(normal, "normal is null");
+    /**
+     * Calculate the reflected ray for the given incident ray and normal.
+     *
+     * @param incident The incoming incident ray
+     * @param normal   The surface normal
+     * @return The reflected, outgoing ray.
+     */
+    public static Vector3D reflect(final Vector3D incident, final Normal3D normal) {
+        checkNotNull(incident, "incident vetcor is null");
+        checkNotNull(normal, "normal is null");
 
-		return incident.sub(normal.scale(2 * incident.dot(normal)));
-	}
+        return incident.sub(normal.scale(2 * incident.dot(normal)));
+    }
 
-	/**
-	 * Calculate the refracted ray for the given incident ray, surface normal, n1 and n2 the refracting factors of the
-	 * two materials. There are two possible scenarios: 1) The angle of the incident ray is smaller than the critical
-	 * angle, so an outgoing ray is calculated. 2) The angle is bigger or equals tho the critical angle and total
-	 * internal reflection occurs, in this case, null is returned since there is no refracted ray. Instead, a reflected
-	 * ray has to be calculated.
-	 *
-	 * @param incident The incoming incident ray
-	 * @param normal   The surface normal
-	 * @param n1       The refractive index of the 1st material (where the ray is coming from)
-	 * @param n2       The refractive index of the 2nd material (where the ray is going into)
-	 *
-	 * @return The refracted ray or null if the angle is so bigger than the critical angle and total internal reflection
-	 *         occurs.
-	 */
-	public static Optional<Vector3D> refract(final Vector3D incident, final Normal3D normal, final double n1, final double n2) {
+    /**
+     * Calculate the refracted ray for the given incident ray, surface normal, n1 and n2 the refracting factors of the
+     * two materials. There are two possible scenarios: 1) The angle of the incident ray is smaller than the critical
+     * angle, so an outgoing ray is calculated. 2) The angle is bigger or equals tho the critical angle and total
+     * internal reflection occurs, in this case, null is returned since there is no refracted ray. Instead, a reflected
+     * ray has to be calculated.
+     *
+     * @param incident The incoming incident ray
+     * @param normal   The surface normal
+     * @param n1       The refractive index of the 1st material (where the ray is coming from)
+     * @param n2       The refractive index of the 2nd material (where the ray is going into)
+     * @return The refracted ray or null if the angle is so bigger than the critical angle and total internal reflection
+     * occurs.
+     */
+    public static Optional<Vector3D> refract(final Vector3D incident, final Normal3D normal, final double n1, final double n2) {
 
-		checkNotNull(incident, "incident vector is null");
-		checkNotNull(normal, "normal is null");
+        checkNotNull(incident, "incident vector is null");
+        checkNotNull(normal, "normal is null");
 
-		checkArgument(n1 != 0d);
-		checkArgument(n2 != 0d);
+        checkArgument(n1 != 0d);
+        checkArgument(n2 != 0d);
 
-		final double n = n1 / n2;
+        final double n = n1 / n2;
 
-		if (Double.compare(n, 1d) == 0) {
-			return Optional.of(incident);
-		}
+        if (Double.compare(n, 1d) == 0) {
+            return Optional.of(incident);
+        }
 
-		final double cosPhi = -normal.dot(incident);
-		final double sinT2 = normal.dot(normal) * (1d - cosPhi * cosPhi);
+        final double cosPhi = -normal.dot(incident);
+        final double sinT2 = normal.dot(normal) * (1d - cosPhi * cosPhi);
 
-		if (sinT2 > 1d) {
-			return Optional.empty(); // Total Internal Reflection
-		}
+        if (sinT2 > 1d) {
+            return Optional.empty(); // Total Internal Reflection
+        }
 
-		final double cosT = Math.sqrt(1d - sinT2);
+        final double cosT = Math.sqrt(1d - sinT2);
 
         return Optional.of(incident.scale(n).add(normal.scale(n * cosPhi - cosT)));
     }
 
-	/**
-	 * Calculate the amount of light which is reflected on a surface. If the angle is smaller than the critical angle,
-	 * there is only a certain amount which is reflected. The rest is refracted. If the angle is bigger or equals to the
-	 * critical angle, all light is reflected. The critical angle is determined by the refractive indices of both
-	 * involved materials.
-	 *
-	 * @param incident The incoming incident ray
-	 * @param normal   The surface normal
-	 * @param n1       The refractive index of the 1st material (where the ray is coming from)
-	 * @param n2       The refractive index of the 2nd material (where the ray is going into)
-	 *
-	 * @return The fraction of light which is reflected. 1 in all cases which are bigger than the critical angle.
-	 */
-	public static double reflectance(final Vector3D incident, final Normal3D normal, final double n1, final double n2) {
+    /**
+     * Calculate the amount of light which is reflected on a surface. If the angle is smaller than the critical angle,
+     * there is only a certain amount which is reflected. The rest is refracted. If the angle is bigger or equals to the
+     * critical angle, all light is reflected. The critical angle is determined by the refractive indices of both
+     * involved materials.
+     *
+     * @param incident The incoming incident ray
+     * @param normal   The surface normal
+     * @param n1       The refractive index of the 1st material (where the ray is coming from)
+     * @param n2       The refractive index of the 2nd material (where the ray is going into)
+     * @return The fraction of light which is reflected. 1 in all cases which are bigger than the critical angle.
+     */
+    public static double reflectance(final Vector3D incident, final Normal3D normal, final double n1, final double n2) {
 
-		checkNotNull(incident, "incident vector is null");
-		checkNotNull(normal, "normal is null");
+        checkNotNull(incident, "incident vector is null");
+        checkNotNull(normal, "normal is null");
 
-		checkArgument(n1 != 0d);
-		checkArgument(n2 != 0d);
+        checkArgument(n1 != 0d);
+        checkArgument(n2 != 0d);
 
-		final double n = n1 / n2;
-		final double cosPhi = -normal.dot(incident);
-		final double sinT2 = normal.dot(normal) * (1d - cosPhi * cosPhi);
+        final double n = n1 / n2;
+        final double cosPhi = -normal.dot(incident);
+        final double sinT2 = normal.dot(normal) * (1d - cosPhi * cosPhi);
 
-		if (sinT2 > 1d) {
-			return 1d; // Total Internal Reflection
-		}
+        if (sinT2 > 1d) {
+            return 1d; // Total Internal Reflection
+        }
 
-		final double cosT = Math.sqrt(1d - sinT2);
-		final double r0rth = (n1 * cosPhi - n2 * cosT) / (n1 * cosPhi + n2 * cosT);
-		final double rPar = (n2 * cosPhi - n1 * cosT) / (n2 * cosPhi + n1 * cosT);
+        final double cosT = Math.sqrt(1d - sinT2);
+        final double r0rth = (n1 * cosPhi - n2 * cosT) / (n1 * cosPhi + n2 * cosT);
+        final double rPar = (n2 * cosPhi - n1 * cosT) / (n2 * cosPhi + n1 * cosT);
 
-		return (r0rth * r0rth + rPar * rPar) / 2d;
-	}
+        return (r0rth * r0rth + rPar * rPar) / 2d;
+    }
 
 }

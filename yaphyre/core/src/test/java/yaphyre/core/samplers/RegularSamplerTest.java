@@ -18,6 +18,7 @@ package yaphyre.core.samplers;
 
 import java.util.Iterator;
 import javax.annotation.Nonnull;
+
 import org.junit.Test;
 import yaphyre.core.math.Point2D;
 
@@ -31,7 +32,7 @@ import static org.junit.Assert.assertFalse;
  * @since 18.02.14
  */
 public class RegularSamplerTest {
-    
+
     @Test
     public void testGetUnitSquareSamples() throws Exception {
         RegularSampler sampler = new RegularSampler(2);

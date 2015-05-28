@@ -75,12 +75,12 @@ public class Plane extends AbstractShape {
             double distance = intersectionDistance.getAsDouble();
             final Point3D intersectionPoint = ray.getPoint(distance);
             return Optional.of(new CollisionInformation(
-                ray,
-                this,
-                distance,
-                intersectionPoint,
-                getNormal(),
-                getMappedSurfacePoint(intersectionPoint)));
+                    ray,
+                    this,
+                    distance,
+                    intersectionPoint,
+                    getNormal(),
+                    getMappedSurfacePoint(intersectionPoint)));
 
 
         }

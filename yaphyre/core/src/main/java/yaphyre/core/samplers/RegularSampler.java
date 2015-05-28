@@ -23,6 +23,7 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import javax.annotation.Nonnull;
+
 import yaphyre.core.math.Point2D;
 
 import static java.util.stream.Collectors.toList;
@@ -55,7 +56,7 @@ public class RegularSampler extends AbstractSampler {
     @Override
     protected Stream<Point2D> createUnitSquareSamples(int numberOfSamples) {
         return SAMPLES.computeIfAbsent(numberOfSamples,
-            sampleCount -> createLinearSamples(sampleCount).mapToObj(value -> new Point2D(value, value)).collect(toList())
+                sampleCount -> createLinearSamples(sampleCount).mapToObj(value -> new Point2D(value, value)).collect(toList())
         ).stream();
     }
 

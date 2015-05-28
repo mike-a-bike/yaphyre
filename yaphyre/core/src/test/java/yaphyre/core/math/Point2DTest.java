@@ -23,52 +23,52 @@ import static yaphyre.core.math.MathUtils.EPSILON;
 import static yaphyre.core.math.Point2D.ZERO;
 
 public class Point2DTest {
-	@Test
-	public void testAddPoint2D() throws Exception {
-		Point2D p1 = ZERO;
-		Point2D p2 = new Point2D(1d, 1d);
-		Point2D p3 = new Point2D(-1d, -1d);
+    @Test
+    public void testAddPoint2D() throws Exception {
+        Point2D p1 = ZERO;
+        Point2D p2 = new Point2D(1d, 1d);
+        Point2D p3 = new Point2D(-1d, -1d);
 
-		Point2D result = p1.add(p2);
+        Point2D result = p1.add(p2);
 
-		assertEquals(1d, result.getU(), EPSILON);
-		assertEquals(1d, result.getV(), EPSILON);
+        assertEquals(1d, result.getU(), EPSILON);
+        assertEquals(1d, result.getV(), EPSILON);
 
-		result = p1.add(p1);
+        result = p1.add(p1);
 
-		assertEquals(0d, result.getU(), EPSILON);
-		assertEquals(0d, result.getV(), EPSILON);
+        assertEquals(0d, result.getU(), EPSILON);
+        assertEquals(0d, result.getV(), EPSILON);
 
-		result = p2.add(p2);
+        result = p2.add(p2);
 
-		assertEquals(2d, result.getU(), EPSILON);
-		assertEquals(2d, result.getV(), EPSILON);
+        assertEquals(2d, result.getU(), EPSILON);
+        assertEquals(2d, result.getV(), EPSILON);
 
-		result = p1.add(p3);
+        result = p1.add(p3);
 
-		assertEquals(-1d, result.getU(), EPSILON);
-		assertEquals(-1d, result.getV(), EPSILON);
+        assertEquals(-1d, result.getU(), EPSILON);
+        assertEquals(-1d, result.getV(), EPSILON);
 
-	}
+    }
 
-	@Test
-	public void testAddDiscrete() throws Exception {
-		Point2D p1 = ZERO;
+    @Test
+    public void testAddDiscrete() throws Exception {
+        Point2D p1 = ZERO;
 
-		Point2D result = p1.add(1d, 1d);
+        Point2D result = p1.add(1d, 1d);
 
-		assertEquals(1d, result.getU(), EPSILON);
-		assertEquals(1d, result.getV(), EPSILON);
+        assertEquals(1d, result.getU(), EPSILON);
+        assertEquals(1d, result.getV(), EPSILON);
 
-		result = p1.add(0d, 0d);
+        result = p1.add(0d, 0d);
 
-		assertEquals(0d, result.getU(), EPSILON);
-		assertEquals(0d, result.getV(), EPSILON);
+        assertEquals(0d, result.getU(), EPSILON);
+        assertEquals(0d, result.getV(), EPSILON);
 
-		result = p1.add(-1d, -1d);
+        result = p1.add(-1d, -1d);
 
-		assertEquals(-1d, result.getU(), EPSILON);
-		assertEquals(-1d, result.getV(), EPSILON);
+        assertEquals(-1d, result.getU(), EPSILON);
+        assertEquals(-1d, result.getV(), EPSILON);
 
-	}
+    }
 }

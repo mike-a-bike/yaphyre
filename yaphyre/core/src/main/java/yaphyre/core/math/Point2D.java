@@ -36,87 +36,87 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @SuppressWarnings("ProtectedField")
 public class Point2D implements Serializable {
 
-	private static final long serialVersionUID = 3894290074952334962L;
+    private static final long serialVersionUID = 3894290074952334962L;
 
-	private static final int INT_SIZE = 32;
+    private static final int INT_SIZE = 32;
 
-	protected final double u, v;
+    protected final double u, v;
 
-	public static final Point2D ZERO = new Point2D(0d, 0d);
+    public static final Point2D ZERO = new Point2D(0d, 0d);
 
-	public Point2D(double u, double v) {
-		this.u = u;
-		this.v = v;
-	}
+    public Point2D(double u, double v) {
+        this.u = u;
+        this.v = v;
+    }
 
-	@Override
-	public int hashCode() {
-		long temp = Double.doubleToLongBits(u);
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (int) (temp ^ (temp >>> INT_SIZE));
-		temp = Double.doubleToLongBits(v);
-		result = prime * result + (int) (temp ^ (temp >>> INT_SIZE));
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        long temp = Double.doubleToLongBits(u);
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (int) (temp ^ (temp >>> INT_SIZE));
+        temp = Double.doubleToLongBits(v);
+        result = prime * result + (int) (temp ^ (temp >>> INT_SIZE));
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof Point2D)) {
-			return false;
-		}
-		Point2D other = (Point2D) obj;
-		if (!MathUtils.equalsWithTolerance(u, other.u)) {
-			return false;
-		}
-		if (!MathUtils.equalsWithTolerance(v, other.v)) {
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof Point2D)) {
+            return false;
+        }
+        Point2D other = (Point2D) obj;
+        if (!MathUtils.equalsWithTolerance(u, other.u)) {
+            return false;
+        }
+        if (!MathUtils.equalsWithTolerance(v, other.v)) {
+            return false;
+        }
+        return true;
+    }
 
-	@Override
-	public String toString() {
-		return MoreObjects.toStringHelper(this).add("u", u).add("v", v).toString();
-	}
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this).add("u", u).add("v", v).toString();
+    }
 
-	public Point2D add(Point2D p) {
-		return new Point2D(u + p.u, v + p.v);
-	}
+    public Point2D add(Point2D p) {
+        return new Point2D(u + p.u, v + p.v);
+    }
 
-	public Point2D add(double dU, double dV) {
-		return new Point2D(u + dU, v + dV);
-	}
+    public Point2D add(double dU, double dV) {
+        return new Point2D(u + dU, v + dV);
+    }
 
-	public Point3D add(Point3D p) {
-		return new Point3D(u + p.x, v + p.y, p.z);
-	}
+    public Point3D add(Point3D p) {
+        return new Point3D(u + p.x, v + p.y, p.z);
+    }
 
-	public Point2D mul(double s) {
-		return new Point2D(u * s, v * s);
-	}
+    public Point2D mul(double s) {
+        return new Point2D(u * s, v * s);
+    }
 
-	public Point2D mul(double su, double sv) {
-		return new Point2D(u * su, v * sv);
-	}
+    public Point2D mul(double su, double sv) {
+        return new Point2D(u * su, v * sv);
+    }
 
-	public double dist(Point2D p) {
-		return MathUtils.calcLength(p.u - u, p.v - v);
-	}
+    public double dist(Point2D p) {
+        return MathUtils.calcLength(p.u - u, p.v - v);
+    }
 
-	public double getU() {
-		return u;
-	}
+    public double getU() {
+        return u;
+    }
 
-	public double getV() {
-		return v;
-	}
+    public double getV() {
+        return v;
+    }
 
     public static Point2D of(double[] uvComponents) {
         checkNotNull(uvComponents);

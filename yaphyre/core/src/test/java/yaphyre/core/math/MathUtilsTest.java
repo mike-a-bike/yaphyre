@@ -25,32 +25,32 @@ import static yaphyre.core.math.MathUtils.min;
 
 public class MathUtilsTest {
 
-	@Test
-	public void testMin() throws Exception {
+    @Test
+    public void testMin() throws Exception {
 
-		double a = 10d, b = 20d, c = 30d;
+        double a = 10d, b = 20d, c = 30d;
 
-		assertEquals(a, min(a, b, c), EPSILON);
-		assertEquals(a, min(a, c, b), EPSILON);
-		assertEquals(a, min(b, a, c), EPSILON);
-		assertEquals(a, min(b, c, a), EPSILON);
-		assertEquals(a, min(c, a, b), EPSILON);
-		assertEquals(a, min(c, b, a), EPSILON);
+        assertEquals(a, min(a, b, c), EPSILON);
+        assertEquals(a, min(a, c, b), EPSILON);
+        assertEquals(a, min(b, a, c), EPSILON);
+        assertEquals(a, min(b, c, a), EPSILON);
+        assertEquals(a, min(c, a, b), EPSILON);
+        assertEquals(a, min(c, b, a), EPSILON);
 
-	}
+    }
 
-	@Test
-	public void testMax() throws Exception {
+    @Test
+    public void testMax() throws Exception {
 
-		double a = 10d, b = 20d, c = 30d;
+        double a = 10d, b = 20d, c = 30d;
 
-		assertEquals(c, max(a, b, c), EPSILON);
-		assertEquals(c, max(a, c, b), EPSILON);
-		assertEquals(c, max(b, a, c), EPSILON);
-		assertEquals(c, max(b, c, a), EPSILON);
-		assertEquals(c, max(c, a, b), EPSILON);
-		assertEquals(c, max(c, b, a), EPSILON);
+        assertEquals(c, max(a, b, c), EPSILON);
+        assertEquals(c, max(a, c, b), EPSILON);
+        assertEquals(c, max(b, a, c), EPSILON);
+        assertEquals(c, max(b, c, a), EPSILON);
+        assertEquals(c, max(c, a, b), EPSILON);
+        assertEquals(c, max(c, b, a), EPSILON);
 
-	}
+    }
 
 }

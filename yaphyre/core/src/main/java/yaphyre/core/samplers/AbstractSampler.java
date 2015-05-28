@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.stream.Stream;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import yaphyre.core.api.Sampler;
@@ -66,9 +67,9 @@ public abstract class AbstractSampler implements Sampler {
     public Stream<Point2D> getUnitCircleSamples() {
         if (discSamples == null) {
             discSamples = createUnitSquareSamples(numberOfSamples)
-                .peek(p -> LOGGER.trace("converting: {}", p))
-                .map(AbstractSampler::mapUnitSquarePointToUnitDisc)
-                .collect(toList());
+                    .peek(p -> LOGGER.trace("converting: {}", p))
+                    .map(AbstractSampler::mapUnitSquarePointToUnitDisc)
+                    .collect(toList());
         }
         return discSamples.stream();
     }
@@ -100,9 +101,9 @@ public abstract class AbstractSampler implements Sampler {
     public Stream<Point3D> getUnitSphereSamples() {
         if (sphereSamples == null) {
             sphereSamples = createUnitSquareSamples(numberOfSamples)
-                .peek(p -> LOGGER.trace("converting: {}", p))
-                .map(AbstractSampler::mapUnitSquarePointToUnitSphere)
-                .collect(toList());
+                    .peek(p -> LOGGER.trace("converting: {}", p))
+                    .map(AbstractSampler::mapUnitSquarePointToUnitSphere)
+                    .collect(toList());
         }
         return sphereSamples.stream();
     }
@@ -119,7 +120,7 @@ public abstract class AbstractSampler implements Sampler {
     @Override
     public Stream<Point3D> getUnitHemisphereSamples(@Nonnegative double cosinePower) {
         return createUnitSquareSamples(numberOfSamples)
-            .map((p) -> Point3D.ORIGIN);
+                .map((p) -> Point3D.ORIGIN);
     }
 
     @Nonnull

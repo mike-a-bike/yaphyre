@@ -39,158 +39,158 @@ import static com.google.common.primitives.Doubles.min;
 @Immutable
 public class Color implements Serializable {
 
-	private static final long serialVersionUID = 6104986207165257901L;
+    private static final long serialVersionUID = 6104986207165257901L;
 
-	/** Represent the value of black. */
+    /**
+     * Represent the value of black.
+     */
     @SuppressWarnings("UnusedDeclaration")
-	public static final Color BLACK = new Color(0d, 0d, 0d);
+    public static final Color BLACK = new Color(0d, 0d, 0d);
 
-	/** White */
-	@SuppressWarnings("UnusedDeclaration")
+    /**
+     * White
+     */
+    @SuppressWarnings("UnusedDeclaration")
     public static final Color WHITE = new Color(1d, 1d, 1d);
 
-	private final double red;
+    private final double red;
 
-	private final double green;
+    private final double green;
 
-	private final double blue;
+    private final double blue;
 
-	public static double fromByteValue(int byteValue) {
-		return byteValue / 255d;
-	}
+    public static double fromByteValue(int byteValue) {
+        return byteValue / 255d;
+    }
 
-	public static int toByteValue(double doubleValue) {
-		return (int) (doubleValue * 255d);
-	}
+    public static int toByteValue(double doubleValue) {
+        return (int) (doubleValue * 255d);
+    }
 
-	public Color(java.awt.Color awtColor) throws NullPointerException {
-		this(fromByteValue(awtColor.getRed()), fromByteValue(awtColor.getGreen()), fromByteValue(awtColor.getBlue()));
-	}
+    public Color(java.awt.Color awtColor) throws NullPointerException {
+        this(fromByteValue(awtColor.getRed()), fromByteValue(awtColor.getGreen()), fromByteValue(awtColor.getBlue()));
+    }
 
-	public Color(double r, double g, double b) {
-		red = r;
-		green = g;
-		blue = b;
-	}
+    public Color(double r, double g, double b) {
+        red = r;
+        green = g;
+        blue = b;
+    }
 
-	@Override
-	public String toString() {
-		return MoreObjects.toStringHelper(this).add("r", red).add("g", green).add("b", blue).toString();
-	}
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this).add("r", red).add("g", green).add("b", blue).toString();
+    }
 
-	/**
-	 * Compares two instances. If the instance to compare to is a {@link yaphyre.math.Color}, non-null and each its
+    /**
+     * Compares two instances. If the instance to compare to is a {@link yaphyre.math.Color}, non-null and each its
      * three color components has the same value as this instance, the two {@link yaphyre.math.Color}s are equal.
-	 *
-	 * @return <code>true</code> if both {@link yaphyre.math.Color} instances represent the same red, green and blue values.
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == this) {
-			return true;
-		}
-		if (obj instanceof Color) {
-			final Color color = (Color) obj;
-			return color.red == red && color.green == green && color.blue == blue;
-		}
-		return false;
-	}
+     *
+     * @return <code>true</code> if both {@link yaphyre.math.Color} instances represent the same red, green and blue values.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj instanceof Color) {
+            final Color color = (Color) obj;
+            return color.red == red && color.green == green && color.blue == blue;
+        }
+        return false;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hashCode(red, green, blue);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(red, green, blue);
+    }
 
-	public double getRed() {
-		return red;
-	}
+    public double getRed() {
+        return red;
+    }
 
-	public double getGreen() {
-		return green;
-	}
+    public double getGreen() {
+        return green;
+    }
 
-	public double getBlue() {
-		return blue;
-	}
+    public double getBlue() {
+        return blue;
+    }
 
-	/**
-	 * Multiply this color with another color. It does this by multiplying the separate components with each other.
-	 *
-	 * @param other The {@link yaphyre.math.Color} to multiply the values with.
-	 *
-	 * @return A new instance with the multiplied values.
-	 */
-	public Color multiply(Color other) {
-		return new Color(red * other.getRed(), green * other.getGreen(), blue * other.getBlue());
-	}
+    /**
+     * Multiply this color with another color. It does this by multiplying the separate components with each other.
+     *
+     * @param other The {@link yaphyre.math.Color} to multiply the values with.
+     * @return A new instance with the multiplied values.
+     */
+    public Color multiply(Color other) {
+        return new Color(red * other.getRed(), green * other.getGreen(), blue * other.getBlue());
+    }
 
-	/**
-	 * Multiply the values of this color with a scalar. Thus 'scaling' the color value.
-	 *
-	 * @param factor The value to multiply each color value with.
-	 *
-	 * @return A new instance with the multiplied values.
-	 */
-	public Color multiply(double factor) {
-		return new Color(red * factor, green * factor, blue * factor);
-	}
+    /**
+     * Multiply the values of this color with a scalar. Thus 'scaling' the color value.
+     *
+     * @param factor The value to multiply each color value with.
+     * @return A new instance with the multiplied values.
+     */
+    public Color multiply(double factor) {
+        return new Color(red * factor, green * factor, blue * factor);
+    }
 
-	/**
-	 * Add another {@link yaphyre.math.Color} to this {@link yaphyre.math.Color}. Adds each component separately and
+    /**
+     * Add another {@link yaphyre.math.Color} to this {@link yaphyre.math.Color}. Adds each component separately and
      * creates a new color with these values.
-	 *
-	 * @param other The {@link yaphyre.math.Color} to add to this instance.
-	 *
-	 * @return A new instance of {@link yaphyre.math.Color} with the added values.
-	 */
-	public Color add(Color other) {
-		return new Color(red + other.red, green + other.green, blue + other.blue);
-	}
+     *
+     * @param other The {@link yaphyre.math.Color} to add to this instance.
+     * @return A new instance of {@link yaphyre.math.Color} with the added values.
+     */
+    public Color add(Color other) {
+        return new Color(red + other.red, green + other.green, blue + other.blue);
+    }
 
-	/**
-	 * When doing calculations with a color it can happen that the range between zero and one is exceeded. To use such a
-	 * color in another context it is necessary to make sure that the value for the color components are within the
-	 * allowed boundaries. Otherwise clipping can occur.<br/> By clipping the color values it ensures that values
+    /**
+     * When doing calculations with a color it can happen that the range between zero and one is exceeded. To use such a
+     * color in another context it is necessary to make sure that the value for the color components are within the
+     * allowed boundaries. Otherwise clipping can occur.<br/> By clipping the color values it ensures that values
      * smaller than zero are set to zero and values bigger than one are set to one. Any other values are left as they
      * are.
-	 *
-	 * @return A new instance of {@link yaphyre.math.Color} with each component value between zero and one.
-	 */
-	public Color clip() {
-		double r = clipValue(red);
-		double g = clipValue(green);
-		double b = clipValue(blue);
-		return new Color(r, g, b);
-	}
+     *
+     * @return A new instance of {@link yaphyre.math.Color} with each component value between zero and one.
+     */
+    public Color clip() {
+        double r = clipValue(red);
+        double g = clipValue(green);
+        double b = clipValue(blue);
+        return new Color(r, g, b);
+    }
 
-	/**
-	 * If a value for one of the three color components exceeds the range of zero to one all the components are scaled
+    /**
+     * If a value for one of the three color components exceeds the range of zero to one all the components are scaled
      * so that the biggest value is one and all the others are scaled accordingly.
-	 *
-	 * @return A new instance of {@link yaphyre.math.Color} with the scaled values.
-	 */
-	public Color rescale() {
-		double maxValue = max(red, green, blue);
-		if (maxValue > Double.MIN_VALUE) {
-			return multiply(1 / maxValue);
-		}
-		return this;
-	}
+     *
+     * @return A new instance of {@link yaphyre.math.Color} with the scaled values.
+     */
+    public Color rescale() {
+        double maxValue = max(red, green, blue);
+        if (maxValue > Double.MIN_VALUE) {
+            return multiply(1 / maxValue);
+        }
+        return this;
+    }
 
-	private static double clipValue(double value) {
-		return max(0d, min(1d, value));
-	}
+    private static double clipValue(double value) {
+        return max(0d, min(1d, value));
+    }
 
-	/**
-	 * Creates a new color instance with each component raised to the power of <code>power</code>. This can be used for
-	 * gamma correction.
-	 *
-	 * @param power The power to which each component is raised.
-	 *
-	 * @return A new {@link yaphyre.math.Color} with the scaled values.
-	 */
-	public Color pow(double power) {
-		return new Color(Math.pow(red, power), Math.pow(green, power), Math.pow(blue, power));
-	}
+    /**
+     * Creates a new color instance with each component raised to the power of <code>power</code>. This can be used for
+     * gamma correction.
+     *
+     * @param power The power to which each component is raised.
+     * @return A new {@link yaphyre.math.Color} with the scaled values.
+     */
+    public Color pow(double power) {
+        return new Color(Math.pow(red, power), Math.pow(green, power), Math.pow(blue, power));
+    }
 
 }

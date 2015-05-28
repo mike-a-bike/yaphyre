@@ -141,15 +141,15 @@ public class YaPhyRe {
         final double hFov = FovCalculator.FullFrame35mm.calculateHorizontalFov(50d);
         ImageFile film = new ImageFile(xResolution, yResolution);
         Camera camera = new PerspectiveCamera(
-            film,
-            skyColor,
-            new Point3D(0, 2, -10),
-            new Point3D(0, 0, 0),
-            Normal3D.NORMAL_Y,
-            hFov,
-            aspectRatio,
-            EPSILON,
-            1d / EPSILON);
+                film,
+                skyColor,
+                new Point3D(0, 2, -10),
+                new Point3D(0, 0, 0),
+                Normal3D.NORMAL_Y,
+                hFov,
+                aspectRatio,
+                EPSILON,
+                1d / EPSILON);
         scene.addCamera(camera);
 
         // add orthographic camera
@@ -167,13 +167,13 @@ public class YaPhyRe {
         Sampler lightSampler = new SingleValueSampler();
         Sampler defaultSampler = new SingleValueSampler();
         return Guice.createInjector(new DefaultBindingModule(
-                () -> cameraSampler,
-                () -> lightSampler,
-                () -> defaultSampler,
-                //            new DebuggingRayCaster(false)
-                new RayCaster()
-            ),
-            new SolverBindingModule());
+                        () -> cameraSampler,
+                        () -> lightSampler,
+                        () -> defaultSampler,
+                        //            new DebuggingRayCaster(false)
+                        new RayCaster()
+                ),
+                new SolverBindingModule());
     }
 
     private static void renderScene(Scene scene) {
@@ -184,10 +184,10 @@ public class YaPhyRe {
         final AtomicInteger cameraIndex = new AtomicInteger(0);
 
         scene.getCameras().stream()
-            .map(Camera::getFilm)
-            .filter(film -> ImageFile.class.isAssignableFrom(film.getClass()))
-            .map(ImageFile.class::cast)
-            .forEach(imageFileFilm -> saveFilmToFile(gamma, cameraIndex.getAndIncrement(), imageFileFilm, ImageFile.ImageFormat.PNG));
+                .map(Camera::getFilm)
+                .filter(film -> ImageFile.class.isAssignableFrom(film.getClass()))
+                .map(ImageFile.class::cast)
+                .forEach(imageFileFilm -> saveFilmToFile(gamma, cameraIndex.getAndIncrement(), imageFileFilm, ImageFile.ImageFormat.PNG));
     }
 
     private static void saveFilmToFile(double gamma, int cameraNumber, ImageFile imageFileFilm, ImageFile.ImageFormat imageFormat) {

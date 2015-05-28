@@ -18,6 +18,7 @@ package yaphyre.core.cameras;
 
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
+
 import com.google.common.collect.Range;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

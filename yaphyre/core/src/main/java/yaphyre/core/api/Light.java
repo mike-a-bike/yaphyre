@@ -42,6 +42,7 @@ public interface Light {
     /**
      * Flag signaling that this light source has no physical size. Useful for mathematical light
      * sources like point lights. It's sampling response follows a delta function, hence the name.
+     *
      * @return true if the light has no physical size.
      */
     public boolean isDelta();
@@ -50,12 +51,14 @@ public interface Light {
      * Flag signaling an omnidirectional light source. Ambient light is a valid example for this.
      * No intersection is calculated ever, but the intensity is applied to each point at the end of the
      * light calculation.
+     *
      * @return true if the represented light source is omnidirectional.
      */
     public boolean isOmnidirectional();
 
     /**
      * For delta light sources their exact position is relevant.
+     *
      * @return A position in world coordinates representing the mathematical point emitting light.
      */
     public Point3D getPosition();
@@ -83,7 +86,8 @@ public interface Light {
      * Marker interface to denote which type of sampler is to be injected.
      */
     @BindingAnnotation
-	@Target({FIELD, METHOD, PARAMETER})
-	@Retention(RUNTIME)
-	public @interface LightSampler {}
+    @Target({FIELD, METHOD, PARAMETER})
+    @Retention(RUNTIME)
+    public @interface LightSampler {
+    }
 }

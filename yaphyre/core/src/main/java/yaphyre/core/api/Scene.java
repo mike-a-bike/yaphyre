@@ -86,9 +86,9 @@ public class Scene {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-            .add("cameras", cameras.size())
-            .add("shapes", shapes.size())
-            .add("lights", lights.size()).toString();
+                .add("cameras", cameras.size())
+                .add("shapes", shapes.size())
+                .add("lights", lights.size()).toString();
     }
 
     public Optional<CollisionInformation> hitObject(Ray ray) {
@@ -101,9 +101,9 @@ public class Scene {
 
     private Stream<CollisionInformation> prepareCollisionInformationStream(Ray ray) {
         return shapes.stream()
-            .filter(shape -> shape.getBoundingBox().isHitBy(ray))
-            .map(shape -> shape.intersect(ray))
-            .flatMap(optional -> optional.map(Stream::of).orElseGet(Stream::empty));
+                .filter(shape -> shape.getBoundingBox().isHitBy(ray))
+                .map(shape -> shape.intersect(ray))
+                .flatMap(optional -> optional.map(Stream::of).orElseGet(Stream::empty));
     }
 
 }

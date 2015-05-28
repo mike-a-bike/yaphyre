@@ -19,6 +19,7 @@ package yaphyre.core.api;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import javax.annotation.Nonnull;
+
 import com.google.inject.BindingAnnotation;
 
 import static java.lang.annotation.ElementType.FIELD;
@@ -42,7 +43,7 @@ public interface Camera {
      *
      * @param scene The {@link Scene} to render. Must not be null.
      */
-	public void renderScene(@Nonnull Scene scene);
+    public void renderScene(@Nonnull Scene scene);
 
     /**
      * Access the {@link Film} instance.
@@ -55,10 +56,11 @@ public interface Camera {
     /**
      * Marker interface used for wiring. Use this in an injection context to mark a sampler as camera specific.
      */
-	@BindingAnnotation
-	@Target({FIELD, METHOD, PARAMETER})
-	@Retention(RUNTIME)
-	public @interface CameraSampler {}
+    @BindingAnnotation
+    @Target({FIELD, METHOD, PARAMETER})
+    @Retention(RUNTIME)
+    public @interface CameraSampler {
+    }
 
 }
 

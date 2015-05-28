@@ -31,31 +31,30 @@ import java.util.Optional;
  */
 public interface Shape {
 
-	/**
-	 * Gets the {@link Shader} instance associated with this shape instance.
-	 *
-	 * @return The {@link Shader} for this shape.
-	 */
+    /**
+     * Gets the {@link Shader} instance associated with this shape instance.
+     *
+     * @return The {@link Shader} for this shape.
+     */
     @Nonnull
-	public Shader getShader();
+    public Shader getShader();
 
-	/**
-	 * Create the intersection informations for the given {@link yaphyre.core.math.Ray} and this shape.
+    /**
+     * Create the intersection informations for the given {@link yaphyre.core.math.Ray} and this shape.
      * If the {@link yaphyre.core.math.Ray} does not intersect this shape at all, then {@link java.util.Optional#empty()} is
      * returned. Otherwise the collision information are returned. The results created by this method are as accurate
      * as possible.
-	 *
-	 * @param ray The {@link yaphyre.core.math.Ray} to check for intersection.
-	 *
-	 * @return An {@link java.util.Optional} of {@link CollisionInformation} instance describing the
+     *
+     * @param ray The {@link yaphyre.core.math.Ray} to check for intersection.
+     * @return An {@link java.util.Optional} of {@link CollisionInformation} instance describing the
      * nearest intersection between the {@link yaphyre.core.math.Ray} and this {@link Shape} instance.
      * {@link java.util.Optional#empty()} if the ray misses the Shape.
-	 */
+     */
     @Nonnull
-	public Optional<CollisionInformation> intersect(@Nonnull Ray ray);
+    public Optional<CollisionInformation> intersect(@Nonnull Ray ray);
 
     @Nonnull
-	public BoundingBox getBoundingBox();
+    public BoundingBox getBoundingBox();
 
     @Nonnull
     public BoundingBox getAxisAlignedBoundingBox();

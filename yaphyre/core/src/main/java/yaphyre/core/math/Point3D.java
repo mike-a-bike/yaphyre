@@ -38,79 +38,79 @@ import static yaphyre.core.math.MathUtils.isZero;
 @SuppressWarnings("PackageVisibleField")
 public class Point3D implements Serializable {
 
-	private static final long serialVersionUID = -5727406094615817485L;
+    private static final long serialVersionUID = -5727406094615817485L;
 
-	public static final Point3D ORIGIN = new Point3D(0, 0, 0);
+    public static final Point3D ORIGIN = new Point3D(0, 0, 0);
 
-	final double x;
-	final double y;
-	final double z;
+    final double x;
+    final double y;
+    final double z;
 
     double[] polarCoordinates;
 
-	public Point3D(double x, double y, double z) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
+    public Point3D(double x, double y, double z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
         polarCoordinates = null;
     }
 
-	@Override
-	public String toString() {
-		return MoreObjects.toStringHelper(this).add("x", x).add("y", y).add("z", z).toString();
-	}
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this).add("x", x).add("y", y).add("z", z).toString();
+    }
 
-	public Vector3D asVector() {
-		return new Vector3D(x, y, z);
-	}
+    public Vector3D asVector() {
+        return new Vector3D(x, y, z);
+    }
 
-	public Normal3D asNormal() {
-		return new Normal3D(x, y, z);
-	}
+    public Normal3D asNormal() {
+        return new Normal3D(x, y, z);
+    }
 
-	public Point3D add(Point3D p) {
-		return new Point3D(x + p.x, y + p.y, z + p.z);
-	}
+    public Point3D add(Point3D p) {
+        return new Point3D(x + p.x, y + p.y, z + p.z);
+    }
 
-	public Point3D add(Point2D p) {
-		return new Point3D(x + p.u, y + p.v, z);
-	}
+    public Point3D add(Point2D p) {
+        return new Point3D(x + p.u, y + p.v, z);
+    }
 
-	public Point3D add(Vector3D v) {
-		return new Point3D(x + v.x, y + v.y, z + v.z);
-	}
+    public Point3D add(Vector3D v) {
+        return new Point3D(x + v.x, y + v.y, z + v.z);
+    }
 
     public Point3D add(Normal3D n) {
         return new Point3D(x + n.x, y + n.y, z + n.z);
     }
 
-	public Point3D sub(Vector3D v) {
-		return new Point3D(x - v.x, y - v.y, z - v.z);
-	}
+    public Point3D sub(Vector3D v) {
+        return new Point3D(x - v.x, y - v.y, z - v.z);
+    }
 
-	public Vector3D sub(Point3D p) {
-		return new Vector3D(x - p.x, y - p.y, z - p.z);
-	}
+    public Vector3D sub(Point3D p) {
+        return new Vector3D(x - p.x, y - p.y, z - p.z);
+    }
 
-	public double length() {
-		return MathUtils.calcLength(x, y, z);
-	}
+    public double length() {
+        return MathUtils.calcLength(x, y, z);
+    }
 
-	public double lengthSquared() {
-		return MathUtils.calculateLengthSquared(x, y, z);
-	}
+    public double lengthSquared() {
+        return MathUtils.calculateLengthSquared(x, y, z);
+    }
 
-	public Point3D scale(double s) {
-		return new Point3D(x * s, y * s, z * s);
-	}
+    public Point3D scale(double s) {
+        return new Point3D(x * s, y * s, z * s);
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hashCode(getClass(), x, y, z);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getClass(), x, y, z);
+    }
 
-	@Override
-	public boolean equals(Object obj) {
+    @Override
+    public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
@@ -122,39 +122,46 @@ public class Point3D implements Serializable {
         }
         Point3D other = (Point3D) obj;
         return MathUtils.equalsWithTolerance(x, other.x) &&
-            MathUtils.equalsWithTolerance(y, other.y) &&
-            MathUtils.equalsWithTolerance(z, other.z);
+                MathUtils.equalsWithTolerance(y, other.y) &&
+                MathUtils.equalsWithTolerance(z, other.z);
     }
 
-	public double getX() {
-		return x;
-	}
+    public double getX() {
+        return x;
+    }
 
-	public double getY() {
-		return y;
-	}
+    public double getY() {
+        return y;
+    }
 
-	public double getZ() {
-		return z;
-	}
+    public double getZ() {
+        return z;
+    }
 
-    /** Length part of the polar coordinates. Range: (0, oo) */
+    /**
+     * Length part of the polar coordinates. Range: (0, oo)
+     */
     public double getR() {
         return toPolar()[0];
     }
 
-    /** Phi value of the polar coordinates. Range: [0, 2PI) */
+    /**
+     * Phi value of the polar coordinates. Range: [0, 2PI)
+     */
     public double getPhi() {
         return toPolar()[1];
     }
 
-    /** Theta value of the polar coordinates. Range: [0, PI) */
+    /**
+     * Theta value of the polar coordinates. Range: [0, PI)
+     */
     public double getTheta() {
         return toPolar()[2];
     }
 
     /**
      * Polar coordinate representation with the following value ranges: r (0, oo), phi [0, 2PI), theta [0, PI)
+     *
      * @return An array {r, phi, theta}
      */
     private double[] toPolar() {

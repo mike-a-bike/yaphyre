@@ -45,14 +45,16 @@ public class RayCaster implements Tracer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RayCaster.class);
 
-    /** 'Empty' ray for usage when the position and/or direction does not matter. */
+    /**
+     * 'Empty' ray for usage when the position and/or direction does not matter.
+     */
     public static final Ray DUMMY_RAY = new Ray(Point3D.ORIGIN, Vector3D.Y);
 
     /**
      * Trace the given ray through the given scene. This includes the interaction of all objects and materials within
      * the scene.
      *
-     * @param ray The ray to calculate the shading for.
+     * @param ray   The ray to calculate the shading for.
      * @param scene The scene holding the light sources and objects.
      * @return The exitance spectrum for the given ray and scene.
      */
@@ -61,36 +63,36 @@ public class RayCaster implements Tracer {
     public Optional<Color> traceRay(@Nonnull Ray ray, @Nonnull Scene scene) {
         LOGGER.trace("trace ray: " + ray);
         return scene.hitObject(ray)
-            .map(
-                collision -> {
+                .map(
+                        collision -> {
 
-                    List<Light> sceneLights = scene.getLights();
+                            List<Light> sceneLights = scene.getLights();
 
-                    Color deltaLightIntensity = calculateLightContribution(
-                        sceneLights,
-                        light -> light.isDelta() && !light.isOmnidirectional(),
-                        light -> calculateDirectLightIntensity(collision, light)
-                    );
+                            Color deltaLightIntensity = calculateLightContribution(
+                                    sceneLights,
+                                    light -> light.isDelta() && !light.isOmnidirectional(),
+                                    light -> calculateDirectLightIntensity(collision, light)
+                            );
 
-                    Color omnidirectionalIntensity = calculateLightContribution(
-                        sceneLights,
-                        light -> light.isOmnidirectional() && !light.isDelta(),
-                        light -> light.calculateIntensityForShadowRay(DUMMY_RAY)
-                    );
+                            Color omnidirectionalIntensity = calculateLightContribution(
+                                    sceneLights,
+                                    light -> light.isOmnidirectional() && !light.isDelta(),
+                                    light -> light.calculateIntensityForShadowRay(DUMMY_RAY)
+                            );
 
-                    Color collisionColor = collision.getShape().getShader().getColor(collision.getUVCoordinate());
-                    double cosPhi = collision.getIncidentRay().getDirection().normalize().neg().dot(collision.getNormal());
+                            Color collisionColor = collision.getShape().getShader().getColor(collision.getUVCoordinate());
+                            double cosPhi = collision.getIncidentRay().getDirection().normalize().neg().dot(collision.getNormal());
 
-                    return collisionColor.multiply(deltaLightIntensity.multiply(cosPhi).add(omnidirectionalIntensity));
-                }
-            );
+                            return collisionColor.multiply(deltaLightIntensity.multiply(cosPhi).add(omnidirectionalIntensity));
+                        }
+                );
     }
 
     /**
      * Calculate the contribution of the selected collection of lights.
      *
-     * @param lights The collection of lights to consider.
-     * @param lightPredicate Filter selecting the light collection to calculate the contribution for.
+     * @param lights             The collection of lights to consider.
+     * @param lightPredicate     Filter selecting the light collection to calculate the contribution for.
      * @param lightColorFunction Mapping function calculating the contribution of a single light source.
      * @return The contributed light.
      */
@@ -99,9 +101,9 @@ public class RayCaster implements Tracer {
                                              @Nonnull Predicate<Light> lightPredicate,
                                              @Nonnull Function<Light, Color> lightColorFunction) {
         return lights.stream()
-            .filter(lightPredicate)
-            .map(lightColorFunction)
-            .reduce(Color.BLACK, (color1, color2) -> color1.add(color2));
+                .filter(lightPredicate)
+                .map(lightColorFunction)
+                .reduce(Color.BLACK, (color1, color2) -> color1.add(color2));
     }
 
     private Color calculateDirectLightIntensity(CollisionInformation collision, Light light) {
@@ -109,12 +111,12 @@ public class RayCaster implements Tracer {
         Vector3D direction = light.getPosition().sub(shadowRayOrigin);
         Vector3D directionNormalized = direction.normalize();
         return light.calculateIntensityForShadowRay(
-            new Ray(
-                shadowRayOrigin,
-                directionNormalized,
-                0d, // start at zero to get correct results when the shape is convex.
-                direction.length()
-            ));
+                new Ray(
+                        shadowRayOrigin,
+                        directionNormalized,
+                        0d, // start at zero to get correct results when the shape is convex.
+                        direction.length()
+                ));
     }
 
 }

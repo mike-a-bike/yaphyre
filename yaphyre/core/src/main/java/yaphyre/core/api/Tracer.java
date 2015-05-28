@@ -31,6 +31,6 @@ import yaphyre.core.math.Ray;
 public interface Tracer {
 
     @Nonnull
-	Optional<Color> traceRay(@Nonnull final Ray ray, @Nonnull final Scene scene);
+    Optional<Color> traceRay(@Nonnull final Ray ray, @Nonnull final Scene scene);
 
 }

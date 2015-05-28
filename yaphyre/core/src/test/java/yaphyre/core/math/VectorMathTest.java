@@ -27,16 +27,16 @@ import static org.junit.Assert.assertEquals;
  * @since 04.07.13
  */
 public class VectorMathTest {
-	@Test
-	public void testReflect() throws Exception {
+    @Test
+    public void testReflect() throws Exception {
 
-		Vector3D wi = Vector3D.X;
-		Normal3D n = Vector3D.X.neg().asNormal();
+        Vector3D wi = Vector3D.X;
+        Normal3D n = Vector3D.X.neg().asNormal();
 
-		Vector3D wo = VectorMath.reflect(wi, n);
+        Vector3D wo = VectorMath.reflect(wi, n);
 
-		assertEquals(wi.neg(), wo);
+        assertEquals(wi.neg(), wo);
 
-	}
+    }
 
 }

@@ -93,6 +93,7 @@ public abstract class AbstractCamera implements Camera {
 
     /**
      * Create a sample ray representing a 'looking' ray for the given sample point. The range of the samples is [0,1).
+     *
      * @param samplePoint The point to create the sample ray for. Must not be null
      * @return A corresponding ray starting at the camera.
      */
@@ -108,10 +109,10 @@ public abstract class AbstractCamera implements Camera {
         final double yStep = 1d / yResolution;
 
         IntStream.range(0, yResolution)
-            .forEach(y -> IntStream.range(0, xResolution)
-                .mapToObj(x -> new Point2D(x, y))
-                .forEach(p -> getSampler().getUnitSquareSamples()
-                    .forEach(s -> renderPoint(scene, xStep, yStep, p, s))));
+                .forEach(y -> IntStream.range(0, xResolution)
+                        .mapToObj(x -> new Point2D(x, y))
+                        .forEach(p -> getSampler().getUnitSquareSamples()
+                                .forEach(s -> renderPoint(scene, xStep, yStep, p, s))));
 
     }
 

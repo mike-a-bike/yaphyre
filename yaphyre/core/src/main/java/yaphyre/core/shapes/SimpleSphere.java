@@ -78,7 +78,7 @@ public class SimpleSphere extends AbstractShape {
      * the object is rotated an then translated or first translated and then rotated.
      *
      * @param objectToWorld The {@link Transformation} used to map world coordinates to object coordinates.
-     * @param shader The {@link Shader} instance to use when rendering this {@link yaphyre.core.api.Shape}.
+     * @param shader        The {@link Shader} instance to use when rendering this {@link yaphyre.core.api.Shape}.
      */
     public SimpleSphere(Transformation objectToWorld, Shader shader) {
         super(objectToWorld, shader);
@@ -109,12 +109,12 @@ public class SimpleSphere extends AbstractShape {
         final double[] solutions = quadraticSolver.solve(c, b, a);
 
         final OptionalDouble minSolution = Arrays.stream(solutions)
-            .filter(distance -> {
-                Range<Double> tRange = ray.getTRange();
-                LOGGER.trace(String.format("testing solution %.3f against range %s", distance, tRange));
-                return tRange.contains(distance);
-            })
-            .min();
+                .filter(distance -> {
+                    Range<Double> tRange = ray.getTRange();
+                    LOGGER.trace(String.format("testing solution %.3f against range %s", distance, tRange));
+                    return tRange.contains(distance);
+                })
+                .min();
 
         LOGGER.trace("result: " + minSolution);
 
@@ -123,12 +123,12 @@ public class SimpleSphere extends AbstractShape {
             final Point3D intersectionPoint = objectSpaceRay.getPoint(distance);
 
             return Optional.of(new CollisionInformation(
-                ray,
-                this,
-                distance,
-                getObjectToWorld().transform(intersectionPoint),
-                getObjectToWorld().transform(calculateNormal(intersectionPoint, objectSpaceRay)),
-                mapToLocalUV(intersectionPoint)));
+                    ray,
+                    this,
+                    distance,
+                    getObjectToWorld().transform(intersectionPoint),
+                    getObjectToWorld().transform(calculateNormal(intersectionPoint, objectSpaceRay)),
+                    mapToLocalUV(intersectionPoint)));
 
         } else {
 

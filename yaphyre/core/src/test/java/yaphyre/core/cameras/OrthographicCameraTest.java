@@ -17,6 +17,7 @@
 package yaphyre.core.cameras;
 
 import java.util.Optional;
+
 import org.apache.commons.math3.util.Pair;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,28 +48,44 @@ import static yaphyre.core.math.MathUtils.EPSILON;
  */
 public class OrthographicCameraTest {
 
-    /** Dimensions used for all tests. */
+    /**
+     * Dimensions used for all tests.
+     */
     private static final double DIMENSION = 10;
 
-    /** Size of the film in x dimension. */
+    /**
+     * Size of the film in x dimension.
+     */
     public static final int X_SIZE = 4;
 
-    /** Size of the film in y dimension. */
+    /**
+     * Size of the film in y dimension.
+     */
     public static final int Y_SIZE = 3;
 
-    /** Default location of the camera on the z axis */
+    /**
+     * Default location of the camera on the z axis
+     */
     private static final double Z_COORDINATE = 100d;
 
-    /** Instance for all test methods. */
+    /**
+     * Instance for all test methods.
+     */
     private OrthographicCamera testCamera;
 
-    /** Mocked tracer instance for verification. */
+    /**
+     * Mocked tracer instance for verification.
+     */
     private Tracer tracer;
 
-    /** Mocked sampler instance for verification. */
+    /**
+     * Mocked sampler instance for verification.
+     */
     private Sampler sampler;
 
-    /** Mocked film instance for verification. */
+    /**
+     * Mocked film instance for verification.
+     */
     private Film film;
 
     /**

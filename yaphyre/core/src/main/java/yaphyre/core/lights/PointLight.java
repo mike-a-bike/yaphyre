@@ -69,12 +69,12 @@ public class PointLight extends AbstractLight {
         }
 
         return collisionInformationOptional
-            .map(
-                coll -> Color.BLACK
-            )
-            .orElseGet(
-                () -> getColor().multiply(calculateIntensityForDistance(getPosition().sub(shadowRay.getOrigin()).length()))
-            );
+                .map(
+                        coll -> Color.BLACK
+                )
+                .orElseGet(
+                        () -> getColor().multiply(calculateIntensityForDistance(getPosition().sub(shadowRay.getOrigin()).length()))
+                );
     }
 
     @Nonnegative

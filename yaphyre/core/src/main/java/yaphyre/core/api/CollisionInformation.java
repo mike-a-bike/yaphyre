@@ -32,96 +32,96 @@ import yaphyre.core.math.Ray;
  */
 public class CollisionInformation {
 
-	private final Ray incidentRay;
+    private final Ray incidentRay;
 
-	private final Shape shape;
+    private final Shape shape;
 
-	private final double distance;
+    private final double distance;
 
-	private final Point3D point;
+    private final Point3D point;
 
-	private final Normal3D normal;
+    private final Normal3D normal;
 
-	private final Point2D uvCoordinate;
+    private final Point2D uvCoordinate;
 
-	/**
-	 * Creates a new instance for the collision information.
-	 */
-	public CollisionInformation(final Ray incidentRay, final Shape shape, final double distance,
-	                            final Point3D point, final Normal3D normal,
-	                            final Point2D uvCoordinate) {
-		this.shape = shape;
-		this.distance = distance;
-		this.point = point;
-		this.incidentRay = incidentRay;
-		this.normal = normal;
-		this.uvCoordinate = uvCoordinate;
-	}
+    /**
+     * Creates a new instance for the collision information.
+     */
+    public CollisionInformation(final Ray incidentRay, final Shape shape, final double distance,
+                                final Point3D point, final Normal3D normal,
+                                final Point2D uvCoordinate) {
+        this.shape = shape;
+        this.distance = distance;
+        this.point = point;
+        this.incidentRay = incidentRay;
+        this.normal = normal;
+        this.uvCoordinate = uvCoordinate;
+    }
 
-	@Override
-	public String toString() {
-		return MoreObjects.toStringHelper(this)
-			.add("incidentRay", incidentRay)
-			.add("shape", shape)
-			.add("distance", distance)
-			.add("point", point)
-			.add("normal", normal)
-			.add("uvCoordinate", uvCoordinate).toString();
-	}
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("incidentRay", incidentRay)
+                .add("shape", shape)
+                .add("distance", distance)
+                .add("point", point)
+                .add("normal", normal)
+                .add("uvCoordinate", uvCoordinate).toString();
+    }
 
-	@Override
-	public boolean equals(final Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-		final CollisionInformation that = (CollisionInformation) o;
+        final CollisionInformation that = (CollisionInformation) o;
 
-		return Double.compare(that.distance, distance) == 0
-			&& normal.equals(that.normal)
-			&& point.equals(that.point)
-			&& incidentRay.equals(that.incidentRay)
-			&& shape.equals(that.shape)
-			&& uvCoordinate.equals(that.uvCoordinate);
+        return Double.compare(that.distance, distance) == 0
+                && normal.equals(that.normal)
+                && point.equals(that.point)
+                && incidentRay.equals(that.incidentRay)
+                && shape.equals(that.shape)
+                && uvCoordinate.equals(that.uvCoordinate);
 
-	}
+    }
 
-	@Override
-	public int hashCode() {
-		int result = shape.hashCode();
-		long temp = (distance != +0.0d) ? Double.doubleToLongBits(distance) : 0L;
-		result = 31 * result + (int) (temp ^ (temp >>> 32));
-		result = 31 * result + point.hashCode();
-		result = 31 * result + incidentRay.hashCode();
-		result = 31 * result + normal.hashCode();
-		result = 31 * result + uvCoordinate.hashCode();
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        int result = shape.hashCode();
+        long temp = (distance != +0.0d) ? Double.doubleToLongBits(distance) : 0L;
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + point.hashCode();
+        result = 31 * result + incidentRay.hashCode();
+        result = 31 * result + normal.hashCode();
+        result = 31 * result + uvCoordinate.hashCode();
+        return result;
+    }
 
-	public Ray getIncidentRay() {
-		return incidentRay;
-	}
+    public Ray getIncidentRay() {
+        return incidentRay;
+    }
 
-	public Shape getShape() {
-		return shape;
-	}
+    public Shape getShape() {
+        return shape;
+    }
 
-	public double getDistance() {
-		return distance;
-	}
+    public double getDistance() {
+        return distance;
+    }
 
-	public Point3D getPoint() {
-		return point;
-	}
+    public Point3D getPoint() {
+        return point;
+    }
 
-	public Normal3D getNormal() {
-		return normal;
-	}
+    public Normal3D getNormal() {
+        return normal;
+    }
 
-	public Point2D getUVCoordinate() {
-		return uvCoordinate;
-	}
+    public Point2D getUVCoordinate() {
+        return uvCoordinate;
+    }
 }

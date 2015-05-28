@@ -43,102 +43,102 @@ import java.util.Collection;
  */
 public class ImageFile implements Film {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ImageFile.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ImageFile.class);
 
-	private final Multimap<Point2D, Color> samples;
+    private final Multimap<Point2D, Color> samples;
 
-	private final int xResolution;
-	private final int yResolution;
+    private final int xResolution;
+    private final int yResolution;
 
-	public ImageFile(int xResolution, int yResolution) {
-		this.xResolution = xResolution;
-		this.yResolution = yResolution;
+    public ImageFile(int xResolution, int yResolution) {
+        this.xResolution = xResolution;
+        this.yResolution = yResolution;
 
-		samples = ArrayListMultimap.create(xResolution * yResolution, 1);
-	}
+        samples = ArrayListMultimap.create(xResolution * yResolution, 1);
+    }
 
     /**
      * Saves the image represented by the recorded data to a file. An optional gamma correction is applied beforehand.
      *
      * @param filename The name of the file. This must contain the extension.
-     * @param format The format in which to save the file in. {@link ImageFormat}
-     * @param gamma An optional gamma correction. If this value equals 1, no correction is applied.
+     * @param format   The format in which to save the file in. {@link ImageFormat}
+     * @param gamma    An optional gamma correction. If this value equals 1, no correction is applied.
      */
     public void safeAsImage(String filename, ImageFormat format, double gamma) {
-		BufferedImage bufferedImage = createImageFromSamples(gamma);
+        BufferedImage bufferedImage = createImageFromSamples(gamma);
 
-	    try (FileOutputStream imageFileStream = new FileOutputStream(filename)) {
-		    ImageIO.write(bufferedImage, String.valueOf(format), imageFileStream);
-		} catch (IOException ioe) {
-			LOGGER.error("Could not write image file: '" + filename + "' with format: '" + format + "'", ioe);
-		}
+        try (FileOutputStream imageFileStream = new FileOutputStream(filename)) {
+            ImageIO.write(bufferedImage, String.valueOf(format), imageFileStream);
+        } catch (IOException ioe) {
+            LOGGER.error("Could not write image file: '" + filename + "' with format: '" + format + "'", ioe);
+        }
 
-	}
+    }
 
-	private BufferedImage createImageFromSamples(double gamma) {
+    private BufferedImage createImageFromSamples(double gamma) {
 
-		BufferedImage image = new BufferedImage(xResolution, yResolution, BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = new BufferedImage(xResolution, yResolution, BufferedImage.TYPE_INT_RGB);
 
         samples.asMap().entrySet()
-            .forEach(
-                entry -> {
+                .forEach(
+                        entry -> {
 
-                    Collection<Color> colorSamples = entry.getValue();
-                    Color sampleColor = colorSamples.stream().reduce(Color.BLACK, (c1, c2) -> c1.add(c2.multiply(1d / colorSamples.size())));
-                    sampleColor = (gamma != 1d) ? sampleColor.pow(gamma).clip() : sampleColor;
+                            Collection<Color> colorSamples = entry.getValue();
+                            Color sampleColor = colorSamples.stream().reduce(Color.BLACK, (c1, c2) -> c1.add(c2.multiply(1d / colorSamples.size())));
+                            sampleColor = (gamma != 1d) ? sampleColor.pow(gamma).clip() : sampleColor;
 
-                    // flip the image camera: 0,0 is bottom left, BufferedImage: 0,0 is top left
-                    Point2D samplePoint = entry.getKey();
-                    int imageX = (int) samplePoint.getU();
-                    int imageY = (yResolution - 1) - ((int) samplePoint.getV());
+                            // flip the image camera: 0,0 is bottom left, BufferedImage: 0,0 is top left
+                            Point2D samplePoint = entry.getKey();
+                            int imageX = (int) samplePoint.getU();
+                            int imageY = (yResolution - 1) - ((int) samplePoint.getV());
 
-                    image.setRGB(imageX, imageY, createARGBfromColor(sampleColor));
+                            image.setRGB(imageX, imageY, createARGBfromColor(sampleColor));
 
-                }
-            );
+                        }
+                );
 
-		return image;
-	}
+        return image;
+    }
 
-	private int createARGBfromColor(Color color) {
+    private int createARGBfromColor(Color color) {
         final int red = Color.toByteValue(color.getRed());
-		final int green = Color.toByteValue(color.getGreen());
-		final int blue = Color.toByteValue(color.getBlue());
+        final int green = Color.toByteValue(color.getGreen());
+        final int blue = Color.toByteValue(color.getBlue());
         final int alpha = 0xff;
         return ((alpha << 24) | (red << 16) | (green << 8) | blue);
-	}
+    }
 
-	@Nonnull
+    @Nonnull
     @Override
-	public Pair<Integer, Integer> getNativeResolution() {
-		return new Pair<>(xResolution, yResolution);
-	}
+    public Pair<Integer, Integer> getNativeResolution() {
+        return new Pair<>(xResolution, yResolution);
+    }
 
-	@Override
-	public void addCameraSample(@Nonnull CameraSample sample) {
-		samples.put(sample.getSamplePoint(), sample.getSampleColor());
-	}
+    @Override
+    public void addCameraSample(@Nonnull CameraSample sample) {
+        samples.put(sample.getSamplePoint(), sample.getSampleColor());
+    }
 
     /**
      * An enumeration representing the currently supported image file types. Each enum value represents a certain
      * format and as a helper method the default file extension can be requested.
      */
-	@SuppressWarnings("UnusedDeclaration")
+    @SuppressWarnings("UnusedDeclaration")
     public static enum ImageFormat {
-		GIF("gif"),
-		JPEG("jpg"),
-		PNG("png"),;
+        GIF("gif"),
+        JPEG("jpg"),
+        PNG("png"),;
 
-		private final String defaultFileExtension;
+        private final String defaultFileExtension;
 
-		private ImageFormat(String defaultFileExtension) {
-			this.defaultFileExtension = defaultFileExtension;
-		}
+        private ImageFormat(String defaultFileExtension) {
+            this.defaultFileExtension = defaultFileExtension;
+        }
 
-		public String getDefaultFileExtension() {
-			return defaultFileExtension;
-		}
+        public String getDefaultFileExtension() {
+            return defaultFileExtension;
+        }
 
-	}
+    }
 
 }

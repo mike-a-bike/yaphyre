@@ -18,6 +18,7 @@ package yaphyre.core.samplers;
 
 import java.util.stream.Stream;
 import javax.annotation.Nonnull;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -35,31 +36,31 @@ import static org.junit.Assert.assertEquals;
  */
 public class SingleValueSamplerTest {
 
-	@Rule
-	public ExpectedException thrown = ExpectedException.none();
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
-	private SingleValueSampler singleValueSampler;
+    private SingleValueSampler singleValueSampler;
 
     @Before
     public void setUp() {
         singleValueSampler = new SingleValueSampler();
     }
 
-	/**
-	 * Checks the number of samples (one) and its value on a unit square (0.5, 0.5).
+    /**
+     * Checks the number of samples (one) and its value on a unit square (0.5, 0.5).
      */
     @Test
     public void testGetUnitSquareSamples() {
-	    validateSingleSample(new Point2D(0.5d, 0.5d), singleValueSampler.getUnitSquareSamples());
+        validateSingleSample(new Point2D(0.5d, 0.5d), singleValueSampler.getUnitSquareSamples());
     }
 
     @Test
     public void testGetUnitCircleSamples() {
-	    validateSingleSample(Point2D.ZERO, singleValueSampler.getUnitCircleSamples());
+        validateSingleSample(Point2D.ZERO, singleValueSampler.getUnitCircleSamples());
     }
 
-	@Test
-	public void testGetUnitHemisphereSamples() {
+    @Test
+    public void testGetUnitHemisphereSamples() {
         validateSingleSample(new Point3D(0, 1, 0), singleValueSampler.getUnitHemisphereSamples(100));
     }
 
@@ -68,8 +69,8 @@ public class SingleValueSamplerTest {
      */
     @Test
     public void testGetUnitSphereSamples() {
-	    thrown.expect(RuntimeException.class);
-	    singleValueSampler.getUnitSphereSamples();
+        thrown.expect(RuntimeException.class);
+        singleValueSampler.getUnitSphereSamples();
     }
 
     /**
@@ -77,8 +78,8 @@ public class SingleValueSamplerTest {
      * method check also, if the total number of samples is exactly one.
      *
      * @param reference The value reference to compare against using equals(...).
-     * @param samples The collection of samples.
-     * @param <T> The type of expected samples.
+     * @param samples   The collection of samples.
+     * @param <T>       The type of expected samples.
      */
     private static <T> void validateSingleSample(@Nonnull T reference, @Nonnull Stream<T> samples) {
         long sampleCount = 0;

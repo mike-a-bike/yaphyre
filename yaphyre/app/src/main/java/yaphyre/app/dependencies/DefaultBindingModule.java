@@ -17,6 +17,7 @@
 package yaphyre.app.dependencies;
 
 import java.util.function.Supplier;
+
 import com.google.inject.Exposed;
 import com.google.inject.PrivateModule;
 import com.google.inject.Provides;
@@ -57,42 +58,42 @@ public class DefaultBindingModule extends PrivateModule {
     }
 
     @Override
-	protected void configure() {
-	}
+    protected void configure() {
+    }
 
-	@Nonnull
-	@Exposed
-	@Provides
-	@CameraSampler
-	public Sampler providesCameraSampler() {
-		LOGGER.debug("Creating instance for Camera Sampler");
-		return cameraSamplerSupplier.get();
-	}
+    @Nonnull
+    @Exposed
+    @Provides
+    @CameraSampler
+    public Sampler providesCameraSampler() {
+        LOGGER.debug("Creating instance for Camera Sampler");
+        return cameraSamplerSupplier.get();
+    }
 
-	@Nonnull
-	@Exposed
-	@Provides
-	@LightSampler
-	public Sampler providesLightSampler() {
-		LOGGER.debug("Creating instance for Light Sampler");
-		return lightSamplerSupplier.get();
-	}
+    @Nonnull
+    @Exposed
+    @Provides
+    @LightSampler
+    public Sampler providesLightSampler() {
+        LOGGER.debug("Creating instance for Light Sampler");
+        return lightSamplerSupplier.get();
+    }
 
-	@Nonnull
-	@Exposed
-	@Provides
-	public Sampler providesDefaultSampler() {
-		LOGGER.debug("Creating new general purpose Sampler");
-		return defaultSamplerSupplier.get();
-	}
+    @Nonnull
+    @Exposed
+    @Provides
+    public Sampler providesDefaultSampler() {
+        LOGGER.debug("Creating new general purpose Sampler");
+        return defaultSamplerSupplier.get();
+    }
 
-	@Nonnull
-	@Exposed
-	@Provides
-	@Singleton
-	public Tracer providesTracer() {
-		LOGGER.debug("Creating instance for Tracer");
-		return tracer;
-	}
+    @Nonnull
+    @Exposed
+    @Provides
+    @Singleton
+    public Tracer providesTracer() {
+        LOGGER.debug("Creating instance for Tracer");
+        return tracer;
+    }
 
 }

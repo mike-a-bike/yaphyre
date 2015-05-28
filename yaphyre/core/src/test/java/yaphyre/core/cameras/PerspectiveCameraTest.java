@@ -36,11 +36,11 @@ public class PerspectiveCameraTest {
         Film film = mock(Film.class);
         FovCalculator fovCalculator = FovCalculator.FullFrame35mm;
         PerspectiveCamera camera = new PerspectiveCamera(
-            film, null,
-            Point3D.ORIGIN, Point3D.ORIGIN.add(Vector3D.Z), Normal3D.NORMAL_Y,
-            fovCalculator.calculateHorizontalFov(50d),
-            fovCalculator.getAspectRatio(),
-            EPSILON, 1d / EPSILON
+                film, null,
+                Point3D.ORIGIN, Point3D.ORIGIN.add(Vector3D.Z), Normal3D.NORMAL_Y,
+                fovCalculator.calculateHorizontalFov(50d),
+                fovCalculator.getAspectRatio(),
+                EPSILON, 1d / EPSILON
         );
 
         Ray cameraRay;

@@ -24,18 +24,18 @@ import static yaphyre.core.math.MathUtils.EPSILON;
  * Helper enumeration for calculating field of view angles for the most used sensor sizes.
  */
 public enum FovCalculator {
-	FullFrame35mm(36d, 24d), APS_H(28.7d, 19d), APS_C(23.6d, 15.7d);
+    FullFrame35mm(36d, 24d), APS_H(28.7d, 19d), APS_C(23.6d, 15.7d);
 
-	private final double width;
+    private final double width;
 
-	private final double height;
+    private final double height;
 
-	private FovCalculator(final double width, final double height) {
-		checkArgument(width >= EPSILON);
-		checkArgument(height >= EPSILON);
-		this.width = width;
-		this.height = height;
-	}
+    private FovCalculator(final double width, final double height) {
+        checkArgument(width >= EPSILON);
+        checkArgument(height >= EPSILON);
+        this.width = width;
+        this.height = height;
+    }
 
     /**
      * Calculate the vertical field of view for the given sensor size
@@ -45,9 +45,9 @@ public enum FovCalculator {
      * @return The field of view in rad.
      */
     public double calculateVerticalFov(final double focalLength) {
-		checkArgument(focalLength >= EPSILON);
-		return calculateFov(focalLength, height);
-	}
+        checkArgument(focalLength >= EPSILON);
+        return calculateFov(focalLength, height);
+    }
 
     /**
      * Calculate the horizontal field of view for the given sensor size
@@ -56,17 +56,17 @@ public enum FovCalculator {
      *                    {@value yaphyre.core.math.MathUtils#EPSILON}.
      * @return The field of view in rad.
      */
-	public double calculateHorizontalFov(final double focalLength) {
-		checkArgument(focalLength >= EPSILON);
-		return calculateFov(focalLength, width);
-	}
+    public double calculateHorizontalFov(final double focalLength) {
+        checkArgument(focalLength >= EPSILON);
+        return calculateFov(focalLength, width);
+    }
 
-	public double getAspectRatio() {
-		return width / height;
-	}
+    public double getAspectRatio() {
+        return width / height;
+    }
 
-	private double calculateFov(final double focalLength, final double filmSize) {
-		return 2d * atan(filmSize / (2d * focalLength));
-	}
+    private double calculateFov(final double focalLength, final double filmSize) {
+        return 2d * atan(filmSize / (2d * focalLength));
+    }
 
 }

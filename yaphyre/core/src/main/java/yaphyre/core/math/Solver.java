@@ -40,27 +40,31 @@ public interface Solver {
      * @param c A list of coefficients. c[0] -> a, c[1] -> b, c[2] -> c, c[3] -> d, ...
      * @return A list of solutions. This list may be empty if there are no real solutions.
      * @throws IllegalArgumentException If the number of the coefficients in <code>c</code> does not match the necessary number of values, an {@link
-     * IllegalArgumentException} is thrown. Please notice, even if coefficients may be zero, they must be provided.
+     *                                  IllegalArgumentException} is thrown. Please notice, even if coefficients may be zero, they must be provided.
      */
     double[] solve(double... c) throws IllegalArgumentException;
 
     @BindingAnnotation
     @Target({FIELD, METHOD, PARAMETER})
     @Retention(RUNTIME)
-    public @interface Linear { }
+    public @interface Linear {
+    }
 
     @BindingAnnotation
     @Target({FIELD, METHOD, PARAMETER})
     @Retention(RUNTIME)
-    public @interface Quadratic { }
+    public @interface Quadratic {
+    }
 
     @BindingAnnotation
     @Target({FIELD, METHOD, PARAMETER})
     @Retention(RUNTIME)
-    public @interface Cubic { }
+    public @interface Cubic {
+    }
 
     @BindingAnnotation
     @Target({FIELD, METHOD, PARAMETER})
     @Retention(RUNTIME)
-    public @interface Quartic { }
+    public @interface Quartic {
+    }
 }

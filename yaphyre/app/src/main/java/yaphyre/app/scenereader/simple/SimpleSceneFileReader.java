@@ -119,7 +119,7 @@ public class SimpleSceneFileReader implements SceneReader {
             final Unmarshaller unmarshaller = context.createUnmarshaller();
             final SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
             final Schema schema = schemaFactory.newSchema(
-                ClassLoader.getSystemResource("yaphyre/app/scenereader/simple/SimepleFileReaderSceneDescription.xsd")
+                    ClassLoader.getSystemResource("yaphyre/app/scenereader/simple/SimepleFileReaderSceneDescription.xsd")
             );
 
             unmarshaller.setSchema(schema);
@@ -139,16 +139,16 @@ public class SimpleSceneFileReader implements SceneReader {
         Scene result = setupScene(simpleScene.getGlobalSettings());
 
         simpleScene.getCameras().getOrthographicCameraOrPerspectiveCamera().stream()
-            .map(this::mapCamera)
-            .forEach(result::addCamera);
+                .map(this::mapCamera)
+                .forEach(result::addCamera);
 
         simpleScene.getGeometry().getSimpleSphereOrPlane().stream()
-            .map(this::mapGeometry)
-            .forEach(result::addShape);
+                .map(this::mapGeometry)
+                .forEach(result::addShape);
 
         simpleScene.getLights().getAmbientLightOrPointLight().stream()
-            .map(this::mapLight)
-            .forEach(result::addLight);
+                .map(this::mapLight)
+                .forEach(result::addLight);
 
         return result;
     }
@@ -180,20 +180,20 @@ public class SimpleSceneFileReader implements SceneReader {
         final String geometryTypeName = geometryBase.getClass().getSimpleName();
 
         Shader shader = mapShader(
-            Optional.ofNullable(geometryBase.getShader())
-                .<NamedType>map(GeometryBase.Shader::getColorShader) // Cast no longer needed when more than one shader type is known
-                .orElseGet(() -> ((NamedType) geometryBase.getShaderRef()))
+                Optional.ofNullable(geometryBase.getShader())
+                        .<NamedType>map(GeometryBase.Shader::getColorShader) // Cast no longer needed when more than one shader type is known
+                        .orElseGet(() -> ((NamedType) geometryBase.getShaderRef()))
         );
 
         Transformation transformation = Optional
-            .ofNullable(geometryBase.getTransformationRef())
-            .map(ref -> mapTransformation((TransformationBase) ref))
-            .orElseGet(
-                () -> Lists.reverse(geometryBase.getTransformation().getIdentityOrScaleOrTranslate())
-                    .stream()
-                    .map(this::mapTransformation)
-                    .reduce(Transformation.IDENTITY, (t1, t2) -> t1.mul(t2))
-            );
+                .ofNullable(geometryBase.getTransformationRef())
+                .map(ref -> mapTransformation((TransformationBase) ref))
+                .orElseGet(
+                        () -> Lists.reverse(geometryBase.getTransformation().getIdentityOrScaleOrTranslate())
+                                .stream()
+                                .map(this::mapTransformation)
+                                .reduce(Transformation.IDENTITY, (t1, t2) -> t1.mul(t2))
+                );
 
         switch (geometryTypeName) {
             case "SimpleSphere":
@@ -266,13 +266,13 @@ public class SimpleSceneFileReader implements SceneReader {
     @Nonnull
     private Scene setupScene(GlobalSettings globalSettings) {
         final Injector injector = Guice.createInjector(
-            new DefaultBindingModule(
-                createSamplerSupplier(globalSettings.getCameraSampler()),
-                createSamplerSupplier(globalSettings.getLightSampler()),
-                createSamplerSupplier(globalSettings.getDefaultSampler()),
-                createTracer(globalSettings)
-            ),
-            new SolverBindingModule());
+                new DefaultBindingModule(
+                        createSamplerSupplier(globalSettings.getCameraSampler()),
+                        createSamplerSupplier(globalSettings.getLightSampler()),
+                        createSamplerSupplier(globalSettings.getDefaultSampler()),
+                        createTracer(globalSettings)
+                ),
+                new SolverBindingModule());
         return injector.getInstance(Scene.class);
     }
 
@@ -280,8 +280,8 @@ public class SimpleSceneFileReader implements SceneReader {
     private Supplier<yaphyre.core.api.Sampler> createSamplerSupplier(Sampler sampler) {
 
         final int numberOfSamples = Optional.ofNullable(sampler.getSamples())
-            .map(BigInteger::intValue)
-            .orElse(Integer.MIN_VALUE);
+                .map(BigInteger::intValue)
+                .orElse(Integer.MIN_VALUE);
 
         switch (sampler.getMethod()) {
             case SINGLE:

@@ -46,7 +46,7 @@ public class DebuggingRayCaster implements Tracer {
 
     @Nonnull
     @Override
-	public Optional<Color> traceRay(@Nonnull Ray ray, @Nonnull Scene scene) {
+    public Optional<Color> traceRay(@Nonnull Ray ray, @Nonnull Scene scene) {
         return scene.hitObject(ray).map((collision) -> {
             final Color color = (collision.getShape() instanceof SimpleSphere) ? RED : GREEN;
             if (useShading) {
