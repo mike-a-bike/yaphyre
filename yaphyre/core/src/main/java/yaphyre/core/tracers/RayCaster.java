@@ -62,30 +62,36 @@ public class RayCaster implements Tracer {
     @Nonnull
     public Optional<Color> traceRay(@Nonnull Ray ray, @Nonnull Scene scene) {
         LOGGER.trace("trace ray: " + ray);
-        return scene.hitObject(ray)
-                .map(
-                        collision -> {
+        return scene.hitObject(ray).map(collision -> calculateColorForCollision(scene, collision));
+    }
 
-                            List<Light> sceneLights = scene.getLights();
+    /**
+     * Calculate the emerging light for the given collision.
+     *
+     * @param scene     The scene containing all the light information.
+     * @param collision The collision to calculate the light information for.
+     * @return The emergent light spectrum. This may by zero, but never <code>null</code>.
+     */
+    @Nonnull
+    private Color calculateColorForCollision(@Nonnull Scene scene, @Nonnull CollisionInformation collision) {
+        List<Light> sceneLights = scene.getLights();
 
-                            Color deltaLightIntensity = calculateLightContribution(
-                                    sceneLights,
-                                    light -> light.isDelta() && !light.isOmnidirectional(),
-                                    light -> calculateDirectLightIntensity(collision, light)
-                            );
+        final Color deltaLightIntensity = calculateLightContribution(
+                sceneLights,
+                light -> light.isDelta() && !light.isOmnidirectional(),
+                light -> calculateDirectLightIntensity(collision, light)
+        );
 
-                            Color omnidirectionalIntensity = calculateLightContribution(
-                                    sceneLights,
-                                    light -> light.isOmnidirectional() && !light.isDelta(),
-                                    light -> light.calculateIntensityForShadowRay(DUMMY_RAY)
-                            );
+        final Color omnidirectionalIntensity = calculateLightContribution(
+                sceneLights,
+                light -> light.isOmnidirectional() && !light.isDelta(),
+                light -> light.calculateIntensityForShadowRay(DUMMY_RAY)
+        );
 
-                            Color collisionColor = collision.getShape().getShader().getColor(collision.getUVCoordinate());
-                            double cosPhi = collision.getIncidentRay().getDirection().normalize().neg().dot(collision.getNormal());
+        final Color collisionColor = collision.getShape().getShader().getColor(collision.getUVCoordinate());
+        final double cosPhi = collision.getIncidentRay().getDirection().normalize().neg().dot(collision.getNormal());
 
-                            return collisionColor.multiply(deltaLightIntensity.multiply(cosPhi).add(omnidirectionalIntensity));
-                        }
-                );
+        return collisionColor.multiply(deltaLightIntensity.multiply(cosPhi).add(omnidirectionalIntensity));
     }
 
     /**
