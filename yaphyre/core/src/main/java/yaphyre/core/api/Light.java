@@ -45,7 +45,7 @@ public interface Light {
      *
      * @return true if the light has no physical size.
      */
-    public boolean isDelta();
+    boolean isDelta();
 
     /**
      * Flag signaling an omnidirectional light source. Ambient light is a valid example for this.
@@ -54,24 +54,24 @@ public interface Light {
      *
      * @return true if the represented light source is omnidirectional.
      */
-    public boolean isOmnidirectional();
+    boolean isOmnidirectional();
 
     /**
      * For delta light sources their exact position is relevant.
      *
      * @return A position in world coordinates representing the mathematical point emitting light.
      */
-    public Point3D getPosition();
+    Point3D getPosition();
 
     /**
      * @return Gets the spectrum of the light source. This is useful for omnidirectional and delta light sources.
      */
-    public Color getColor();
+    Color getColor();
 
     /**
      * @return The total power output of the light source.
      */
-    public double getPower();
+    double getPower();
 
     /**
      * Calculate the intensity of the spectrum for the given shadow Ray. If the ray is blocked, no light is contributed.
@@ -80,7 +80,7 @@ public interface Light {
      * @return The spectrum of the light contribution.
      */
     @Nonnull
-    public Color calculateIntensityForShadowRay(@Nonnull Ray shadowRay);
+    Color calculateIntensityForShadowRay(@Nonnull Ray shadowRay);
 
     /**
      * Marker interface to denote which type of sampler is to be injected.
@@ -88,6 +88,5 @@ public interface Light {
     @BindingAnnotation
     @Target({FIELD, METHOD, PARAMETER})
     @Retention(RUNTIME)
-    public @interface LightSampler {
-    }
+    @interface LightSampler { }
 }

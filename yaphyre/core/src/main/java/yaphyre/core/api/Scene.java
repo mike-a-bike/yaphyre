@@ -41,11 +41,8 @@ import static java.util.Comparator.comparingDouble;
 public class Scene {
 
     private final List<Shape> shapes;
-
     private final List<Light> lights;
-
     private final List<Camera> cameras;
-
     private final Injector injector;
 
     @Inject

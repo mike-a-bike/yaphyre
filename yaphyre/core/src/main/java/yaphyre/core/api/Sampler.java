@@ -41,7 +41,7 @@ public interface Sampler {
      * @return An Iterable representing samples within the unit square.
      */
     @Nonnull
-    public Stream<Point2D> getUnitSquareSamples();
+    Stream<Point2D> getUnitSquareSamples();
 
     /**
      * Access a collection of samples within a unit circle.
@@ -49,7 +49,7 @@ public interface Sampler {
      * @return An Iterable of samples within the unit circle.
      */
     @Nonnull
-    public Stream<Point2D> getUnitCircleSamples();
+    Stream<Point2D> getUnitCircleSamples();
 
     /**
      * Get a collection of samples lying on the surface of the unit sphere.
@@ -57,9 +57,9 @@ public interface Sampler {
      * @return An Iterable of samples on the unit sphere.
      */
     @Nonnull
-    public Stream<Point3D> getUnitSphereSamples();
+    Stream<Point3D> getUnitSphereSamples();
 
     @Nonnull
-    public Stream<Point3D> getUnitHemisphereSamples(@Nonnegative double cosinePower);
+    Stream<Point3D> getUnitHemisphereSamples(@Nonnegative double cosinePower);
 
 }

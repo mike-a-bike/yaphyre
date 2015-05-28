@@ -31,6 +31,6 @@ import yaphyre.core.api.Scene;
 public interface SceneReader {
 
     @Nonnull
-    public abstract Optional<Scene> readScene();
+    Optional<Scene> readScene();
 
 }

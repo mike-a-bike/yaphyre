@@ -29,8 +29,8 @@ import org.apache.commons.math3.util.Pair;
 public interface Film {
 
     @Nonnull
-    public Pair<Integer, Integer> getNativeResolution();
+    Pair<Integer, Integer> getNativeResolution();
 
-    public void addCameraSample(@Nonnull CameraSample sample);
+    void addCameraSample(@Nonnull CameraSample sample);
 
 }

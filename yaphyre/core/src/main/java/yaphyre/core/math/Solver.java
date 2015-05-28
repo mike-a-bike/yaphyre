@@ -47,24 +47,20 @@ public interface Solver {
     @BindingAnnotation
     @Target({FIELD, METHOD, PARAMETER})
     @Retention(RUNTIME)
-    public @interface Linear {
-    }
+    @interface Linear { }
 
     @BindingAnnotation
     @Target({FIELD, METHOD, PARAMETER})
     @Retention(RUNTIME)
-    public @interface Quadratic {
-    }
+    @interface Quadratic { }
 
     @BindingAnnotation
     @Target({FIELD, METHOD, PARAMETER})
     @Retention(RUNTIME)
-    public @interface Cubic {
-    }
+    @interface Cubic { }
 
     @BindingAnnotation
     @Target({FIELD, METHOD, PARAMETER})
     @Retention(RUNTIME)
-    public @interface Quartic {
-    }
+    @interface Quartic { }
 }

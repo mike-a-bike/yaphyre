@@ -33,15 +33,10 @@ import yaphyre.core.math.Ray;
 public class CollisionInformation {
 
     private final Ray incidentRay;
-
     private final Shape shape;
-
     private final double distance;
-
     private final Point3D point;
-
     private final Normal3D normal;
-
     private final Point2D uvCoordinate;
 
     /**

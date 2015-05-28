@@ -43,7 +43,7 @@ public interface Camera {
      *
      * @param scene The {@link Scene} to render. Must not be null.
      */
-    public void renderScene(@Nonnull Scene scene);
+    void renderScene(@Nonnull Scene scene);
 
     /**
      * Access the {@link Film} instance.
@@ -51,7 +51,7 @@ public interface Camera {
      * @return The {@link Film} instance associated with this camera.
      */
     @Nonnull
-    public Film getFilm();
+    Film getFilm();
 
     /**
      * Marker interface used for wiring. Use this in an injection context to mark a sampler as camera specific.
@@ -59,8 +59,7 @@ public interface Camera {
     @BindingAnnotation
     @Target({FIELD, METHOD, PARAMETER})
     @Retention(RUNTIME)
-    public @interface CameraSampler {
-    }
+    @interface CameraSampler { }
 
 }
 

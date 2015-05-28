@@ -30,7 +30,7 @@ public enum FovCalculator {
 
     private final double height;
 
-    private FovCalculator(final double width, final double height) {
+    FovCalculator(final double width, final double height) {
         checkArgument(width >= EPSILON);
         checkArgument(height >= EPSILON);
         this.width = width;

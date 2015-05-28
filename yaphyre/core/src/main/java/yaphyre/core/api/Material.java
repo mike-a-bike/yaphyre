@@ -19,13 +19,9 @@ package yaphyre.core.api;
 public class Material {
 
     private final double ambient;
-
     private final double diffuse;
-
     private final double specular;
-
     private final double reflection;
-
     private final double refraction;
 
     public Material(double ambient, double diffuse, double specular, double reflection, double refraction) {

@@ -32,9 +32,9 @@ import yaphyre.core.math.Point2D;
 public interface Shader {
 
     @Nonnull
-    public Color getColor(@Nonnull final Point2D uvCoordinate);
+    Color getColor(@Nonnull final Point2D uvCoordinate);
 
     @Nonnull
-    public Material getMaterial(@Nonnull final Point2D uvCoordinate);
+    Material getMaterial(@Nonnull final Point2D uvCoordinate);
 
 }

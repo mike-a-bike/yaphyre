@@ -37,7 +37,7 @@ public interface Shape {
      * @return The {@link Shader} for this shape.
      */
     @Nonnull
-    public Shader getShader();
+    Shader getShader();
 
     /**
      * Create the intersection informations for the given {@link yaphyre.core.math.Ray} and this shape.
@@ -51,12 +51,12 @@ public interface Shape {
      * {@link java.util.Optional#empty()} if the ray misses the Shape.
      */
     @Nonnull
-    public Optional<CollisionInformation> intersect(@Nonnull Ray ray);
+    Optional<CollisionInformation> intersect(@Nonnull Ray ray);
 
     @Nonnull
-    public BoundingBox getBoundingBox();
+    BoundingBox getBoundingBox();
 
     @Nonnull
-    public BoundingBox getAxisAlignedBoundingBox();
+    BoundingBox getAxisAlignedBoundingBox();
 
 }
