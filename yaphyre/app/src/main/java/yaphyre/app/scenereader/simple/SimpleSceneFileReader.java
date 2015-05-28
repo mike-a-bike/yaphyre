@@ -192,7 +192,7 @@ public class SimpleSceneFileReader implements SceneReader {
                         () -> Lists.reverse(geometryBase.getTransformation().getIdentityOrScaleOrTranslate())
                                 .stream()
                                 .map(this::mapTransformation)
-                                .reduce(Transformation.IDENTITY, (t1, t2) -> t1.mul(t2))
+                                .reduce(Transformation.IDENTITY, Transformation::mul)
                 );
 
         switch (geometryTypeName) {
