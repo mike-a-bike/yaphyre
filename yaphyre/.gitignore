@@ -1,0 +1,12 @@
+# IDEA Files
+.idea
+yaphyre.iml
+core/yaphyre-core.iml
+app/yaphyre-app.iml
+
+# MAVEN ignores
+app/target
+core/target
+
+# Created by tests
+core/*.png
