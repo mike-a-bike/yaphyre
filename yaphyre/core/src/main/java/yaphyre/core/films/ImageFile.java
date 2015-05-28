@@ -84,8 +84,8 @@ public class ImageFile implements Film {
                         entry -> {
 
                             Collection<Color> colorSamples = entry.getValue();
-                            Color sampleColor = colorSamples.stream().reduce(Color.BLACK, (c1, c2) -> c1.add(c2.multiply(1d / colorSamples.size())));
-                            sampleColor = (gamma != 1d) ? sampleColor.pow(gamma).clip() : sampleColor;
+                            Color sampleColor = colorSamples.stream().reduce(Color.BLACK, Color::add).multiply(1d / colorSamples.size());
+                            sampleColor = ((gamma != 1d) ? sampleColor.pow(gamma) : sampleColor).clip();
 
                             // flip the image camera: 0,0 is bottom left, BufferedImage: 0,0 is top left
                             Point2D samplePoint = entry.getKey();
@@ -124,14 +124,14 @@ public class ImageFile implements Film {
      * format and as a helper method the default file extension can be requested.
      */
     @SuppressWarnings("UnusedDeclaration")
-    public static enum ImageFormat {
+    public enum ImageFormat {
         GIF("gif"),
         JPEG("jpg"),
         PNG("png"),;
 
         private final String defaultFileExtension;
 
-        private ImageFormat(String defaultFileExtension) {
+        ImageFormat(String defaultFileExtension) {
             this.defaultFileExtension = defaultFileExtension;
         }
 
