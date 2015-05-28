@@ -205,9 +205,9 @@ public class Matrix implements Serializable {
     private void calculateInternals() {
         try {
             RealMatrix rm = MatrixUtils.createRealMatrix(m);
-            LUDecomposition decomp = new LUDecomposition(rm);
-            determinant = decomp.getDeterminant();
-            inverse = new Matrix(decomp.getSolver().getInverse().getData());
+            LUDecomposition decomposition = new LUDecomposition(rm);
+            determinant = decomposition.getDeterminant();
+            inverse = new Matrix(decomposition.getSolver().getInverse().getData());
             invertible = true;
         } catch (SingularMatrixException e) {
             inverse = null;
