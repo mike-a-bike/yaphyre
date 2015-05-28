@@ -1,8 +1,6 @@
 # IDEA Files
 .idea
-yaphyre.iml
-core/yaphyre-core.iml
-app/yaphyre-app.iml
+*.iml
 
 # MAVEN ignores
 app/target
